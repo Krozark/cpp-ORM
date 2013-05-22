@@ -1,10 +1,11 @@
 #include "Query.hpp"
+#include "Bdd.hpp"
 
 #include <list>
 
 namespace orm
 {
-    template<class T>
+    //template<class T>
     class SQLObject
     {
         public:
@@ -28,7 +29,7 @@ namespace orm
 
         protected:
             int pk;
-            static  bdd::Bdd* bdd_used;
+            static  Bdd* bdd_used;
             const static std::string table;
     };
 };
