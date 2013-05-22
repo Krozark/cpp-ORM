@@ -1,4 +1,4 @@
 cpp-ORM
 =======
 
-A project to creat a simple ORM.
+A project to create a simple ORM.
