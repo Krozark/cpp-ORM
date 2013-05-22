@@ -22,29 +22,6 @@ namespace orm
         query += " LIMIT "+std::to_string(l);
     };
 
-    int Query::getObj(SQLObject& obj)
-    {
-        if(not executed)
-            execute();
-        
-        if (next())
-            return obj.loadFromBdd(*this);
-        return 0;
-    };
-
-    int Query::getObj(const SQLObject& base,std::list<SQLObject>& objs)
-    {
-        if(not executed)
-            execute();
-        int res = 0;
-        while(next())
-        {
-            objs.emplace_back(base.createFromBdd(*this));
-            ++res;
-        }   
-        return res;     
-    };
-
     bool Query::execute()
     {
         executed = true;

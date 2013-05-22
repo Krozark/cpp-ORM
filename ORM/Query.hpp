@@ -27,8 +27,11 @@ namespace orm
             virtual Query& join(const std::string& colum,const Query& other) = 0;
 
             /* construct objects from the query result and the number of object created */
-            int getObj(SQLObject& obj);
-            int getObj(const SQLObject& base,std::list<SQLObject>& objs);
+            template<typename T>
+            int getObj(SQLObject<T>& obj);
+
+            template<typename T>
+            int getObj(const SQLObject<T>& base,std::list<SQLObject<T> >& objs);
 
             friend std::ostream& operator<<(std::ostream& output,const Query& self);
 
@@ -47,5 +50,6 @@ namespace orm
             bool executed;
     };
 };
+#include "Query.tpl"
 
 #endif

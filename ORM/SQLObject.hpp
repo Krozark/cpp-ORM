@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    //template<class T>
+    template<typename T>
     class SQLObject
     {
         public:
@@ -23,9 +23,9 @@ namespace orm
                 return SQLObject();
             };
 
-            /*static SQLObject* get(unsigned int id) = 0;
-            static std::list<SQLObject*> filter() = 0;
-            static std::list<SQLObject*> all() = 0;*/
+            static T* get(unsigned int id);
+            static std::list<T*> filter();
+            static std::list<T*> all();
 
         protected:
             int pk;
