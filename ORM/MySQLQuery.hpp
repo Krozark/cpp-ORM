@@ -23,6 +23,26 @@ namespace orm
 
             virtual MySQLQuery& orderBy(const std::string& colum,char order='+');
             virtual MySQLQuery& join(const std::string& colum,const Query& other);
+            virtual int count(){};
+            
+            virtual bool get(int& value,const std::string colum) {};
+            virtual bool get(float& value,const std::string colum){};
+            virtual bool get(std::string& value,const std::string colum){};
+            virtual bool get(bool& value,const std::string colum){};
+            virtual bool get(long double& value,const std::string colum){};
+            virtual bool get(unsigned int& value,const std::string colum){};
+            virtual bool get(long long unsigned int& value,const std::string colum){};
+            
+            //count() size_t rowsCount()
+
+            //std::istream * getBlob
+            //bool getBoolean
+            //long double getDouble
+            //int32_t getInt
+            //uint32_t getUInt
+            //int64_t getInt64
+            //uint64_t getUInt64
+            //SQLString getString
         
         protected:
             virtual bool next();

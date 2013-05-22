@@ -1,8 +1,8 @@
 #ifndef ORM_QUERY_HPP
 #define ORM_QUERY_HPP
 
+
 #include "Bdd.hpp"
-#include "SQLObject.hpp"
 
 #include <string>
 #include <list>
@@ -12,6 +12,7 @@ namespace orm
 {
     class Bdd;
     class MySQLBdd;
+    template<typename T> class SQLObject;
 
     class Query
     {
@@ -23,9 +24,20 @@ namespace orm
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
 
-            virtual Query& orderBy(const std::string& colum,char order='+') = 0;
             virtual Query& limit(const unsigned int& limit);
+
+            virtual Query& orderBy(const std::string& colum,char order='+') = 0;
             virtual Query& join(const std::string& colum,const Query& other) = 0;
+            virtual int count() = 0;
+
+            virtual bool get(int& value,const std::string colum) = 0;
+            virtual bool get(float& value,const std::string colum) = 0;
+            virtual bool get(std::string& value,const std::string colum) = 0;
+            virtual bool get(bool& value,const std::string colum) = 0;
+            virtual bool get(long double& value,const std::string colum) = 0;
+            virtual bool get(unsigned int& value,const std::string colum) = 0;
+            virtual bool get(long long unsigned int& value,const std::string colum) = 0;
+
 
             /* construct objects from the query result and the number of object created */
             template<typename T>

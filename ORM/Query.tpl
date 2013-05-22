@@ -1,3 +1,5 @@
+
+#include "SQLObject.hpp"
 namespace orm
 {
     template<typename T>

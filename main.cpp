@@ -1,5 +1,5 @@
-#include <ORM/MySQLQuery.hpp>
 #include <ORM/MySQLBdd.hpp>
+#include <ORM/MySQLQuery.hpp>
 
 orm::MySQLBdd def("root","toor","test");
 

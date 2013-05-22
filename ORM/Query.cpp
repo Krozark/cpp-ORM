@@ -2,6 +2,7 @@
 
 #include "Query.hpp"
 
+
 namespace orm
 {
     Query::Query(Bdd* b) : bdd(b), executed(false)
@@ -25,6 +26,10 @@ namespace orm
     bool Query::execute()
     {
         executed = true;
+        query+=";";
+        #if DEBUG & DEBUG_SQL
+        std::cerr<<query<<std::endl;
+        #endif
         return bdd->executeQuery(*this);
     };
 

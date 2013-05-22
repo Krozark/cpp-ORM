@@ -1,15 +1,16 @@
 #ifndef ORM_SQLOBJECT_HPP
 #define ORM_SQLOBJECT_HPP
 
-#include "Query.hpp"
 #include "Bdd.hpp"
+#include "Query.hpp"
 
 #include <list>
 
-#include <iostream>
 
 namespace orm
 {
+    class Query;
+
     template<typename T>
     class SQLObject
     {
@@ -23,19 +24,29 @@ namespace orm
                 return true;
             };
 
-            T createFromBdd(Query& query) const 
+            static T* createFromBdd(Query& query)
             {
-                return SQLObject();
+                T* res = new T;
+                query.getObj(*res);
+                return res;
             };
 
             static T* get(unsigned int id)
             {
-                Query* q = bdd_used->query("SELECT * FROM "+table+" WHERE id "+(*bdd_used)["exact"]+std::to_string(id)+";");
-                std::cerr<<(q)<<std::endl;
-                return 0;
+                Query* q = bdd_used->query("SELECT * FROM "+
+                                           table+
+                                           " WHERE (id "+
+                                           (*bdd_used)["exact"]+std::to_string(id)+
+                                           ") ");
+                return createFromBdd(*q);
             };
             static std::list<T*> filter();
-            static std::list<T*> all();
+
+            static std::list<T*> all()
+            {
+               /* Query* q = bdd_used->query("SELECT * FROM "+table+" ");
+                q->execute();*/
+            };
 
             static  Bdd* bdd_used;
         protected:
