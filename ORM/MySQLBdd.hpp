@@ -29,7 +29,7 @@ namespace orm
         
         protected:
             friend class MySQLQuery;
-            virtual bool executeQuery(MySQLQuery& query);
+            virtual bool executeQuery(Query& query);
             
         private:
             sql::Driver     *driver; // Create a pointer to a MySQL driver object

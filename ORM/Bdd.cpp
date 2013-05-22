@@ -11,12 +11,17 @@ namespace orm
     {
     };
 
+    const std::string& Bdd::operator[](const std::string& key)
+    {
+        return operators[key];
+    };
+
     /*bool Bdd::executeQuery(Query& query)
     {
     };*/
 
 };
-orm::Bdd* orm::Bdd::Default = 0;
+//orm::Bdd* orm::Bdd::Default = 0;
 
 /*data_types = {
   'AutoField':         'integer AUTO_INCREMENT',

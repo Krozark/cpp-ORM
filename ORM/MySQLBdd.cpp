@@ -52,6 +52,8 @@ namespace orm
         bdd = dbConn->createStatement();
         bdd->execute("USE "+s_bdd_name);
 
+        std::cerr<<"MySQLBdd::Connect to "<<s_serveur<<" using table: "<<s_bdd_name<<std::endl;
+
         return true;
     };
 
@@ -59,11 +61,6 @@ namespace orm
     {
         return true;
     };
-
-    bool MySQLBdd::executeQuery(MySQLQuery& query)
-    {
-        query.bdd_res = bdd->executeQuery(query.query);
-    }
 
     Query* MySQLBdd::query()
     {
@@ -79,5 +76,13 @@ namespace orm
     {
         return new MySQLQuery(this,str);
     };
+
+    /************** PROTECTED **********************/
+
+    bool MySQLBdd::executeQuery(Query& query)
+    {
+        MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
+        q.bdd_res = bdd->executeQuery(q.query);
+    }
     
 };

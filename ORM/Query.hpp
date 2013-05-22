@@ -11,6 +11,7 @@
 namespace orm
 {
     class Bdd;
+    class MySQLBdd;
 
     class Query
     {
@@ -33,10 +34,15 @@ namespace orm
             template<typename T>
             int getObj(const SQLObject<T>& base,std::list<SQLObject<T> >& objs);
 
-            friend std::ostream& operator<<(std::ostream& output,const Query& self);
+            friend std::ostream& operator<<(std::ostream& output,const Query* self)
+            {
+                output<<self->query;
+                return output;
+            };
 
         protected:
             friend class Bdd;
+            friend class MySQLBdd;
             /* query as string */
             std::string query;
             /* where to execute the query */

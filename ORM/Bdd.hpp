@@ -28,7 +28,10 @@ namespace orm
             virtual Query* query(std::string&&) = 0;
 
             /* The user defined default bdd to use */
-            static Bdd* Default;
+            //static Bdd* Default;
+            static Bdd& Default;
+
+            const std::string& operator[](const std::string& key);
 
         protected:
             friend class Query;
