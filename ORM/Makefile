@@ -9,7 +9,7 @@ all: main.exe
 	@cp $@ "$(OBJ_DIR)"
 
 
-main.exe: Bdd.o MySQLBdd.o MySQLQuery.o Query.o
+main.exe: Bdd.o MySQLBdd.o MySQLQuery.o Query.o VAttr.o
 #	$(CC) $^ $(FLAGS) -o $@
 
 

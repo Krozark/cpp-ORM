@@ -13,8 +13,8 @@ namespace orm
     class Attr : public VAttr
     {
         public:
-            Attr(const T& value,const std::string colum);
-            Attr(const std::string colum);
+            Attr(const T& value,const std::string& colum);
+            Attr(const std::string& colum);
 
             virtual bool get(const Query& query);
             typedef T type;

@@ -2,6 +2,7 @@
 #define ORM_VATTR_HPP
 
 #include <string>
+#include "debug.hpp"
 
 namespace orm
 {
@@ -17,9 +18,10 @@ namespace orm
                 self.print(output);
                 return output;
             };
+
         protected:
-            const std::string& colum;
             //bool modify;
+            const std::string& colum;
             virtual void print(std::ostream& output) const =0;
     };
 };

@@ -3,12 +3,12 @@
 namespace orm 
 {
     template<typename T>
-    Attr<T>::Attr(const T& val,const std::string col) : VAttr(col), value(val)
+    Attr<T>::Attr(const T& val,const std::string& col) : VAttr(col), value(val)
     {
     };
 
     template<typename T>
-    Attr<T>::Attr(  const std::string col) : VAttr(col)
+    Attr<T>::Attr(const std::string& col) : VAttr(col)
     {
     };
 

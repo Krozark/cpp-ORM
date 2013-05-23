@@ -1,4 +1,3 @@
-#include "VAttr.hpp" 
 #include "Bdd.hpp"
 
 namespace orm
@@ -13,7 +12,9 @@ namespace orm
     {
         bool res = true;
         for(VAttr* attr: attrs)
+        {
             res = res && attr->get(query);
+        }
         return res;
     };
 
@@ -32,6 +33,7 @@ namespace orm
     template<typename T>
     T* SQLObject<T>::get(unsigned int id)
     {
+
         Query* q = bdd_used->query("SELECT * FROM "+
                                    table+
                                    " WHERE (id "+
@@ -58,9 +60,15 @@ namespace orm
     std::list<T*> SQLObject<T>::all()
     {
         Query* q = bdd_used->query("SELECT * FROM "+table+" ");
-        std::list<SQLObject<T*> > res;
+        std::list<T*> res;
         q->getObj(res);
         return res;
-    }
+    };
+
+    template<typename T>
+    void SQLObject<T>::registerAttr(VAttr& attr)
+    {
+        attrs.emplace_back(&attr);
+    };
 
 };

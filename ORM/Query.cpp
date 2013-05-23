@@ -33,10 +33,4 @@ namespace orm
         return bdd->executeQuery(*this);
     };
 
-    /*std::ostream& operator<<(std::ostream& output,const Query& self)
-    {
-        output<<self.query;
-        return output;
-    };*/
-    
 };

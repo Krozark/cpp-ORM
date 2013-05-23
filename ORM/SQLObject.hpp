@@ -3,14 +3,16 @@
 
 //#include "Query.hpp"
 
-#include <list>
+#include <vector>
+
+#include "VAttr.hpp" 
 
 
 namespace orm
 {
     class Bdd;
     class Query;
-    class VAttr;
+    //class VAttr;
 
     template<typename T>
     class SQLObject
@@ -28,7 +30,7 @@ namespace orm
             friend std::ostream& operator<<(std::ostream& output,const SQLObject& self)
             {
                 for(VAttr* attr: self.attrs)
-                output<<*attr;
+                    output<<*attr<<" ";
                 return output;
             };
 
@@ -36,7 +38,12 @@ namespace orm
         protected:
             int pk;
             const static std::string table;
-            std::list<VAttr*> attrs;
+            
+            void registerAttr(VAttr& attr);
+
+        private:
+            friend class VAttr;
+            std::vector<VAttr*> attrs;
     };
 };
 

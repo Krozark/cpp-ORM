@@ -46,10 +46,10 @@ namespace orm
 
             /* construct objects from the query result and the number of object created */
             template<typename T>
-            int getObj(SQLObject<T>& obj);
+            int getObj(T& obj);
 
             template<typename T>
-            int getObj(std::list<SQLObject<T*> >& objs);
+            int getObj(std::list<T*>& objs);
 
             friend std::ostream& operator<<(std::ostream& output,const Query* self)
             {
