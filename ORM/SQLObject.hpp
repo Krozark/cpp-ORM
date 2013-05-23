@@ -36,6 +36,7 @@ namespace orm
 
                 query.get(i,"name");
                 std::cout<<"name: "<<i<<std::endl;
+
                 return true;
             };
 
