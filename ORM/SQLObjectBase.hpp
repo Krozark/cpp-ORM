@@ -10,6 +10,7 @@ namespace orm
 {
     class Query;
     class VAttr;
+    class Bdd;
 
     class SQLObjectBase
     {
@@ -25,6 +26,7 @@ namespace orm
             friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
 
         protected:
+            friend class Bdd;
             int pk;
             std::vector<VAttr*> attrs;
 

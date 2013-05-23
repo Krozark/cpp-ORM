@@ -1,5 +1,6 @@
 #include "Bdd.hpp"
 #include "Query.hpp"
+#include "SQLObjectBase.hpp"
 
 namespace orm
 {
@@ -16,10 +17,15 @@ namespace orm
         return operators[key];
     };
 
-    /*bool Bdd::executeQuery(Query& query)
+    /*bool Bdd::save(SQLObjectBase* obj)
+    {
+    };
+
+    bool Bdd::update(SQLObjectBase* obj)
     {
     };*/
 
+    
 };
 //orm::Bdd* orm::Bdd::Default = 0;
 
