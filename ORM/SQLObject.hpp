@@ -27,8 +27,8 @@ namespace orm
 
             static T* createFromBdd(Query& query)
             {
+                //TODO Loop on this->attrs
                 T* res = new T;
-                query.getObj(*res);
                 return res;
             };
 
