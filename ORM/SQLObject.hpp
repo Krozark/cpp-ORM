@@ -53,6 +53,7 @@ namespace orm
         protected:
             int pk;
             const static std::string table;
+            std::list<VAttr*> attrs;
     };
 };
 

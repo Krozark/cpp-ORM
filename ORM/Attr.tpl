@@ -1,4 +1,3 @@
-#include "Attr.hpp"
 #include "Query.hpp"
 
 namespace orm 

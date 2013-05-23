@@ -22,5 +22,5 @@ namespace orm
             virtual void print(std::ostream& output) const;
     };
 };
-
+#include "Attr.tpl"
 #endif
