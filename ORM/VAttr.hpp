@@ -12,9 +12,14 @@ namespace orm
         public:
             VAttr(const std::string& colum);
             virtual bool get(const Query& query) = 0;
-            friend std::ostream& operator<<(std::ostream& output,const Vattr& self);
+            friend std::ostream& operator<<(std::ostream& output,const VAttr& self)
+            {
+                self.print(output);
+                return output;
+            };
         protected:
             const std::string& colum;
+            //bool modify;
             virtual void print(std::ostream& output) const =0;
     };
 };

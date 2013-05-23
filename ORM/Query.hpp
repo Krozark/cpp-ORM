@@ -49,7 +49,7 @@ namespace orm
             int getObj(SQLObject<T>& obj);
 
             template<typename T>
-            int getObj(const SQLObject<T>& base,std::list<SQLObject<T> >& objs);
+            int getObj(std::list<SQLObject<T*> >& objs);
 
             friend std::ostream& operator<<(std::ostream& output,const Query* self)
             {

@@ -1,52 +1,35 @@
 #ifndef ORM_SQLOBJECT_HPP
 #define ORM_SQLOBJECT_HPP
 
-#include "Bdd.hpp"
-#include "Query.hpp"
+//#include "Query.hpp"
 
 #include <list>
 
 
 namespace orm
 {
+    class Bdd;
     class Query;
+    class VAttr;
 
     template<typename T>
     class SQLObject
     {
         public:
-            SQLObject() : pk(-1)
-            {
-            };
+            SQLObject();
             
-            bool loadFromBdd(const Query& query)
-            {
-                //TODO Loop on this->attrs
-                return true;
-            };
+            bool loadFromBdd(const Query& query);
 
-            static T* createFromBdd(const Query& query)
-            {
-                //TODO Loop on this->attrs
-                T* res = new T;
-                return res;
-            };
-
-            static T* get(unsigned int id)
-            {
-                Query* q = bdd_used->query("SELECT * FROM "+
-                                           table+
-                                           " WHERE (id "+
-                                           (*bdd_used)["exact"]+std::to_string(id)+
-                                           ") ");
-                return createFromBdd(*q);
-            };
+            static T* createFromBdd(const Query& query);
+            static T* get(unsigned int id);
             static std::list<T*> filter();
+            static std::list<T*> all();
 
-            static std::list<T*> all()
+            friend std::ostream& operator<<(std::ostream& output,const SQLObject& self)
             {
-               /* Query* q = bdd_used->query("SELECT * FROM "+table+" ");
-                q->execute();*/
+                for(VAttr* attr: self.attrs)
+                output<<*attr;
+                return output;
             };
 
             static  Bdd* bdd_used;
@@ -66,5 +49,5 @@ namespace orm
 #define REGISTER_BDD(T,bdd) \
     orm::SQLObject<T>::bdd_used = bdd;
 
-
+#include "SQLObject.tpl"
 #endif

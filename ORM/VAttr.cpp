@@ -6,10 +6,5 @@ namespace orm
     {
     };
 
-    std::ostream& operator<<(std::ostream& output,const Vattr& self);
-    {
-        self.print(output);
-        return output;
-    };
 
 };
