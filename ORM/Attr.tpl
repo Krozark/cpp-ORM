@@ -8,13 +8,18 @@ namespace orm
     };
 
     template<typename T>
-    bool get(const Query& query)
+    Attr<T>::Attr(  const std::string col) : VAttr(col)
+    {
+    };
+
+    template<typename T>
+    bool Attr<T>::get(const Query& query)
     {
         return query.get(value,colum);
     };
 
     template<typename T>
-    void print(std::ostream& output) const
+    void Attr<T>::print(std::ostream& output) const
     {
         output<<value;
     };

@@ -5,12 +5,17 @@ orm::MySQLBdd def("root","root","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
+#include "ORM/Attr.hpp"
+
 class Perso : public orm::SQLObject<Perso>
 {
     public:
-        std::string name;
-        int pv;
-        int lvl;
+        Perso() : name("name"), pv("pv"), lvl("lvl")
+        {
+        };
+        orm::Attr<std::string> name;
+        orm::Attr<int> pv;
+        orm::Attr<int> lvl;
 
 };
 REGISTER_TABLE(Perso,"perso")
