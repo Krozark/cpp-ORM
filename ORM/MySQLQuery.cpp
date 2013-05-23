@@ -1,5 +1,7 @@
 #include "MySQLQuery.hpp"
 
+#include <cppconn/exception.h>
+
 namespace orm
 {
     MySQLQuery::MySQLQuery(Bdd* bdd) : Query(bdd), bdd_res(0)
@@ -37,51 +39,93 @@ namespace orm
 
     bool MySQLQuery::get(bool& value,const std::string colum)const
     {
-        value = bdd_res->getBoolean(colum);
+        try{
+            value = bdd_res->getBoolean(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
     bool MySQLQuery::get(int& value,const std::string colum)const
     {
-        value = bdd_res->getInt(colum);
+        try{
+            value = bdd_res->getInt(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
     bool MySQLQuery::get(unsigned int& value,const std::string colum)const
     {
-        value = bdd_res->getUInt(colum);
+        try{
+            value = bdd_res->getUInt(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
     bool MySQLQuery::get(long long int& value,const std::string colum)const
     {    
-        value = bdd_res->getInt64(colum);
+        try{
+            value = bdd_res->getInt64(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
     bool MySQLQuery::get(long long unsigned int& value,const std::string colum)const
     {
-        value = bdd_res->getUInt64(colum);
+        try{
+            value = bdd_res->getUInt64(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
     bool MySQLQuery::get(float& value,const std::string colum)const
     {
-        value = static_cast<float>(bdd_res->getDouble(colum));
+        try{
+            value = static_cast<float>(bdd_res->getDouble(colum));
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
-    //long double getDouble
     bool MySQLQuery::get(long double& value,const std::string colum)const
     {
-        value = bdd_res->getDouble(colum);
+        try{
+            value = bdd_res->getDouble(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
     bool MySQLQuery::get(std::string& value,const std::string colum)const
     {
-        value = bdd_res->getString(colum);
+        try{
+            value = bdd_res->getString(colum);
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        return true;
     };
 
-
-
-
-
     //std::istream * getBlob
-    //int64_t getInt64
 
     bool MySQLQuery::next()
     {

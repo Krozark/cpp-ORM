@@ -21,6 +21,21 @@ namespace orm
 
             bool loadFromBdd(Query& query)
             {
+
+                int i = query.count();
+                std::cout<<"count: "<<i<<std::endl;
+
+                query.get(i,"id");
+                std::cout<<"id: "<<i<<std::endl;
+
+                query.get(i,"pv");
+                std::cout<<"pv: "<<i<<std::endl;
+
+                query.get(i,"lvl");
+                std::cout<<"lvl: "<<i<<std::endl;
+
+                query.get(i,"name");
+                std::cout<<"name: "<<i<<std::endl;
                 return true;
             };
 
