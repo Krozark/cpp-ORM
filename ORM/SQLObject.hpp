@@ -18,14 +18,14 @@ namespace orm
             SQLObject() : pk(-1)
             {
             };
-
-            bool loadFromBdd(Query& query)
+            
+            bool loadFromBdd(const Query& query)
             {
                 //TODO Loop on this->attrs
                 return true;
             };
 
-            static T* createFromBdd(Query& query)
+            static T* createFromBdd(const Query& query)
             {
                 //TODO Loop on this->attrs
                 T* res = new T;
