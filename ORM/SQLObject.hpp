@@ -1,9 +1,8 @@
 #ifndef ORM_SQLOBJECT_HPP
 #define ORM_SQLOBJECT_HPP
 
-//#include "Query.hpp"
+#include "SQLObjectBase.hpp"
 
-#include <vector>
 
 #include "VAttr.hpp" 
 
@@ -12,38 +11,23 @@ namespace orm
 {
     class Bdd;
     class Query;
-    //class VAttr;
 
     template<typename T>
-    class SQLObject
+    class SQLObject : public SQLObjectBase
     {
         public:
             SQLObject();
             
-            bool loadFromBdd(const Query& query);
-
             static T* createFromBdd(const Query& query);
             static T* get(unsigned int id);
             static std::list<T*> filter();
             static std::list<T*> all();
 
-            friend std::ostream& operator<<(std::ostream& output,const SQLObject& self)
-            {
-                for(VAttr* attr: self.attrs)
-                    output<<*attr<<" ";
-                return output;
-            };
+            virtual bool save(bool _new=false);
 
             static  Bdd* bdd_used;
         protected:
-            int pk;
             const static std::string table;
-            
-            void registerAttr(VAttr& attr);
-
-        private:
-            friend class VAttr;
-            std::vector<VAttr*> attrs;
     };
 };
 

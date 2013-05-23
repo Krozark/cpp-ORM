@@ -25,18 +25,18 @@ namespace orm
             virtual MySQLQuery& join(const std::string& colum,const Query& other);
             virtual int count()const;
             
-            virtual bool get(bool& value,const std::string colum)const;
+            virtual bool get(bool& value,const std::string& colum)const;
 
-            virtual bool get(int& value,const std::string colum)const;
-            virtual bool get(unsigned int& value,const std::string colum)const;
+            virtual bool get(int& value,const std::string& colum)const;
+            virtual bool get(unsigned int& value,const std::string& colum)const;
 
-            virtual bool get(long long int& value,const std::string colum)const;
-            virtual bool get(long long unsigned int& value,const std::string colum)const;
+            virtual bool get(long long int& value,const std::string& colum)const;
+            virtual bool get(long long unsigned int& value,const std::string& colum)const;
 
-            virtual bool get(float& value,const std::string colum)const;
-            virtual bool get(long double& value,const std::string colum)const;
+            virtual bool get(float& value,const std::string& colum)const;
+            virtual bool get(long double& value,const std::string& colum)const;
 
-            virtual bool get(std::string& value,const std::string colum)const;
+            virtual bool get(std::string& value,const std::string& colum)const;
             
         
         protected:

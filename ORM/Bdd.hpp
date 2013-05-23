@@ -10,7 +10,7 @@
 
 namespace orm
 {
-    class Query;
+    class Query
 
     class Bdd
     {
@@ -28,6 +28,9 @@ namespace orm
             virtual Query* query()= 0;
             virtual Query* query(const std::string&) = 0;
             virtual Query* query(std::string&&) = 0;
+
+            //TODO bool save(SQLObject*);
+            //TODO bool update(SQLObject*);
 
             /* The user defined default bdd to use */
             //static Bdd* Default;

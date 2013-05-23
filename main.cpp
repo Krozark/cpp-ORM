@@ -32,7 +32,6 @@ using namespace std;
 
 int main(int argc,char* argv[])
 { 
-    //orm::Bdd::Default = new orm::MySQLBdd("root","toor","test");
     orm::Bdd::Default.connect();
 
     //REGISTER_BDD(Perso,orm::Bdd::Default)

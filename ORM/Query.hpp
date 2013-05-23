@@ -30,18 +30,14 @@ namespace orm
             virtual Query& join(const std::string& colum,const Query& other) = 0;
             virtual int count()const = 0;
 
-            virtual bool get(bool& value,const std::string colum)const = 0;
-
-            virtual bool get(int& value,const std::string colum)const = 0;
-            virtual bool get(unsigned int& value,const std::string colum)const = 0;
-
-            virtual bool get(long long int& value,const std::string colum)const = 0;
-            virtual bool get(long long unsigned int& value,const std::string colum)const = 0;
-
-            virtual bool get(float& value,const std::string colum)const = 0;
-            virtual bool get(long double& value,const std::string colum)const = 0;
-
-            virtual bool get(std::string& value,const std::string colum)const = 0;
+            virtual bool get(bool& value,const std::string& colum)const = 0;
+            virtual bool get(int& value,const std::string& colum)const = 0;
+            virtual bool get(unsigned int& value,const std::string& colum)const = 0;
+            virtual bool get(long long int& value,const std::string& colum)const = 0;
+            virtual bool get(long long unsigned int& value,const std::string& colum)const = 0;
+            virtual bool get(float& value,const std::string& colum)const = 0;
+            virtual bool get(long double& value,const std::string& colum)const = 0;
+            virtual bool get(std::string& value,const std::string& colum)const = 0;
 
 
             /* construct objects from the query result and the number of object created */
@@ -67,6 +63,17 @@ namespace orm
     
             /* whene the query have been execute, for parse each raw */
             virtual bool next() = 0;
+            
+            /* for prepared query */
+            /*virtual bool set(bool& value,const unsigned int colum)const = 0;
+            virtual bool set(int& value,const unsigned int colum)const = 0;
+            virtual bool set(unsigned int& value,const unsigned int colum)const = 0;
+            virtual bool set(long long int& value,const unsigned int colum)const = 0;
+            virtual bool set(long long unsigned int& value,const unsigned int colum)const = 0;
+            virtual bool set(float& value,const unsigned int colum)const = 0;
+            virtual bool set(long double& value,const unsigned int colum)const = 0;
+            virtual bool set(unsigned int& value,const std::string colum)const = 0;*/
+
 
         private:
             bool execute();

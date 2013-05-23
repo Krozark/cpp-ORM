@@ -3,19 +3,8 @@
 namespace orm
 {
     template<typename T>
-    SQLObject<T>::SQLObject() : pk(-1)
+    SQLObject<T>::SQLObject()
     {
-    };
-
-    template<typename T>
-    bool SQLObject<T>::loadFromBdd(const Query& query)
-    {
-        bool res = true;
-        for(VAttr* attr: attrs)
-        {
-            res = res && attr->get(query);
-        }
-        return res;
     };
 
     template<typename T>
@@ -45,6 +34,7 @@ namespace orm
             delete res;
             res = 0;
         }
+        delete q;
         return res;
     };
 
@@ -62,13 +52,17 @@ namespace orm
         Query* q = bdd_used->query("SELECT * FROM "+table+" ");
         std::list<T*> res;
         q->getObj(res);
+        delete q;
         return res;
     };
 
     template<typename T>
-    void SQLObject<T>::registerAttr(VAttr& attr)
+    bool SQLObject<T>::save(bool _new)
     {
-        attrs.emplace_back(&attr);
-    };
+        if (not _new)
+            _new = (pk == -1);
+        return true;
+    }
+
 
 };
