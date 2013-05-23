@@ -12,12 +12,12 @@ namespace orm
     {
         public:
             VAttr(const std::string& colum);
+
+            VAttr(const VAttr&) = delete;
+            VAttr& operator=(const VAttr&) = delete;
+
             virtual bool get(const Query& query) = 0;
-            friend std::ostream& operator<<(std::ostream& output,const VAttr& self)
-            {
-                self.print(output);
-                return output;
-            };
+            friend std::ostream& operator<<(std::ostream& output,const VAttr& self);
 
         protected:
             //bool modify;

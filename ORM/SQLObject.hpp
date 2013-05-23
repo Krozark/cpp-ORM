@@ -17,6 +17,9 @@ namespace orm
     {
         public:
             SQLObject();
+
+            SQLObject(const SQLObject&) = delete;
+            SQLObject& operator=(const SQLObject&) = delete;
             
             static T* createFromBdd(const Query& query);
             static T* get(unsigned int id);

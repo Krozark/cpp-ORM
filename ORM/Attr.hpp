@@ -16,6 +16,9 @@ namespace orm
             Attr(const T& value,const std::string& colum);
             Attr(const std::string& colum);
 
+            Attr(const Attr&) = delete;
+            Attr& operator=(const Attr&) = delete;
+
             virtual bool get(const Query& query);
             typedef T type;
             T value;
