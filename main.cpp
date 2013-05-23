@@ -6,6 +6,7 @@ orm::MySQLBdd def("root","root","test");
 orm::Bdd& orm::Bdd::Default = def;
 
 #include "ORM/Attr.hpp"
+#include "ORM/SQLObject.hpp"
 
 const std::string c_name = "nom";
 const std::string c_pv = "pv";

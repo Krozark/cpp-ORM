@@ -1,7 +1,6 @@
 #ifndef ORM_QUERY_HPP
 #define ORM_QUERY_HPP
 
-
 #include "Bdd.hpp"
 
 #include <string>
@@ -12,7 +11,6 @@ namespace orm
 {
     class Bdd;
     class MySQLBdd;
-    template<typename T> class SQLObject;
 
     class Query
     {

@@ -1,5 +1,6 @@
 #include "SQLObjectBase.hpp"
 #include "VAttr.hpp" 
+#include "Query.hpp"
 
 namespace orm
 {

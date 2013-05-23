@@ -8,7 +8,6 @@
 
 namespace orm
 {
-    class Bdd;
     class Query;
     class VAttr;
 

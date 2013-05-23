@@ -83,6 +83,6 @@ namespace orm
     {
         MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
         q.bdd_res = bdd->executeQuery(q.query);
-    }
+    };
     
 };

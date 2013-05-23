@@ -10,7 +10,7 @@
 
 namespace orm
 {
-    class Query
+    class Query;
 
     class Bdd
     {
@@ -64,7 +64,6 @@ namespace orm
             std::unordered_map<std::string,std::string> operators;
             /* Execute a query */
             virtual bool executeQuery(Query& query) = 0;
-
     };
 };
 
