@@ -23,26 +23,21 @@ namespace orm
 
             virtual MySQLQuery& orderBy(const std::string& colum,char order='+');
             virtual MySQLQuery& join(const std::string& colum,const Query& other);
-            virtual int count(){};
+            virtual int count()const;
             
-            virtual bool get(int& value,const std::string colum) {};
-            virtual bool get(float& value,const std::string colum){};
-            virtual bool get(std::string& value,const std::string colum){};
-            virtual bool get(bool& value,const std::string colum){};
-            virtual bool get(long double& value,const std::string colum){};
-            virtual bool get(unsigned int& value,const std::string colum){};
-            virtual bool get(long long unsigned int& value,const std::string colum){};
-            
-            //count() size_t rowsCount()
+            virtual bool get(bool& value,const std::string colum)const;
 
-            //std::istream * getBlob
-            //bool getBoolean
-            //long double getDouble
-            //int32_t getInt
-            //uint32_t getUInt
-            //int64_t getInt64
-            //uint64_t getUInt64
-            //SQLString getString
+            virtual bool get(int& value,const std::string colum)const;
+            virtual bool get(unsigned int& value,const std::string colum)const;
+
+            virtual bool get(long long int& value,const std::string colum)const;
+            virtual bool get(long long unsigned int& value,const std::string colum)const;
+
+            virtual bool get(float& value,const std::string colum)const;
+            virtual bool get(long double& value,const std::string colum)const;
+
+            virtual bool get(std::string& value,const std::string colum)const;
+            
         
         protected:
             virtual bool next();
