@@ -38,8 +38,15 @@ int main(int argc,char* argv[])
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
     Perso* p1 = Perso::get(1);
-    cout<<*p1<<endl;
+    cout<<"Current perso1 "<<*p1<<endl;
+    cout<<" add 14 to pv"<<endl;
+    p1->pv = p1->pv + 14;
+    cout<<"Current perso1 "<<*p1<<endl;
+    cout<<"save it"<<endl;
+    cout<<p1->pv<<endl;
+    p1->save();
 
+    cout<<"All persos"<<*p1<<endl;
     std::list<Perso*> lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;

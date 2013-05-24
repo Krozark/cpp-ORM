@@ -78,17 +78,11 @@ namespace orm
         return new MySQLQuery(this,str);
     };
 
-    /* manualy create  a query */
-    Query* MySQLBdd::prepareQuery()
-    {
-        auto q = new MySQLQuery(this);
-        q->prepared = true;
-        return q;
-    };
 
     Query* MySQLBdd::prepareQuery(const std::string& str)
     {
         auto q = new MySQLQuery(this,str);
+        q->prepared_statement = dbConn->prepareStatement(str);
         q->prepared = true;
         return q;
     };
@@ -96,6 +90,7 @@ namespace orm
     Query* MySQLBdd::prepareQuery(std::string&& str)
     {
         auto q = new MySQLQuery(this,str);
+        q->prepared_statement = dbConn->prepareStatement(str);
         q->prepared = true;
         return q;
     }
@@ -107,11 +102,13 @@ namespace orm
         MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
         if(query.prepared)
         {
-            q.bdd_res = q.prepared_statement->executeQuery();
+            q.bdd_res = 0;
+            return q.prepared_statement->execute();
         }
         else
         {
             q.bdd_res = statement->executeQuery(q.query);
+            return true;
         }
     };
     

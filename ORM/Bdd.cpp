@@ -36,17 +36,17 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            Query& q = *prepareQuery("UPDATE "+table
-                            +" SET ");
-            q.query+=attrs[0]->colum+"=(?)";
+            std::string str_q = "UPDATE "+table+" SET "+attrs[0]->colum+"=(?)";
+
             for(unsigned int i=1;i<size;++i)
-            {
-                q.query+=","+attrs[i]->colum+"=(?)";
-            }
-            q.query+=" WHERE id="+std::to_string(pk);
+                str_q+=","+attrs[i]->colum+"=(?)";
+
+            str_q+=" WHERE id="+std::to_string(pk)+";";
+            
+            Query& q = *prepareQuery(str_q);
 
             for(unsigned int i=0;i<size;++i)
-                attrs[0]->set(q,i);
+                attrs[i]->set(q,i+1);
             executeQuery(q);
             delete &q;
         }

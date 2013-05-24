@@ -15,6 +15,8 @@ namespace orm
         {
             res = res && attr->get(query);
         }
+        if(res)
+            query.get(pk,"id");
         return res;
     };
 
@@ -25,6 +27,7 @@ namespace orm
 
     std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self)
     {
+        output<<"PK: "<<self.pk<<" ";
         for(VAttr* attr: self.attrs)
             output<<*attr<<" ";
         return output;

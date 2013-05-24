@@ -26,10 +26,13 @@ namespace orm
     bool Query::execute()
     {
         executed = true;
-        query+=";";
-        #if DEBUG & DEBUG_SQL
-        std::cerr<<query<<std::endl;
-        #endif
+        if(not prepared)
+        {
+            query+=";";
+            #if DEBUG & DEBUG_SQL
+            std::cerr<<query<<std::endl;
+            #endif
+        }
         return bdd->executeQuery(*this);
     };
 

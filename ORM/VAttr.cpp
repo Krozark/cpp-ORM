@@ -12,5 +12,4 @@ namespace orm
         return output;
     };
 
-
 };

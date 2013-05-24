@@ -28,7 +28,6 @@ namespace orm
             virtual /*MySQL*/Query* query(std::string&&);
 
             /* manualy create  a query */
-            virtual Query* prepareQuery();
             virtual Query* prepareQuery(const std::string&);
             virtual Query* prepareQuery(std::string&&);
         

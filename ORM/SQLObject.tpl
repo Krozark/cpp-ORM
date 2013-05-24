@@ -61,6 +61,7 @@ namespace orm
     {
         if (not _new)
             _new = (pk == -1);
+
         if(_new)
             return bdd_used->save(table,pk,attrs);
         else

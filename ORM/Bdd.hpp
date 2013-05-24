@@ -33,7 +33,6 @@ namespace orm
             virtual Query* query(std::string&&) = 0;
 
             /* manualy create  a query */
-            virtual Query* prepareQuery()= 0;
             virtual Query* prepareQuery(const std::string&) = 0;
             virtual Query* prepareQuery(std::string&&) = 0;
 
