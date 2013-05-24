@@ -24,6 +24,7 @@ namespace orm
             T value;
         protected:
             virtual void print(std::ostream& output) const;
+            virtual bool set(Query& query,const unsigned int& colum) const;
     };
 };
 #include "Attr.tpl"

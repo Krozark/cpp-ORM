@@ -24,5 +24,12 @@ namespace orm
         output<<value;
     };
 
+    template<typename T>
+    bool Attr<T>::set(Query& query,const unsigned int& colum)const
+    {
+        query.set(value,colum);
+    };
+
+
 
 };

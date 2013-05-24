@@ -1,6 +1,7 @@
 #include "Bdd.hpp"
 #include "Query.hpp"
 #include "SQLObjectBase.hpp"
+#include "VAttr.hpp"
 
 namespace orm
 {
@@ -24,6 +25,33 @@ namespace orm
     bool Bdd::update(SQLObjectBase* obj)
     {
     };*/
+
+    bool Bdd::save(const std::string& table,const unsigned int pk,const std::vector<VAttr*>& attrs)
+    {
+        return true;
+    };
+
+    bool Bdd::update(const std::string& table,const unsigned int pk,const std::vector<VAttr*>& attrs)
+    {
+        const int size = attrs.size();
+        if(size > 0)
+        {
+            Query& q = *prepareQuery("UPDATE "+table
+                            +" SET ");
+            q.query+=attrs[0]->colum+"=(?)";
+            for(unsigned int i=1;i<size;++i)
+            {
+                q.query+=","+attrs[i]->colum+"=(?)";
+            }
+            q.query+=" WHERE id="+std::to_string(pk);
+
+            for(unsigned int i=0;i<size;++i)
+                attrs[0]->set(q,i);
+            executeQuery(q);
+            delete &q;
+        }
+        return true;
+    };
 
     
 };

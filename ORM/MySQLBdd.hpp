@@ -26,6 +26,11 @@ namespace orm
             virtual /*MySQL*/Query* query();
             virtual /*MySQL*/Query* query(const std::string&);
             virtual /*MySQL*/Query* query(std::string&&);
+
+            /* manualy create  a query */
+            virtual Query* prepareQuery();
+            virtual Query* prepareQuery(const std::string&);
+            virtual Query* prepareQuery(std::string&&);
         
         protected:
             friend class MySQLQuery;
@@ -34,7 +39,7 @@ namespace orm
         private:
             sql::Driver     *driver; // Create a pointer to a MySQL driver object
             sql::Connection *dbConn; // Create a pointer to a database connection object
-            sql::Statement  *bdd;   // Create a pointer to a Statement object to hold our SQL commands
+            sql::Statement  *statement;   // Create a pointer to a Statement object to hold our SQL commands
     };
 };
 

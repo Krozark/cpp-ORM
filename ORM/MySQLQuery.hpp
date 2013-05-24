@@ -2,6 +2,7 @@
 #define ORM_MYSQLQUERY_HPP
 
 #include <cppconn/resultset.h>
+#include <cppconn/prepared_statement.h>
 
 #include "Query.hpp"
 
@@ -42,9 +43,21 @@ namespace orm
         protected:
             virtual bool next();
 
+            /* for prepared query */
+            virtual bool set(const bool& value,const unsigned int& colum);
+            virtual bool set(const int& value,const unsigned int& colum);
+            virtual bool set(const unsigned int& value,const unsigned int& colum);
+            virtual bool set(const long long int& value,const unsigned int& colum);
+            virtual bool set(const long long unsigned int& value,const unsigned int& colum);
+            virtual bool set(const float& value,const unsigned int& colum);
+            virtual bool set(const long double& value,const unsigned int& colum);
+            virtual bool set(const std::string& value,const unsigned int& colum);
+
+
         private:
             friend class MySQLBdd;
             sql::ResultSet  *bdd_res;    // Create a pointer to a ResultSet object to hold the results of any queries we run
+            sql::PreparedStatement *prepared_statement;
     };
 };
 

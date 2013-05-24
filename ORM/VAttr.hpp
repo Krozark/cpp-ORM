@@ -7,6 +7,7 @@
 namespace orm
 {
     class Query;
+    class Bdd;
 
     class VAttr
     {
@@ -20,9 +21,11 @@ namespace orm
             friend std::ostream& operator<<(std::ostream& output,const VAttr& self);
 
         protected:
-            //bool modify;
+            friend class Bdd;
+            bool modify;
             const std::string& colum;
             virtual void print(std::ostream& output) const =0;
+            virtual bool set(Query& query,const unsigned int& colum) const = 0;
     };
 };
 

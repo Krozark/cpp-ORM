@@ -54,6 +54,8 @@ namespace orm
         protected:
             friend class Bdd;
             friend class MySQLBdd;
+            template<typename T>
+            friend class Attr;
             /* query as string */
             std::string query;
             /* where to execute the query */
@@ -63,15 +65,16 @@ namespace orm
             virtual bool next() = 0;
             
             /* for prepared query */
-            /*virtual bool set(bool& value,const unsigned int colum)const = 0;
-            virtual bool set(int& value,const unsigned int colum)const = 0;
-            virtual bool set(unsigned int& value,const unsigned int colum)const = 0;
-            virtual bool set(long long int& value,const unsigned int colum)const = 0;
-            virtual bool set(long long unsigned int& value,const unsigned int colum)const = 0;
-            virtual bool set(float& value,const unsigned int colum)const = 0;
-            virtual bool set(long double& value,const unsigned int colum)const = 0;
-            virtual bool set(unsigned int& value,const std::string colum)const = 0;*/
+            virtual bool set(const bool& value,const unsigned int& colum) = 0;
+            virtual bool set(const int& value,const unsigned int& colum) = 0;
+            virtual bool set(const unsigned int& value,const unsigned int& colum) = 0;
+            virtual bool set(const long long int& value,const unsigned int& colum) = 0;
+            virtual bool set(const long long unsigned int& value,const unsigned int& colum) = 0;
+            virtual bool set(const float& value,const unsigned int& colum) = 0;
+            virtual bool set(const long double& value,const unsigned int& colum) = 0;
+            virtual bool set(const std::string& value,const unsigned int& colum) = 0;
 
+            bool prepared;
 
         private:
             bool execute();

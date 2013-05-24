@@ -4,20 +4,22 @@
 
 namespace orm
 {
-    MySQLQuery::MySQLQuery(Bdd* bdd) : Query(bdd), bdd_res(0)
+    MySQLQuery::MySQLQuery(Bdd* bdd) : Query(bdd), bdd_res(0), prepared_statement(0)
     {
     };
 
-    MySQLQuery::MySQLQuery(Bdd* bdd,const std::string& query) : Query(bdd,query), bdd_res(0)
+    MySQLQuery::MySQLQuery(Bdd* bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0)
     {
     };
 
-    MySQLQuery::MySQLQuery(Bdd* bdd,std::string&& query) : Query(bdd,query), bdd_res(0)
+    MySQLQuery::MySQLQuery(Bdd* bdd,std::string&& query) : Query(bdd,query), bdd_res(0), prepared_statement(0)
     {
     };
 
     MySQLQuery::~MySQLQuery()
     {
+        if(prepared and prepared_statement)
+            delete prepared_statement;
         if(bdd_res)
             delete bdd_res;
     };
@@ -132,6 +134,67 @@ namespace orm
         return bdd_res->next();
     }
 
-    
-    
+    bool MySQLQuery::set(const bool& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setBoolean(colum,value);
+        return true;
+    };
+
+    bool MySQLQuery::set(const int& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setInt(colum,value);
+        return true;
+    };
+
+    bool MySQLQuery::set(const unsigned int& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setUInt(colum,value);
+        return true;
+    };
+
+    bool MySQLQuery::set(const long long int& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setInt64(colum,value);
+        return true;
+    };
+
+    bool MySQLQuery::set(const long long unsigned int& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setUInt64(colum,value);
+        return true;
+    };
+
+    bool MySQLQuery::set(const float& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setDouble(colum,static_cast<double>(value));
+        return true;
+    };
+
+    bool MySQLQuery::set(const long double& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setDouble(colum,value);
+        return true;
+    };
+
+    bool MySQLQuery::set(const std::string& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setString(colum,value);
+        return true;
+    };
 };

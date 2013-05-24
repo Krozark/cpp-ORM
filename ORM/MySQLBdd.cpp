@@ -28,7 +28,8 @@ namespace orm
 
     MySQLBdd::~MySQLBdd()
     {
-        delete bdd;
+        if(statement)
+            delete statement;
         if(dbConn)
             delete dbConn;
     };
@@ -49,8 +50,8 @@ namespace orm
             std::cerr<< "Could not connect to database. Error message: " << e.what() << std::endl;
             return false;
         }
-        bdd = dbConn->createStatement();
-        bdd->execute("USE "+s_bdd_name);
+        statement = dbConn->createStatement();
+        statement->execute("USE "+s_bdd_name);
 
         std::cerr<<"MySQLBdd::Connect to "<<s_serveur<<" using table: "<<s_bdd_name<<std::endl;
 
@@ -77,12 +78,41 @@ namespace orm
         return new MySQLQuery(this,str);
     };
 
+    /* manualy create  a query */
+    Query* MySQLBdd::prepareQuery()
+    {
+        auto q = new MySQLQuery(this);
+        q->prepared = true;
+        return q;
+    };
+
+    Query* MySQLBdd::prepareQuery(const std::string& str)
+    {
+        auto q = new MySQLQuery(this,str);
+        q->prepared = true;
+        return q;
+    };
+
+    Query* MySQLBdd::prepareQuery(std::string&& str)
+    {
+        auto q = new MySQLQuery(this,str);
+        q->prepared = true;
+        return q;
+    }
+
     /************** PROTECTED **********************/
 
     bool MySQLBdd::executeQuery(Query& query)
     {
         MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
-        q.bdd_res = bdd->executeQuery(q.query);
+        if(query.prepared)
+        {
+            q.bdd_res = q.prepared_statement->executeQuery();
+        }
+        else
+        {
+            q.bdd_res = statement->executeQuery(q.query);
+        }
     };
     
 };
