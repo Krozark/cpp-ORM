@@ -23,8 +23,8 @@ namespace orm
             typedef T type;
             T value;
             
-            template<typename U> T& operator=(const U& v){value=v;return value;};
-            Attr<T>& operator=(const Attr<T>& v) {value=v.value;return*this;};
+            template<typename U> T& operator=(const U& v){value=v;modify=true;return value;};
+            Attr<T>& operator=(const Attr<T>& v) {value=v.value;modify=true;return*this;};
             
             template<typename U> auto operator+(const U& v) -> decltype(value+v) const {return value+v;};
             template<typename U> auto operator-(const U& v) -> decltype(value-v) const {return value-v;};
@@ -32,11 +32,10 @@ namespace orm
             template<typename U> auto operator/(const U& v) -> decltype(value/v) const {return value/v;};
             template<typename U> auto operator%(const U& v) -> decltype(value%v) const {return value%v;};
 
-            Attr<T>& operator++(){++value;return *this;};
-            Attr<T>& operator++(int){value++;return*this;};
-
-            Attr<T>& operator--(){--value;return*this;};
-            Attr<T>& operator--(int){value--;return*this;};
+            Attr<T>& operator++(){++value;modify=true;return *this;};
+            Attr<T>& operator++(int){value++;modify=true;return*this;};
+            Attr<T>& operator--(){--value;modify=true;return*this;};
+            Attr<T>& operator--(int){value--;modify=true;return*this;};
             
             template<typename U> auto operator==(const U& v) -> decltype(value==v) const {return value==v;};
             template<typename U> auto operator!=(const U& v) -> decltype(value!=v)  const {return value!=v;};
@@ -47,20 +46,19 @@ namespace orm
 
             bool operator!()const {return !value;};
 
-            template<typename U> Attr<T>& operator+=(const U& v) {value+=v;return*this;};
-            template<typename U> Attr<T>& operator-=(const U& v) {value-=v;return*this;};
-            template<typename U> Attr<T>& operator*=(const U& v) {value*=v;return*this;};
-            template<typename U> Attr<T>& operator/=(const U& v) {value/=v;return*this;};
-            template<typename U> Attr<T>& operator%=(const U& v) {value%=v;return*this;};
+            template<typename U> Attr<T>& operator+=(const U& v) {value+=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator-=(const U& v) {value-=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator*=(const U& v) {value*=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator/=(const U& v) {value/=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator%=(const U& v) {value%=v;modify=true;return*this;};
 
             operator T() {return value;};
-
             
-            T operator+(const Attr<T>& v)const {return value+v.value;};
-            T operator-(const Attr<T>& v)const {return value-v.value;};
-            T operator*(const Attr<T>& v)const {return value*v.value;};
-            T operator/(const Attr<T>& v)const {return value/v.value;};
-            T operator%(const Attr<T>& v)const {return value%v.value;};
+            T operator+(const Attr<T>& v) const {return value+v.value;};
+            T operator-(const Attr<T>& v) const {return value-v.value;};
+            T operator*(const Attr<T>& v) const {return value*v.value;};
+            T operator/(const Attr<T>& v) const {return value/v.value;};
+            T operator%(const Attr<T>& v) const {return value%v.value;};
 
             template<typename U> bool operator==(const Attr<U>& v)const {return value==v.value;};
             template<typename U> bool operator!=(const Attr<U>& v)const {return value!=v.value;};
@@ -69,11 +67,11 @@ namespace orm
             template<typename U> bool operator>=(const Attr<U>& v)const {return value>=v.value;};
             template<typename U> bool operator<=(const Attr<U>& v)const {return value<=v.value;};
 
-            template<typename U> Attr<T>& operator+=(const Attr<U>& v) {value+=v.value;return*this;};
-            template<typename U> Attr<T>& operator-=(const Attr<U>& v) {value-=v.value;return*this;};
-            template<typename U> Attr<T>& operator*=(const Attr<U>& v) {value*=v.value;return*this;};
-            template<typename U> Attr<T>& operator/=(const Attr<U>& v) {value/=v.value;return*this;};
-            template<typename U> Attr<T>& operator%=(const Attr<U>& v) {value%=v.value;return*this;};
+            template<typename U> Attr<T>& operator+=(const Attr<U>& v) {value+=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator-=(const Attr<U>& v) {value-=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator*=(const Attr<U>& v) {value*=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator/=(const Attr<U>& v) {value/=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator%=(const Attr<U>& v) {value%=v.value;modify=true;return*this;};
 
         protected:
             virtual void print(std::ostream& output) const;
