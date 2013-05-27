@@ -27,6 +27,7 @@ namespace orm
             static std::list<T*> all();
 
             virtual bool save(bool _new=false);
+            virtual bool del();
 
             static  Bdd* bdd_used;
         protected:

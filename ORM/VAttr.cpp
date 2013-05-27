@@ -11,5 +11,9 @@ namespace orm
         self.print(output);
         return output;
     };
+    const std::string& VAttr::getColum()
+    {
+        return colum;
+    }
 
 };

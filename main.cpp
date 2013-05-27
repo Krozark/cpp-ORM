@@ -1,7 +1,7 @@
 #include <ORM/MySQLBdd.hpp>
 #include <ORM/MySQLQuery.hpp>
 
-orm::MySQLBdd def("root","root","test");
+orm::MySQLBdd def("root","toor","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -50,6 +50,36 @@ int main(int argc,char* argv[])
     std::list<Perso*> lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
+    for(Perso* p:lis)
+        delete p;
+
+    cout<<"Create Perso"<<endl;
+    Perso p2;
+    p2.name = "test insert";
+    p2.pv = 42;
+    p2.lvl = 75;
+    cout<<p2<<endl;
+
+    cout<<"save it"<<endl;
+    p2.save();
+
+    cout<<"All persos current="<<p2<<endl;
+    lis= Perso::all();
+    for(auto u : lis)
+        cout<<*u<<endl;
+    for(Perso* p:lis)
+        delete p;
+
+    cout<<"delete it"<<endl;
+    p2.del();
+
+    cout<<"All persos current current="<<p2<<endl;
+    lis= Perso::all();
+    for(auto u : lis)
+        cout<<*u<<endl;
+    for(Perso* p:lis)
+        delete p;
+
 
     return 0;
 };

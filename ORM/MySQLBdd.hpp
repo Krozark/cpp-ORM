@@ -34,6 +34,8 @@ namespace orm
         protected:
             friend class MySQLQuery;
             virtual bool executeQuery(Query& query);
+            virtual int getLastInsertPk();
+            virtual std::string escape_colum(const std::string&);
             
         private:
             sql::Driver     *driver; // Create a pointer to a MySQL driver object

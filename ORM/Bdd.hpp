@@ -43,8 +43,10 @@ namespace orm
 
             const std::string& operator[](const std::string& key);
 
-            bool save(const std::string& table,const unsigned int pk,const std::vector<VAttr*>& attrs);
-            bool update(const std::string& table,const unsigned int pk,const std::vector<VAttr*>& attrs);
+            bool save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs);
+            bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
+            bool del(const std::string& table,const int& pk);
+
 
         protected:
             friend class Query;
@@ -72,7 +74,9 @@ namespace orm
             std::unordered_map<std::string,std::string> operators;
             /* Execute a query */
             virtual bool executeQuery(Query& query) = 0;
+            virtual int getLastInsertPk() = 0;
 
+            virtual std::string escape_colum(const std::string&);
     };
 };
 

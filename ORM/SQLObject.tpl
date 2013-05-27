@@ -68,5 +68,16 @@ namespace orm
             return bdd_used->update(table,pk,attrs);
     }
 
+    template<typename T>
+    bool SQLObject<T>::del()
+    {
+        if(bdd_used->del(table,pk))
+        {
+            pk = -1;
+            return true;
+        }
+        return false;
+    };
+
 
 };

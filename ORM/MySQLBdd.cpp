@@ -24,6 +24,8 @@ namespace orm
         operators["endswith"]= "LIKE BINARY ";
         operators["istartswith"]= "LIKE ";
         operators["iendswith"]= "LIKE ";
+
+        //escape_char = "";
     };
 
     MySQLBdd::~MySQLBdd()
@@ -111,5 +113,24 @@ namespace orm
             return true;
         }
     };
-    
+
+    int MySQLBdd::getLastInsertPk()
+    {
+        Query& q = *query("SELECT LAST_INSERT_ID()");
+
+        executeQuery(q);
+        q.next();
+
+        int pk = -1;
+        q.get(pk,"LAST_INSERT_ID()");
+
+        delete &q;
+
+        return pk;
+    }
+
+    std::string MySQLBdd::escape_colum(const std::string& str)
+    {
+        return "`"+str+"`";
+    }
 };
