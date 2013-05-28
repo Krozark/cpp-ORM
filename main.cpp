@@ -8,11 +8,6 @@ orm::Bdd& orm::Bdd::Default = def;
 #include "ORM/Attr.hpp"
 #include "ORM/SQLObject.hpp"
 
-
-const std::string c_name = "nom";
-const std::string c_pv = "pv";
-const std::string c_lvl = "lvl";
-
 class Perso : public orm::SQLObject<Perso>
 {
     public:
@@ -21,17 +16,7 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<int> pv;
         orm::Attr<int> lvl;
 };
-MAKE_CONSTRUCTOR(Perso,name,"nom",pv,"pv",lvl,"lvl")
-
-/*Perso::Perso(): name(c_name), pv(c_pv), lvl(c_lvl)
-    //Perso() : name(Perso_name),pv(Perso_pv),lvl(Perso_lvl)
-{
-    registerAttr(name);
-    registerAttr(pv);
-    registerAttr(lvl);
-};*/
-
-REGISTER_TABLE(Perso,"perso")
+REGISTER_AND_CONSTRUCT(Perso,"perso",name,"nom",pv,"pv",lvl,"lvl")
 
 using namespace orm;
 using namespace std;
@@ -60,9 +45,9 @@ int main(int argc,char* argv[])
 
     cout<<"Create Perso"<<endl;
     Perso p2;
-    p2.name = "test insert";
+    //p2.name = "test insert";
     p2.pv = 42;
-    p2.lvl = 75;
+    //p2.lvl = 75;
     cout<<p2<<endl;
 
     cout<<"save it"<<endl;
