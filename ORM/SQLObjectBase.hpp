@@ -21,7 +21,7 @@ namespace orm
             SQLObjectBase& operator=(const SQLObjectBase&)=delete;
 
             bool loadFromBdd(const Query& query);
-            virtual bool save(bool _new=false) = 0;
+            virtual bool save(bool force=false) = 0;
             virtual bool del() = 0;
 
             friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
