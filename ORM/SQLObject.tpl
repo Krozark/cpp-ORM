@@ -57,12 +57,12 @@ namespace orm
     };
 
     template<typename T>
-    bool SQLObject<T>::save(bool _new)
+    bool SQLObject<T>::save(bool force)
     {
-        if (not _new)
-            _new = (pk == -1);
+        if (not force)
+            force = (pk == -1);
 
-        if(_new)
+        if(force)
             return bdd_used->save(table,pk,attrs);
         else
             return bdd_used->update(table,pk,attrs);
