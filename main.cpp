@@ -18,6 +18,7 @@ class Perso : public orm::SQLObject<Perso>
 };
 REGISTER_AND_CONSTRUCT(Perso,"perso",name,"nom",pv,"pv",lvl,"lvl")
 
+
 using namespace orm;
 using namespace std;
 

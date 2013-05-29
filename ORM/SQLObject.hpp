@@ -11,6 +11,7 @@ namespace orm
 {
     class Bdd;
     class Query;
+    class Filter;
 
     template<typename T>
     class SQLObject : public SQLObjectBase
@@ -23,8 +24,16 @@ namespace orm
             
             static T* createFromBdd(const Query& query);
             static T* get(unsigned int id);
-            static std::list<T*> filter();
             static std::list<T*> all();
+
+            template<typename ... Args>
+            static std::list<T*> filter(const Args& ... args);
+
+            //template<>
+            static std::list<T*> filter(const Filter&,...);
+            //template<>
+            static std::list<T*> filter(const std::list<Filter>&);
+
 
             virtual bool save(bool force=false);
             virtual bool del();
