@@ -1,4 +1,5 @@
 #include "Bdd.hpp"
+#include "Filter.hpp"
 
 namespace orm
 {
