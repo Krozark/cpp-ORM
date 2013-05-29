@@ -40,25 +40,74 @@ namespace orm
     };
 
     template<typename T>
-    template<typename ... Args>
-    std::list<T*> SQLObject<T>::filter(const Args& ... args)
+    template<typename U>
+    std::list<T*> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value )
     {
+        return filter(Filter(colum,ope,std::to_string(value)));
     }
 
     template<typename T>
-    std::list<T*> SQLObject<T>::filter(const Filter&,...)
+    std::list<T*> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const std::string& value )
     {
+        return filter(Filter(colum,ope,value));
     }
 
     template<typename T>
-    std::list<T*> SQLObject<T>::filter(const std::list<Filter>&)
+    std::list<T*> SQLObject<T>::filter(const Filter& filter)
     {
+        Query* q = bdd_used->query("SELECT * FROM "
+                                   +table
+                                   +" WHERE ( "
+                                   +bdd_used->escape_colum(filter.colum)+" "
+                                   +(*bdd_used)[filter.ope]
+                                   +filter.value
+                                   +" )"
+                                  );
+
+        std::list<T*> res;
+        q->getObj(res);
+        delete q;
+        return res;
+    }
+
+    template<typename T>
+    std::list<T*> SQLObject<T>::filter(const std::list<Filter>& filters)
+    {
+        int size = filters.size();
+
+        if(size >0)
+        {
+            std::string str_q = "SELECT * FROM "
+                +table
+                +" WHERE ( ";
+            bool first = true;
+            for(Filter& filter:filters)
+            {
+                if(not first)
+                    str_q+=" AND ";
+                
+                str_q+=bdd_used->escape_colum(filter.colum)+" "
+                    +(*bdd_used)[filter.ope]
+                    +filter.value;
+
+                first = false;
+            }
+            str_q+=" )";
+
+            std::list<T*> res;
+            Query* q = bdd_used->query(str_q);
+            q->getObj(res);
+            delete q;
+            return res;
+        }
+        //no filters
+        return all();
     }
 
     template<typename T>
     std::list<T*> SQLObject<T>::all()
     {
-        Query* q = bdd_used->query("SELECT * FROM "+table+" ");
+        Query* q = bdd_used->query("SELECT * FROM "+table);
         std::list<T*> res;
         q->getObj(res);
         delete q;

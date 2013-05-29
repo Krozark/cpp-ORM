@@ -13,6 +13,7 @@ namespace orm
 {
     class Query;
     class SQLObjectBase;
+    template<typename T> class SQLObject;
     class VAttr;
 
     class Bdd
@@ -47,6 +48,8 @@ namespace orm
             bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
             bool del(const std::string& table,const int& pk);
 
+            virtual std::string escape_colum(const std::string&);
+
 
         protected:
             friend class Query;
@@ -76,7 +79,6 @@ namespace orm
             virtual bool executeQuery(Query& query) = 0;
             virtual int getLastInsertPk() = 0;
 
-            virtual std::string escape_colum(const std::string&);
     };
 };
 

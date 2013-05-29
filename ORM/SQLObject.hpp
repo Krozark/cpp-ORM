@@ -25,14 +25,12 @@ namespace orm
             static T* createFromBdd(const Query& query);
             static T* get(unsigned int id);
             static std::list<T*> all();
-
-            template<typename ... Args>
-            static std::list<T*> filter(const Args& ... args);
-
-            //template<>
-            static std::list<T*> filter(const Filter&,...);
-            //template<>
-            static std::list<T*> filter(const std::list<Filter>&);
+            
+            template<typename U>
+            static std::list<T*> filter(const std::string& colum,const std::string& ope,const U& value );
+            static std::list<T*> filter(const std::string& colum,const std::string& ope,const std::string& value );
+            static std::list<T*> filter(const Filter& filter);
+            static std::list<T*> filter(const std::list<Filter>& filters);
 
 
             virtual bool save(bool force=false);
