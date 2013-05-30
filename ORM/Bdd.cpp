@@ -129,6 +129,11 @@ namespace orm
         return "'"+str+"'";
     }
 
+    std::string Bdd::escape_value(const std::string& str)
+    {
+        return "'"+str+"'";
+    }
+
     
 };
 //orm::Bdd* orm::Bdd::Default = 0;

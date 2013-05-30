@@ -1,8 +1,8 @@
 #include <ORM/MySQLBdd.hpp>
 #include <ORM/MySQLQuery.hpp>
 
-//orm::MySQLBdd def("root","root","test");
-orm::MySQLBdd def("root","toor","test");
+orm::MySQLBdd def("root","root","test");
+//orm::MySQLBdd def("root","toor","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -16,6 +16,8 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<std::string> name;
         orm::Attr<int> pv;
         orm::Attr<int> lvl;
+
+        MAKE_STATIC_COLUM(name,pv,lvl)
 };
 REGISTER_AND_CONSTRUCT(Perso,"perso",name,"nom",pv,"pv",lvl,"lvl")
 
@@ -47,9 +49,9 @@ int main(int argc,char* argv[])
 
     cout<<"Create Perso"<<endl;
     Perso p2;
-    //p2.name = "test insert";
+    p2.name = "test insert";
     p2.pv = 42;
-    //p2.lvl = 75;
+    p2.lvl = 75;
     cout<<p2<<endl;
 
     cout<<"save it"<<endl;
@@ -62,7 +64,11 @@ int main(int argc,char* argv[])
     for(Perso* p:lis)
         delete p;
 
-    lis = Perso::filter("name","exact","test");
+    lis = Perso::filter(Perso::_name,"exact",42);
+    for(auto u : lis)
+        cout<<*u<<endl;
+    for(Perso* p:lis)
+        delete p;
 
     cout<<"delete it"<<endl;
     p2.del();

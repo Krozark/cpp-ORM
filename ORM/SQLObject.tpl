@@ -1,6 +1,11 @@
 #include "Bdd.hpp"
 #include "Filter.hpp"
 
+namespace std
+{
+    string const& to_string(const std::string& p)  {  return p;  }
+}
+
 namespace orm
 {
     template<typename T>
@@ -39,18 +44,18 @@ namespace orm
         return res;
     };
 
-    template<typename T>
+    /*template<typename T>
     template<>
     std::list<T*> SQLObject<T>::filter<std::string>(const std::string& colum,const std::string& ope,const std::string& value)
     {
         return SQLObject<T>::filter(Filter(colum,ope,value));
-    }
+    }*/
 
     template<typename T>
     template<typename U>
     std::list<T*> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value)
     {
-        return SQLObject<T>::filter(Filter(colum,ope,std::to_string(value)));
+        return filter(Filter(colum,ope,std::to_string(value)));
     }
 
     template<typename T>
@@ -61,7 +66,7 @@ namespace orm
                                    +" WHERE ( "
                                    +bdd_used->escape_colum(filter.colum)+" "
                                    +(*bdd_used)[filter.ope]
-                                   +filter.value
+                                   +bdd_used->escape_value(filter.value)
                                    +" )"
                                   );
 
@@ -89,7 +94,7 @@ namespace orm
                 
                 str_q+=bdd_used->escape_colum(filter.colum)+" "
                     +(*bdd_used)[filter.ope]
-                    +filter.value;
+                    +bdd_used->escape_value(filter.value);
 
                 first = false;
             }

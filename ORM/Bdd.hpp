@@ -49,6 +49,7 @@ namespace orm
             bool del(const std::string& table,const int& pk);
 
             virtual std::string escape_colum(const std::string&);
+            virtual std::string escape_value(const std::string&);
 
 
         protected:
