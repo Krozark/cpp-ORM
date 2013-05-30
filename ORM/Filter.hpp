@@ -9,15 +9,18 @@ namespace orm
     class Filter
     {
         public:
-            Filter(const std::string& colum,const std::string& ope, const std::string& value);
+            template<typename T>
+            Filter(const std::string& colum,const std::string& ope, const T& value);
             
 
         private:
             template<typename T> friend class SQLObject;
-            std::string colum;
+            const std::string colum;
             const std::string ope;
             const std::string value;
     };
 };
+
+#include "Filter.tpl"
 
 #endif

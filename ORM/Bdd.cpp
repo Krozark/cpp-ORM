@@ -13,10 +13,10 @@ namespace orm
     {
     };
 
-    const std::string& Bdd::operator[](const std::string& key)
+    /*const std::string& Bdd::operator[](const std::string& key)
     {
         return operators[key];
-    };
+    };*/
 
     /*bool Bdd::save(SQLObjectBase* obj)
     {
@@ -132,6 +132,44 @@ namespace orm
     std::string Bdd::escape_value(const std::string& str)
     {
         return "'"+str+"'";
+    }
+
+    std::string Bdd::escape_value(const std::string& filter,const std::string& value)
+    {
+        if(filter == "contains")
+        {
+            return operators[filter]+escape_value("%"+value+"%");
+        }
+        else if(filter == "icontains")
+        {
+            return operators[filter]+escape_value("%"+value+"%");
+        }
+        /*else if(filter == "regex")
+        {
+        }
+        else if(filter == "iregex")
+        {
+        }*/
+        else if(filter == "startswith")
+        {
+            return operators[filter]+escape_value(value+"%");
+        }
+        else if(filter == "endswith" )
+        {
+            return operators[filter]+escape_value("%"+value);
+        }
+        else if(filter == "istartswith")
+        {
+            return operators[filter]+escape_value(value+"%");
+        }
+        else if(filter == "iendswith")
+        {
+            return operators[filter]+escape_value("%"+value);
+        }
+        else
+        {
+            return operators[filter]+escape_value(value);
+        }
     }
 
     

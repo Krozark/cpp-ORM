@@ -42,7 +42,7 @@ namespace orm
             //static Bdd* Default;
             static Bdd& Default;
 
-            const std::string& operator[](const std::string& key);
+            //const std::string& operator[](const std::string& key);
 
             bool save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs);
             bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
@@ -50,6 +50,8 @@ namespace orm
 
             virtual std::string escape_colum(const std::string&);
             virtual std::string escape_value(const std::string&);
+
+            std::string escape_value(const std::string& filter,const std::string&);
 
 
         protected:

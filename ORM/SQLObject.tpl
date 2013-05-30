@@ -1,10 +1,6 @@
 #include "Bdd.hpp"
 #include "Filter.hpp"
 
-namespace std
-{
-    string const& to_string(const std::string& p)  {  return p;  }
-}
 
 namespace orm
 {
@@ -29,11 +25,11 @@ namespace orm
     T* SQLObject<T>::get(unsigned int id)
     {
 
-        Query* q = bdd_used->query("SELECT * FROM "+
-                                   table+
-                                   " WHERE (id "+
-                                   (*bdd_used)["exact"]+std::to_string(id)+
-                                   ") ");
+        Query* q = bdd_used->query("SELECT * FROM "
+                                   +table
+                                   +" WHERE (id "
+                                   +bdd_used->escape_value("exact",std::to_string(id))
+                                   +") ");
         T* res = new T();
         if(not q->getObj(*res))
         {
@@ -58,6 +54,7 @@ namespace orm
         return filter(Filter(colum,ope,std::to_string(value)));
     }
 
+
     template<typename T>
     std::list<T*> SQLObject<T>::filter(const Filter& filter)
     {
@@ -65,8 +62,7 @@ namespace orm
                                    +table
                                    +" WHERE ( "
                                    +bdd_used->escape_colum(filter.colum)+" "
-                                   +(*bdd_used)[filter.ope]
-                                   +bdd_used->escape_value(filter.value)
+                                   +bdd_used->escape_value(filter.ope,filter.value)
                                    +" )"
                                   );
 
@@ -87,14 +83,14 @@ namespace orm
                 +table
                 +" WHERE ( ";
             bool first = true;
-            for(Filter& filter:filters)
+
+            for(const Filter& filter:filters)
             {
                 if(not first)
                     str_q+=" AND ";
                 
                 str_q+=bdd_used->escape_colum(filter.colum)+" "
-                    +(*bdd_used)[filter.ope]
-                    +bdd_used->escape_value(filter.value);
+                    +bdd_used->escape_value(filter.ope,filter.value);
 
                 first = false;
             }

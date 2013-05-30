@@ -63,8 +63,13 @@ int main(int argc,char* argv[])
         cout<<*u<<endl;
     for(Perso* p:lis)
         delete p;
+    
+    list<Filter> filters = {
+        Filter(Perso::_lvl,"gt",4),
+        Filter(Perso::_name,"startswith","tes")
+    };
 
-    lis = Perso::filter(Perso::_name,"exact",42);
+    lis = Perso::filter(filters);
     for(auto u : lis)
         cout<<*u<<endl;
     for(Perso* p:lis)
