@@ -40,18 +40,11 @@ namespace orm
         return res;
     };
 
-    /*template<typename T>
-    template<>
-    std::list<T*> SQLObject<T>::filter<std::string>(const std::string& colum,const std::string& ope,const std::string& value)
-    {
-        return SQLObject<T>::filter(Filter(colum,ope,value));
-    }*/
-
     template<typename T>
     template<typename U>
     std::list<T*> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value)
     {
-        return filter(Filter(colum,ope,std::to_string(value)));
+        return filter(Filter(colum,ope,value));
     }
 
 
