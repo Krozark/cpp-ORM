@@ -27,8 +27,7 @@ namespace orm
             static std::list<T*> all();
             
             template<typename U>
-            static std::list<T*> filter(const std::string& colum,const std::string& ope,const U& value );
-            static std::list<T*> filter(const std::string& colum,const std::string& ope,const std::string& value );
+            static std::list<T*> filter(const std::string& colum,const std::string& ope,const U& value);
             static std::list<T*> filter(const Filter& filter);
             static std::list<T*> filter(const std::list<Filter>& filters);
 

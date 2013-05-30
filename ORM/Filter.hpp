@@ -10,6 +10,7 @@ namespace orm
     {
         public:
             Filter(const std::string& colum,const std::string& ope, const std::string& value);
+            
 
         private:
             template<typename T> friend class SQLObject;

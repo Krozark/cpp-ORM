@@ -1,7 +1,8 @@
 #include <ORM/MySQLBdd.hpp>
 #include <ORM/MySQLQuery.hpp>
 
-orm::MySQLBdd def("root","root","test");
+//orm::MySQLBdd def("root","root","test");
+orm::MySQLBdd def("root","toor","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -61,6 +62,8 @@ int main(int argc,char* argv[])
     for(Perso* p:lis)
         delete p;
 
+    lis = Perso::filter("name","exact","test");
+
     cout<<"delete it"<<endl;
     p2.del();
 
@@ -70,6 +73,7 @@ int main(int argc,char* argv[])
         cout<<*u<<endl;
     for(Perso* p:lis)
         delete p;
+    
 
 
     return 0;
