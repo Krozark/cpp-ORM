@@ -58,7 +58,6 @@ namespace orm
                                    +bdd_used->escape_value(filter.ope,filter.value)
                                    +" )"
                                   );
-
         std::list<T*> res;
         q->getObj(res);
         delete q;

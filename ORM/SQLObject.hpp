@@ -31,7 +31,6 @@ namespace orm
             static std::list<T*> filter(const Filter& filter);
             static std::list<T*> filter(const std::list<Filter>& filters);
 
-
             virtual bool save(bool force=false);
             virtual bool del();
 
