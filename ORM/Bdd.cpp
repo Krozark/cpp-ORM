@@ -54,6 +54,7 @@ namespace orm
                 std::cout<<","<<*attrs[i];
                 #endif
                 attrs[i]->set(q,i+1);
+                attrs[i]->modify = false;
             }
             #if DEBUG & DEBUG_SQL
             std::cout<<")"<<std::endl;
@@ -97,6 +98,7 @@ namespace orm
                 std::cout<<","<<*attrs[i];
                 #endif
                 attrs[i]->set(q,i+1);
+                attrs[i]->modify = false;
             }
 
             #if DEBUG & DEBUG_SQL
