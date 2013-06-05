@@ -93,6 +93,8 @@ Bdd(const std::string& username,const std::string& pass,const std::string& bdd,c
 
 
 You can use some fonction:
+* bool connect()
+* bool disconnect()
 * Query* query()
 * Query* query(std::string&)
 * Query* query(std::string&&)
