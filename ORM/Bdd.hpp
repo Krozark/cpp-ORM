@@ -44,18 +44,11 @@ namespace orm
 
             //const std::string& operator[](const std::string& key);
 
-            bool save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs);
-            bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
-            bool del(const std::string& table,const int& pk);
-
-            virtual std::string escape_colum(const std::string&);
-            virtual std::string escape_value(const std::string&);
-
-            std::string escape_value(const std::string& filter,const std::string&);
 
 
         protected:
             friend class Query;
+            template<typename T> friend class SQLObject;
             /* Info for connection */
             const std::string s_username;
             const std::string s_password;
@@ -81,6 +74,15 @@ namespace orm
             /* Execute a query */
             virtual bool executeQuery(Query& query) = 0;
             virtual int getLastInsertPk() = 0;
+
+            bool save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs);
+            bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
+            bool del(const std::string& table,const int& pk);
+
+            virtual std::string escape_colum(const std::string&);
+            virtual std::string escape_value(const std::string&);
+
+            std::string escape_value(const std::string& filter,const std::string&);
 
     };
 };
