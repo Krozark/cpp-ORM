@@ -5,6 +5,10 @@ A project to create a simple ORM.
 
 You can symply create persistents objects using datas bases.
 
+The object representation:
+    Each object have to be in a separate table whith a pk colum named 'id' as autoincrement.
+    each attre is a colum in this table.
+
 Data bases supported
 =====================
 
@@ -29,15 +33,19 @@ orm::SQLObject<T>
 Base class for persistent T class. It add all static methode / attribute to your class.
 
 make some static method:
-* get(int pk)
-* all()
-* filter(const std::string& colum,const std::string& ope,const U& value);
-* filter(const Filter& filter);
-* filter(const std::list<Filter>& filters);
+* T* get(int pk)
+* std::list\<T*\> all()
+* std::list\<T*\> filter(const std::string& colum,const std::string& ope,const U& value);
+* std::list\<T*\> filter(const Filter& filter);
+* std::list\<T*\> filter(const std::list<Filter>& filters);
+
+static member:
+* Bdd* bdd_used : database where the object is contain
+* std::string table : table name on the database
 
 make member fonction:
-* save(bool force=false)
-* del() 
+* bool save(bool force=false)
+* bool del() 
 
 
 Exemple: see main.cpp
@@ -47,6 +55,10 @@ orm::Attr<T>
 
 Make a T persistent in the dadabase.
 
+You can acces to the value using:
+* T value;
+
+
 All operators are overloads to make a easy use of it.
 
 orm::VAttr
@@ -54,6 +66,44 @@ orm::VAttr
 
 Base class for Attr. you don't need to use it directly
 
+
+orm::Filter
+-----------
+
+Construct a filter to make a query (where clause). Constructor 
+
+template<typename T>
+Filter(const std::string& colum,const std::string& ope, const T& value);
+
+
+orm::Query
+----------
+Base classe for query.
+
+Use to creat query in the database. You can use subclasse to make custom query, but it is not need. Create the using the ::Query of a Bdd.
+
+
+orm::Bdd
+---------
+
+Base classe to deal with your database. Use specialize database (MySQLBdd, ...)
+
+Constructor:
+Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
+
+
+You can use some fonction:
+* Query* query()
+* Query* query(std::string&)
+* Query* query(std::string&&)
+* Query* preparedQuery(std::string&)
+* Query* preparedQuery(std::string&&)
+
+
+You can custom the default database:
+
+orm::MySQLBdd def("root","root","test");
+orm::Bdd& orm::Bdd::Default = def;
 
 Macros
 ======
