@@ -10,8 +10,10 @@ namespace orm
     template<typename T>
     class FK : public VAttr
     {
-        FK(const int& id,const std::string& colum);
-        FK(const std::string& colum);
+        FK(const int& id,const std::string& colum);//TODO ++on cash counter
+        FK(const std::string& colum);//TODO idem
+
+        ~FK(); //TODO --on cash counter
 
         FK(const FK&) = delete;
 
