@@ -1,14 +1,15 @@
 #include "Query.hpp"
+#include "SQLObjectBase.hpp"
 
 namespace orm
 {
     template<typename T>
-    FK<T>::FK(const int& id,const std::string& colum) : VAttr(colum), value_ptr(0)
+    FK<T>::FK(const int& id,const std::string& colum) : VFK(colum), value_ptr(0)
     {
     }
 
     template<typename T>
-    FK<T>::FK(const std::string& colum) : VAttr(colum), value_ptr(0)
+    FK<T>::FK(const std::string& colum) : VFK(colum), value_ptr(0)
     {
     }
 
@@ -23,6 +24,12 @@ namespace orm
 
 
     template<typename T>
+    const SQLObjectBase& FK<T>::getObject()const
+    {
+        return *value_ptr;
+    }
+
+    template<typename T>
     bool FK<T>::get(const Query& query)
     {
         int id;
@@ -33,7 +40,7 @@ namespace orm
     template<typename T>
     void FK<T>::print(std::ostream& output) const
     {
-        output<<(*value_ptr);
+        output<<"{"<<(*value_ptr)<<"}";
     }
 
     template<typename T>

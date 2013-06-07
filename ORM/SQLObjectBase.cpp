@@ -1,6 +1,7 @@
 #include "SQLObjectBase.hpp"
 #include "VAttr.hpp" 
 #include "Query.hpp"
+#include "VFK.hpp"
 
 namespace orm
 {
@@ -32,5 +33,31 @@ namespace orm
             output<<"["<<attr->getColum()<<"]:"<<*attr<<" ";
         return output;
     };
+
+    void SQLObjectBase::nameAttrs(std::string& q_str)const
+    {
+        const Bdd* bdd = getBdd();
+        const std::string& table = getTable();
+
+        q_str+= bdd->escape_colum(table)+"."+("id");
+        
+        {
+            const int size = attrs.size();
+            for(int i=0;i<size;++i)
+            {
+                q_str+= ","+bdd->escape_colum(table)+"."+bdd->escape_colum(attrs[i]->getColum());
+            }
+        }
+        {
+            const int size = fks.size();
+            for(int i=0;i<size;++i)
+            {
+                const SQLObjectBase& object = fks[i]->getObject();
+                q_str+=",";
+                object. nameAttrs(q_str);
+            }
+        }
+        q_str+="\n";
+    }
 
 };

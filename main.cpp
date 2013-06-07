@@ -50,7 +50,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
 
     //REGISTER_BDD(Perso,orm::Bdd::Default)
-
+    
     Perso* p1 = Perso::get(1);
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<" add 1 to lvl"<<endl;

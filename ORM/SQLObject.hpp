@@ -37,46 +37,49 @@ namespace orm
             static  Bdd* bdd_used;
         protected:
             const static std::string table;
+            virtual const std::string& getTable()const {return table;};
+            virtual const Bdd* getBdd()const{return bdd_used;};
     };
 };
 
 //make string name for attrs
 #define _MAKE_NAME(name)  _ ## name
+#define _MAKE_NAME_VALUE(klass,value)  value
 
 //make string initialisation for attrs
 #define _MAKE_STRING_0(klass) 
-#define _MAKE_STRING_2(klass,name,value) const std::string klass::_MAKE_NAME(name) = value;
-#define _MAKE_STRING_4(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_2(klass,__VA_ARGS__)
-#define _MAKE_STRING_6(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_4(klass,__VA_ARGS__)
-#define _MAKE_STRING_8(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_6(klass,__VA_ARGS__)
-#define _MAKE_STRING_10(klass,name,value,...) const std::string klass::_MAKE_NAME(name)  = value; _MAKE_STRING_8(klass,__VA_ARGS__)
-#define _MAKE_STRING_12(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_10(klass,__VA_ARGS__)
-#define _MAKE_STRING_14(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_12(klass,__VA_ARGS__)
-#define _MAKE_STRING_16(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_14(klass,__VA_ARGS__)
-#define _MAKE_STRING_18(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_16(klass,__VA_ARGS__)
-#define _MAKE_STRING_20(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_18(klass,__VA_ARGS__)
-#define _MAKE_STRING_22(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_20(klass,__VA_ARGS__)
-#define _MAKE_STRING_24(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_22(klass,__VA_ARGS__)
-#define _MAKE_STRING_26(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_24(klass,__VA_ARGS__)
-#define _MAKE_STRING_28(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_26(klass,__VA_ARGS__)
-#define _MAKE_STRING_30(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_28(klass,__VA_ARGS__)
-#define _MAKE_STRING_32(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_30(klass,__VA_ARGS__)
-#define _MAKE_STRING_34(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_32(klass,__VA_ARGS__)
-#define _MAKE_STRING_36(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_34(klass,__VA_ARGS__)
-#define _MAKE_STRING_38(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_36(klass,__VA_ARGS__)
-#define _MAKE_STRING_40(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_38(klass,__VA_ARGS__)
-#define _MAKE_STRING_42(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_40(klass,__VA_ARGS__)
-#define _MAKE_STRING_44(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_42(klass,__VA_ARGS__)
-#define _MAKE_STRING_46(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_44(klass,__VA_ARGS__)
-#define _MAKE_STRING_48(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_46(klass,__VA_ARGS__)
-#define _MAKE_STRING_50(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_48(klass,__VA_ARGS__)
-#define _MAKE_STRING_52(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_50(klass,__VA_ARGS__)
-#define _MAKE_STRING_54(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_52(klass,__VA_ARGS__)
-#define _MAKE_STRING_56(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_54(klass,__VA_ARGS__)
-#define _MAKE_STRING_58(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_56(klass,__VA_ARGS__)
-#define _MAKE_STRING_60(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_58(klass,__VA_ARGS__)
-#define _MAKE_STRING_62(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_60(klass,__VA_ARGS__)
-#define _MAKE_STRING_64(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = value; _MAKE_STRING_62(klass,__VA_ARGS__)
+#define _MAKE_STRING_2(klass,name,value) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value);
+#define _MAKE_STRING_4(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_2(klass,__VA_ARGS__)
+#define _MAKE_STRING_6(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_4(klass,__VA_ARGS__)
+#define _MAKE_STRING_8(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_6(klass,__VA_ARGS__)
+#define _MAKE_STRING_10(klass,name,value,...) const std::string klass::_MAKE_NAME(name)  = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_8(klass,__VA_ARGS__)
+#define _MAKE_STRING_12(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_10(klass,__VA_ARGS__)
+#define _MAKE_STRING_14(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_12(klass,__VA_ARGS__)
+#define _MAKE_STRING_16(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_14(klass,__VA_ARGS__)
+#define _MAKE_STRING_18(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_16(klass,__VA_ARGS__)
+#define _MAKE_STRING_20(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_18(klass,__VA_ARGS__)
+#define _MAKE_STRING_22(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_20(klass,__VA_ARGS__)
+#define _MAKE_STRING_24(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_22(klass,__VA_ARGS__)
+#define _MAKE_STRING_26(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_24(klass,__VA_ARGS__)
+#define _MAKE_STRING_28(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_26(klass,__VA_ARGS__)
+#define _MAKE_STRING_30(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_28(klass,__VA_ARGS__)
+#define _MAKE_STRING_32(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_30(klass,__VA_ARGS__)
+#define _MAKE_STRING_34(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_32(klass,__VA_ARGS__)
+#define _MAKE_STRING_36(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_34(klass,__VA_ARGS__)
+#define _MAKE_STRING_38(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_36(klass,__VA_ARGS__)
+#define _MAKE_STRING_40(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_38(klass,__VA_ARGS__)
+#define _MAKE_STRING_42(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_40(klass,__VA_ARGS__)
+#define _MAKE_STRING_44(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_42(klass,__VA_ARGS__)
+#define _MAKE_STRING_46(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_44(klass,__VA_ARGS__)
+#define _MAKE_STRING_48(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_46(klass,__VA_ARGS__)
+#define _MAKE_STRING_50(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_48(klass,__VA_ARGS__)
+#define _MAKE_STRING_52(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_50(klass,__VA_ARGS__)
+#define _MAKE_STRING_54(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_52(klass,__VA_ARGS__)
+#define _MAKE_STRING_56(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_54(klass,__VA_ARGS__)
+#define _MAKE_STRING_58(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_56(klass,__VA_ARGS__)
+#define _MAKE_STRING_60(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_58(klass,__VA_ARGS__)
+#define _MAKE_STRING_62(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_60(klass,__VA_ARGS__)
+#define _MAKE_STRING_64(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_62(klass,__VA_ARGS__)
 //init call
 #define _MAKE_STRING_N1(klass,N,...) _MAKE_STRING_##N(klass,__VA_ARGS__)
 #define _MAKE_STRING_N(klass,N,...) _MAKE_STRING_N1(klass,N,__VA_ARGS__)

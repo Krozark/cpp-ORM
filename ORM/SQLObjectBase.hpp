@@ -11,7 +11,9 @@ namespace orm
     class Query;
     class VAttr;
     class Bdd;
+    class VFK;
     template<typename T> class FK;
+
 
     class SQLObjectBase
     {
@@ -33,7 +35,13 @@ namespace orm
             int pk;
             std::vector<VAttr*> attrs;
 
+            std::vector<VFK*> fks;
+
             void registerAttr(VAttr& attr);
+            void nameAttrs(std::string& q_str)const;
+
+            virtual const std::string& getTable() const = 0;
+            virtual const Bdd* getBdd() const = 0;
     };
 };
 

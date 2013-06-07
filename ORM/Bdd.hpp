@@ -48,6 +48,7 @@ namespace orm
 
         protected:
             friend class Query;
+            friend class SQLObjectBase;
             template<typename T> friend class SQLObject;
             /* Info for connection */
             const std::string s_username;
@@ -79,10 +80,10 @@ namespace orm
             bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
             bool del(const std::string& table,const int& pk);
 
-            virtual std::string escape_colum(const std::string&);
-            virtual std::string escape_value(const std::string&);
+            virtual std::string escape_colum(const std::string&) const;
+            virtual std::string escape_value(const std::string&) const;
 
-            std::string escape_value(const std::string& filter,const std::string&);
+            std::string escape_value(const std::string& filter,const std::string&) const;
 
     };
 };

@@ -1,14 +1,14 @@
 #ifndef ORM_FK_HPP
 #define ORM_FK_HPP
 
-#include "VAttr.hpp"
+#include "VFK.hpp"
 
 namespace orm
 {
     class Query;
 
     template<typename T>
-    class FK : public VAttr
+    class FK : public VFK
     {
         public:
             FK(const int& id,const std::string& colum);//TODO ++on cash counter
@@ -16,6 +16,8 @@ namespace orm
             FK(const FK&) = delete;
 
             ~FK(); //TODO --on cash counter
+
+            virtual const SQLObjectBase& getObject()const;
 
             virtual bool get(const Query& query);
             typedef T type;

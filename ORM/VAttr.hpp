@@ -20,7 +20,7 @@ namespace orm
             virtual bool get(const Query& query) = 0;
             friend std::ostream& operator<<(std::ostream& output,const VAttr& self);
 
-            const std::string& getColum();
+            const std::string& getColum() const;
 
         protected:
             friend class Bdd;
