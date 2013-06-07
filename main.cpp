@@ -10,15 +10,34 @@ orm::Bdd& orm::Bdd::Default = def;
 #include "ORM/FK.hpp"
 #include "ORM/SQLObject.hpp"
 
+class Stats : public orm::SQLObject<Stats>
+{
+    public:
+        Stats();
+        orm::Attr<int> pv;
+        orm::Attr<int> pi;
+        orm::Attr<int> intel;
+        orm::Attr<int> force;
+        orm::Attr<int> def;
+        orm::Attr<int> vatq;
+        orm::Attr<int> esq;
+        orm::Attr<int> chance;
+        orm::Attr<int> charme;
+        orm::Attr<int> mouvement;
+
+        MAKE_STATIC_COLUM(pv,pi,intel,force,def,vatq,esq,chance,charme,mouvement)
+};
+REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intel,"int",force,"force",def,"def",vatq,"vatq",esq,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
+
 class Perso : public orm::SQLObject<Perso>
 {
     public:
         Perso();
         orm::Attr<std::string> name;
         orm::Attr<int> lvl;
-        orm::FK<int> stats;
+        orm::FK<Stats> stats;
 
-        MAKE_STATIC_COLUM(name,pv,lvl,stats)
+        MAKE_STATIC_COLUM(name,lvl,stats)
 };
 REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
 
@@ -52,9 +71,14 @@ int main(int argc,char* argv[])
     Perso p2;
     p2.name = "test insert";
     p2.lvl = 75;
+    p2.stats = p1->stats;
+
+    cout<<"Change PV to +=20"<<endl;
+    p2.stats->pv+= 20;
     cout<<p2<<endl;
 
     cout<<"save it"<<endl;
+    p2.stats->save();
     p2.save();
 
     cout<<"All persos current="<<p2<<endl;

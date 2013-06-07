@@ -13,10 +13,9 @@ namespace orm
         public:
             FK(const int& id,const std::string& colum);//TODO ++on cash counter
             FK(const std::string& colum);//TODO idem
+            FK(const FK&) = delete;
 
             ~FK(); //TODO --on cash counter
-
-            FK(const FK&) = delete;
 
             virtual bool get(const Query& query);
             typedef T type;
@@ -24,8 +23,9 @@ namespace orm
             T& operator*(){return *value_ptr;};
             T* operator->(){return value_ptr;};
 
+            FK<T>& operator=(const FK<T>& other);
+
         protected:
-            int value;
             T* value_ptr;
 
             virtual void print(std::ostream& output) const;

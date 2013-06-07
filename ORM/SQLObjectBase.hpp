@@ -11,6 +11,7 @@ namespace orm
     class Query;
     class VAttr;
     class Bdd;
+    template<typename T> class FK;
 
     class SQLObjectBase
     {
@@ -28,6 +29,7 @@ namespace orm
 
         protected:
             friend class Bdd;
+            template<typename T> friend class FK;
             int pk;
             std::vector<VAttr*> attrs;
 
