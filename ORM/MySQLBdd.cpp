@@ -55,7 +55,7 @@ namespace orm
         statement = dbConn->createStatement();
         statement->execute("USE "+s_bdd_name);
 
-        std::cerr<<"MySQLBdd::Connect to "<<s_serveur<<" using table: "<<s_bdd_name<<std::endl;
+        std::cerr<<"MySQLBdd::Connect to "<<s_serveur<<" using database: "<<s_bdd_name<<std::endl;
 
         return true;
     };

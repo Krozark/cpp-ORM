@@ -7,6 +7,7 @@ orm::MySQLBdd def("root","root","test");
 orm::Bdd& orm::Bdd::Default = def;
 
 #include "ORM/Attr.hpp"
+#include "ORM/FK.hpp"
 #include "ORM/SQLObject.hpp"
 
 class Perso : public orm::SQLObject<Perso>
@@ -14,12 +15,12 @@ class Perso : public orm::SQLObject<Perso>
     public:
         Perso();
         orm::Attr<std::string> name;
-        orm::Attr<int> pv;
         orm::Attr<int> lvl;
+        orm::FK<int> stats;
 
-        MAKE_STATIC_COLUM(name,pv,lvl)
+        MAKE_STATIC_COLUM(name,pv,lvl,stats)
 };
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"nom",pv,"pv",lvl,"lvl")
+REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
 
 
 using namespace orm;
@@ -33,11 +34,11 @@ int main(int argc,char* argv[])
 
     Perso* p1 = Perso::get(1);
     cout<<"Current perso1 "<<*p1<<endl;
-    cout<<" add 14 to pv"<<endl;
-    p1->pv = p1->pv + 14;
+    cout<<" add 1 to lvl"<<endl;
+    p1->lvl = p1->lvl + 1;
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<"save it"<<endl;
-    cout<<p1->pv<<endl;
+    cout<<p1->lvl<<endl;
     p1->save();
 
     cout<<"All persos"<<*p1<<endl;
@@ -50,7 +51,6 @@ int main(int argc,char* argv[])
     cout<<"Create Perso"<<endl;
     Perso p2;
     p2.name = "test insert";
-    p2.pv = 42;
     p2.lvl = 75;
     cout<<p2<<endl;
 
