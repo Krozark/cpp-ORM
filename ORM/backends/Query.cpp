@@ -29,9 +29,6 @@ namespace orm
         if(not prepared)
         {
             query+=";";
-            #if DEBUG & DEBUG_SQL
-            std::cerr<<query<<std::endl;
-            #endif
         }
         return bdd->executeQuery(*this);
     };

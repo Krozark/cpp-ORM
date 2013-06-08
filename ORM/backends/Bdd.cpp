@@ -33,10 +33,10 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "INSERT INTO "+escape_colum(table)+"("+escape_colum(attrs[0]->colum);
+            std::string str_q = "INSERT INTO "+escape_colum(table)+"("+attrs[0]->colum;
 
             for(unsigned int i=1;i<size;++i)
-                str_q+=","+escape_colum(attrs[i]->colum);
+                str_q+=","+attrs[i]->colum;
             str_q+=") ";
 
             str_q+="VALUES ((?)";
@@ -81,12 +81,12 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "UPDATE "+escape_colum(table)+" SET "+escape_colum(attrs[0]->colum)+"=(?)";
+            std::string str_q = "UPDATE "+escape_colum(table)+" SET "+attrs[0]->colum+"=(?)";
 
             for(unsigned int i=1;i<size;++i)
-                str_q+=","+escape_colum(attrs[i]->colum)+"=(?)";
+                str_q+=","+attrs[i]->colum+"=(?)";
 
-            str_q+=" WHERE "+escape_colum("id")+"="+std::to_string(pk)+";"; //TODO colum.id
+            str_q+=" WHERE "+escape_colum(table)+"."+escape_colum("id")+operators.at("exact")+std::to_string(pk)+";"; //TODO colum.id
             
             #if DEBUG & DEBUG_SQL
             std::cout<<"Bdd::save(): "<<str_q<<" VALUES = (";
@@ -115,7 +115,7 @@ namespace orm
 
     bool Bdd::del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+escape_colum(table)+" WHERE ("+escape_colum("id")+"="+std::to_string(pk)+");";
+        std::string str_q = "DELETE FROM "+escape_colum(table)+" WHERE ("+escape_colum(table)+"."+escape_colum("id")+operators.at("exact")+std::to_string(pk)+");";
 
         #if DEBUG & DEBUG_SQL
         std::cout<<"Bdd::del(): "<<str_q<<std::endl;

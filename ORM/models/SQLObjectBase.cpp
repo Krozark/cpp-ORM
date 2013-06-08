@@ -12,13 +12,14 @@ namespace orm
     bool SQLObjectBase::loadFromBdd(const Query& query)
     {
         bool res = true;
-        const std::string prefix = getTable()+".";
         for(VAttr* attr: attrs)
         {
-            res = res && attr->get(prefix,query);
+            res = res && attr->get(query);
         }
         if(res)
-            query.get(pk,prefix+"id");
+        {
+            query.get(pk,getTable()+".id");
+        }
         return res;
     };
 
@@ -35,7 +36,6 @@ namespace orm
     {
         const Bdd* bdd = getBdd();
         const std::string& table = getTable();
-        
 
         q_str+= bdd->escape_colum(table)+"."+bdd->escape_colum("id")+" AS "+bdd->escape_value(table+".id");
         
@@ -44,7 +44,7 @@ namespace orm
             for(int i=0;i<size;++i)
             {
                 const std::string& col = attrs[i]->getColum();
-                q_str+= ","+bdd->escape_colum(table)+"."+bdd->escape_colum(col)+" AS "+bdd->escape_value(table+"."+col);
+                q_str+= ", "+col+" AS "+bdd->escape_value(col);
             }
         }
         {
@@ -80,8 +80,8 @@ namespace orm
         for(int i=0;i<size;++i)
         {
             const SQLObjectBase& object = fks[i]->getObject();
-            q_str+= " AND "+bdd->escape_colum(table)+"."+bdd->escape_colum(fks[i]->getColum())
-                +bdd->operators.at("exact")
+            q_str+= " AND "+fks[i]->getColum()
+                +" "+bdd->operators.at("exact")
                 +bdd->escape_colum(object.getTable())+"."+bdd->escape_colum("id");
             object.nameFks(q_str);
         }

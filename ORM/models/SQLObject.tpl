@@ -60,13 +60,23 @@ namespace orm
     template<typename T>
     std::list<T*> SQLObject<T>::filter(const Filter& filter)
     {
-        Query* q = bdd_used->query("SELECT * \nFROM "
-                                   +table
-                                   +" \nWHERE ( "
-                                   +bdd_used->escape_colum(filter.colum)+" "
-                                   +bdd_used->escape_value(filter.ope,filter.value)
-                                   +" )"
-                                  );
+        T* tmp = new T();
+
+        std::string q_str ="SELECT ";
+        tmp->nameAttrs(q_str);
+
+        q_str+="\nFROM ";
+        tmp->nameTables(q_str);
+
+        q_str+=+" \nWHERE ( "
+            +filter.colum+" "
+            +bdd_used->escape_value(filter.ope,filter.value);
+        tmp->nameFks(q_str);
+        q_str+=") ";
+
+        delete tmp;
+
+        Query* q = bdd_used->query(q_str);
         std::list<T*> res;
         q->getObj(res);
         delete q;
@@ -80,25 +90,34 @@ namespace orm
 
         if(size >0)
         {
-            std::string str_q = "SELECT * \nFROM "
-                +table
-                +" \nWHERE ( ";
+            T* tmp = new T();
+
+            std::string q_str ="SELECT ";
+            tmp->nameAttrs(q_str);
+
+            q_str+="\nFROM ";
+            tmp->nameTables(q_str);
+
+            q_str+=" \nWHERE ( ";
             bool first = true;
 
             for(const Filter& filter:filters)
             {
                 if(not first)
-                    str_q+="\nAND ";
+                    q_str+="\nAND ";
                 
-                str_q+=bdd_used->escape_colum(filter.colum)+" "
+                q_str+=filter.colum+" "
                     +bdd_used->escape_value(filter.ope,filter.value);
 
                 first = false;
             }
-            str_q+=" )";
+            tmp->nameFks(q_str);
+            q_str+=" )";
+
+            delete tmp;
 
             std::list<T*> res;
-            Query* q = bdd_used->query(str_q);
+            Query* q = bdd_used->query(q_str);
             q->getObj(res);
             delete q;
             return res;
@@ -110,7 +129,21 @@ namespace orm
     template<typename T>
     std::list<T*> SQLObject<T>::all()
     {
-        Query* q = bdd_used->query("SELECT * \nFROM "+table);
+        T* tmp = new T();
+
+        std::string q_str ="SELECT ";
+        tmp->nameAttrs(q_str);
+                                    
+        q_str+="\nFROM ";
+        tmp->nameTables(q_str);
+
+        q_str+=" \nWHERE ( 1=1";
+        tmp->nameFks(q_str);
+        q_str+=") ";
+
+        delete tmp;
+
+        Query* q = bdd_used->query(q_str);
         std::list<T*> res;
         q->getObj(res);
         delete q;

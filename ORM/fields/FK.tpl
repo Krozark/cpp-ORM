@@ -20,6 +20,10 @@ namespace orm
     template<typename T>
     FK<T>::~FK()
     {
+       if(value_ptr and fk == -1)
+        {
+            delete value_ptr;
+        }
         //TODO if cache[T::table] ==1
         //delete value_ptr
         //cache.remove(T::table)
@@ -34,9 +38,9 @@ namespace orm
     }
 
     template<typename T>
-    bool FK<T>::get(const std::string& prefix,const Query& query)
+    bool FK<T>::get(const Query& query)
     {
-        bool res = query.get(fk,prefix+colum);
+        bool res = query.get(fk,colum);
         //TODO cheque cache
         res = res and (value_ptr->loadFromBdd(query));
         //TODO add to cache??
@@ -58,6 +62,11 @@ namespace orm
     template<typename T>
     FK<T>& FK<T>::operator=(const FK<T>& other)
     {
+        fk = other.fk;
+        if(value_ptr and fk == -1)
+        {
+            delete value_ptr;
+        }
         //TODO --on cache counter
         value_ptr = other.value_ptr;
         //TODO ++ on cache counter

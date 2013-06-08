@@ -13,9 +13,9 @@ namespace orm
     };
 
     template<typename T>
-    bool Attr<T>::get(const std::string& prefix,const Query& query)
+    bool Attr<T>::get(const Query& query)
     {
-        return query.get(value,prefix+colum);
+        return query.get(value,colum);
     };
 
     template<typename T>

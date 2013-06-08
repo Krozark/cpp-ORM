@@ -31,7 +31,7 @@ namespace orm
 
             virtual void print(std::ostream& output) const;
             virtual bool set(Query& query,const unsigned int& colum) const;
-            virtual bool get(const std::string& prefix,const Query& query);
+            virtual bool get(const Query& query);
 
     };
 }

@@ -59,7 +59,7 @@ int main(int argc,char* argv[])
     cout<<"current lvl: "<<p1->lvl<<endl;
     p1->save();
 
-    /*cout<<"All persos"<<*p1<<endl;
+    cout<<"All persos"<<*p1<<endl;
     std::list<Perso*> lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
@@ -86,18 +86,31 @@ int main(int argc,char* argv[])
         cout<<*u<<endl;
     for(Perso* p:lis)
         delete p;
+
+
+    {
+
+        std::list<Perso*> lis= Perso::filter(Filter(Perso::_lvl,"gt",4));
+        for(auto u : lis)
+            cout<<*u<<endl;
+        for(Perso* p:lis)
+            delete p;
+    }
+    {
+
+        list<Filter> filters = {
+            Filter(Perso::_lvl,"gt",4),
+            Filter(Perso::_name,"startswith","tes"),
+            Filter(Stats::_pv,"gt",4)
+        };
+        std::list<Perso*> lis= Perso::filter(filters);
+        for(auto u : lis)
+            cout<<*u<<endl;
+        for(Perso* p:lis)
+            delete p;
+    }
     
-    list<Filter> filters = {
-        Filter(Perso::_lvl,"gt",4),
-        Filter(Perso::_name,"startswith","tes")
-    };
-
-    lis = Perso::filter(filters);
-    for(auto u : lis)
-        cout<<*u<<endl;
-    for(Perso* p:lis)
-        delete p;
-
+    
     cout<<"delete it"<<endl;
     p2.del();
 
@@ -106,7 +119,7 @@ int main(int argc,char* argv[])
     for(auto u : lis)
         cout<<*u<<endl;
     for(Perso* p:lis)
-        delete p;*/
+        delete p;
     
 
     delete p1;
