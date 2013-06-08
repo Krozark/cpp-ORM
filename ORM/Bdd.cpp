@@ -84,7 +84,7 @@ namespace orm
             for(unsigned int i=1;i<size;++i)
                 str_q+=","+escape_colum(attrs[i]->colum)+"=(?)";
 
-            str_q+=" WHERE "+escape_colum("id")+"="+std::to_string(pk)+";";
+            str_q+=" WHERE "+escape_colum("id")+"="+std::to_string(pk)+";"; //TODO colum.id
             
             #if DEBUG & DEBUG_SQL
             std::cout<<"Bdd::save(): "<<str_q<<" VALUES = (";
@@ -126,25 +126,25 @@ namespace orm
         return true;
     };
 
-    std::string Bdd::escape_colum(const std::string& str)
+    std::string Bdd::escape_colum(const std::string& str) const
     {
         return "'"+str+"'";
     }
 
-    std::string Bdd::escape_value(const std::string& str)
+    std::string Bdd::escape_value(const std::string& str) const
     {
         return "'"+str+"'";
     }
 
-    std::string Bdd::escape_value(const std::string& filter,const std::string& value)
+    std::string Bdd::escape_value(const std::string& filter,const std::string& value) const
     {
         if(filter == "contains")
         {
-            return operators[filter]+escape_value("%"+value+"%");
+            return operators.at(filter)+escape_value("%"+value+"%");
         }
         else if(filter == "icontains")
         {
-            return operators[filter]+escape_value("%"+value+"%");
+            return operators.at(filter)+escape_value("%"+value+"%");
         }
         /*else if(filter == "regex")
         {
@@ -154,23 +154,23 @@ namespace orm
         }*/
         else if(filter == "startswith")
         {
-            return operators[filter]+escape_value(value+"%");
+            return operators.at(filter)+escape_value(value+"%");
         }
         else if(filter == "endswith" )
         {
-            return operators[filter]+escape_value("%"+value);
+            return operators.at(filter)+escape_value("%"+value);
         }
         else if(filter == "istartswith")
         {
-            return operators[filter]+escape_value(value+"%");
+            return operators.at(filter)+escape_value(value+"%");
         }
         else if(filter == "iendswith")
         {
-            return operators[filter]+escape_value("%"+value);
+            return operators.at(filter)+escape_value("%"+value);
         }
         else
         {
-            return operators[filter]+escape_value(value);
+            return operators.at(filter)+escape_value(value);
         }
     }
 

@@ -11,6 +11,8 @@ namespace orm
 {
     class Bdd;
     class MySQLBdd;
+    template<typename T> class FK;
+    template<typename T> class Attr;
 
     class Query
     {
@@ -54,8 +56,8 @@ namespace orm
         protected:
             friend class Bdd;
             friend class MySQLBdd;
-            template<typename T>
-            friend class Attr;
+            template<typename T> friend class Attr;
+            template<typename T> friend class FK;
             /* query as string */
             std::string query;
             /* where to execute the query */

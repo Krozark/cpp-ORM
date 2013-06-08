@@ -31,12 +31,12 @@ namespace orm
             virtual Query* prepareQuery(const std::string&);
             virtual Query* prepareQuery(std::string&&);
 
-            virtual std::string escape_colum(const std::string&);
         
         protected:
             friend class MySQLQuery;
             virtual bool executeQuery(Query& query);
             virtual int getLastInsertPk();
+            virtual std::string escape_colum(const std::string&) const;
             
         private:
             sql::Driver     *driver; // Create a pointer to a MySQL driver object

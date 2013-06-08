@@ -24,13 +24,21 @@ namespace orm
     template<typename T>
     T* SQLObject<T>::get(unsigned int id)
     {
-
-        Query* q = bdd_used->query("SELECT * FROM "
-                                   +table
-                                   +" WHERE (id "
-                                   +bdd_used->escape_value("exact",std::to_string(id))
-                                   +") ");
         T* res = new T();
+
+        std::string q_str ="SELECT ";
+
+        res->nameAttrs(q_str);
+                                    
+        q_str+="FROM "
+        +table
+        +" \nWHERE ("
+        +bdd_used->escape_colum(table)+"."
+        +bdd_used->escape_colum("id")+ " "
+        +bdd_used->escape_value("exact",std::to_string(id))
+        +") ";
+
+        Query* q = bdd_used->query(q_str);
         if(not q->getObj(*res))
         {
             delete res;
@@ -51,9 +59,9 @@ namespace orm
     template<typename T>
     std::list<T*> SQLObject<T>::filter(const Filter& filter)
     {
-        Query* q = bdd_used->query("SELECT * FROM "
+        Query* q = bdd_used->query("SELECT * \nFROM "
                                    +table
-                                   +" WHERE ( "
+                                   +" \nWHERE ( "
                                    +bdd_used->escape_colum(filter.colum)+" "
                                    +bdd_used->escape_value(filter.ope,filter.value)
                                    +" )"
@@ -71,15 +79,15 @@ namespace orm
 
         if(size >0)
         {
-            std::string str_q = "SELECT * FROM "
+            std::string str_q = "SELECT * \nFROM "
                 +table
-                +" WHERE ( ";
+                +" \nWHERE ( ";
             bool first = true;
 
             for(const Filter& filter:filters)
             {
                 if(not first)
-                    str_q+=" AND ";
+                    str_q+="\nAND ";
                 
                 str_q+=bdd_used->escape_colum(filter.colum)+" "
                     +bdd_used->escape_value(filter.ope,filter.value);
@@ -101,7 +109,7 @@ namespace orm
     template<typename T>
     std::list<T*> SQLObject<T>::all()
     {
-        Query* q = bdd_used->query("SELECT * FROM "+table);
+        Query* q = bdd_used->query("SELECT * \nFROM "+table);
         std::list<T*> res;
         q->getObj(res);
         delete q;
