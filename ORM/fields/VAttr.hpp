@@ -8,6 +8,7 @@ namespace orm
 {
     class Query;
     class Bdd;
+    class SQLObjectBase;
 
     class VAttr
     {
@@ -22,8 +23,11 @@ namespace orm
 
             const std::string& getColum() const;
 
+            virtual void registerAttr(SQLObjectBase&);
+
         protected:
             friend class Bdd;
+
 
             bool modify;
             const std::string& colum;

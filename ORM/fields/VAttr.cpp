@@ -1,4 +1,5 @@
 #include <ORM/fields/VAttr.hpp>
+#include <ORM/models/SQLObjectBase.hpp>
 
 namespace orm 
 {
@@ -15,5 +16,9 @@ namespace orm
     {
         return colum;
     }
-
+    
+    void VAttr::registerAttr(SQLObjectBase& object)
+    {
+        object.attrs.emplace_back(this);
+    }
 };

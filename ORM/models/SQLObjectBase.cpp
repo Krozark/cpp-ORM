@@ -21,10 +21,6 @@ namespace orm
         return res;
     };
 
-    void SQLObjectBase::registerAttr(VAttr& attr)
-    {
-        attrs.emplace_back(&attr);
-    };
 
     std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self)
     {

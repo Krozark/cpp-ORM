@@ -12,6 +12,7 @@ namespace orm
     class VAttr;
     class Bdd;
     class VFK;
+
     template<typename T> class FK;
 
 
@@ -32,12 +33,13 @@ namespace orm
         protected:
             friend class Bdd;
             template<typename T> friend class FK;
+            friend class VFK;
+            friend class VAttr;
+
             int pk;
             std::vector<VAttr*> attrs;
-
             std::vector<VFK*> fks;
 
-            void registerAttr(VAttr& attr);
             void nameAttrs(std::string& q_str)const;
 
             virtual const std::string& getTable() const = 0;

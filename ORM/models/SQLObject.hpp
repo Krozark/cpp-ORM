@@ -123,38 +123,38 @@ namespace orm
 
 //regsiter ATTR
 #define _MAKE_REGISTER_ATTR_0() 
-#define _MAKE_REGISTER_ATTR_2(name,value) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_4(name,value,...) _MAKE_REGISTER_ATTR_2(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_6(name,value,...) _MAKE_REGISTER_ATTR_4(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_8(name,value,...) _MAKE_REGISTER_ATTR_6(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_10(name,value,...) _MAKE_REGISTER_ATTR_8(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_12(name,value,...) _MAKE_REGISTER_ATTR_10(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_14(name,value,...) _MAKE_REGISTER_ATTR_12(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_16(name,value,...) _MAKE_REGISTER_ATTR_14(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_18(name,value,...) _MAKE_REGISTER_ATTR_16(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_20(name,value,...) _MAKE_REGISTER_ATTR_18(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_22(name,value,...) _MAKE_REGISTER_ATTR_20(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_24(name,value,...) _MAKE_REGISTER_ATTR_22(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_26(name,value,...) _MAKE_REGISTER_ATTR_24(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_28(name,value,...) _MAKE_REGISTER_ATTR_26(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_30(name,value,...) _MAKE_REGISTER_ATTR_28(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_32(name,value,...) _MAKE_REGISTER_ATTR_30(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_34(name,value,...) _MAKE_REGISTER_ATTR_32(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_36(name,value,...) _MAKE_REGISTER_ATTR_34(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_38(name,value,...) _MAKE_REGISTER_ATTR_36(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_40(name,value,...) _MAKE_REGISTER_ATTR_38(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_42(name,value,...) _MAKE_REGISTER_ATTR_40(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_44(name,value,...) _MAKE_REGISTER_ATTR_42(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_46(name,value,...) _MAKE_REGISTER_ATTR_44(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_48(name,value,...) _MAKE_REGISTER_ATTR_46(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_50(name,value,...) _MAKE_REGISTER_ATTR_48(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_52(name,value,...) _MAKE_REGISTER_ATTR_50(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_54(name,value,...) _MAKE_REGISTER_ATTR_52(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_56(name,value,...) _MAKE_REGISTER_ATTR_54(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_58(name,value,...) _MAKE_REGISTER_ATTR_56(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_60(name,value,...) _MAKE_REGISTER_ATTR_58(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_62(name,value,...) _MAKE_REGISTER_ATTR_60(__VA_ARGS__) this->registerAttr(this->name);
-#define _MAKE_REGISTER_ATTR_64(name,value,...) _MAKE_REGISTER_ATTR_62(__VA_ARGS__) this->registerAttr(this->name);
+#define _MAKE_REGISTER_ATTR_2(name,value) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_4(name,value,...) _MAKE_REGISTER_ATTR_2(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_6(name,value,...) _MAKE_REGISTER_ATTR_4(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_8(name,value,...) _MAKE_REGISTER_ATTR_6(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_10(name,value,...) _MAKE_REGISTER_ATTR_8(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_12(name,value,...) _MAKE_REGISTER_ATTR_10(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_14(name,value,...) _MAKE_REGISTER_ATTR_12(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_16(name,value,...) _MAKE_REGISTER_ATTR_14(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_18(name,value,...) _MAKE_REGISTER_ATTR_16(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_20(name,value,...) _MAKE_REGISTER_ATTR_18(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_22(name,value,...) _MAKE_REGISTER_ATTR_20(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_24(name,value,...) _MAKE_REGISTER_ATTR_22(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_26(name,value,...) _MAKE_REGISTER_ATTR_24(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_28(name,value,...) _MAKE_REGISTER_ATTR_26(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_30(name,value,...) _MAKE_REGISTER_ATTR_28(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_32(name,value,...) _MAKE_REGISTER_ATTR_30(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_34(name,value,...) _MAKE_REGISTER_ATTR_32(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_36(name,value,...) _MAKE_REGISTER_ATTR_34(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_38(name,value,...) _MAKE_REGISTER_ATTR_36(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_40(name,value,...) _MAKE_REGISTER_ATTR_38(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_42(name,value,...) _MAKE_REGISTER_ATTR_40(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_44(name,value,...) _MAKE_REGISTER_ATTR_42(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_46(name,value,...) _MAKE_REGISTER_ATTR_44(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_48(name,value,...) _MAKE_REGISTER_ATTR_46(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_50(name,value,...) _MAKE_REGISTER_ATTR_48(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_52(name,value,...) _MAKE_REGISTER_ATTR_50(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_54(name,value,...) _MAKE_REGISTER_ATTR_52(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_56(name,value,...) _MAKE_REGISTER_ATTR_54(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_58(name,value,...) _MAKE_REGISTER_ATTR_56(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_60(name,value,...) _MAKE_REGISTER_ATTR_58(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_62(name,value,...) _MAKE_REGISTER_ATTR_60(__VA_ARGS__) this->name.registerAttr(*this);
+#define _MAKE_REGISTER_ATTR_64(name,value,...) _MAKE_REGISTER_ATTR_62(__VA_ARGS__) this->name.registerAttr(*this);
 //init call for register attr in constructors
 #define _MAKE_REGISTER_ATTRS_N1(N,...) _MAKE_REGISTER_ATTR_##N(__VA_ARGS__)
 #define _MAKE_REGISTER_ATTRS(N,...) _MAKE_REGISTER_ATTRS_N1(N,__VA_ARGS__)
