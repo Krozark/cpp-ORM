@@ -4,7 +4,7 @@
 #include <cppconn/resultset.h>
 #include <cppconn/prepared_statement.h>
 
-#include "Query.hpp"
+#include <ORM/backends/Query.hpp>
 
 namespace orm
 {

@@ -1,14 +1,13 @@
-#include <ORM/MySQLBdd.hpp>
-#include <ORM/MySQLQuery.hpp>
+#include <ORM/backends/MySql.hpp>
 
 orm::MySQLBdd def("root","root","test");
 //orm::MySQLBdd def("root","toor","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
-#include "ORM/Attr.hpp"
-#include "ORM/FK.hpp"
-#include "ORM/SQLObject.hpp"
+#include <ORM/fields/Attr.hpp>
+#include <ORM/fields/FK.hpp>
+#include <ORM/models/SQLObject.hpp>
 
 class Stats : public orm::SQLObject<Stats>
 {

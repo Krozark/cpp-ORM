@@ -1,7 +1,9 @@
-#include "Bdd.hpp"
-#include "Query.hpp"
-#include "SQLObjectBase.hpp"
-#include "VAttr.hpp"
+#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/Query.hpp>
+
+#include <ORM/models/SQLObjectBase.hpp>
+
+#include <ORM/fields/VAttr.hpp>
 
 namespace orm
 {

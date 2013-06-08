@@ -3,8 +3,7 @@
 
 #include "SQLObjectBase.hpp"
 
-
-#include "VAttr.hpp" 
+#include <ORM/fields/VAttr.hpp>
 
 
 namespace orm
@@ -226,5 +225,5 @@ namespace orm
         REGISTER_TABLE(klass,colum)\
         MAKE_CONSTRUCTOR(klass,__VA_ARGS__)
 
-#include "SQLObject.tpl"
+#include <ORM/models/SQLObject.tpl>
 #endif

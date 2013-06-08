@@ -1,7 +1,7 @@
 SRC = $(wildcard *.c*)
 OBJ = $(SRC:.cpp=.o) $(SRC:*.cpp=.o)
 
-SUBDIRS = backends fields models
+SUBDIRS = MySql 
 
 CLEANDIRS = $(SUBDIRS:%=clean-%)
 
@@ -14,6 +14,7 @@ subdirs: $(SUBDIRS)
      
 $(SUBDIRS):
 	$(MAKE) -C $@
+
 
 .cpp.o:
 	$(CC) $(FLAGS) -o $@ -c $^;

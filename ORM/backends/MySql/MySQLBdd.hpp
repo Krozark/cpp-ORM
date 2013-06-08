@@ -1,7 +1,7 @@
 #ifndef ORM_MYSQLBDD_HPP
 #define ORM_MYSQLBDD_HPP
 
-#include "Bdd.hpp"
+#include <ORM/backends/Bdd.hpp>
 
 #include <cppconn/driver.h>
 #include <cppconn/statement.h>

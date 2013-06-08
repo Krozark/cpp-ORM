@@ -1,5 +1,6 @@
-#include "Query.hpp"
-#include "SQLObjectBase.hpp"
+#include <ORM/backends/Query.hpp>
+
+#include <ORM/models/SQLObjectBase.hpp>
 
 namespace orm
 {

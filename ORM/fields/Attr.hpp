@@ -4,7 +4,7 @@
 #include <ostream>
 #include <utility>
 
-#include "VAttr.hpp"
+#include <ORM/fields/VAttr.hpp>
 
 namespace orm
 {
@@ -78,5 +78,6 @@ namespace orm
             virtual bool set(Query& query,const unsigned int& colum) const;
     };
 };
-#include "Attr.tpl"
+#include <ORM/fields/Attr.tpl>
+
 #endif

@@ -1,7 +1,7 @@
 #ifndef ORM_QUERY_HPP
 #define ORM_QUERY_HPP
 
-#include "Bdd.hpp"
+#include <ORM/backends/Bdd.hpp>
 
 #include <string>
 #include <list>
@@ -83,6 +83,6 @@ namespace orm
             bool executed;
     };
 };
-#include "Query.tpl"
+#include <ORM/backends/Query.tpl>
 
 #endif

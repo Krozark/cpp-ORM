@@ -1,7 +1,7 @@
 #ifndef ORM_VFK_HPP
 #define ORM_VFK_HPP
 
-#include "VAttr.hpp"
+#include <ORM/fields/VAttr.hpp>
 
 namespace orm
 {

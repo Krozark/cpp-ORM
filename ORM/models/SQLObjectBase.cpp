@@ -1,7 +1,7 @@
-#include "SQLObjectBase.hpp"
-#include "VAttr.hpp" 
-#include "Query.hpp"
-#include "VFK.hpp"
+#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/fields/VAttr.hpp>
+#include <ORM/fields/VFK.hpp>
+#include <ORM/backends/Query.hpp>
 
 namespace orm
 {

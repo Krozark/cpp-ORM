@@ -1,7 +1,7 @@
 #ifndef ORM_BDD_HPP
 #define ORM_BDD_HPP
 
-#include "debug.hpp"
+#include <ORM/debug.hpp>
 
 #include <string>
 #include <unordered_map>

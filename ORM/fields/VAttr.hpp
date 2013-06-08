@@ -2,7 +2,7 @@
 #define ORM_VATTR_HPP
 
 #include <string>
-#include "debug.hpp"
+#include <ORM/debug.hpp>
 
 namespace orm
 {

@@ -4,7 +4,7 @@
 #include <vector>
 #include <ostream>
 
-#include "debug.hpp"
+#include <ORM/debug.hpp>
 
 namespace orm
 {

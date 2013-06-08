@@ -1,7 +1,7 @@
 #ifndef ORM_FK_HPP
 #define ORM_FK_HPP
 
-#include "VFK.hpp"
+#include <ORM/fields/VFK.hpp>
 
 namespace orm
 {
@@ -36,6 +36,6 @@ namespace orm
     };
 }
 
-#include "FK.tpl"
+#include <ORM/fields/FK.tpl>
 
 #endif

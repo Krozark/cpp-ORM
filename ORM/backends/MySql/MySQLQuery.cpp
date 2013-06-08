@@ -1,4 +1,4 @@
-#include "MySQLQuery.hpp"
+#include <ORM/backends/MySql/MySQLQuery.hpp>
 
 #include <cppconn/exception.h>
 

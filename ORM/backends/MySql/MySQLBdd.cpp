@@ -1,5 +1,5 @@
-#include "MySQLBdd.hpp"
-#include "MySQLQuery.hpp"
+#include  <ORM/backends/MySql/MySQLBdd.hpp>
+#include  <ORM/backends/MySql/MySQLQuery.hpp>
 
 #include <cppconn/exception.h>
 
