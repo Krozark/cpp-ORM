@@ -11,15 +11,14 @@ namespace orm
     class FK : public VFK
     {
         public:
-            FK(const int& id,const std::string& colum);//TODO ++on cash counter
+            FK(const int& id,const std::string& colum);//TODO ++on cache counter
             FK(const std::string& colum);//TODO idem
             FK(const FK&) = delete;
 
-            ~FK(); //TODO --on cash counter
+            ~FK(); //TODO --on cache counter
 
             virtual const SQLObjectBase& getObject()const;
 
-            virtual bool get(const Query& query);
             typedef T type;
 
             T& operator*(){return *value_ptr;};
@@ -32,6 +31,7 @@ namespace orm
 
             virtual void print(std::ostream& output) const;
             virtual bool set(Query& query,const unsigned int& colum) const;
+            virtual bool get(const std::string& prefix,const Query& query);
 
     };
 }

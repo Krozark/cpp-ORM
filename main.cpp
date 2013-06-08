@@ -1,6 +1,6 @@
 #include <ORM/backends/MySql.hpp>
 
-orm::MySQLBdd def("root","root","test");
+orm::MySQLBdd def("root","toor","test");
 //orm::MySQLBdd def("root","toor","test");
 
 orm::Bdd& orm::Bdd::Default = def;
@@ -56,10 +56,10 @@ int main(int argc,char* argv[])
     p1->lvl = p1->lvl + 1;
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<"save it"<<endl;
-    cout<<p1->lvl<<endl;
+    cout<<"current lvl: "<<p1->lvl<<endl;
     p1->save();
 
-    cout<<"All persos"<<*p1<<endl;
+    /*cout<<"All persos"<<*p1<<endl;
     std::list<Perso*> lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
@@ -106,9 +106,10 @@ int main(int argc,char* argv[])
     for(auto u : lis)
         cout<<*u<<endl;
     for(Perso* p:lis)
-        delete p;
+        delete p;*/
     
 
+    delete p1;
 
     return 0;
 };

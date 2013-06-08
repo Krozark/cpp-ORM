@@ -27,16 +27,17 @@ namespace orm
         T* res = new T();
 
         std::string q_str ="SELECT ";
-
         res->nameAttrs(q_str);
                                     
-        q_str+="FROM "
-        +table
-        +" \nWHERE ("
+        q_str+="\nFROM ";
+        res->nameTables(q_str);
+
+        q_str+=" \nWHERE ("
         +bdd_used->escape_colum(table)+"."
         +bdd_used->escape_colum("id")+ " "
-        +bdd_used->escape_value("exact",std::to_string(id))
-        +") ";
+        +bdd_used->escape_value("exact",std::to_string(id));
+        res->nameFks(q_str);
+        q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
         if(not q->getObj(*res))

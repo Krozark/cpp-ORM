@@ -41,6 +41,8 @@ namespace orm
             std::vector<VFK*> fks;
 
             void nameAttrs(std::string& q_str)const;
+            void nameTables(std::string& q_str)const;
+            void nameFks(std::string& q_str)const;
 
             virtual const std::string& getTable() const = 0;
             virtual const Bdd* getBdd() const = 0;

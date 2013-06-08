@@ -5,21 +5,24 @@
 namespace orm
 {
     template<typename T>
-    FK<T>::FK(const int& id,const std::string& colum) : VFK(colum), value_ptr(0)
+    FK<T>::FK(const int& id,const std::string& colum) : VFK(colum)
     {
+        fk = id;
+        value_ptr = T::get(fk);
     }
 
     template<typename T>
     FK<T>::FK(const std::string& colum) : VFK(colum), value_ptr(0)
     {
+        value_ptr = new T();
     }
 
     template<typename T>
     FK<T>::~FK()
     {
-        //TODO if cash[T::table] ==1
+        //TODO if cache[T::table] ==1
         //delete value_ptr
-        //cash.remove(T::table)
+        //cache.remove(T::table)
         value_ptr = 0;
     }
 
@@ -31,11 +34,13 @@ namespace orm
     }
 
     template<typename T>
-    bool FK<T>::get(const Query& query)
+    bool FK<T>::get(const std::string& prefix,const Query& query)
     {
-        int id;
-        bool res = query.get(id,colum);
-        return res and (value_ptr = T::get(id));
+        bool res = query.get(fk,prefix+colum);
+        //TODO cheque cache
+        res = res and (value_ptr->loadFromBdd(query));
+        //TODO add to cache??
+        return res;
     }
     
     template<typename T>
@@ -47,15 +52,15 @@ namespace orm
     template<typename T>
     bool FK<T>::set(Query& query,const unsigned int& colum)const
     {
-        return query.set(value_ptr->pk,colum);
+        return query.set(fk,colum);
     };
 
     template<typename T>
     FK<T>& FK<T>::operator=(const FK<T>& other)
     {
-        //TODO --on cash counter
+        //TODO --on cache counter
         value_ptr = other.value_ptr;
-        //TODO ++ on cash counter
+        //TODO ++ on cache counter
     }
 
 }

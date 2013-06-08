@@ -12,12 +12,13 @@ namespace orm
     bool SQLObjectBase::loadFromBdd(const Query& query)
     {
         bool res = true;
+        const std::string prefix = getTable()+".";
         for(VAttr* attr: attrs)
         {
-            res = res && attr->get(query);
+            res = res && attr->get(prefix,query);
         }
         if(res)
-            query.get(pk,"id");
+            query.get(pk,prefix+"id");
         return res;
     };
 
@@ -34,26 +35,56 @@ namespace orm
     {
         const Bdd* bdd = getBdd();
         const std::string& table = getTable();
+        
 
-        q_str+= bdd->escape_colum(table)+"."+("id");
+        q_str+= bdd->escape_colum(table)+"."+bdd->escape_colum("id")+" AS "+bdd->escape_value(table+".id");
         
         {
             const int size = attrs.size();
             for(int i=0;i<size;++i)
             {
-                q_str+= ","+bdd->escape_colum(table)+"."+bdd->escape_colum(attrs[i]->getColum());
+                const std::string& col = attrs[i]->getColum();
+                q_str+= ","+bdd->escape_colum(table)+"."+bdd->escape_colum(col)+" AS "+bdd->escape_value(table+"."+col);
             }
         }
         {
             const int size = fks.size();
             for(int i=0;i<size;++i)
             {
+                q_str+="\n";
                 const SQLObjectBase& object = fks[i]->getObject();
                 q_str+=",";
-                object. nameAttrs(q_str);
+                object.nameAttrs(q_str);
             }
         }
-        q_str+="\n";
+    }
+
+    void SQLObjectBase::nameTables(std::string& q_str)const
+    {
+        q_str+= getTable();
+
+        const int size = fks.size();
+        for(int i=0;i<size;++i)
+        {
+            q_str+=",";
+            fks[i]->getObject().nameTables(q_str);
+        }
+    }
+
+    void SQLObjectBase::nameFks(std::string& q_str)const
+    {
+        const int size = fks.size();
+        const Bdd* bdd = getBdd();
+        const std::string& table = getTable();
+
+        for(int i=0;i<size;++i)
+        {
+            const SQLObjectBase& object = fks[i]->getObject();
+            q_str+= " AND "+bdd->escape_colum(table)+"."+bdd->escape_colum(fks[i]->getColum())
+                +bdd->operators.at("exact")
+                +bdd->escape_colum(object.getTable())+"."+bdd->escape_colum("id");
+            object.nameFks(q_str);
+        }
     }
 
 };
