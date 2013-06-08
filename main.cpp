@@ -71,15 +71,14 @@ int main(int argc,char* argv[])
     Perso p2;
     p2.name = "test insert";
     p2.lvl = 75;
-    p2.stats = p1->stats;
+    p2.save(true);
 
     cout<<"Change PV to +=20"<<endl;
     p2.stats->pv+= 20;
     cout<<p2<<endl;
 
     cout<<"save it"<<endl;
-    p2.stats->save();
-    p2.save();
+    p2.save(true);
 
     cout<<"All persos current="<<p2<<endl;
     lis= Perso::all();
@@ -121,7 +120,6 @@ int main(int argc,char* argv[])
         cout<<*u<<endl;
     for(Perso* p:lis)
         delete p;
-    
 
     delete p1;
 

@@ -62,6 +62,7 @@ namespace orm
     template<typename T>
     FK<T>& FK<T>::operator=(const FK<T>& other)
     {
+        modify = true;
         fk = other.fk;
         if(value_ptr and fk == -1)
         {
@@ -70,6 +71,14 @@ namespace orm
         //TODO --on cache counter
         value_ptr = other.value_ptr;
         //TODO ++ on cache counter
+    }
+
+    template<typename T>
+    bool FK<T>::save(bool recursive,bool force)
+    {
+        bool res = value_ptr->save(recursive,force);
+        fk = value_ptr->pk;
+        return res;
     }
 
 }

@@ -26,7 +26,7 @@ namespace orm
             SQLObjectBase& operator=(const SQLObjectBase&)=delete;
 
             bool loadFromBdd(const Query& query);
-            virtual bool save(bool force=false) = 0;
+            virtual bool save(bool recursive=false,bool force=false) = 0;
             virtual bool del() = 0;
 
             friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
@@ -41,6 +41,7 @@ namespace orm
 
             int pk;
             std::vector<VAttr*> attrs;
+            std::vector<VFK*> fks;
 
             virtual void _nameAttrs(std::string& q_str)const =0;
             virtual void _nameTables(std::string& q_str)const =0;

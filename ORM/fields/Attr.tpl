@@ -8,7 +8,7 @@ namespace orm
     };
 
     template<typename T>
-    Attr<T>::Attr(const std::string& col) : VAttr(col)
+    Attr<T>::Attr(const std::string& col) : VAttr(col) , value()
     {
     };
 

@@ -142,10 +142,16 @@ namespace orm
     };
 
     template<typename T>
-    bool SQLObject<T>::save(bool force)
+    bool SQLObject<T>::save(bool recursive,bool force)
     {
         if (not force)
             force = (pk == -1);
+
+        if(recursive)
+        {
+            for(VFK* fk : fks)
+                fk->save(recursive,force);
+        }
 
         if(force)
             return bdd_used->save(table,pk,attrs);

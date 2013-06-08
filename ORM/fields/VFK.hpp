@@ -6,15 +6,18 @@
 namespace orm
 {
     class SQLObjectBase;
+    template<typename T> class SQLObject;
 
     class VFK : public VAttr
     {
         public:
             VFK(const std::string& colum);
             virtual const SQLObjectBase& getObject()const = 0;
-            //virtual void registerAttr(SQLObjectBase&);
+            virtual void registerAttr(SQLObjectBase&);
+            virtual bool save(bool recursive=false,bool force=false) = 0;            
 
         protected:
+            template<typename T> friend class SQLObject;
             int fk;
     };
 }
