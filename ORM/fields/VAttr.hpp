@@ -9,6 +9,7 @@ namespace orm
     class Query;
     class Bdd;
     class SQLObjectBase;
+    template<typename T> class Register;
 
     class VAttr
     {
@@ -27,6 +28,7 @@ namespace orm
         protected:
             friend class Bdd;
             friend class SQLObjectBase;
+            template<typename T> friend class Register;
 
             bool modify;
             const std::string& colum;

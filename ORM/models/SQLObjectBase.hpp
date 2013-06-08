@@ -12,7 +12,7 @@ namespace orm
     class VAttr;
     class Bdd;
     class VFK;
-
+    template<typename T> class Register;
     template<typename T> class FK;
 
 
@@ -35,6 +35,7 @@ namespace orm
             template<typename T> friend class FK;
             friend class VFK;
             friend class VAttr;
+            template<typename T> friend class Register;
 
             int pk;
             std::vector<VAttr*> attrs;

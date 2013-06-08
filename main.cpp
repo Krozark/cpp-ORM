@@ -28,6 +28,7 @@ class Stats : public orm::SQLObject<Stats>
 };
 REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intel,"int",force,"force",def,"def",vatq,"vatq",esq,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
 
+
 class Perso : public orm::SQLObject<Perso>
 {
     public:
@@ -47,7 +48,7 @@ using namespace std;
 int main(int argc,char* argv[])
 { 
     orm::Bdd::Default.connect();
-
+    
     //REGISTER_BDD(Perso,orm::Bdd::Default)
     
     Perso* p1 = Perso::get(1);

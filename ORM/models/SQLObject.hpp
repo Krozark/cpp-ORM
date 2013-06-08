@@ -1,9 +1,10 @@
 #ifndef ORM_SQLOBJECT_HPP
 #define ORM_SQLOBJECT_HPP
 
-#include "SQLObjectBase.hpp"
+#include <ORM/models/SQLObjectBase.hpp>
 
 #include <ORM/fields/VAttr.hpp>
+//#include <type_traits>
 
 
 namespace orm
@@ -11,6 +12,26 @@ namespace orm
     class Bdd;
     class Query;
     class Filter;
+    class VAttr;
+    class VFK;
+    template<typename T> class SQLObject;
+    
+    /* class to register colum name as static (Hack) */
+    template<typename T>
+    class Register
+    {
+        public:
+            Register()
+            {
+                T tmp;
+                for(VAttr* attr: tmp.attrs)
+                {
+                    SQLObject<T>::colum_attrs.emplace_back(&attr->colum);
+                    if(dynamic_cast<VFK*>(attr))
+                        SQLObject<T>::colum_fks.emplace_back(&attr->colum);
+                }
+            }
+    };
 
     template<typename T>
     class SQLObject : public SQLObjectBase
@@ -34,10 +55,17 @@ namespace orm
             virtual bool del();
 
             static  Bdd* bdd_used;
+
         protected:
             const static std::string table;
             virtual const std::string& getTable()const {return table;};
             virtual const Bdd* getBdd()const{return bdd_used;};
+
+        //private:
+            //template<typename U> friend class Register;
+            //static Register<T> _register;
+            //static std::vector<const std::string*> colum_attrs;
+            //static std::vector<const std::string*> colum_fks;
     };
 };
 
@@ -205,17 +233,17 @@ namespace orm
 #define MAKE_STATIC_COLUM(...) _MAKE_STATIC_COLUM(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
 
 #define REGISTER_TABLE(klass,colum) \
-    template<>\
-    const std::string orm::SQLObject<klass>::table =colum;\
-    template<>\
-    orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;
+    template<> const std::string orm::SQLObject<klass>::table = colum;\
+    template<> orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;\
+    //template<> std::vector<const std::string*> orm::SQLObject<klass>::colum_attrs = std::vector<const std::string*>();\
+    template<> std::vector<const std::string*> orm::SQLObject<klass>::colum_fks = std::vector<const std::string*>();\
+    template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>(); 
 
 #define REGISTER_BDD(klass,bdd) \
     orm::SQLObject<klass>::bdd_used = bdd;
 
 
 #define MAKE_CONSTRUCTOR(klass,...) \
-        _MAKE_STRING_N(klass,NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         klass::klass(): _MAKE_ATTRS_N(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         {\
          _MAKE_REGISTER_ATTRS(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
@@ -223,6 +251,7 @@ namespace orm
 
 #define REGISTER_AND_CONSTRUCT(klass,colum,...) \
         REGISTER_TABLE(klass,colum)\
+        _MAKE_STRING_N(klass,NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         MAKE_CONSTRUCTOR(klass,__VA_ARGS__)
 
 #include <ORM/models/SQLObject.tpl>
