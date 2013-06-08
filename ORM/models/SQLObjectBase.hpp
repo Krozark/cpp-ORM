@@ -14,6 +14,7 @@ namespace orm
     class VFK;
     template<typename T> class Register;
     template<typename T> class FK;
+    template<typename T> class SQLObject;
 
 
     class SQLObjectBase
@@ -36,14 +37,14 @@ namespace orm
             friend class VFK;
             friend class VAttr;
             template<typename T> friend class Register;
+            template<typename T> friend class SQLObject;
 
             int pk;
             std::vector<VAttr*> attrs;
-            std::vector<VFK*> fks;
 
-            void nameAttrs(std::string& q_str)const;
-            void nameTables(std::string& q_str)const;
-            void nameFks(std::string& q_str)const;
+            virtual void _nameAttrs(std::string& q_str)const =0;
+            virtual void _nameTables(std::string& q_str)const =0;
+            virtual void _nameFks(std::string& q_str)const =0;
 
             virtual const std::string& getTable() const = 0;
             virtual const Bdd* getBdd() const = 0;

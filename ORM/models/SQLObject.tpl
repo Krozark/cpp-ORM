@@ -24,22 +24,24 @@ namespace orm
     template<typename T>
     T* SQLObject<T>::get(unsigned int id)
     {
-        T* res = new T();
 
         std::string q_str ="SELECT ";
-        res->nameAttrs(q_str);
+        nameAttrs(q_str);
                                     
         q_str+="\nFROM ";
-        res->nameTables(q_str);
+        nameTables(q_str);
 
         q_str+=" \nWHERE ("
         +bdd_used->escape_colum(table)+"."
         +bdd_used->escape_colum("id")+ " "
         +bdd_used->escape_value("exact",std::to_string(id));
-        res->nameFks(q_str);
+
+        nameFks(q_str);
         q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
+
+        T* res = new T();
         if(not q->getObj(*res))
         {
             delete res;
@@ -60,21 +62,18 @@ namespace orm
     template<typename T>
     std::list<T*> SQLObject<T>::filter(const Filter& filter)
     {
-        T* tmp = new T();
-
         std::string q_str ="SELECT ";
-        tmp->nameAttrs(q_str);
+        nameAttrs(q_str);
 
         q_str+="\nFROM ";
-        tmp->nameTables(q_str);
+        nameTables(q_str);
 
         q_str+=+" \nWHERE ( "
             +filter.colum+" "
             +bdd_used->escape_value(filter.ope,filter.value);
-        tmp->nameFks(q_str);
-        q_str+=") ";
 
-        delete tmp;
+        nameFks(q_str);
+        q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
         std::list<T*> res;
@@ -90,13 +89,11 @@ namespace orm
 
         if(size >0)
         {
-            T* tmp = new T();
-
             std::string q_str ="SELECT ";
-            tmp->nameAttrs(q_str);
+            nameAttrs(q_str);
 
             q_str+="\nFROM ";
-            tmp->nameTables(q_str);
+            nameTables(q_str);
 
             q_str+=" \nWHERE ( ";
             bool first = true;
@@ -111,10 +108,8 @@ namespace orm
 
                 first = false;
             }
-            tmp->nameFks(q_str);
+            nameFks(q_str);
             q_str+=" )";
-
-            delete tmp;
 
             std::list<T*> res;
             Query* q = bdd_used->query(q_str);
@@ -129,19 +124,15 @@ namespace orm
     template<typename T>
     std::list<T*> SQLObject<T>::all()
     {
-        T* tmp = new T();
-
         std::string q_str ="SELECT ";
-        tmp->nameAttrs(q_str);
+        nameAttrs(q_str);
                                     
         q_str+="\nFROM ";
-        tmp->nameTables(q_str);
+        nameTables(q_str);
 
         q_str+=" \nWHERE ( 1=1";
-        tmp->nameFks(q_str);
+        nameFks(q_str);
         q_str+=") ";
-
-        delete tmp;
 
         Query* q = bdd_used->query(q_str);
         std::list<T*> res;
@@ -173,4 +164,74 @@ namespace orm
         return false;
     };
 
+    template<typename T>
+    void SQLObject<T>::nameAttrs(std::string& q_str)
+    {
+        q_str+= bdd_used->escape_colum(table)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(table+".id");
+        
+        {
+            const int size = colum_attrs.size();
+            for(int i=0;i<size;++i)
+            {
+                const std::string& col = colum_attrs[i]->getColum();
+                q_str+= ", "+col+" AS "+bdd_used->escape_value(col);
+            }
+        }
+        {
+            const int size = colum_fks.size();
+            for(int i=0;i<size;++i)
+            {
+                q_str+="\n";
+                const SQLObjectBase& object = colum_fks[i]->getObject();
+                q_str+=",";
+                object._nameAttrs(q_str);
+            }
+        }
+    }
+
+    template<typename T>
+    void SQLObject<T>::nameTables(std::string& q_str)
+    {
+        q_str+=table;
+
+        const int size = colum_fks.size();
+        for(int i=0;i<size;++i)
+        {
+            q_str+=",";
+            colum_fks[i]->getObject()._nameTables(q_str);
+        }
+    }
+
+    template<typename T>
+    void SQLObject<T>::nameFks(std::string& q_str)
+    {
+        const int size = colum_fks.size();
+
+        for(int i=0;i<size;++i)
+        {
+            const SQLObjectBase& object = colum_fks[i]->getObject();
+            q_str+= " AND "+colum_fks[i]->getColum()
+                +" "+bdd_used->operators.at("exact")
+                +bdd_used->escape_colum(object.getTable())+"."+bdd_used->escape_colum("id");
+            object._nameFks(q_str);
+        }
+    }
+
+    template<typename T>
+    void SQLObject<T>::_nameAttrs(std::string& q_str)const
+    {
+        SQLObject<T>::nameAttrs(q_str);
+    }
+
+    template<typename T>
+    void SQLObject<T>::_nameTables(std::string& q_str)const
+    {
+        SQLObject<T>::nameTables(q_str);
+    }
+
+    template<typename T>
+    void SQLObject<T>::_nameFks(std::string& q_str)const
+    {
+        SQLObject<T>::nameFks(q_str);
+    }
 };

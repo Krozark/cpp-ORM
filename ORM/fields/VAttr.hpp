@@ -23,7 +23,7 @@ namespace orm
 
             const std::string& getColum() const;
 
-            virtual void registerAttr(SQLObjectBase&);
+            void registerAttr(SQLObjectBase&);
 
         protected:
             friend class Bdd;

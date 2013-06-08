@@ -12,7 +12,7 @@ namespace orm
         public:
             VFK(const std::string& colum);
             virtual const SQLObjectBase& getObject()const = 0;
-            virtual void registerAttr(SQLObjectBase&);
+            //virtual void registerAttr(SQLObjectBase&);
 
         protected:
             int fk;

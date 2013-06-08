@@ -23,12 +23,13 @@ namespace orm
         public:
             Register()
             {
-                T tmp;
+                static T tmp;
                 for(VAttr* attr: tmp.attrs)
                 {
-                    SQLObject<T>::colum_attrs.emplace_back(&attr->colum);
-                    if(dynamic_cast<VFK*>(attr))
-                        SQLObject<T>::colum_fks.emplace_back(&attr->colum);
+                    SQLObject<T>::colum_attrs.emplace_back(attr);
+                    VFK* t = dynamic_cast<VFK*>(attr);
+                    if(t !=0)
+                        SQLObject<T>::colum_fks.emplace_back(t);
                 }
             }
     };
@@ -61,11 +62,19 @@ namespace orm
             virtual const std::string& getTable()const {return table;};
             virtual const Bdd* getBdd()const{return bdd_used;};
 
-        //private:
-            //template<typename U> friend class Register;
-            //static Register<T> _register;
-            //static std::vector<const std::string*> colum_attrs;
-            //static std::vector<const std::string*> colum_fks;
+            virtual void _nameAttrs(std::string& q_str)const;
+            virtual void _nameTables(std::string& q_str)const;
+            virtual void _nameFks(std::string& q_str)const;
+
+        private:
+            template<typename U> friend class Register;
+            static Register<T> _register;
+            static std::vector<const VAttr*> colum_attrs;
+            static std::vector<const VFK*> colum_fks;
+
+            static void nameAttrs(std::string& q_str);
+            static void nameTables(std::string& q_str);
+            static void nameFks(std::string& q_str);
     };
 };
 
@@ -235,8 +244,8 @@ namespace orm
 #define REGISTER_TABLE(klass,colum) \
     template<> const std::string orm::SQLObject<klass>::table = colum;\
     template<> orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;\
-    //template<> std::vector<const std::string*> orm::SQLObject<klass>::colum_attrs = std::vector<const std::string*>();\
-    template<> std::vector<const std::string*> orm::SQLObject<klass>::colum_fks = std::vector<const std::string*>();\
+    template<> std::vector<const orm::VAttr*> orm::SQLObject<klass>::colum_attrs = std::vector<const orm::VAttr*>();\
+    template<> std::vector<const orm::VFK*> orm::SQLObject<klass>::colum_fks = std::vector<const orm::VFK*>();\
     template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>(); 
 
 #define REGISTER_BDD(klass,bdd) \

@@ -7,9 +7,9 @@ namespace orm
     {
     }
 
-    void VFK::registerAttr(SQLObjectBase& object)
+    /*void VFK::registerAttr(SQLObjectBase& object)
     {
         object.attrs.emplace_back(this);
         object.fks.emplace_back(this);
-    }
+    }*/
 };
