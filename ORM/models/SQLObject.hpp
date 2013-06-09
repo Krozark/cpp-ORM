@@ -25,12 +25,10 @@ namespace orm
             {
                 static T tmp;
                 for(VAttr* attr: tmp.attrs)
-                {
                     SQLObject<T>::colum_attrs.emplace_back(attr);
-                    VFK* t = dynamic_cast<VFK*>(attr);
-                    if(t !=0)
-                        SQLObject<T>::colum_fks.emplace_back(t);
-                }
+                for(VFK* fk: tmp.fks)
+                    SQLObject<T>::colum_fks.emplace_back(fk);
+
             }
     };
 
