@@ -43,7 +43,8 @@ namespace orm
             SQLObject& operator=(const SQLObject&) = delete;
             
             static T* createFromBdd(const Query& query);
-            static T* get(unsigned int id,bool cached=true);
+            static std::shared_ptr<T>& get(const unsigned int& id);
+            static T* _get_ptr(const unsigned int id);
             static std::list<T*> all();
             
             template<typename U>

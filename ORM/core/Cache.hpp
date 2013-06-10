@@ -11,11 +11,11 @@ namespace orm
     class Cache
     {
         public:
-            std::shared_ptr<T>& getOrCreate(const int& pk);
+            std::shared_ptr<T>& getOrCreate(const unsigned int& pk);
 
         private:
-            std::unordored_map<int,std::shared_ptr<T> > map;
-    }
+            std::unordered_map<int,std::shared_ptr<T> > map;
+    };
 }
 #include <ORM/core/Cache.tpl>
 #endif

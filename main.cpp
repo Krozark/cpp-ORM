@@ -51,7 +51,7 @@ int main(int argc,char* argv[])
     
     //REGISTER_BDD(Perso,orm::Bdd::Default)
     
-    Perso* p1 = Perso::get(1);
+    auto& p1 = Perso::get(1);
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<" add 1 to lvl"<<endl;
     p1->lvl = p1->lvl + 1;
@@ -120,8 +120,6 @@ int main(int argc,char* argv[])
         cout<<*u<<endl;
     for(Perso* p:lis)
         delete p;
-
-    delete p1;
 
     return 0;
 };

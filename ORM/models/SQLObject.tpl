@@ -20,13 +20,16 @@ namespace orm
         }
         return res;
     };
+
+    template<typename T>
+    std::shared_ptr<T>& SQLObject<T>::get(const unsigned int& id)
+    {
+        return cache.getOrCreate(id);
+    }
     
     template<typename T>
-    T* SQLObject<T>::get(unsigned int id,bool cached)
+    T* SQLObject<T>::_get_ptr(const unsigned int id)
     {
-        if(cached)
-            return cache.getOrCreate(id);
-        //else
         std::string q_str ="SELECT ";
         nameAttrs(q_str);
                                     

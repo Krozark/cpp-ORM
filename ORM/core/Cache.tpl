@@ -1,11 +1,12 @@
 namespace orm
 {
     template<typename T>
-    std::shared_ptr<T>& Cache::getOrCreate(const int& pk)
+    std::shared_ptr<T>& Cache<T>::getOrCreate(const unsigned int& pk)
     {
-        auto res&= map.at(pk);
+        auto res= map.find(pk);
         if(res != map.end())
-            return res->get();
-        return (map[pk] = T::get(pk,false)).get();
+            return res->second;
+        map[pk].reset(T::_get_ptr(pk));
+        return map[pk];
     }
 }
