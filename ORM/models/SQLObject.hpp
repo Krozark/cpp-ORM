@@ -4,6 +4,7 @@
 #include <ORM/models/SQLObjectBase.hpp>
 
 #include <ORM/fields/VAttr.hpp>
+#include <ORM/core/Cache.hpp>
 //#include <type_traits>
 
 
@@ -73,6 +74,8 @@ namespace orm
             static void nameAttrs(std::string& q_str);
             static void nameTables(std::string& q_str);
             static void nameFks(std::string& q_str);
+
+            static Cache<T> cache;
     };
 };
 
@@ -244,7 +247,8 @@ namespace orm
     template<> orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;\
     template<> std::vector<const orm::VAttr*> orm::SQLObject<klass>::colum_attrs = std::vector<const orm::VAttr*>();\
     template<> std::vector<const orm::VFK*> orm::SQLObject<klass>::colum_fks = std::vector<const orm::VFK*>();\
-    template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>(); 
+    template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>();\
+    template<> orm::Cache<klass> orm::SQLObject<klass>::cache = orm::Cache<klass>();
 
 #define REGISTER_BDD(klass,bdd) \
     orm::SQLObject<klass>::bdd_used = bdd;
