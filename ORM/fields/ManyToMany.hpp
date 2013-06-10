@@ -16,16 +16,15 @@ namespace orm
 
             MAKE_STATIC_COLUM(linked);
 
-
+            std::list<U*>& all();
 
         protected:
             const static std::string table;
             T& owner;
-            std::list<U> linked;
+            std::list<U*> linked;
 
             MAKE_STATIC_COLUM(owner);
             //FK<U> linked;
-
     }
 }
 #endif
