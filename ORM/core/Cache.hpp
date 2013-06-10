@@ -9,14 +9,14 @@
 
 namespace orm
 {
+    template<typename T>
     class Cache
     {
         public:
-            template<typename T>
-            std::shared_ptr<SQLObjectBase>& getOrCreate(const int& pk);
+            std::shared_ptr<T>& getOrCreate(const int& pk);
 
         private:
-            std::unordored_map<std::string,std::shared_ptr<SQLObjectBase> > map;
+            std::unordored_map<int,std::shared_ptr<SQLObjectBase> > map;
     }
 }
 #include <ORM/core/Cache.tpl>

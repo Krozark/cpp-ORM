@@ -22,9 +22,11 @@ namespace orm
     };
     
     template<typename T>
-    T* SQLObject<T>::get(unsigned int id)
+    T* SQLObject<T>::get(unsigned int id,bool cached)
     {
-
+        if(cached)
+            return cache.getOrCreate(id);
+        //else
         std::string q_str ="SELECT ";
         nameAttrs(q_str);
                                     

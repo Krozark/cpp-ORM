@@ -1,12 +1,11 @@
 namespace orm
 {
     template<typename T>
-    std::shared_ptr<SQLObjectBase>& Cache::getOrCreate(const int& pk)
+    std::shared_ptr<T>& Cache::getOrCreate(const int& pk)
     {
-        std::string key(T::table+"."+std::to_string(pk));
-        auto res&= map.at(key);
+        auto res&= map.at(pk);
         if(res != map.end())
             return res;
-        return map[key] = T::get(pk);
+        return map[pk] = T::get(pk,false);
     }
 }

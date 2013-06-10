@@ -42,7 +42,7 @@ namespace orm
             SQLObject& operator=(const SQLObject&) = delete;
             
             static T* createFromBdd(const Query& query);
-            static T* get(unsigned int id);
+            static T* get(unsigned int id,bool cached=true);
             static std::list<T*> all();
             
             template<typename U>
