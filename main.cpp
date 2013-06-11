@@ -7,7 +7,19 @@ orm::Bdd& orm::Bdd::Default = def;
 
 #include <ORM/fields/Attr.hpp>
 #include <ORM/fields/FK.hpp>
+#include <ORM/fields/ManyToMany.hpp>
 #include <ORM/models/SQLObject.hpp>
+
+
+class Spell : public orm::SQLObject<Spell>
+{
+    public:
+        Spell();
+        orm::Attr<int> element;
+
+        MAKE_STATIC_COLUM(element);
+};
+REGISTER_AND_CONSTRUCT(Spell,"spell",element,"element")
 
 class Stats : public orm::SQLObject<Stats>
 {
@@ -37,9 +49,18 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<int> lvl;
         orm::FK<Stats> stats;
 
+        orm::ManyToMany<Perso,Spell> spells;
+
         MAKE_STATIC_COLUM(name,lvl,stats)
 };
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
+//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
+REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
+Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), spells(*this)
+{
+    name.registerAttr(*this);
+    lvl.registerAttr(*this);
+    stats.registerAttr(*this);
+}
 
 
 using namespace orm;

@@ -261,6 +261,9 @@ namespace orm
 #define REGISTER_BDD(klass,bdd) \
     orm::SQLObject<klass>::bdd_used = bdd;
 
+#define REGISTER(klass,colum,...)\
+    REGISTER_TABLE(klass,colum)\
+    _MAKE_STRING_N(klass,NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
 
 #define MAKE_CONSTRUCTOR(klass,...) \
         klass::klass(): _MAKE_ATTRS_N(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
@@ -268,9 +271,9 @@ namespace orm
          _MAKE_REGISTER_ATTRS(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         }
 
+
 #define REGISTER_AND_CONSTRUCT(klass,colum,...) \
-        REGISTER_TABLE(klass,colum)\
-        _MAKE_STRING_N(klass,NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
+        REGISTER(klass,colum,__VA_ARGS__)\
         MAKE_CONSTRUCTOR(klass,__VA_ARGS__)
 
 #include <ORM/models/SQLObject.tpl>
