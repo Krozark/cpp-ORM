@@ -61,14 +61,13 @@ int main(int argc,char* argv[])
     p1->save();
 
     cout<<"All persos"<<*p1<<endl;
-    std::list<Perso*> lis= Perso::all();
+    std::list<std::shared_ptr<Perso> > lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
-    for(Perso* p:lis)
-        delete p;
 
     cout<<"Create Perso"<<endl;
     Perso p2;
+
     p2.name = "test insert";
     p2.lvl = 75;
     p2.save(true);
@@ -84,17 +83,12 @@ int main(int argc,char* argv[])
     lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
-    for(Perso* p:lis)
-        delete p;
-
 
     {
 
-        std::list<Perso*> lis= Perso::filter(Filter(Perso::_lvl,"gt",4));
+        std::list<std::shared_ptr<Perso> > lis= Perso::filter(Filter(Perso::_lvl,"gt",4));
         for(auto u : lis)
             cout<<*u<<endl;
-        for(Perso* p:lis)
-            delete p;
     }
     {
 
@@ -103,11 +97,9 @@ int main(int argc,char* argv[])
             Filter(Perso::_name,"startswith","tes"),
             Filter(Stats::_pv,"gt",4)
         };
-        std::list<Perso*> lis= Perso::filter(filters);
+        std::list<std::shared_ptr<Perso> > lis= Perso::filter(filters);
         for(auto u : lis)
             cout<<*u<<endl;
-        for(Perso* p:lis)
-            delete p;
     }
     
     
@@ -118,8 +110,13 @@ int main(int argc,char* argv[])
     lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
-    for(Perso* p:lis)
-        delete p;
+
+    cout<<"Perso Cache"<<endl;
+    Perso::cache.__print__();
+
+    cout<<"Stats Cache"<<endl;
+    Stats::cache.__print__();
+    
 
     return 0;
 };

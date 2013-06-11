@@ -5,6 +5,7 @@
 
 #include <ORM/fields/VAttr.hpp>
 #include <ORM/core/Cache.hpp>
+#include <memory>
 //#include <type_traits>
 
 
@@ -15,6 +16,7 @@ namespace orm
     class Filter;
     class VAttr;
     class VFK;
+    template<typename T> class FK;
     template<typename T> class SQLObject;
     
     /* class to register colum name as static (Hack) */
@@ -44,18 +46,19 @@ namespace orm
             
             static T* createFromBdd(const Query& query);
             static std::shared_ptr<T>& get(const unsigned int& id);
-            static T* _get_ptr(const unsigned int id);
-            static std::list<T*> all();
+            static std::list<std::shared_ptr<T>> all();
             
             template<typename U>
-            static std::list<T*> filter(const std::string& colum,const std::string& ope,const U& value);
-            static std::list<T*> filter(const Filter& filter);
-            static std::list<T*> filter(const std::list<Filter>& filters);
+            static std::list<std::shared_ptr<T> > filter(const std::string& colum,const std::string& ope,const U& value);
+            static std::list<std::shared_ptr<T> > filter(const Filter& filter);
+            static std::list<std::shared_ptr<T> > filter(const std::list<Filter>& filters);
 
             virtual bool save(bool recursive=false,bool force=false);
             virtual bool del();
 
             static  Bdd* bdd_used;
+
+            static Cache<T> cache;
 
         protected:
             const static std::string table;
@@ -67,7 +70,11 @@ namespace orm
             virtual void _nameFks(std::string& q_str)const;
 
         private:
+            template<typename U> friend class Cache;
             template<typename U> friend class Register;
+            friend class FK<T>;
+            friend class Query;
+
             static Register<T> _register;
             static std::vector<const VAttr*> colum_attrs;
             static std::vector<const VFK*> colum_fks;
@@ -76,7 +83,7 @@ namespace orm
             static void nameTables(std::string& q_str);
             static void nameFks(std::string& q_str);
 
-            static Cache<T> cache;
+            static T* _get_ptr(const unsigned int id);
     };
 };
 

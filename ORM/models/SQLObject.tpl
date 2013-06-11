@@ -58,14 +58,14 @@ namespace orm
 
     template<typename T>
     template<typename U>
-    std::list<T*> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value)
+    std::list<std::shared_ptr<T> > SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value)
     {
         return filter(Filter(colum,ope,value));
     }
 
 
     template<typename T>
-    std::list<T*> SQLObject<T>::filter(const Filter& filter)
+    std::list<std::shared_ptr<T> > SQLObject<T>::filter(const Filter& filter)
     {
         std::string q_str ="SELECT ";
         nameAttrs(q_str);
@@ -81,14 +81,14 @@ namespace orm
         q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
-        std::list<T*> res;
+        std::list<std::shared_ptr<T> > res;
         q->getObj(res);
         delete q;
         return res;
     }
 
     template<typename T>
-    std::list<T*> SQLObject<T>::filter(const std::list<Filter>& filters)
+    std::list<std::shared_ptr<T> > SQLObject<T>::filter(const std::list<Filter>& filters)
     {
         int size = filters.size();
 
@@ -116,7 +116,7 @@ namespace orm
             nameFks(q_str);
             q_str+=" )";
 
-            std::list<T*> res;
+            std::list<std::shared_ptr<T> > res;
             Query* q = bdd_used->query(q_str);
             q->getObj(res);
             delete q;
@@ -127,7 +127,7 @@ namespace orm
     }
 
     template<typename T>
-    std::list<T*> SQLObject<T>::all()
+    std::list<std::shared_ptr<T> > SQLObject<T>::all()
     {
         std::string q_str ="SELECT ";
         nameAttrs(q_str);
@@ -140,7 +140,7 @@ namespace orm
         q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
-        std::list<T*> res;
+        std::list<std::shared_ptr<T> > res;
         q->getObj(res);
         delete q;
         return res;
@@ -169,6 +169,7 @@ namespace orm
     {
         if(bdd_used->del(table,pk))
         {
+            cache.map.erase(pk);
             pk = -1;
             return true;
         }
