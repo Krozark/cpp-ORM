@@ -14,12 +14,15 @@ namespace orm
     class Query;
     class SQLObjectBase;
     template<typename T> class SQLObject;
+    template<typename T,typename U> class ManyToMany;
     class VAttr;
 
     class Bdd
     {
         public:
             Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
+
+            virtual ~Bdd();
             
             Bdd(const Bdd&) = delete;
             Bdd& operator=(const Bdd&) = delete;
@@ -33,6 +36,7 @@ namespace orm
             virtual Query* query(const std::string&) = 0;
             virtual Query* query(std::string&&) = 0;
 
+
             /* manualy create  a query */
             virtual Query* prepareQuery(const std::string&) = 0;
             virtual Query* prepareQuery(std::string&&) = 0;
@@ -41,7 +45,6 @@ namespace orm
             /* The user defined default bdd to use */
             //static Bdd* Default;
             static Bdd& Default;
-
             //const std::string& operator[](const std::string& key);
 
 
@@ -50,6 +53,7 @@ namespace orm
             friend class Query;
             friend class SQLObjectBase;
             template<typename T> friend class SQLObject;
+            template<typename T,typename U> friend class ManyToMany;
             /* Info for connection */
             const std::string s_username;
             const std::string s_password;

@@ -14,7 +14,7 @@ namespace orm
         public:
             ManyToMany(T& owner);
             //void registerAttr(SQLObjectBase&);
-            std::list<std::shared_ptr<U> >& all(bool maj=false);
+            const std::list<std::shared_ptr<U> >& all(bool maj=false);
 
             static  Bdd* bdd_used;
 

@@ -54,6 +54,11 @@ class Perso : public orm::SQLObject<Perso>
         MAKE_STATIC_COLUM(name,lvl,stats)
 };
 //REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
+template <> const std::string orm::ManyToMany<Perso,Spell>::_linked = "spell_id";
+template <> const std::string orm::ManyToMany<Perso,Spell>::_owner = "perso_id";
+template <> const std::string orm::ManyToMany<Perso,Spell>::table = "perso_spell";
+template <> orm::Bdd* orm::ManyToMany<Perso,Spell>::bdd_used = &orm::Bdd::Default;
+
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
 Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), spells(*this)
 {
@@ -80,6 +85,7 @@ int main(int argc,char* argv[])
     cout<<"save it"<<endl;
     cout<<"current lvl: "<<p1->lvl<<endl;
     p1->save();
+
 
     cout<<"All persos"<<*p1<<endl;
     std::list<std::shared_ptr<Perso> > lis= Perso::all();
@@ -137,6 +143,11 @@ int main(int argc,char* argv[])
 
     cout<<"Stats Cache"<<endl;
     Stats::cache.__print__();
+
+    const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
+    for(auto u : spells)
+        cout<<*u<<endl;
+
     
 
     return 0;

@@ -72,7 +72,7 @@ namespace orm
         private:
             template<typename U> friend class Cache;
             template<typename U> friend class Register;
-            template<typename U,typename V> friend class ManyToMany<U,V>;
+            template<typename U,typename V> friend class ManyToMany;
             friend class FK<T>;
             friend class Query;
 

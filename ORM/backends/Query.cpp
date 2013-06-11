@@ -18,10 +18,15 @@ namespace orm
         std::swap(q,query);
     };
 
+    Query::~Query()
+    {
+    }
+
     Query& Query::limit(const unsigned int& l)
     {
         query += " LIMIT "+std::to_string(l);
     };
+
 
     bool Query::execute()
     {

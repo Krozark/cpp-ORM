@@ -6,9 +6,9 @@ namespace orm
     }
 
     template<typename T,typename U>
-    std::list<std::shared_ptr<U> >& ManyToMany<T,U>::all(bool maj)
+    const std::list<std::shared_ptr<U> >& ManyToMany<T,U>::all(bool maj)
     {
-        if(maj)
+        if(maj or linked.size() == 0)
         {
             /*select * 
              from perso_spell,perso,spell
@@ -18,21 +18,25 @@ namespace orm
              );*/
             std::string q_str="SELECT "
                 //owner (juste pk)
-                +bdd_used->escape_colum(T::table)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(T::table+".id");
+                +bdd_used->escape_colum(T::table)+"."+bdd_used->escape_colum("id")
+                +" AS "+bdd_used->escape_value(T::table+".id");
             q_str+=", ";
+
             //linked(all)
             U::nameAttrs(q_str);
 
-            q_str+=" FROM "+table+", "+T::table+", "+U::table
+            q_str+=" FROM "+table
+                +" INNER JOIN "+T::table+" ON ( "
+                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_owner)+bdd_used->operators.at("exact")+T::table+".id), "
+                +U::table
                 +" WHERE ("
-                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_owner)+bdd_used->operators.at("exact")+bdd_used->escape_value(T::table+".id")
+                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_owner)+bdd_used->operators.at("exact")+std::to_string(owner.pk)
                 +" AND "
-                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_linked)+bdd_used->operators.at("exact")+bdd_used->escape_value(U::table+".id")
+                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_linked)+bdd_used->operators.at("exact")+U::table+".id"
                 +")";
-
             Query* q = bdd_used->query(q_str);
             linked.clear();
-            q->getObject(linked);
+            q->getObj(linked);
             delete q;
         }
         return linked;
