@@ -25,6 +25,8 @@ namespace orm
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
 
+            virtual ~Query();
+
             virtual Query& limit(const unsigned int& limit);
 
             virtual Query& orderBy(const std::string& colum,char order='+') = 0;

@@ -177,7 +177,7 @@ namespace orm
     };
 
     template<typename T>
-    void SQLObject<T>::nameAttrs(std::string& q_str)
+    void SQLObject<T>::nameAttrs(std::string& q_str,bool recur)
     {
         q_str+= bdd_used->escape_colum(table)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(table+".id");
         
@@ -189,23 +189,24 @@ namespace orm
                 q_str+= ", "+col+" AS "+bdd_used->escape_value(col);
             }
         }
+        if(not recur)
+            return;
+        const int size = colum_fks.size();
+        for(int i=0;i<size;++i)
         {
-            const int size = colum_fks.size();
-            for(int i=0;i<size;++i)
-            {
-                q_str+="\n";
-                const SQLObjectBase& object = colum_fks[i]->getObject();
-                q_str+=",";
-                object._nameAttrs(q_str);
-            }
+            q_str+="\n";
+            const SQLObjectBase& object = colum_fks[i]->getObject();
+            q_str+=",";
+            object._nameAttrs(q_str);
         }
     }
 
     template<typename T>
-    void SQLObject<T>::nameTables(std::string& q_str)
+    void SQLObject<T>::nameTables(std::string& q_str,bool recur)
     {
         q_str+=table;
-
+        if(not recur)
+            return;
         const int size = colum_fks.size();
         for(int i=0;i<size;++i)
         {

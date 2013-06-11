@@ -72,6 +72,7 @@ namespace orm
         private:
             template<typename U> friend class Cache;
             template<typename U> friend class Register;
+            template<typename U,typename V> friend class ManyToMany<U,V>;
             friend class FK<T>;
             friend class Query;
 
@@ -79,8 +80,8 @@ namespace orm
             static std::vector<const VAttr*> colum_attrs;
             static std::vector<const VFK*> colum_fks;
 
-            static void nameAttrs(std::string& q_str);
-            static void nameTables(std::string& q_str);
+            static void nameAttrs(std::string& q_str,bool recur=true);
+            static void nameTables(std::string& q_str,bool recur=true);
             static void nameFks(std::string& q_str);
 
             static T* _get_ptr(const unsigned int id);
