@@ -203,4 +203,11 @@
  ********** for ManyToMany ****************
  *****************************************/
 
+#define M2M_REGISTER(klass,m2m,T_linked,table_name,owner_colum,linked_colum) \
+    template<> const std::string orm::ManyToMany<klass,T_linked>::table = table_name;\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::_owner = owner_colum;\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::_linked = linked_colum;\
+    template<> orm::Bdd* orm::ManyToMany<klass,T_linked>::bdd_used = &orm::Bdd::Default;
+
+
 #endif //guard

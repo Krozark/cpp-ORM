@@ -54,11 +54,7 @@ class Perso : public orm::SQLObject<Perso>
         MAKE_STATIC_COLUM(name,lvl,stats)
 };
 //REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
-template <> const std::string orm::ManyToMany<Perso,Spell>::_linked = "spell_id";
-template <> const std::string orm::ManyToMany<Perso,Spell>::_owner = "perso_id";
-template <> const std::string orm::ManyToMany<Perso,Spell>::table = "perso_spell";
-template <> orm::Bdd* orm::ManyToMany<Perso,Spell>::bdd_used = &orm::Bdd::Default;
-
+M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
 Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), spells(*this)
 {
