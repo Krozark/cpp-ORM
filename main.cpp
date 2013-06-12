@@ -148,7 +148,6 @@ int main(int argc,char* argv[])
     for(auto u : spells)
         cout<<*u<<endl;
 
-    
 
     return 0;
 };

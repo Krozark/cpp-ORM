@@ -135,6 +135,7 @@ namespace orm
             #endif
             executeQuery(q);
             delete &q;
+
         }
         return true;
     };

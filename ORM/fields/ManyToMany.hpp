@@ -15,10 +15,12 @@ namespace orm
             ManyToMany(T& owner);
             //void registerAttr(SQLObjectBase&);
             const std::list<std::shared_ptr<U> >& all(bool maj=false);
+            void add(const U&);
 
             static  Bdd* bdd_used;
 
         protected:
+            bool modify;
             const static std::string table;
             T& owner;
             std::list<std::shared_ptr<U> > linked;
