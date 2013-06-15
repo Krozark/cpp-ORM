@@ -17,6 +17,7 @@ class Spell : public orm::SQLObject<Spell>
         Spell();
         orm::Attr<int> element;
 
+
         MAKE_STATIC_COLUM(element);
 };
 REGISTER_AND_CONSTRUCT(Spell,"spell",element,"element")
@@ -63,6 +64,22 @@ Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), spe
     stats.registerAttr(*this);
 }
 
+class Test
+{
+    public:
+        int i;
+        int j;
+        Test& I(){++i;return *this;};
+        Test& J(){++j;return *this;};
+
+        void __print__(){std::cout<<"i:"<<i<<" j:"<<j<<std::endl;}
+
+        static Test& test(){ Test res;return res;};
+    private:
+        Test(): i(0),j(0){};
+
+};
+
 
 using namespace orm;
 using namespace std;
@@ -70,7 +87,7 @@ using namespace std;
 int main(int argc,char* argv[])
 { 
     orm::Bdd::Default.connect();
-    
+/*    
     //REGISTER_BDD(Perso,orm::Bdd::Default)
     
     auto& p1 = Perso::get(1);
@@ -139,11 +156,18 @@ int main(int argc,char* argv[])
 
     cout<<"Stats Cache"<<endl;
     Stats::cache.__print__();
-
+*/
+    /*
     const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
     for(auto u : spells)
         cout<<*u<<endl;
-
+    */
+    
+    Test& r = Test::test();
+    r.I().I().I().J().J().J().__print__();
+    Test& r2 = Test::test();
+    r2.I().__print__();
+    r.__print__();
 
     return 0;
 };
