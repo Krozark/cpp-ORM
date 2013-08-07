@@ -41,7 +41,7 @@ class Stats : public orm::SQLObject<Stats>
 };
 REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intel,"int",force,"force",def,"def",vatq,"vatq",esq,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
 
-
+//TODO ajouter à loadobjet un argument en plus : la colonne (facultatif)
 class Perso : public orm::SQLObject<Perso>
 {
     public:
@@ -49,37 +49,22 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<std::string> name;
         orm::Attr<int> lvl;
         orm::FK<Stats> stats;
+        orm::FK<Stats> stats2;
 
         orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUM(name,lvl,stats)
+        MAKE_STATIC_COLUM(name,lvl,stats,stats2)
 };
 //REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
 M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
-REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
-Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), spells(*this)
+REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
+Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), stats2(Perso::_stats2), spells(*this)
 {
     name.registerAttr(*this);
     lvl.registerAttr(*this);
     stats.registerAttr(*this);
+    stats2.registerAttr(*this);
 }
-
-class Test
-{
-    public:
-        int i;
-        int j;
-        Test& I(){++i;return *this;};
-        Test& J(){++j;return *this;};
-
-        void __print__(){std::cout<<"i:"<<i<<" j:"<<j<<std::endl;}
-
-        static Test& test(){ Test res;return res;};
-    private:
-        Test(): i(0),j(0){};
-
-};
-
 
 using namespace orm;
 using namespace std;
@@ -87,7 +72,6 @@ using namespace std;
 int main(int argc,char* argv[])
 { 
     orm::Bdd::Default.connect();
-/*    
     //REGISTER_BDD(Perso,orm::Bdd::Default)
     
     auto& p1 = Perso::get(1);
@@ -100,7 +84,7 @@ int main(int argc,char* argv[])
     p1->save();
 
 
-    cout<<"All persos"<<*p1<<endl;
+    /*cout<<"All persos"<<*p1<<endl;
     std::list<std::shared_ptr<Perso> > lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
@@ -156,18 +140,13 @@ int main(int argc,char* argv[])
 
     cout<<"Stats Cache"<<endl;
     Stats::cache.__print__();
-*/
+    */
     /*
     const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
     for(auto u : spells)
         cout<<*u<<endl;
     */
     
-    Test& r = Test::test();
-    r.I().I().I().J().J().J().__print__();
-    Test& r2 = Test::test();
-    r2.I().__print__();
-    r.__print__();
 
     return 0;
 };
