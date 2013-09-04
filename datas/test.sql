@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
+-- version 3.5.8.1deb1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le : Ven 07 Juin 2013 à 11:59
--- Version du serveur: 5.5.31
--- Version de PHP: 5.3.10-1ubuntu3.6
+-- Généré le: Jeu 05 Septembre 2013 à 01:50
+-- Version du serveur: 5.5.31-0ubuntu0.13.04.1
+-- Version de PHP: 5.4.9-4ubuntu2.1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,16 +31,18 @@ CREATE TABLE IF NOT EXISTS `perso` (
   `stats` int(11) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lvl` int(11) NOT NULL,
+  `stats_tmp` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stats` (`stats`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `perso`
 --
 
-INSERT INTO `perso` (`name`, `stats`, `id`, `lvl`) VALUES
-('test1', 1, 1, 17);
+INSERT INTO `perso` (`name`, `stats`, `id`, `lvl`, `stats_tmp`) VALUES
+('test1', 1, 1, 80, 5),
+('test2', 2, 4, 789, 6);
 
 -- --------------------------------------------------------
 
@@ -61,14 +63,17 @@ CREATE TABLE IF NOT EXISTS `stats` (
   `charme` int(11) NOT NULL DEFAULT '0',
   `mouvement` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Contenu de la table `stats`
 --
 
 INSERT INTO `stats` (`id`, `pv`, `pi`, `int`, `force`, `def`, `vatq`, `esq`, `chance`, `charme`, `mouvement`) VALUES
-(1, 42, 12, 4, 5, 2, 8, 0, 1, 1, 3);
+(1, 342, 12, 4, 5, 2, 8, 0, 1, 1, 3),
+(2, 300, 28, 890, 890, 78, 7, 8, 98, 8, 8),
+(5, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(6, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 --
 -- Contraintes pour les tables exportées
