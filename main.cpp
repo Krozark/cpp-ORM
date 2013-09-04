@@ -49,21 +49,21 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<std::string> name;
         orm::Attr<int> lvl;
         orm::FK<Stats> stats;
-        orm::FK<Stats> stats2;
+        //orm::FK<Stats> stats2;
 
         //orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUM(name,lvl,stats,stats2)
+        MAKE_STATIC_COLUM(name,lvl,stats/*,stats2*/)
 };
 //REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
 //M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
-REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
-Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats), stats2(Perso::_stats2)/*, spells(*this)*/
+REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats"/*,stats2,"stats_tmp"*/)
+Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats)/*, stats2(Perso::_stats2)*//*, spells(*this)*/
 {
     name.registerAttr(*this);
     lvl.registerAttr(*this);
     stats.registerAttr(*this);
-    stats2.registerAttr(*this);
+    //stats2.registerAttr(*this);
 }
 
 using namespace orm;
@@ -84,10 +84,12 @@ int main(int argc,char* argv[])
     p1->save();
 
 
-    /*cout<<"All persos"<<*p1<<endl;
+    cout<<"All persos"<<endl;
     std::list<std::shared_ptr<Perso> > lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
+
+    /*
 
     cout<<"Create Perso"<<endl;
     Perso p2;

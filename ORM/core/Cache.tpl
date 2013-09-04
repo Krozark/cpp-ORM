@@ -1,7 +1,7 @@
 namespace orm
 {
     template<typename T>
-    std::shared_ptr<T>& Cache<T>::getOrCreate(const unsigned int& pk)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk)
     {
         const auto& res= map.find(pk);
         if(res != map.end())
@@ -11,12 +11,12 @@ namespace orm
     }
 
     template<typename T>
-    std::shared_ptr<T>& Cache<T>::getOrCreate(const unsigned int& pk,const Query& query)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,const Query& query)
     {
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
-        std::shared_ptr<T>& r= map[pk];
+        type_ptr& r= map[pk];
         //= T::createFromBdd(query);
         //r->loadFromBdd(query);
         r.reset(T::createFromBdd(query));
@@ -24,7 +24,7 @@ namespace orm
     }
 
     template<typename T>
-    std::shared_ptr<T>& Cache<T>::getOrCreate(T* tmp)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(T* tmp)
     {
         const auto& res=map.find(tmp->pk);
         if(res != map.end())
@@ -32,7 +32,7 @@ namespace orm
             delete tmp;
             return res->second;
         }
-        std::shared_ptr<T>& r = map[tmp->pk];
+        type_ptr& r = map[tmp->pk];
         r.reset(tmp);
         return r;
     }

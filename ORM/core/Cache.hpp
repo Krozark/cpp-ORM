@@ -14,19 +14,22 @@ namespace orm
     class Cache
     {
         public:
+            typedef std::shared_ptr<T> type_ptr;
+            
             //make query to get object if not in cache
-            std::shared_ptr<T>& getOrCreate(const unsigned int& pk);
+            type_ptr& getOrCreate(const unsigned int& pk);
             //construct object from query if not in cache
-            std::shared_ptr<T>& getOrCreate(const unsigned int& pk,const Query& query);
-            //if tmp->pk if cache, reture cache[pk] and delete tmp, else make tmp as shared_ptr
-            std::shared_ptr<T>& getOrCreate(T* tmp);
+            type_ptr& getOrCreate(const unsigned int& pk,const Query& query);
+            //if tmp->pk if cache, reture cache[pk] and delete tmp, else make tmp as type_ptr
+            type_ptr& getOrCreate(T* tmp);
 
             void __print__();
 
 
+
         private:
             friend class SQLObject<T>;
-            std::unordered_map<int,std::shared_ptr<T> > map;
+            std::unordered_map<int,type_ptr> map;
     };
 }
 #include <ORM/core/Cache.tpl>
