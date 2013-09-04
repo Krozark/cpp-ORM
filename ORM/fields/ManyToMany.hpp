@@ -14,7 +14,7 @@ namespace orm
             ManyToMany(T& owner);
             void registerAttr(SQLObjectBase&);
 
-            MAKE_STATIC_COLUM(linked);
+            //MAKE_STATIC_COLUM(linked);
 
 
 
@@ -23,7 +23,7 @@ namespace orm
             T& owner;
             std::list<U> linked;
 
-            MAKE_STATIC_COLUM(owner);
+            //MAKE_STATIC_COLUM(owner);
             //FK<U> linked;
 
     }

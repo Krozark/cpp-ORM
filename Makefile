@@ -12,7 +12,7 @@ OBJ = $(SRC:.cpp=.o) $(SRC:*.cpp=.o)
 
 SUBDIRS = ORM obj
 
-export EXEC = ORM-test.exe
+export EXEC = ORM-test
 
 
 CLEANDIRS = $(SUBDIRS:%=clean-%)
