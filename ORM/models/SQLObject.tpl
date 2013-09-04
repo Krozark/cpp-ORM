@@ -42,7 +42,7 @@ namespace orm
     T* SQLObject<T>::_get_ptr(const unsigned int id)
     {
         std::string q_str ="SELECT ";
-        nameAttrs(q_str,"");
+        nameAttrs(q_str,table);
                                     
         q_str+="\nFROM ";
         nameTables(q_str,"");
@@ -51,8 +51,6 @@ namespace orm
         +bdd_used->escape_colum(table)+"."
         +bdd_used->escape_colum("id")+ " "
         +bdd_used->escape_value("exact",std::to_string(id));
-
-        //nameFks(q_str);
         q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
@@ -190,9 +188,7 @@ namespace orm
     template<typename T>
     void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,bool recur)
     {
-        const std::string table_alias = MAKE_PREFIX(prefix,table);
-
-        q_str+= bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(JOIN_ALIAS(table_alias,"id"));
+        q_str+= bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(JOIN_ALIAS(prefix,"id"));
         
         {
             const int size = colum_attrs.size();
@@ -200,9 +196,9 @@ namespace orm
             {
                 const std::string& col = colum_attrs[i]->getColum();
                 q_str+= ", "
-                +bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum(col)
+                +bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum(col)
                 +" AS "
-                +bdd_used->escape_value(JOIN_ALIAS(table_alias,col));
+                +bdd_used->escape_value(JOIN_ALIAS(prefix,col));
             }
         }
         if(not recur)
@@ -211,9 +207,11 @@ namespace orm
         const int size = colum_fks.size();
         for(int i=0;i<size;++i)
         {
-            q_str+="\n";
             const SQLObjectBase& object = colum_fks[i]->getObject();
-            q_str+=",";
+            const std::string& col = colum_fks[i]->getColum();
+            const std::string table_alias = MAKE_PREFIX(prefix,col);
+
+            q_str+="\n,";
             object._nameAttrs(q_str,table_alias);
         }
     }
