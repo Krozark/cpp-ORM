@@ -2,6 +2,7 @@
 #define ORM_FK_HPP
 
 #include <ORM/fields/VFK.hpp>
+#include <memory>
 
 namespace orm
 {
@@ -23,12 +24,12 @@ namespace orm
             typedef T type;
 
             T& operator*(){return *value_ptr;};
-            T* operator->(){return value_ptr;};
+            T* operator->(){return value_ptr.operator->();};
 
             FK<T>& operator=(const FK<T>& other);
 
         protected:
-            T* value_ptr;
+            std::shared_ptr<T> value_ptr;
 
             virtual void print(std::ostream& output) const;
             virtual bool set(Query& query,const unsigned int& colum) const;

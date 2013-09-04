@@ -34,10 +34,10 @@ Base class for persistent T class. It add all static methode / attribute to your
 
 make some static method:
 * T* get(int pk)
-* std::list\<T*\> all()
-* std::list\<T*\> filter(const std::string& colum,const std::string& ope,const U& value);
-* std::list\<T*\> filter(const Filter& filter);
-* std::list\<T*\> filter(const std::list<Filter>& filters);
+* std::list\<std::shared_ptr\<T\>\> all()
+* std::list\<std::shared_ptr\<T\>\> filter(const std::string& colum,const std::string& ope,const U& value);
+* std::list\<std::shared_ptr\<T\>\> filter(const Filter& filter);
+* std::list\<std::shared_ptr\<T\>\> filter(const std::list<Filter>& filters);
 
 static member:
 * Bdd* bdd_used : database where the object is contain
@@ -46,7 +46,6 @@ static member:
 make member fonction:
 * bool save(bool force=false)
 * bool del() 
-
 
 Exemple: see main.cpp
 
@@ -65,6 +64,15 @@ orm::VAttr
 ----------
 
 Base class for Attr. you don't need to use it directly
+
+orm::ManyToMany\<T,U\>
+======================
+
+T have to be the presistent class where the M2M is use, and U the persistent class.
+I create a link with the 2 class, and you can acces to the U using:
+
+accesor:
+* std::list\<std::shared_ptr\<U\>\> .all()
 
 
 orm::Filter

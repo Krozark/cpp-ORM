@@ -12,7 +12,7 @@ namespace orm
     };
 
     template<typename T>
-    int Query::getObj(std::list<T*>& objs)
+    int Query::getObj(std::list<std::shared_ptr<T> >& objs)
     {
         if(not executed)
             execute();
@@ -21,7 +21,9 @@ namespace orm
         {
             T* tmp = T::createFromBdd(*this);
             if (tmp)
-                objs.emplace_back(tmp);
+            {
+                objs.emplace_back(T::cache.getOrCreate(tmp));
+            }
             ++res;
         }   
         return res;     

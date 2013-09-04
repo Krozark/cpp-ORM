@@ -15,6 +15,10 @@ namespace orm
     {
     };
 
+    Bdd::~Bdd()
+    {
+    } 
+
     /*const std::string& Bdd::operator[](const std::string& key)
     {
         return operators[key];
@@ -131,6 +135,7 @@ namespace orm
             #endif
             executeQuery(q);
             delete &q;
+
         }
         return true;
     };

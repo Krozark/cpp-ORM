@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include <ostream>
+#include <memory>
 
 namespace orm
 {
@@ -23,6 +24,8 @@ namespace orm
 
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
+
+            virtual ~Query();
 
             virtual Query& limit(const unsigned int& limit);
 
@@ -45,7 +48,7 @@ namespace orm
             int getObj(T& obj);
 
             template<typename T>
-            int getObj(std::list<T*>& objs);
+            int getObj(std::list<std::shared_ptr<T>>& objs);
 
             friend std::ostream& operator<<(std::ostream& output,const Query* self)
             {

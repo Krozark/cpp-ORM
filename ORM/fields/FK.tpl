@@ -12,18 +12,14 @@ namespace orm
     }
 
     template<typename T>
-    FK<T>::FK(const std::string& colum) : VFK(colum), value_ptr(0)
+    FK<T>::FK(const std::string& colum) : VFK(colum)/*, value_ptr(0)*/
     {
-        value_ptr = new T();
+        value_ptr.reset(new T());
     }
 
     template<typename T>
     FK<T>::~FK()
     {
-       if(value_ptr and fk == -1)
-        {
-            delete value_ptr;
-        }
         //TODO if cache[T::table] ==1
         //delete value_ptr
         //cache.remove(T::table)
@@ -42,7 +38,12 @@ namespace orm
     {
         bool res = query.get(fk,colum);
         //TODO cheque cache
-        res = res and (value_ptr->loadFromBdd(query));
+        if(res)
+        {
+            const unsigned int id = fk;
+            value_ptr = T::cache.getOrCreate(id,query);
+        }
+        //res = res and (value_ptr->loadFromBdd(query));
         //TODO add to cache??
         return res;
     }
@@ -64,13 +65,7 @@ namespace orm
     {
         modify = true;
         fk = other.fk;
-        if(value_ptr and fk == -1)
-        {
-            delete value_ptr;
-        }
-        //TODO --on cache counter
         value_ptr = other.value_ptr;
-        //TODO ++ on cache counter
     }
 
     template<typename T>
