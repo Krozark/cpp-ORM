@@ -22,6 +22,8 @@ namespace orm
             type_ptr& getOrCreate(const unsigned int& pk,const Query& query);
             //if tmp->pk if cache, reture cache[pk] and delete tmp, else make tmp as type_ptr
             type_ptr& getOrCreate(T* tmp);
+            //delete object of specified pk
+            void del(const int& pk);
 
             void __print__();
 

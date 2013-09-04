@@ -169,7 +169,7 @@ namespace orm
     {
         if(bdd_used->del(table,pk))
         {
-            cache.map.erase(pk);
+            cache.del(pk);
             pk = -1;
             return true;
         }

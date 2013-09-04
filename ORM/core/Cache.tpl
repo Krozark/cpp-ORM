@@ -38,6 +38,13 @@ namespace orm
     }
 
     template<typename T>
+    void Cache<T>::del(const int& pk)
+    {
+        map.erase(pk);
+    }
+
+
+    template<typename T>
     void Cache<T>::__print__()
     {
         for(auto& i : map)

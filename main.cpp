@@ -28,18 +28,18 @@ class Stats : public orm::SQLObject<Stats>
         Stats();
         orm::Attr<int> pv;
         orm::Attr<int> pi;
-        orm::Attr<int> intel;
+        orm::Attr<int> intelligence;
         orm::Attr<int> force;
-        orm::Attr<int> def;
-        orm::Attr<int> vatq;
-        orm::Attr<int> esq;
+        orm::Attr<int> defence;
+        orm::Attr<int> vattaque;
+        orm::Attr<int> esquive;
         orm::Attr<int> chance;
         orm::Attr<int> charme;
         orm::Attr<int> mouvement;
 
-        MAKE_STATIC_COLUM(pv,pi,intel,force,def,vatq,esq,chance,charme,mouvement)
+        MAKE_STATIC_COLUM(pv,pi,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement)
 };
-REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intel,"int",force,"force",def,"def",vatq,"vatq",esq,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
+REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
 
 //TODO ajouter à loadobjet un argument en plus : la colonne (facultatif)
 class Perso : public orm::SQLObject<Perso>
@@ -48,23 +48,34 @@ class Perso : public orm::SQLObject<Perso>
         Perso();
         orm::Attr<std::string> name;
         orm::Attr<int> lvl;
-        orm::FK<Stats> stats;
+        //orm::FK<Stats> stats;
         //orm::FK<Stats> stats2;
 
         //orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUM(name,lvl,stats/*,stats2*/)
+        MAKE_STATIC_COLUM(name,lvl/*,stats,stats2*/)
 };
-//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats")
+
+/*
+SELECT `T1`.`id` AS 'T1.id', `T1`.`stats_tmp` AS 'T1.stats_tmp', `T1`.`stats` AS 'T1.stats', `T1`.`lvl` AS 'T1.lvl', `T1`.`name` AS 'T1.name'
+,`T2`.`id` AS 'T2.id'
+,`T3`.`id` AS 'T3.id'
+FROM perso T1
+INNER JOIN stats T2 ON (T1.stats_tmp = `T2`.`id`)
+INNER JOIN stats T3 ON (T1.stats = `T3`.`id`)
+WHERE (`T1`.`id` = '1' );
+*/
+
+REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl"/*,stats,"stats",stats2,"stats_tmp"*/)
 //M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
-REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats"/*,stats2,"stats_tmp"*/)
-Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats)/*, stats2(Perso::_stats2)*//*, spells(*this)*/
-{
-    name.registerAttr(*this);
-    lvl.registerAttr(*this);
-    stats.registerAttr(*this);
-    //stats2.registerAttr(*this);
-}
+//REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
+//Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2)/*, spells(*this)*/
+//{
+//    name.registerAttr(*this);
+//    lvl.registerAttr(*this);
+//    stats.registerAttr(*this);
+//    stats2.registerAttr(*this);
+//}
 
 using namespace orm;
 using namespace std;
@@ -84,11 +95,12 @@ int main(int argc,char* argv[])
     p1->save();
 
 
+    /*
     cout<<"All persos"<<endl;
     std::list<std::shared_ptr<Perso> > lis= Perso::all();
     for(auto u : lis)
         cout<<*u<<endl;
-
+    */
     /*
 
     cout<<"Create Perso"<<endl;

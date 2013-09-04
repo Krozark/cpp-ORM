@@ -23,7 +23,7 @@ namespace orm
         //TODO if cache[T::table] ==1
         //delete value_ptr
         //cache.remove(T::table)
-        value_ptr = 0;
+        //value_ptr = 0;
     }
 
 
