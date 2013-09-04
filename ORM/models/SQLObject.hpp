@@ -47,12 +47,12 @@ namespace orm
 
         static T* createFromBdd(const Query& query);
         static typename Cache<T>::type_ptr& get(const unsigned int& id);
-        static std::list<typename Cache<T>::type_ptr> all();
+        /*static std::list<typename Cache<T>::type_ptr> all();
 
         template<typename U>
         static std::list<typename Cache<T>::type_ptr> filter(const std::string& colum,const std::string& ope,const U& value);
         static std::list<typename Cache<T>::type_ptr> filter(const Filter& filter);
-        static std::list<typename Cache<T>::type_ptr> filter(const std::list<Filter>& filters);
+        static std::list<typename Cache<T>::type_ptr> filter(const std::list<Filter>& filters);*/
 
         virtual bool save(bool recursive=false,bool force=false);
         virtual bool del();
@@ -66,9 +66,9 @@ namespace orm
         virtual const std::string& getTable()const {return table;};
         virtual const Bdd* getBdd()const{return bdd_used;};
 
-        virtual void _nameAttrs(std::string& q_str)const;
-        virtual void _nameTables(std::string& q_str)const;
-        virtual void _nameFks(std::string& q_str)const;
+        virtual void _nameAttrs(std::string& q_str,const std::string& prefix)const;
+        virtual void _nameTables(std::string& q_str,const std::string& prefix)const;
+        virtual void _makeJoin(std::string& q_str,const std::string& prefix)const;
 
         private:
         template<typename U> friend class Cache;
@@ -81,9 +81,9 @@ namespace orm
         static std::vector<const VAttr*> colum_attrs;
         static std::vector<const VFK*> colum_fks;
 
-        static void nameAttrs(std::string& q_str,bool recur=true);
-        static void nameTables(std::string& q_str,bool recur=true);
-        static void nameFks(std::string& q_str);
+        static void nameAttrs(std::string& q_str,const std::string& prefix,bool recur=true);
+        static void nameTables(std::string& q_str,const std::string& prefix,bool recur=true);
+        static void makeJoin(std::string& q_str,const std::string& prefix);
 
         static T* _get_ptr(const unsigned int id);
     };

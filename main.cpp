@@ -28,18 +28,18 @@ class Stats : public orm::SQLObject<Stats>
         Stats();
         orm::Attr<int> pv;
         orm::Attr<int> pi;
-        orm::Attr<int> intelligence;
+        /*orm::Attr<int> intelligence;
         orm::Attr<int> force;
         orm::Attr<int> defence;
         orm::Attr<int> vattaque;
         orm::Attr<int> esquive;
         orm::Attr<int> chance;
         orm::Attr<int> charme;
-        orm::Attr<int> mouvement;
+        orm::Attr<int> mouvement;*/
 
-        MAKE_STATIC_COLUM(pv,pi,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement)
+        MAKE_STATIC_COLUM(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
 };
-REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
+REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
 
 //TODO ajouter à loadobjet un argument en plus : la colonne (facultatif)
 class Perso : public orm::SQLObject<Perso>
@@ -49,11 +49,11 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<std::string> name;
         orm::Attr<int> lvl;
         //orm::FK<Stats> stats;
-        //orm::FK<Stats> stats2;
+        orm::FK<Stats> stats2;
 
         //orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUM(name,lvl/*,stats,stats2*/)
+        MAKE_STATIC_COLUM(name,lvl/*,stats*/,stats2)
 };
 
 /*
@@ -64,9 +64,14 @@ FROM perso T1
 INNER JOIN stats T2 ON (T1.stats_tmp = `T2`.`id`)
 INNER JOIN stats T3 ON (T1.stats = `T3`.`id`)
 WHERE (`T1`.`id` = '1' );
+
+SELECT `perso`.`id` AS 'perso.id', perso.stats AS 'perso.stats', perso.lvl AS 'perso.lvl', perso.name AS 'perso.name'
+,`perso__stats`.`id` AS 'perso.stats.id', `perso__stats`.`pi` AS 'perso.stats.pi', `perso__stats`.`pv` AS 'perso.stats.pv'
+FROM perso,stats perso__stats
+WHERE (`perso`.`id` = '1' AND perso.stats = `perso__stats`.`id`)
 */
 
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl"/*,stats,"stats",stats2,"stats_tmp"*/)
+REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl"/*,stats,"stats"*/,stats2,"stats_tmp")
 //M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 //REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
 //Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2)/*, spells(*this)*/

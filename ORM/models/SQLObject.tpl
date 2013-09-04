@@ -1,6 +1,17 @@
 #include <ORM/backends/Bdd.hpp>
 #include <ORM/backends/Filter.hpp>
 
+const std::string TABLE_ALIAS_SEPARATOR("__");
+
+inline const std::string JOIN_ALIAS(const std::string& prefix,const std::string& colum)
+{
+    return prefix+TABLE_ALIAS_SEPARATOR+colum;
+};
+
+inline const std::string MAKE_PREFIX(const std::string& prefix,const std::string& table)
+{
+    return (prefix.size()>0)?JOIN_ALIAS(prefix,table):table;
+};
 
 namespace orm
 {
@@ -31,17 +42,17 @@ namespace orm
     T* SQLObject<T>::_get_ptr(const unsigned int id)
     {
         std::string q_str ="SELECT ";
-        nameAttrs(q_str);
+        nameAttrs(q_str,"");
                                     
         q_str+="\nFROM ";
-        nameTables(q_str);
+        nameTables(q_str,"");
 
         q_str+=" \nWHERE ("
         +bdd_used->escape_colum(table)+"."
         +bdd_used->escape_colum("id")+ " "
         +bdd_used->escape_value("exact",std::to_string(id));
 
-        nameFks(q_str);
+        //nameFks(q_str);
         q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
@@ -56,7 +67,7 @@ namespace orm
         return res;
     };
 
-    template<typename T>
+    /*template<typename T>
     template<typename U>
     std::list<typename Cache<T>::type_ptr> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value)
     {
@@ -144,7 +155,7 @@ namespace orm
         q->getObj(res);
         delete q;
         return res;
-    };
+    };*/
 
     template<typename T>
     bool SQLObject<T>::save(bool recursive,bool force)
@@ -177,74 +188,85 @@ namespace orm
     };
 
     template<typename T>
-    void SQLObject<T>::nameAttrs(std::string& q_str,bool recur)
+    void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,bool recur)
     {
-        q_str+= bdd_used->escape_colum(table)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(table+".id");
+        const std::string table_alias = MAKE_PREFIX(prefix,table);
+
+        q_str+= bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(JOIN_ALIAS(table_alias,"id"));
         
         {
             const int size = colum_attrs.size();
             for(int i=0;i<size;++i)
             {
                 const std::string& col = colum_attrs[i]->getColum();
-                q_str+= ", "+col+" AS "+bdd_used->escape_value(col);
+                q_str+= ", "
+                +bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum(col)
+                +" AS "
+                +bdd_used->escape_value(JOIN_ALIAS(table_alias,col));
             }
         }
         if(not recur)
             return;
+
         const int size = colum_fks.size();
         for(int i=0;i<size;++i)
         {
             q_str+="\n";
             const SQLObjectBase& object = colum_fks[i]->getObject();
             q_str+=",";
-            object._nameAttrs(q_str);
+            object._nameAttrs(q_str,table_alias);
         }
     }
 
     template<typename T>
-    void SQLObject<T>::nameTables(std::string& q_str,bool recur)
+    void SQLObject<T>::nameTables(std::string& q_str,const std::string& prefix, bool recur)
     {
-        q_str+=table;
+        const std::string table_alias = MAKE_PREFIX(prefix,table);
+        const std::string escaped_table_alias = bdd_used->escape_colum(table_alias);
+
+        q_str+=escaped_table_alias+" AS "+escaped_table_alias;
         if(not recur)
             return;
-        const int size = colum_fks.size();
-        for(int i=0;i<size;++i)
-        {
-            q_str+=",";
-            colum_fks[i]->getObject()._nameTables(q_str);
-        }
+
+        makeJoin(q_str,table_alias);
     }
 
     template<typename T>
-    void SQLObject<T>::nameFks(std::string& q_str)
+    void SQLObject<T>::makeJoin(std::string& q_str,const std::string& prefix)
     {
         const int size = colum_fks.size();
-
         for(int i=0;i<size;++i)
         {
+
             const SQLObjectBase& object = colum_fks[i]->getObject();
-            q_str+= " AND "+colum_fks[i]->getColum()
-                +" "+bdd_used->operators.at("exact")
-                +bdd_used->escape_colum(object.getTable())+"."+bdd_used->escape_colum("id");
-            object._nameFks(q_str);
+            const std::string& col = colum_fks[i]->getColum();
+            const std::string table_alias = MAKE_PREFIX(prefix,col);
+
+            q_str+= "\nINNER JOIN "+object.getTable()+" AS "+table_alias
+                +" ON ("
+                +bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum(col)
+                +bdd_used->operators.at("exact")
+                +bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum("id")
+                +")";
+            object._makeJoin(q_str,table_alias);
         }
     }
 
     template<typename T>
-    void SQLObject<T>::_nameAttrs(std::string& q_str)const
+    void SQLObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix)const
     {
-        SQLObject<T>::nameAttrs(q_str);
+        SQLObject<T>::nameAttrs(q_str,prefix);
     }
 
     template<typename T>
-    void SQLObject<T>::_nameTables(std::string& q_str)const
+    void SQLObject<T>::_nameTables(std::string& q_str,const std::string& prefix)const
     {
-        SQLObject<T>::nameTables(q_str);
+        SQLObject<T>::nameTables(q_str,prefix);
     }
 
     template<typename T>
-    void SQLObject<T>::_nameFks(std::string& q_str)const
+    void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix)const
     {
-        SQLObject<T>::nameFks(q_str);
+        SQLObject<T>::makeJoin(q_str,prefix);
     }
 };
