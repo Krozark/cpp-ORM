@@ -43,9 +43,9 @@ namespace orm
             std::vector<VAttr*> attrs;
             std::vector<VFK*> fks;
 
-            virtual void _nameAttrs(std::string& q_str,const std::string& prefix)const =0;
-            virtual void _nameTables(std::string& q_str,const std::string& prefix)const =0;
-            virtual void _makeJoin(std::string& q_str,const std::string& prefix)const =0;
+            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const =0;
 
             virtual const std::string& getTable() const = 0;
             virtual const Bdd* getBdd() const = 0;

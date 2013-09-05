@@ -50,10 +50,11 @@ class Perso : public orm::SQLObject<Perso>
         orm::Attr<int> lvl;
         orm::FK<Stats> stats;
         orm::FK<Stats> stats2;
+        //orm::FK<Perso> maitre;
 
         //orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUM(name,lvl,stats,stats2)
+        MAKE_STATIC_COLUM(name,lvl,stats,stats2/*,maitre*/)
 };
 
 /*
@@ -71,7 +72,7 @@ FROM perso,stats perso__stats
 WHERE (`perso`.`id` = '1' AND perso.stats = `perso__stats`.`id`)
 */
 
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
+REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp"/*,maitre,"maitre"*/)
 //M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 //REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
 //Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2)/*, spells(*this)*/
@@ -90,7 +91,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
     
-    auto& p1 = Perso::get(1);
+    auto& p1 = Perso::get(1,DEFAULT_MAX_DEPTH);
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<" add 1 to lvl"<<endl;
     p1->lvl = p1->lvl + 1;

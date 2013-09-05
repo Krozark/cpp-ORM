@@ -33,6 +33,7 @@ namespace orm
         return *value_ptr;
     }
 
+    //TODO getOrCreate max_depth
     template<typename T>
     bool FK<T>::get(const Query& query)
     {
@@ -41,7 +42,7 @@ namespace orm
         if(res)
         {
             const unsigned int id = fk;
-            value_ptr = T::cache.getOrCreate(id,query);
+            value_ptr = T::cache.getOrCreate(id,query,DEFAULT_MAX_DEPTH);
         }
         //res = res and (value_ptr->loadFromBdd(query));
         //TODO add to cache??

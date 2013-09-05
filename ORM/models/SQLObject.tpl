@@ -33,19 +33,22 @@ namespace orm
     };
 
     template<typename T>
-    typename Cache<T>::type_ptr& SQLObject<T>::get(const unsigned int& id)
+    typename Cache<T>::type_ptr& SQLObject<T>::get(const unsigned int& id,int max_depth)
     {
-        return cache.getOrCreate(id);
+        return cache.getOrCreate(id,max_depth);
     }
     
     template<typename T>
-    T* SQLObject<T>::_get_ptr(const unsigned int id)
+    T* SQLObject<T>::_get_ptr(const unsigned int id,int max_depth)
     {
+        if(max_depth <0)
+            return 0;
+
         std::string q_str ="SELECT ";
-        nameAttrs(q_str,table);
+        nameAttrs(q_str,table,max_depth);
                                     
         q_str+="\nFROM ";
-        nameTables(q_str,"");
+        nameTables(q_str,"",max_depth);
 
         q_str+=" \nWHERE ("
         +bdd_used->escape_colum(table)+"."
@@ -186,7 +189,7 @@ namespace orm
     };
 
     template<typename T>
-    void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,bool recur)
+    void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)
     {
         q_str+= bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(JOIN_ALIAS(prefix,"id"));
         
@@ -201,9 +204,9 @@ namespace orm
                 +bdd_used->escape_value(JOIN_ALIAS(prefix,col));
             }
         }
-        if(not recur)
+        if(--max_depth <0)
             return;
-
+        
         const int size = colum_fks.size();
         for(int i=0;i<size;++i)
         {
@@ -212,27 +215,27 @@ namespace orm
             const std::string table_alias = MAKE_PREFIX(prefix,col);
 
             q_str+="\n,";
-            object._nameAttrs(q_str,table_alias);
+            object._nameAttrs(q_str,table_alias,max_depth);
         }
     }
 
     template<typename T>
-    void SQLObject<T>::nameTables(std::string& q_str,const std::string& prefix, bool recur)
+    void SQLObject<T>::nameTables(std::string& q_str,const std::string& prefix,int max_depth)
     {
         const std::string table_alias = MAKE_PREFIX(prefix,table);
         const std::string escaped_table_alias = bdd_used->escape_colum(table_alias);
 
         q_str+=escaped_table_alias+" AS "+escaped_table_alias;
-        if(not recur)
-            return;
 
-        makeJoin(q_str,table_alias);
+        if(--max_depth>=0)
+            makeJoin(q_str,table_alias,max_depth);
     }
 
     template<typename T>
-    void SQLObject<T>::makeJoin(std::string& q_str,const std::string& prefix)
+    void SQLObject<T>::makeJoin(std::string& q_str,const std::string& prefix,int max_depth)
     {
         const int size = colum_fks.size();
+        --max_depth;
         for(int i=0;i<size;++i)
         {
 
@@ -246,25 +249,27 @@ namespace orm
                 +bdd_used->operators.at("exact")
                 +bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum("id")
                 +")";
-            object._makeJoin(q_str,table_alias);
+
+            if(max_depth>=0)
+                object._makeJoin(q_str,table_alias,max_depth);
         }
     }
 
     template<typename T>
-    void SQLObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix)const
+    void SQLObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const
     {
-        SQLObject<T>::nameAttrs(q_str,prefix);
+        SQLObject<T>::nameAttrs(q_str,prefix,max_depth);
     }
 
     template<typename T>
-    void SQLObject<T>::_nameTables(std::string& q_str,const std::string& prefix)const
+    void SQLObject<T>::_nameTables(std::string& q_str,const std::string& prefix,int max_depth)const
     {
-        SQLObject<T>::nameTables(q_str,prefix);
+        SQLObject<T>::nameTables(q_str,prefix,max_depth);
     }
 
     template<typename T>
-    void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix)const
+    void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const
     {
-        SQLObject<T>::makeJoin(q_str,prefix);
+        SQLObject<T>::makeJoin(q_str,prefix,max_depth);
     }
 };
