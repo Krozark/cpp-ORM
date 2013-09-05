@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.8.1deb1
+-- version 3.4.10.1deb1
 -- http://www.phpmyadmin.net
 --
--- Client: localhost
--- Généré le: Jeu 05 Septembre 2013 à 01:50
--- Version du serveur: 5.5.31-0ubuntu0.13.04.1
--- Version de PHP: 5.4.9-4ubuntu2.1
+-- Host: localhost
+-- Generation Time: Sep 05, 2013 at 12:24 PM
+-- Server version: 5.5.32
+-- PHP Version: 5.3.10-1ubuntu3.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données: `test`
+-- Database: `test`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `perso`
+-- Table structure for table `perso`
 --
 
 CREATE TABLE IF NOT EXISTS `perso` (
@@ -32,22 +32,23 @@ CREATE TABLE IF NOT EXISTS `perso` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lvl` int(11) NOT NULL,
   `stats_tmp` int(11) NOT NULL,
+  `master` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `stats` (`stats`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Contenu de la table `perso`
+-- Dumping data for table `perso`
 --
 
-INSERT INTO `perso` (`name`, `stats`, `id`, `lvl`, `stats_tmp`) VALUES
-('test1', 1, 1, 80, 5),
-('test2', 2, 4, 789, 6);
+INSERT INTO `perso` (`name`, `stats`, `id`, `lvl`, `stats_tmp`, `master`) VALUES
+('test1', 1, 1, 80, 5, 4),
+('test2', 2, 4, 789, 6, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `stats`
+-- Table structure for table `stats`
 --
 
 CREATE TABLE IF NOT EXISTS `stats` (
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `stats` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
--- Contenu de la table `stats`
+-- Dumping data for table `stats`
 --
 
 INSERT INTO `stats` (`id`, `pv`, `pi`, `int`, `force`, `def`, `vatq`, `esq`, `chance`, `charme`, `mouvement`) VALUES
@@ -76,11 +77,11 @@ INSERT INTO `stats` (`id`, `pv`, `pi`, `int`, `force`, `def`, `vatq`, `esq`, `ch
 (6, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 --
--- Contraintes pour les tables exportées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `perso`
+-- Constraints for table `perso`
 --
 ALTER TABLE `perso`
   ADD CONSTRAINT `perso_ibfk_1` FOREIGN KEY (`stats`) REFERENCES `stats` (`id`);

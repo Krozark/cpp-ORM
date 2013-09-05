@@ -180,7 +180,7 @@
     template<> const std::string orm::SQLObject<klass>::table = colum;\
     template<> orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;\
     template<> std::vector<const orm::VAttr*> orm::SQLObject<klass>::colum_attrs = std::vector<const orm::VAttr*>();\
-    template<> std::vector<const orm::VFK*> orm::SQLObject<klass>::colum_fks = std::vector<const orm::VFK*>();\
+    template<> std::vector<orm::VFK*> orm::SQLObject<klass>::colum_fks = std::vector<orm::VFK*>();\
     template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>();\
     template<> orm::Cache<klass> orm::SQLObject<klass>::cache = orm::Cache<klass>();
 

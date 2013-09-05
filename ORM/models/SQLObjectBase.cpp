@@ -9,7 +9,7 @@ namespace orm
     {
     }; 
 
-    bool SQLObjectBase::loadFromBdd(const Query& query)
+    bool SQLObjectBase::loadFromBdd(const Query& query/*,const std::string& prefix, int max_depth*/)
     {
         bool res = true;
         for(VAttr* attr: attrs)

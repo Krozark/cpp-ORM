@@ -59,7 +59,7 @@ namespace orm
         Query* q = bdd_used->query(q_str);
 
         T* res = new T();
-        if(not q->getObj(*res))
+        if(not q->getObj(*res,max_depth))
         {
             delete res;
             res = 0;
@@ -211,6 +211,8 @@ namespace orm
         for(int i=0;i<size;++i)
         {
             const SQLObjectBase& object = colum_fks[i]->getObject();
+            /*if (&object == NULL)
+                continue;*/
             const std::string& col = colum_fks[i]->getColum();
             const std::string table_alias = MAKE_PREFIX(prefix,col);
 
@@ -240,10 +242,12 @@ namespace orm
         {
 
             const SQLObjectBase& object = colum_fks[i]->getObject();
+            /*if (&object == NULL)
+                continue;*/
             const std::string& col = colum_fks[i]->getColum();
             const std::string table_alias = MAKE_PREFIX(prefix,col);
 
-            q_str+= "\nINNER JOIN "+object.getTable()+" AS "+table_alias
+            q_str+= "\nLEFT JOIN "+object.getTable()+" AS "+table_alias
                 +" ON ("
                 +bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum(col)
                 +bdd_used->operators.at("exact")

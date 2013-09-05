@@ -14,7 +14,7 @@ namespace orm
     template<typename T>
     FK<T>::FK(const std::string& colum) : VFK(colum)/*, value_ptr(0)*/
     {
-        value_ptr.reset(new T());
+        //value_ptr.reset(new T());
     }
 
     template<typename T>
@@ -28,8 +28,10 @@ namespace orm
 
 
     template<typename T>
-    const SQLObjectBase& FK<T>::getObject()const
+    const SQLObjectBase& FK<T>::getObject()
     {
+        if (value_ptr == NULL)
+            value_ptr.reset(new T());
         return *value_ptr;
     }
 

@@ -27,12 +27,22 @@ namespace orm
         public:
         Register()
         {
+            #if DEBUG & DEBUG_REGISTER
+            std::cout<<MAGENTA<<"[Register] Table "<<T::table<<BLANC<<std::endl;
+            #endif
+
             static T tmp;
             for(VAttr* attr: tmp.attrs)
+            {
                 SQLObject<T>::colum_attrs.emplace_back(attr);
+            }
             for(VFK* fk: tmp.fks)
+            {
                 SQLObject<T>::colum_fks.emplace_back(fk);
-
+            }
+            #if DEBUG & DEBUG_REGISTER
+            std::cout<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
+            #endif
         }
     };
 
@@ -46,7 +56,7 @@ namespace orm
         SQLObject& operator=(const SQLObject&) = delete;
 
         static T* createFromBdd(const Query& query);
-        static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth);
+        static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=DEFAULT_MAX_DEPTH);
         /*static std::list<typename Cache<T>::type_ptr> all();
 
         template<typename U>
@@ -79,7 +89,7 @@ namespace orm
 
         static Register<T> _register;
         static std::vector<const VAttr*> colum_attrs;
-        static std::vector<const VFK*> colum_fks;
+        static std::vector<VFK*> colum_fks;
 
         static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
         static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);

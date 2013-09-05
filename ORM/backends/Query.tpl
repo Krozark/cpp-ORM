@@ -1,7 +1,7 @@
 namespace orm
 {
     template<typename T>
-    int Query::getObj(T& obj)
+    int Query::getObj(T& obj,int max_depth)
     {
         if(not executed)
             execute();
@@ -12,7 +12,7 @@ namespace orm
     };
 
     template<typename T>
-    int Query::getObj(std::list<std::shared_ptr<T> >& objs)
+    int Query::getObj(std::list<std::shared_ptr<T> >& objs,int max_depth)
     {
         if(not executed)
             execute();

@@ -18,7 +18,7 @@ namespace orm
 
             ~FK(); //TODO --on cache counter
 
-            virtual const SQLObjectBase& getObject()const;
+            virtual const SQLObjectBase& getObject();
             virtual bool save(bool recursive=false,bool force=false);            
 
             typedef T type;
