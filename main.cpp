@@ -92,6 +92,7 @@ int main(int argc,char* argv[])
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
     auto& p1 = Perso::get(1,0);
+    cout<<&p1<<endl;
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<" add 1 to lvl"<<endl;
     p1->lvl = p1->lvl + 1;

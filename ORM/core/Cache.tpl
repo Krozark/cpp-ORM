@@ -1,5 +1,6 @@
 namespace orm
 {
+
     //TODO tester le retour de _get_ptr qui peut être 0
     template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,int max_depth)

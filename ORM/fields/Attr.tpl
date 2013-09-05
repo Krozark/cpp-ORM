@@ -15,9 +15,7 @@ namespace orm
     template<typename T>
     bool Attr<T>::get(const Query& query,const std::string& prefix,int max_depth)
     {
-        return query.get(value,
-                         JOIN_ALIAS(prefix,colum)
-                         );
+        return query.get(value,JOIN_ALIAS(prefix,colum));
     };
 
     template<typename T>
