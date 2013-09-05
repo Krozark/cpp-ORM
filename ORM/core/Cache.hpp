@@ -20,7 +20,7 @@ namespace orm
             type_ptr& getOrCreate(const unsigned int& pk,int max_depth);
 
             //construct object from query if not in cache
-            type_ptr& getOrCreate(const unsigned int& pk,const Query& query);
+            type_ptr& getOrCreate(const unsigned int& pk,const Query& query,const std::string& prefix,int max_depth);
 
             //if tmp->pk if cache, reture cache[pk] and delete tmp, else make tmp as type_ptr
             //type_ptr& getOrCreate(T* tmp);

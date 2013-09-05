@@ -37,17 +37,22 @@ namespace orm
 
     //TODO getOrCreate max_depth
     template<typename T>
-    bool FK<T>::get(const Query& query)
+    bool FK<T>::get(const Query& query,const std::string& prefix,int max_depth)
     {
-        bool res = query.get(fk,colum);
-        //TODO cheque cache
-        if(res)
+        const std::string colum_alias(JOIN_ALIAS(prefix,colum));
+        bool res = query.get(fk,colum_alias);
+
+        if(res and --max_depth>=0)
         {
             const unsigned int id = fk;
-            value_ptr = T::cache.getOrCreate(id,query);
+            value_ptr = T::cache.getOrCreate(id,query,colum_alias,max_depth);
         }
+        //TODO delete ptr or set to NULL???
+        /*else
+        {
+            value_ptr = NULL;
+        }*/
         //res = res and (value_ptr->loadFromBdd(query));
-        //TODO add to cache??
         return res;
     }
     

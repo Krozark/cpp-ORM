@@ -45,7 +45,7 @@ namespace orm
 
             /* construct objects from the query result and the number of object created */
             template<typename T>
-            int getObj(T& obj);
+            int getObj(T& obj,int max_depth);
 
             template<typename T>
             int getObj(std::list<std::shared_ptr<T>>& objs);

@@ -2,7 +2,7 @@
 #define ORM_VATTR_HPP
 
 #include <string>
-#include <ORM/debug.hpp>
+#include <ORM/externals.hpp>
 
 namespace orm
 {
@@ -34,7 +34,7 @@ namespace orm
             const std::string& colum;
             virtual void print(std::ostream& output) const =0;
             virtual bool set(Query& query,const unsigned int& colum) const = 0;
-            virtual bool get(const Query& query) = 0;
+            virtual bool get(const Query& query,const std::string& prefix,int max_depth) = 0;
     };
 };
 

@@ -1,17 +1,6 @@
 #include <ORM/backends/Bdd.hpp>
 #include <ORM/backends/Filter.hpp>
 
-const std::string TABLE_ALIAS_SEPARATOR("__");
-
-inline const std::string JOIN_ALIAS(const std::string& prefix,const std::string& colum)
-{
-    return prefix+TABLE_ALIAS_SEPARATOR+colum;
-};
-
-inline const std::string MAKE_PREFIX(const std::string& prefix,const std::string& table)
-{
-    return (prefix.size()>0)?JOIN_ALIAS(prefix,table):table;
-};
 
 namespace orm
 {
@@ -21,7 +10,7 @@ namespace orm
     };
 
     template<typename T>
-    T* SQLObject<T>::createFromBdd(const Query& query)
+    T* SQLObject<T>::createFromBdd(const Query& query,const std::string&, int max_depth)
     {
         T* res = new T();
         if(not res->loadFromBdd(query))
@@ -59,7 +48,7 @@ namespace orm
         Query* q = bdd_used->query(q_str);
 
         T* res = new T();
-        if(not q->getObj(*res))
+        if(not q->getObj(*res,max_depth))
         {
             delete res;
             res = 0;

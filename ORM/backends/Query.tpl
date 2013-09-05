@@ -1,13 +1,13 @@
 namespace orm
 {
     template<typename T>
-    int Query::getObj(T& obj)
+    int Query::getObj(T& obj,int max_depth)
     {
         if(not executed)
             execute();
         
         if (next())
-            return obj.loadFromBdd(*this);
+            return obj.loadFromBdd(*this,max_depth);
         return 0;
     };
 

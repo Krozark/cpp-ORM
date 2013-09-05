@@ -4,7 +4,7 @@
 #include <vector>
 #include <ostream>
 
-#include <ORM/debug.hpp>
+#include <ORM/externals.hpp>
 
 namespace orm
 {
@@ -25,11 +25,12 @@ namespace orm
             SQLObjectBase(const SQLObjectBase&)=delete;
             SQLObjectBase& operator=(const SQLObjectBase&)=delete;
 
-            bool loadFromBdd(const Query& query);
+            bool loadFromBdd(const Query& query,int max_depth);
             virtual bool save(bool recursive=false,bool force=false) = 0;
             virtual bool del() = 0;
 
             friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
+
 
         protected:
             friend class Bdd;
@@ -42,6 +43,8 @@ namespace orm
             int pk;
             std::vector<VAttr*> attrs;
             std::vector<VFK*> fks;
+
+            bool loadFromBdd(const Query& query,const std::string& prefix,int max_depth);
 
             virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const =0;
             virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const =0;
