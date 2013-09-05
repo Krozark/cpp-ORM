@@ -59,7 +59,7 @@ namespace orm
         Query* q = bdd_used->query(q_str);
 
         T* res = new T();
-        if(not q->getObj(*res,max_depth))
+        if(not q->getObj(*res))
         {
             delete res;
             res = 0;

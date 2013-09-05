@@ -25,7 +25,7 @@ namespace orm
             SQLObjectBase(const SQLObjectBase&)=delete;
             SQLObjectBase& operator=(const SQLObjectBase&)=delete;
 
-            bool loadFromBdd(const Query& query/*,const std::string& prefix,int max_depth*/);
+            bool loadFromBdd(const Query& query);
             virtual bool save(bool recursive=false,bool force=false) = 0;
             virtual bool del() = 0;
 

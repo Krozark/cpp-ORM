@@ -45,10 +45,10 @@ namespace orm
 
             /* construct objects from the query result and the number of object created */
             template<typename T>
-            int getObj(T& obj,int max_depth);
+            int getObj(T& obj);
 
             template<typename T>
-            int getObj(std::list<std::shared_ptr<T>>& objs,int max_depth);
+            int getObj(std::list<std::shared_ptr<T>>& objs);
 
             friend std::ostream& operator<<(std::ostream& output,const Query* self)
             {

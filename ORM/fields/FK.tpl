@@ -44,7 +44,7 @@ namespace orm
         if(res)
         {
             const unsigned int id = fk;
-            value_ptr = T::cache.getOrCreate(id,query,DEFAULT_MAX_DEPTH);
+            value_ptr = T::cache.getOrCreate(id,query);
         }
         //res = res and (value_ptr->loadFromBdd(query));
         //TODO add to cache??
