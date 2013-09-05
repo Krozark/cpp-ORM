@@ -10,10 +10,10 @@ namespace orm
     };
 
     template<typename T>
-    T* SQLObject<T>::createFromBdd(const Query& query,const std::string&, int max_depth)
+    T* SQLObject<T>::createFromBdd(const Query& query,const std::string& prefix, int max_depth)
     {
         T* res = new T();
-        if(not res->loadFromBdd(query))
+        if(not res->loadFromBdd(query,prefix,max_depth))
         {
             delete res;
             res = 0;
