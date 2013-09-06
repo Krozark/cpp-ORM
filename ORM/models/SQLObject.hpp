@@ -65,7 +65,7 @@ namespace orm
         static std::list<typename Cache<T>::type_ptr> filter(const std::list<Filter>& filters);*/
 
         virtual bool save(bool recursive=false,bool force=false);
-        virtual bool del();
+        virtual bool del(bool recursive=false,bool force=false);
 
         static  Bdd* bdd_used;
 

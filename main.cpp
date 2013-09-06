@@ -89,6 +89,11 @@ int main(int argc,char* argv[])
     p1->save(true);
     cout<<"Current perso1 "<<*p1<<endl;
 
+    cout<<"delete p1->master->master"<<endl;
+    p1->maitre->maitre.del(true);
+
+    cout<<"Current perso1 "<<*p1<<endl;
+
 
     /*
        cout<<"All persos"<<endl;

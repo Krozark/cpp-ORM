@@ -7,6 +7,7 @@ namespace orm
     template<typename T>
     SQLObject<T>::SQLObject()
     {
+        std::cout<<"SQLObject<T>::SQLObject "<<table<<std::endl;
     };
 
     template<typename T>
@@ -169,13 +170,19 @@ namespace orm
     }
 
     template<typename T>
-    bool SQLObject<T>::del()
+    bool SQLObject<T>::del(bool recursive,bool force)
     {
+        bool res =true;
         if(bdd_used->del(table,pk))
         {
             cache.del(pk);
             pk = -1;
-            return true;
+            if(recursive)
+            {
+                for(VFK* fk : fks)
+                    res = res && fk->del(recursive,force);
+            }
+            return res;
         }
         return false;
     };

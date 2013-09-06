@@ -18,6 +18,7 @@ namespace orm
 
             virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
             virtual bool save(bool recursive=false,bool force=false);            
+            virtual bool del(bool recursive=false,bool force=false);
 
             typedef T type;
 

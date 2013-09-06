@@ -27,7 +27,7 @@ namespace orm
 
             bool loadFromBdd(const Query& query,int max_depth);
             virtual bool save(bool recursive=false,bool force=false) = 0;
-            virtual bool del() = 0;
+            virtual bool del(bool recursive=false,bool force=false) = 0;
 
             friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
 

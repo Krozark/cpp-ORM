@@ -124,7 +124,6 @@ namespace orm
     template<typename T>
     bool FKBase<T>::save(bool recursive,bool force)
     {
-        std::cerr<<"FKBase<T>::save "<<T::table<<" ["<<colum<<"]"<<std::endl;
         bool res = false;
 
         if(loaded)
@@ -136,6 +135,18 @@ namespace orm
         {
             getObjectT_ptr();
             res = value_ptr->save(recursive,force);
+            fk = value_ptr->pk;
+        }
+        return res;
+    }
+
+    template<typename T>
+    bool FKBase<T>::del(bool recursive,bool force)
+    {
+        bool res = false;
+        if(loaded)
+        {
+            res = value_ptr->del(recursive,force);
             fk = value_ptr->pk;
         }
         return res;
