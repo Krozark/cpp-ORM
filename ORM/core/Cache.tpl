@@ -1,5 +1,12 @@
 namespace orm
 {
+    template<typename T>
+    Cache<T>::Cache()
+    {
+        #if ORM_DEBUG & ORM_DEBUG_REGISTER
+        std::cout<<MAGENTA<<"[Register] Cache of "<<T::table<<BLANC<<std::endl;
+        #endif
+    };
 
     //TODO tester le retour de _get_ptr qui peut être 0
     template<typename T>

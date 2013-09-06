@@ -13,7 +13,7 @@ namespace orm
     class Bdd;
     class VFK;
     template<typename T> class Register;
-    template<typename T> class FK;
+    template<typename T> class FKBase;
     template<typename T> class SQLObject;
 
 
@@ -34,7 +34,7 @@ namespace orm
 
         protected:
             friend class Bdd;
-            template<typename T> friend class FK;
+            template<typename T> friend class FKBase;
             friend class VFK;
             friend class VAttr;
             template<typename T> friend class Register;

@@ -1,40 +1,18 @@
 #ifndef ORM_FK_HPP
 #define ORM_FK_HPP
 
-#include <ORM/fields/VFK.hpp>
-#include <memory>
+#include <ORM/fields/private/FKBase.hpp>
 
 namespace orm
 {
-    class Query;
-
-    template<typename T>
-    class FK : public VFK
+    template<typename T,bool NULLABLE>
+    class FK : public FKBase<T>
     {
         public:
-            FK(const int& id,const std::string& colum);//TODO ++on cache counter
-            FK(const std::string& colum);//TODO idem
+            FK(const int& id,const std::string& colum);
+            FK(const std::string& colum);
+
             FK(const FK&) = delete;
-
-            ~FK(); //TODO --on cache counter
-
-            virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
-            virtual bool save(bool recursive=false,bool force=false);            
-
-            typedef T type;
-
-            T& operator*();
-            T* operator->();
-
-            FK<T>& operator=(const FK<T>& other);
-
-        protected:
-            std::shared_ptr<T> value_ptr;
-
-            virtual void print(std::ostream& output) const;
-            virtual bool set(Query& query,const unsigned int& colum) const;
-            virtual bool get(const Query& query,const std::string& prefix,int max_depth);
-
     };
 }
 

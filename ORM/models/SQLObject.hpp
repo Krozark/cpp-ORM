@@ -3,7 +3,7 @@
 
 //orm::
     #include <ORM/models/SQLObjectBase.hpp>
-    #include <ORM/fields/VAttr.hpp>
+    #include <ORM/fields/private/VAttr.hpp>
     #include <ORM/core/Cache.hpp>
     #include <ORM/core/macros.hpp>
     //std::
@@ -17,7 +17,7 @@ namespace orm
     class Filter;
     class VAttr;
     class VFK;
-    template<typename T> class FK;
+    template<typename T> class FKBase;
     template<typename T> class SQLObject;
 
     /* class to register colum name as static (Hack) */
@@ -84,7 +84,7 @@ namespace orm
         template<typename U> friend class Cache;
         template<typename U> friend class Register;
         template<typename U,typename V> friend class ManyToMany;
-        friend class FK<T>;
+        friend class FKBase<T>;
         friend class Query;
 
         static Register<T> _register;

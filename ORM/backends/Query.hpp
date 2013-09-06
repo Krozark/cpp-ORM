@@ -12,7 +12,7 @@ namespace orm
 {
     class Bdd;
     class MySQLBdd;
-    template<typename T> class FK;
+    template<typename T> class FKBase;
     template<typename T> class Attr;
 
     class Query
@@ -60,7 +60,7 @@ namespace orm
             friend class Bdd;
             friend class MySQLBdd;
             template<typename T> friend class Attr;
-            template<typename T> friend class FK;
+            template<typename T> friend class FKBase;
             /* query as string */
             std::string query;
             /* where to execute the query */
@@ -78,6 +78,8 @@ namespace orm
             virtual bool set(const float& value,const unsigned int& colum) = 0;
             virtual bool set(const long double& value,const unsigned int& colum) = 0;
             virtual bool set(const std::string& value,const unsigned int& colum) = 0;
+
+            virtual bool setNull(const int& value,const unsigned int& colum) = 0;
 
             bool prepared;
 

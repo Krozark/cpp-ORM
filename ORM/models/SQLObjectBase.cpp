@@ -1,6 +1,6 @@
 #include <ORM/models/SQLObjectBase.hpp>
-#include <ORM/fields/VAttr.hpp>
-#include <ORM/fields/VFK.hpp>
+#include <ORM/fields/private/VAttr.hpp>
+#include <ORM/fields/private/VFK.hpp>
 #include <ORM/backends/Query.hpp>
 
 namespace orm
@@ -17,7 +17,7 @@ namespace orm
     bool SQLObjectBase::loadFromBdd(const Query& query,const std::string& prefix,int max_depth)
     {
         bool res = true;
-        const std::string& table_alias(MAKE_PREFIX(prefix,getTable()));
+        const std::string& table_alias = (prefix.size()>0)?prefix:getTable();
         for(VAttr* attr: attrs)
         {
             res = res && attr->get(query,table_alias,max_depth);
@@ -38,9 +38,10 @@ namespace orm
 
     std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self)
     {
-        output<<"[id/pk]:"<<self.pk<<" ";
+        output<<"{[id/pk]:"<<self.pk<<" ";
         for(VAttr* attr: self.attrs)
             output<<"["<<attr->getColum()<<"]:"<<*attr<<" ";
+        output<<"}";
         return output;
     };
 };

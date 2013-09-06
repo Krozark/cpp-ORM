@@ -154,7 +154,7 @@ namespace orm
     bool SQLObject<T>::save(bool recursive,bool force)
     {
         if (not force)
-            force = (pk == -1);
+            force = (pk <= 0);
 
         if(recursive)
         {

@@ -5,9 +5,7 @@ orm::MySQLBdd def("root","root","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
-#include <ORM/fields/Attr.hpp>
-#include <ORM/fields/FK.hpp>
-#include <ORM/fields/ManyToMany.hpp>
+#include <ORM/fields.hpp>
 #include <ORM/models/SQLObject.hpp>
 
 
@@ -48,30 +46,14 @@ class Perso : public orm::SQLObject<Perso>
         Perso();
         orm::Attr<std::string> name;
         orm::Attr<int> lvl;
-        orm::FK<Stats> stats;
-        orm::FK<Stats> stats2;
-        orm::FK<Perso> maitre;
+        orm::FK<Stats,false> stats;
+        orm::FK<Stats,false> stats2;
+        orm::FK<Perso,true> maitre;
 
         //orm::ManyToMany<Perso,Spell> spells;
 
         MAKE_STATIC_COLUM(name,lvl,stats,stats2,maitre)
 };
-
-/*
-   SELECT `T1`.`id` AS 'T1.id', `T1`.`stats_tmp` AS 'T1.stats_tmp', `T1`.`stats` AS 'T1.stats', `T1`.`lvl` AS 'T1.lvl', `T1`.`name` AS 'T1.name'
-   ,`T2`.`id` AS 'T2.id'
-   ,`T3`.`id` AS 'T3.id'
-   FROM perso T1
-   INNER JOIN stats T2 ON (T1.stats_tmp = `T2`.`id`)
-   INNER JOIN stats T3 ON (T1.stats = `T3`.`id`)
-   WHERE (`T1`.`id` = '1' );
-
-   SELECT `perso`.`id` AS 'perso.id', perso.stats AS 'perso.stats', perso.lvl AS 'perso.lvl', perso.name AS 'perso.name'
-   ,`perso__stats`.`id` AS 'perso.stats.id', `perso__stats`.`pi` AS 'perso.stats.pi', `perso__stats`.`pv` AS 'perso.stats.pv'
-   FROM perso,stats perso__stats
-   WHERE (`perso`.`id` = '1' AND perso.stats = `perso__stats`.`id`)
-   */
-
 REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 //M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 //REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
@@ -91,8 +73,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-    auto& p1 = Perso::get(1,0);
-    cout<<p1.get()<<endl;
+    auto& p1 = Perso::get(1,2);
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<" add 1 to lvl"<<endl;
     p1->lvl = p1->lvl + 1;
@@ -100,6 +81,13 @@ int main(int argc,char* argv[])
     cout<<"save it"<<endl;
     cout<<"current lvl: "<<p1->lvl<<endl;
     p1->save();
+
+    cout<<"Current perso1 "<<*p1<<endl;
+    cout<<" add 2 to stats.pv"<<endl;
+    p1->stats->pv += 2;
+    cout<<"Current perso1 "<<*p1<<endl;
+    p1->save(true);
+    cout<<"Current perso1 "<<*p1<<endl;
 
 
     /*

@@ -1,17 +1,33 @@
-all: main.exe
+SRC = $(wildcard *.c*)
+OBJ = $(SRC:.cpp=.o) $(SRC:*.cpp=.o)
+
+SUBDIRS = private
+
+CLEANDIRS = $(SUBDIRS:%=clean-%)
+
+.PHONY: subdirs $(SUBDIRS)
+.PHONY: subdirs $(CLEANDIRS)
+
+all: $(OBJ) subdirs
+
+subdirs: $(SUBDIRS)
+     
+$(SUBDIRS):
+	$(MAKE) -C $@
+
 
 .cpp.o:
-	$(CC) $(FLAGS) -o "$@" -c "$<" 
-	@cp $@ "$(OBJ_DIR)"
+	$(CC) $(FLAGS) -o $@ -c $^;
+	@cp $@ $(OBJ_DIR)
 
-.c.o:
-	$(CC) $(FLAGS) -o "$@" -c "$<"
-	@cp $@ "$(OBJ_DIR)"
-
-
-main.exe: VAttr.o VFK.o 
+.c.o :
+	$(CC) $(FLAGS) -o $@ -c $^;
+	@cp $@ $(OBJ_DIR)
 
 
-clean:
+clean: $(CLEANDIRS)
+
+$(CLEANDIRS): 
+	$(MAKE) -C $(@:clean-%=%) clean
 	@rm -f *.o
-	@rm -f *.exe
+	@rm -f $(EXEC)

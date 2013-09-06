@@ -29,12 +29,15 @@ namespace orm
             friend class Bdd;
             friend class SQLObjectBase;
             template<typename T> friend class Register;
+            template<typename T> friend class SQLObject;
 
             bool modify;
             const std::string& colum;
             virtual void print(std::ostream& output) const =0;
-            virtual bool set(Query& query,const unsigned int& colum) const = 0;
+            virtual bool set(Query& query,const unsigned int& colum) = 0;
             virtual bool get(const Query& query,const std::string& prefix,int max_depth) = 0;
+
+
     };
 };
 

@@ -14,6 +14,10 @@ namespace orm
     class Cache
     {
         public:
+            Cache();
+            //Cache(const Cache<T>&)=delete;
+            //Cache<T>& operator=(const Cache<T>&)=delete;
+            
             typedef std::shared_ptr<T> type_ptr;
             
             //make query to get object if not in cache

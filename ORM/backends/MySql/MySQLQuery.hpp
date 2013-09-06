@@ -52,6 +52,7 @@ namespace orm
             virtual bool set(const float& value,const unsigned int& colum);
             virtual bool set(const long double& value,const unsigned int& colum);
             virtual bool set(const std::string& value,const unsigned int& colum);
+            virtual bool setNull(const int& value,const unsigned int& colum);
 
 
         private:
@@ -60,5 +61,33 @@ namespace orm
             sql::PreparedStatement *prepared_statement;
     };
 };
+/* sql::DataType (mysql)
+ * 	enum {
+		UNKNOWN = 0,
+		BIT,
+		TINYINT,
+		SMALLINT,
+		MEDIUMINT,
+		INTEGER,
+		BIGINT,
+		REAL,
+		DOUBLE,
+		DECIMAL,
+		NUMERIC,
+		CHAR,
+		BINARY,
+		VARCHAR,
+		VARBINARY,
+		LONGVARCHAR,
+		LONGVARBINARY,
+		TIMESTAMP,
+		DATE,
+		TIME,
+		YEAR,
+		GEOMETRY,
+		ENUM,
+		SET,
+		SQLNULL
+	};*/
 
 #endif

@@ -262,4 +262,12 @@ namespace orm
         prepared_statement->setString(colum,value);
         return true;
     };
+
+    bool MySQLQuery::setNull(const int& value,const unsigned int& colum)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setNull(colum,sql::DataType::INTEGER);
+        return true;
+    };
 };

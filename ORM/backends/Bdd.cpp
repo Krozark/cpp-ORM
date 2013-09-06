@@ -3,7 +3,7 @@
 
 #include <ORM/models/SQLObjectBase.hpp>
 
-#include <ORM/fields/VAttr.hpp>
+#include <ORM/fields/private/VAttr.hpp>
 
 namespace orm
 {
