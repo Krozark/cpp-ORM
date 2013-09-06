@@ -3,7 +3,7 @@
 
 namespace orm
 {
-    VFK::VFK(const std::string& colum) : VAttr(colum) , fk(-1)
+    VFK::VFK(const std::string& colum) : VAttr(colum) , fk(-1), loaded(false)
     {
     }
 

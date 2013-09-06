@@ -17,7 +17,7 @@ namespace orm
     bool SQLObjectBase::loadFromBdd(const Query& query,const std::string& prefix,int max_depth)
     {
         bool res = true;
-        const std::string& table_alias(JOIN_ALIAS(prefix,getTable()));
+        const std::string& table_alias(MAKE_PREFIX(prefix,getTable()));
         for(VAttr* attr: attrs)
         {
             res = res && attr->get(query,table_alias,max_depth);
@@ -26,6 +26,12 @@ namespace orm
         {
             query.get(pk,JOIN_ALIAS(table_alias,"id"));
         }
+        #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
+        else
+        {
+            std::cerr<<ROUGE<<"[GET OBJ] SQLObjectBase::loadFromBdd(const Query& query,const std::string& prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
+        }
+        #endif
         return res;
     };
 

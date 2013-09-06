@@ -50,6 +50,9 @@ namespace orm
         T* res = new T();
         if(not q->getObj(*res,max_depth))
         {
+            #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
+            std::cerr<<ROUGE<<"[GET OBJ] SQLObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<BLANC<<std::endl;
+            #endif
             delete res;
             res = 0;
         }

@@ -1,15 +1,22 @@
 #ifndef ORM_DEBUG_HPP
 #define ORM_DEBUG_HPP
 
-#define DEFAULT_MAX_DEPTH 1
+#define ORM_DEFAULT_MAX_DEPTH 1
 
-#define DEGUG_NO 0
-#define DEBUG_SQL 1<<1
-#define DEBUG_REGISTER 1<<2
+#define ORM_ALLOW_EXCEPTION 0
 
-#define DEBUG (DEBUG_SQL | DEBUG_REGISTER)
+#define ORM_DEGUG_NO 0
+#define ORM_DEBUG_SQL 1<<1
+#define ORM_DEBUG_REGISTER 1<<2
+#define ORM_DEBUG_GET_OBJ 1<<3
+#define ORM_DEBUG_GET_ATTR 1<<4
 
-#if DEBUG > 0
+#define ORM_DEBUG_FULL (0xFFFFFFFF)
+
+//#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
+#define ORM_DEBUG (ORM_DEBUG_FULL)
+
+#if ORM_DEBUG > 0
 #include <iostream>
 #endif
 

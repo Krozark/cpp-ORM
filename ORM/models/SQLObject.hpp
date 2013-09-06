@@ -27,7 +27,7 @@ namespace orm
         public:
         Register()
         {
-            #if DEBUG & DEBUG_REGISTER
+            #if ORM_DEBUG & ORM_DEBUG_REGISTER
             std::cout<<MAGENTA<<"[Register] Table "<<T::table<<BLANC<<std::endl;
             #endif
 
@@ -40,7 +40,7 @@ namespace orm
             {
                 SQLObject<T>::colum_fks.emplace_back(fk);
             }
-            #if DEBUG & DEBUG_REGISTER
+            #if ORM_DEBUG & ORM_DEBUG_REGISTER
             std::cout<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
             #endif
         }
@@ -56,7 +56,7 @@ namespace orm
         SQLObject& operator=(const SQLObject&) = delete;
 
         static T* createFromBdd(const Query& query,const std::string& prefix,int max_depth);
-        static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=DEFAULT_MAX_DEPTH);
+        static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=ORM_DEFAULT_MAX_DEPTH);
         /*static std::list<typename Cache<T>::type_ptr> all();
 
         template<typename U>

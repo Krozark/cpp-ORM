@@ -28,10 +28,22 @@ namespace orm
 
 
     template<typename T>
-    const SQLObjectBase& FK<T>::getObject()
+    const SQLObjectBase& FK<T>::getObject(int max_depth)
     {
-        if (value_ptr == NULL)
-            value_ptr.reset(new T());
+        if (not loaded)
+        {
+            if(fk>0)
+            {
+                const unsigned int id = fk;
+                value_ptr = T::cache.getOrCreate(id,max_depth);
+                loaded = true;
+            }
+            else
+            {
+                value_ptr.reset(new T());
+                loaded = true;
+            }
+        }
         return *value_ptr;
     }
 
@@ -46,6 +58,7 @@ namespace orm
         {
             const unsigned int id = fk;
             value_ptr = T::cache.getOrCreate(id,query,colum_alias,max_depth);
+            loaded = true;
         }
         //TODO delete ptr or set to NULL???
         /*else
@@ -59,7 +72,10 @@ namespace orm
     template<typename T>
     void FK<T>::print(std::ostream& output) const
     {
-        output<<"{"<<(*value_ptr)<<"}";
+        if(loaded)
+            output<<"{fk:"<<fk<<","<<(*value_ptr)<<"}";
+        else
+            output<<"{fk:"<<fk<<",NULL}";
     }
 
     template<typename T>
@@ -68,12 +84,26 @@ namespace orm
         return query.set(fk,colum);
     };
 
+
+    template<typename T>
+    T& FK<T>::operator*()
+    {
+        return getObject();
+    };
+
+    template<typename T>
+    T* FK<T>::operator->()
+    {
+        return getObject()->operator->();
+    };
+
     template<typename T>
     FK<T>& FK<T>::operator=(const FK<T>& other)
     {
         modify = true;
         fk = other.fk;
         value_ptr = other.value_ptr;
+        loaded = other.loaded;
     }
 
     template<typename T>

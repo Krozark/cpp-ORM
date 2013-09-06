@@ -102,7 +102,7 @@ namespace orm
     bool MySQLBdd::executeQuery(Query& query)
     {
         MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
-        #if DEBUG & DEBUG_SQL
+        #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<"\033[32m"<<query.query<<"\033[00m"<<std::endl;
         #endif
         if(query.prepared)

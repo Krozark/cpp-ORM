@@ -41,89 +41,154 @@ namespace orm
 
     bool MySQLQuery::get(bool& value,const std::string& colum)const
     {
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getBoolean(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(int& value,const std::string& colum)const
     {
+
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getInt(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(unsigned int& value,const std::string& colum)const
     {
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getUInt(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(long long int& value,const std::string& colum)const
     {    
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getInt64(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(long long unsigned int& value,const std::string& colum)const
     {
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getUInt64(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(float& value,const std::string& colum)const
     {
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = static_cast<float>(bdd_res->getDouble(colum));
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(long double& value,const std::string& colum)const
     {
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getDouble(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 
     bool MySQLQuery::get(std::string& value,const std::string& colum)const
     {
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
+        #endif
+
+        #if ORM_ALLOW_EXCEPTION
         try{
+        #endif
             value = bdd_res->getString(colum);
+        #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
             return false;
         }
+        #endif
         return true;
     };
 

@@ -56,7 +56,7 @@ namespace orm
         q->set(owner.pk,_owner);
         q->set(obj.pk,_linked);
 
-        #if DEBUG & DEBUG_SQL
+        #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cout<<"\033[33m"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<std::endl;
         #endif
         

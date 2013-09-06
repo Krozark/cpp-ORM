@@ -18,13 +18,13 @@ namespace orm
 
             ~FK(); //TODO --on cache counter
 
-            virtual const SQLObjectBase& getObject();
+            virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
             virtual bool save(bool recursive=false,bool force=false);            
 
             typedef T type;
 
-            T& operator*(){return *value_ptr;};
-            T* operator->(){return value_ptr.operator->();};
+            T& operator*();
+            T* operator->();
 
             FK<T>& operator=(const FK<T>& other);
 
