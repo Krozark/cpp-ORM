@@ -78,9 +78,9 @@ namespace orm
     void FKBase<T>::print(std::ostream& output) const
     {
         if(loaded)
-            output<<"{fk:"<<fk<<","<<(*value_ptr)<<"}";
+            output<<(*value_ptr);
         else
-            output<<"{fk:"<<fk<<",NULL}";
+            output<<"{[id/pk]:"<<fk<<",NULL}";
     }
 
     template<typename T>
