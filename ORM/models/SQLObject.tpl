@@ -180,7 +180,10 @@ namespace orm
             if(recursive)
             {
                 for(VFK* fk : fks)
-                    res = res && fk->del(recursive,force);
+                {
+                    bool tmp = fk->del(recursive,force);
+                    res = res && tmp;
+                }
             }
             return res;
         }

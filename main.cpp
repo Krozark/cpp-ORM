@@ -1,7 +1,7 @@
 #include <ORM/backends/MySql.hpp>
 
-//orm::MySQLBdd def("root","toor","test");
-orm::MySQLBdd def("root","root","test");
+orm::MySQLBdd def("root","toor","test");
+//orm::MySQLBdd def("root","root","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 

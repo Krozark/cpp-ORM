@@ -20,7 +20,8 @@ namespace orm
         const std::string& table_alias = (prefix.size()>0)?prefix:getTable();
         for(VAttr* attr: attrs)
         {
-            res = res && attr->get(query,table_alias,max_depth);
+            bool tmp = attr->get(query,table_alias,max_depth);
+            res = res &&  tmp;
         }
         if(res)
         {
