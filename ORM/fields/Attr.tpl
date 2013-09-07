@@ -29,4 +29,10 @@ namespace orm
     {
         return query.set(value,colum);
     };
+
+    template<typename T>
+    std::ostream& Attr<T>::print_value(std::ostream& output)const
+    {
+        return (output<<value);
+    }
 };

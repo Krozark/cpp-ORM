@@ -7,7 +7,6 @@ namespace orm
     template<typename T>
     SQLObject<T>::SQLObject()
     {
-        std::cout<<"SQLObject<T>::SQLObject "<<table<<std::endl;
     };
 
     template<typename T>

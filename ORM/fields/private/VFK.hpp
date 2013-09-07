@@ -18,6 +18,8 @@ namespace orm
             virtual bool save(bool recursive=false,bool force=false) = 0;            
             virtual bool del(bool recursive=false,bool force=false) = 0;
 
+            virtual std::ostream& print_value(std::ostream& output)const;
+
         protected:
             template<typename T> friend class SQLObject;
             int fk;

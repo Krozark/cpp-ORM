@@ -21,6 +21,8 @@ namespace orm
 
             friend std::ostream& operator<<(std::ostream& output,const VAttr& self);
 
+            virtual std::ostream& print_value(std::ostream& output)const = 0;
+
             const std::string& getColum() const;
 
             virtual void registerAttr(SQLObjectBase&);

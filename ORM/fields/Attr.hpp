@@ -72,6 +72,8 @@ namespace orm
             template<typename U> Attr<T>& operator/=(const Attr<U>& v) {value/=v.value;modify=true;return*this;};
             template<typename U> Attr<T>& operator%=(const Attr<U>& v) {value%=v.value;modify=true;return*this;};
 
+            virtual std::ostream& print_value(std::ostream& output)const;
+
         protected:
             virtual void print(std::ostream& output) const;
             virtual bool set(Query& query,const unsigned int& colum);

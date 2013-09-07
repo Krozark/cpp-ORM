@@ -12,4 +12,9 @@ namespace orm
         object.attrs.emplace_back(this);
         object.fks.emplace_back(this);
     }
+
+    std::ostream& VFK::print_value(std::ostream& output)const
+    {
+        return (output<<fk);
+    }
 };

@@ -120,11 +120,11 @@ namespace orm
             int j=1;
             for(unsigned int i=0;i<size;++i)
             {
-                #if ORM_DEBUG & ORM_DEBUG_SQL
-                std::cout<<","<<*attrs[i];
-                #endif
                 if(attrs[i]->modify)
                 {
+                    #if ORM_DEBUG & ORM_DEBUG_SQL
+                    attrs[i]->print_value(std::cout)<<",";
+                    #endif
                     attrs[i]->set(q,j++);
                     attrs[i]->modify = false;
                 }
