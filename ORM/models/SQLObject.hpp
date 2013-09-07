@@ -28,7 +28,7 @@ namespace orm
         Register()
         {
             #if ORM_DEBUG & ORM_DEBUG_REGISTER
-            std::cout<<MAGENTA<<"[Register] Table "<<T::table<<BLANC<<std::endl;
+            std::cerr<<MAGENTA<<"[Register] Table "<<T::table<<BLANC<<std::endl;
             #endif
 
             static T tmp;
@@ -41,7 +41,7 @@ namespace orm
                 SQLObject<T>::colum_fks.emplace_back(fk);
             }
             #if ORM_DEBUG & ORM_DEBUG_REGISTER
-            std::cout<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
+            std::cerr<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
             #endif
         }
     };

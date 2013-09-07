@@ -4,7 +4,7 @@ namespace orm
     Cache<T>::Cache()
     {
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
-        std::cout<<MAGENTA<<"[Register] Cache of "<<T::table<<BLANC<<std::endl;
+        std::cerr<<MAGENTA<<"[Register] Cache of "<<T::table<<BLANC<<std::endl;
         #endif
     };
 
@@ -56,6 +56,6 @@ namespace orm
     void Cache<T>::__print__()
     {
         for(auto& i : map)
-            std::cout<<*i.second<<std::endl;
+            std::cerr<<*i.second<<std::endl;
     }
 }

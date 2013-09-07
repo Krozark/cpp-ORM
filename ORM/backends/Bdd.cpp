@@ -49,7 +49,7 @@ namespace orm
             str_q+=");";
             
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cout<<"\033[33m"<<str_q<<"\nVALUES = (";
+            std::cerr<<"\033[33m"<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -57,13 +57,13 @@ namespace orm
             for(unsigned int i=0;i<size;++i)
             {
                 #if ORM_DEBUG & ORM_DEBUG_SQL
-                std::cout<<","<<*attrs[i];
+                std::cerr<<","<<*attrs[i];
                 #endif
                 attrs[i]->set(q,i+1);
                 attrs[i]->modify = false;
             }
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cout<<")"<<std::endl;
+            std::cerr<<")"<<std::endl;
             #endif
 
             executeQuery(q);
@@ -71,7 +71,7 @@ namespace orm
 
             pk = getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cout<<" new PK: "<<pk<<"\033[00m"<<std::endl;
+            std::cerr<<" new PK: "<<pk<<"\033[00m"<<std::endl;
             #endif
 
             return true;
@@ -105,14 +105,14 @@ namespace orm
             if(first) //NO MAJ TODO
             {
                 #if ORM_DEBUG & ORM_DEBUG_SQL
-                std::cout<<"\033[36m"<<str_q<<"\nNo Update needed, exit\033[00m"<<std::endl;
+                std::cerr<<"\033[36m"<<str_q<<"\nNo Update needed, exit\033[00m"<<std::endl;
                 #endif
 
                 return true;
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cout<<"\33[34m"<<str_q<<"\nVALUES = (";
+            std::cerr<<"\33[34m"<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -123,7 +123,7 @@ namespace orm
                 if(attrs[i]->modify)
                 {
                     #if ORM_DEBUG & ORM_DEBUG_SQL
-                    attrs[i]->print_value(std::cout)<<",";
+                    attrs[i]->print_value(std::cerr)<<",";
                     #endif
                     attrs[i]->set(q,j++);
                     attrs[i]->modify = false;
@@ -131,7 +131,7 @@ namespace orm
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cout<<")\33[00m"<<std::endl;
+            std::cerr<<")\33[00m"<<std::endl;
             #endif
             executeQuery(q);
             delete &q;
@@ -145,7 +145,7 @@ namespace orm
         std::string str_q = "DELETE FROM "+escape_colum(table)+" WHERE ("+escape_colum(table)+"."+escape_colum("id")+operators.at("exact")+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cout<<"\033[31m"<<str_q<<"\033[00m"<<std::endl;
+        std::cerr<<"\033[31m"<<str_q<<"\033[00m"<<std::endl;
         #endif
 
         Query* q = prepareQuery(str_q);
