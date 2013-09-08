@@ -15,7 +15,11 @@ namespace orm
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
-        map[pk].reset(T::_get_ptr(pk,max_depth));
+        T* ptr = T::_get_ptr(pk,max_depth);
+        //if(ptr == 0)
+            
+
+        map[pk].reset(ptr);
         return map[pk];
     }
     
