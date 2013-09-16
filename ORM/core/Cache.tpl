@@ -35,7 +35,7 @@ namespace orm
         return r;
     }
 
-    /*template<typename T>
+    template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(T* tmp)
     {
         const auto& res=map.find(tmp->pk);
@@ -47,7 +47,7 @@ namespace orm
         type_ptr& r = map[tmp->pk];
         r.reset(tmp);
         return r;
-    }*/
+    }
 
     template<typename T>
     void Cache<T>::del(const int& pk)

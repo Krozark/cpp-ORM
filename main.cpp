@@ -1,7 +1,7 @@
 #include <ORM/backends/MySql.hpp>
 
-orm::MySQLBdd def("root","toor","test");
-//orm::MySQLBdd def("root","root","test");
+//orm::MySQLBdd def("root","toor","test");
+orm::MySQLBdd def("root","root","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -73,7 +73,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-    auto& p1 = Perso::get(1);
+    /*auto& p1 = Perso::get(1);
     cout<<"Current perso1 "<<*p1<<endl;
     cout<<" add 1 to lvl"<<endl;
     p1->lvl = p1->lvl + 1;
@@ -92,7 +92,12 @@ int main(int argc,char* argv[])
     cout<<"delete p1->master->master"<<endl;
     p1->maitre->maitre.del(true);
 
-    cout<<"Current perso1 "<<*p1<<endl;
+    cout<<"Current perso1 "<<*p1<<endl;*/
+
+   cout<<"All persos"<<endl;
+   std::list<std::shared_ptr<Perso> > lis= Perso::all();
+   for(auto u : lis)
+       cout<<*u<<endl;
 
 
     /*

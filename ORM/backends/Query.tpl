@@ -15,14 +15,14 @@ namespace orm
     };
 
     template<typename T>
-    int Query::getObj(std::list<std::shared_ptr<T> >& objs)
+    int Query::getObj(std::list<std::shared_ptr<T> >& objs,int max_depth)
     {
         if(not executed)
             execute();
         int res = 0;
         while(next())
         {
-            T* tmp = T::createFromBdd(*this);
+            T* tmp = T::createFromBdd(*this,"",max_depth);
             if (tmp)
             {
                 objs.emplace_back(T::cache.getOrCreate(tmp));

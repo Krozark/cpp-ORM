@@ -48,7 +48,7 @@ namespace orm
             int getObj(T& obj,int max_depth);
 
             template<typename T>
-            int getObj(std::list<std::shared_ptr<T>>& objs);
+            int getObj(std::list<std::shared_ptr<T>>& objs,int max_depth);
 
             friend std::ostream& operator<<(std::ostream& output,const Query* self)
             {

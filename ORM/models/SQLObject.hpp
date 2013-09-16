@@ -2,12 +2,12 @@
 #define ORM_SQLOBJECT_HPP
 
 //orm::
-    #include <ORM/models/SQLObjectBase.hpp>
-    #include <ORM/fields/private/VAttr.hpp>
-    #include <ORM/core/Cache.hpp>
-    #include <ORM/core/macros.hpp>
-    //std::
-        #include <memory>
+#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/fields/private/VAttr.hpp>
+#include <ORM/core/Cache.hpp>
+#include <ORM/core/macros.hpp>
+//std::
+#include <memory>
 
 
 namespace orm
@@ -56,10 +56,12 @@ namespace orm
         SQLObject& operator=(const SQLObject&) = delete;
 
         static T* createFromBdd(const Query& query,const std::string& prefix,int max_depth);
+        
         static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=ORM_DEFAULT_MAX_DEPTH);
-        /*static std::list<typename Cache<T>::type_ptr> all();
 
-        template<typename U>
+        static std::list<typename Cache<T>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
+
+        /*template<typename U>
         static std::list<typename Cache<T>::type_ptr> filter(const std::string& colum,const std::string& ope,const U& value);
         static std::list<typename Cache<T>::type_ptr> filter(const Filter& filter);
         static std::list<typename Cache<T>::type_ptr> filter(const std::list<Filter>& filters);*/

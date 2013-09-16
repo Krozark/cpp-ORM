@@ -1,5 +1,4 @@
 #include <ORM/backends/Bdd.hpp>
-#include <ORM/backends/Filter.hpp>
 
 
 namespace orm
@@ -56,6 +55,24 @@ namespace orm
             delete res;
             res = 0;
         }
+        delete q;
+        return res;
+    };
+
+    template<typename T>
+    std::list<typename Cache<T>::type_ptr> SQLObject<T>::all(int max_depth)
+    {
+        std::string q_str ="SELECT ";
+        nameAttrs(q_str,table,max_depth);
+                                    
+        q_str+="\nFROM ";
+        nameTables(q_str,"",max_depth);
+
+        Query* q = bdd_used->query(q_str);
+
+        std::list<typename Cache<T>::type_ptr> res;
+        q->getObj(res,max_depth);
+
         delete q;
         return res;
     };
@@ -128,27 +145,8 @@ namespace orm
         }
         //no filters
         return all();
-    }
+    }*/
 
-    template<typename T>
-    std::list<typename Cache<T>::type_ptr> SQLObject<T>::all()
-    {
-        std::string q_str ="SELECT ";
-        nameAttrs(q_str);
-                                    
-        q_str+="\nFROM ";
-        nameTables(q_str);
-
-        q_str+=" \nWHERE ( 1=1";
-        nameFks(q_str);
-        q_str+=") ";
-
-        Query* q = bdd_used->query(q_str);
-        std::list<typename Cache<T>::type_ptr> res;
-        q->getObj(res);
-        delete q;
-        return res;
-    };*/
 
     template<typename T>
     bool SQLObject<T>::save(bool recursive,bool force)
