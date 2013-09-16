@@ -58,7 +58,7 @@ namespace orm
     }
 
     template<typename T>
-    void Cache<T>::del(const int& pk)
+    void Cache<T>::del(const unsigned int& pk)
     {
         map.erase(pk);
     }

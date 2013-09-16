@@ -110,7 +110,6 @@ int main(int argc,char* argv[])
     */
 
     {
-        /*
        cout<<"Create Perso"<<endl;
        Perso* p2 = new Perso;
 
@@ -124,7 +123,6 @@ int main(int argc,char* argv[])
 
        cout<<"save it"<<endl;
        p2->save();
-       */
 
        //cout<<"All persos (current="<<*p2<<")"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();

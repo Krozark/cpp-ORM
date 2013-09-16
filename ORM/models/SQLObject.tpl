@@ -151,12 +151,12 @@ namespace orm
     template<typename T>
     bool SQLObject<T>::save(bool recursive)
     {
-        if(recursive)//save all FK
+        //if(recursive)//save all FK
         {
             for(VFK* fk : fks)
                 fk->save(recursive);
         }
-        else//save or create all FK needed (not null)
+        /*else//save or create all FK needed (not null)
         {
             for(VFK* fk : fks)
             {
@@ -164,9 +164,9 @@ namespace orm
                 if(fk_tmp.nullable == false and fk_tmp.fk <=0)
                     fk_tmp.save(recursive);
             }
-        }
+        }*/
 
-        if(pk <= 0)
+        /*if(pk <= 0)
         {
             //TODO push in cache
             bool res = bdd_used->save(table,pk,attrs);
@@ -179,7 +179,7 @@ namespace orm
         else
         {
             return bdd_used->update(table,pk,attrs);
-        }
+        }*/
     }
 
     template<typename T>

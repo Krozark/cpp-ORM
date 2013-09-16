@@ -32,7 +32,7 @@ namespace orm
             type_ptr& getOrCreate(T* tmp);
 
             //delete object of specified pk
-            void del(const int& pk);
+            void del(const unsigned int& pk);
 
             void __print__();
 
