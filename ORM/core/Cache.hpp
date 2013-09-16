@@ -15,6 +15,8 @@ namespace orm
     {
         public:
             Cache();
+
+            ~Cache();
             //Cache(const Cache<T>&)=delete;
             //Cache<T>& operator=(const Cache<T>&)=delete;
             
@@ -38,6 +40,7 @@ namespace orm
 
         private:
             friend class SQLObject<T>;
+            bool add(T& obj);
             std::unordered_map<int,type_ptr> map;
     };
 }

@@ -17,18 +17,18 @@ namespace orm
             ~FKBase(); //TODO --on cache counter
 
             virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
-            virtual bool save(bool recursive=false,bool force=false);            
-            virtual bool del(bool recursive=false,bool force=false);
+            virtual bool save(bool recursive=false);            
+            virtual bool del(bool recursive=false);
 
             typedef T type;
 
-            T& operator*();
+            //T& operator*();
             T* operator->();
 
             FKBase<T>& operator=(const FKBase<T>& other);
 
         protected:
-            FKBase(const int& id,const std::string& colum,const bool nullable=true);//TODO ++on cache counter
+            //FKBase(const int& id,const std::string& colum,const bool nullable=true);//TODO ++on cache counter
             FKBase(const std::string& colum,const bool nullable=true);//TODO idem
             std::shared_ptr<T> value_ptr;
 

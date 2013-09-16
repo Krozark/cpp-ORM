@@ -4,12 +4,13 @@
 
 namespace orm
 {
-    template<typename T>
+    /*template<typename T>
     FKBase<T>::FKBase(const int& id,const std::string& colum,bool nullable) : VFK(colum,nullable)
     {
         fk = id;
         value_ptr = T::get(fk);
-    }
+        loaded = modify = true;
+    }*/
 
     template<typename T>
     FKBase<T>::FKBase(const std::string& colum,bool nullable) : VFK(colum,nullable)/*, value_ptr(0)*/
@@ -100,11 +101,11 @@ namespace orm
     };
 
 
-    template<typename T>
+    /*template<typename T>
     T& FKBase<T>::operator*()
     {
         return getObjectT_ptr();
-    };
+    };*/
 
     template<typename T>
     T* FKBase<T>::operator->()
@@ -122,31 +123,31 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::save(bool recursive,bool force)
+    bool FKBase<T>::save(bool recursive)
     {
         bool res = false;
 
         if(loaded)
         {
-            res = value_ptr->save(recursive,force);
+            res = value_ptr->save(recursive);
             fk = value_ptr->pk;
         }
         else if(not nullable)
         {
             getObjectT_ptr();
-            res = value_ptr->save(recursive,force);
+            res = value_ptr->save(recursive);
             fk = value_ptr->pk;
         }
         return res;
     }
 
     template<typename T>
-    bool FKBase<T>::del(bool recursive,bool force)
+    bool FKBase<T>::del(bool recursive)
     {
         bool res = false;
         if(loaded)
         {
-            res = value_ptr->del(recursive,force);
+            res = value_ptr->del(recursive);
             fk = value_ptr->pk;
         }
         return res;

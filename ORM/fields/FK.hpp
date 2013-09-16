@@ -9,7 +9,7 @@ namespace orm
     class FK : public FKBase<T>
     {
         public:
-            FK(const int& id,const std::string& colum);
+            //FK(const int& id,const std::string& colum);
             FK(const std::string& colum);
 
             FK(const FK&) = delete;

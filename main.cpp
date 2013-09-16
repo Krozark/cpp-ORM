@@ -34,6 +34,7 @@ class Stats : public orm::SQLObject<Stats>
           orm::Attr<int> chance;
           orm::Attr<int> charme;
           orm::Attr<int> mouvement;*/
+        ~Stats(){std::cout<<"delete Stats:"<<pk<<std::endl;}
 
         MAKE_STATIC_COLUM(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
 };
@@ -49,6 +50,7 @@ class Perso : public orm::SQLObject<Perso>
         orm::FK<Stats,false> stats;
         orm::FK<Stats,false> stats2;
         orm::FK<Perso,true> maitre;
+        ~Perso(){std::cout<<"delete Perso:"<<pk<<std::endl;}
 
         //orm::ManyToMany<Perso,Spell> spells;
 
@@ -73,60 +75,69 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-    /*auto& p1 = Perso::get(1);
-    cout<<"Current perso1 "<<*p1<<endl;
-    cout<<" add 1 to lvl"<<endl;
-    p1->lvl = p1->lvl + 1;
-    cout<<"Current perso1 "<<*p1<<endl;
-    cout<<"save it"<<endl;
-    cout<<"current lvl: "<<p1->lvl<<endl;
-    p1->save();
+    /*
+   { 
+        auto& p1 = Perso::get(1);
+        cout<<"Current perso1 "<<*p1<<endl;
+        cout<<" add 1 to lvl"<<endl;
+        p1->lvl = p1->lvl + 1;
+        cout<<"Current perso1 "<<*p1<<endl;
+        cout<<"save it"<<endl;
+        cout<<"current lvl: "<<p1->lvl<<endl;
+        p1->save();
 
-    cout<<"Current perso1 "<<*p1<<endl;
-    cout<<" add 2 to stats.pv"<<endl;
-    p1->stats->pv += 2;
-    cout<<"Current perso1 "<<*p1<<endl;
-    p1->save(true);
-    cout<<"Current perso1 "<<*p1<<endl;
+        cout<<"Current perso1 "<<*p1<<endl;
+        cout<<" add 2 to stats.pv"<<endl;
+        p1->stats->pv += 2;
+        cout<<"Current perso1 "<<*p1<<endl;
+        p1->save(true);
+        cout<<"Current perso1 "<<*p1<<endl;
 
-    cout<<"delete p1->master->master"<<endl;
-    p1->maitre->maitre.del(true);
+        cout<<"delete p1->master->master"<<endl;
+        p1->maitre->maitre.del(true);
 
-    cout<<"Current perso1 "<<*p1<<endl;*/
-
-   cout<<"All persos"<<endl;
-   std::list<std::shared_ptr<Perso> > lis= Perso::all();
-   for(auto u : lis)
-       cout<<*u<<endl;
-
+        cout<<"Current perso1 "<<*p1<<endl;
+    }
+    */
 
     /*
+   {
        cout<<"All persos"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
        cout<<*u<<endl;
-       */
-    /*
+   }
+    */
 
+    {
+        /*
        cout<<"Create Perso"<<endl;
-       Perso p2;
+       Perso* p2 = new Perso;
 
-       p2.name = "test insert";
-       p2.lvl = 75;
-       p2.save(true);
+       p2->name = "test insert";
+       p2->lvl = 75;
+       //p2.save();
 
        cout<<"Change PV to +=20"<<endl;
-       p2.stats->pv+= 20;
-       cout<<p2<<endl;
+       p2->stats->pv+= 20;
+       cout<<*p2<<endl;
 
        cout<<"save it"<<endl;
-       p2.save(true);
+       p2->save();
+       */
 
-       cout<<"All persos current="<<p2<<endl;
-       lis= Perso::all();
+       //cout<<"All persos (current="<<*p2<<")"<<endl;
+       std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
-       cout<<*u<<endl;
+           cout<<*u<<endl;
 
+       cout<<"Perso Cache"<<endl;
+       Perso::cache.__print__();
+
+       cout<<"Stats Cache"<<endl;
+       Stats::cache.__print__();
+    }
+    /*
        {
 
        std::list<std::shared_ptr<Perso> > lis= Perso::filter(Filter(Perso::_lvl,"gt",4));
@@ -146,8 +157,6 @@ int main(int argc,char* argv[])
        }
 
 
-       cout<<"delete it"<<endl;
-       p2.del();
 
        cout<<"All persos current current="<<p2<<endl;
        lis= Perso::all();

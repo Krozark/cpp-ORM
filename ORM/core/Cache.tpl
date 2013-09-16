@@ -8,6 +8,14 @@ namespace orm
         #endif
     };
 
+    template<typename T>
+    Cache<T>::~Cache()
+    {
+        std::cerr<<MAGENTA<<"[Delete] Cache of "<<T::table<<BLANC<<std::endl;
+        map.clear();
+        std::cerr<<MAGENTA<<"[Delete] END Cache of "<<T::table<<BLANC<<std::endl;
+    }
+
     //TODO tester le retour de _get_ptr qui peut être 0
     template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,int max_depth)
@@ -62,4 +70,18 @@ namespace orm
         for(auto& i : map)
             std::cerr<<*i.second<<std::endl;
     }
+
+    template<typename T>
+    bool Cache<T>::add(T& obj)
+    {
+        const auto& res=map.find(obj.pk);
+        if(res != map.end())
+        {
+            return false;
+        }
+        type_ptr& r = map[obj.pk];
+        r.reset(&obj);
+        return true;
+    }
+
 }
