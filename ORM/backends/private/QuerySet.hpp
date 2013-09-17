@@ -17,8 +17,8 @@ namespace orm
             template<typename U,typename ... Args>
             QuerySet& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
 
-            /*template<typename ... Args>
-            QuerySet& filter(Filter&& filter,Args&& ... args);*/
+            QuerySet& filter(const std::list<Filter>& filter_list);
+            QuerySet& filter(std::list<Filter>&& filter_list);
 
             /*QuerySet& orderBy(const std::string& colum);
 

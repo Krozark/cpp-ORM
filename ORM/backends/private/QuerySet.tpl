@@ -22,14 +22,20 @@ namespace orm
         return *this;
     };
 
-    /*template<typename T>
-    template<typename ... Args>
-    QuerySet<T>& QuerySet<T>::filter(Filter&& filter,Args&& ... args)
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::filter(const std::list<Filter>& filter_list)
     {
-        filters.emplace_back(filter);
-        filter(args...);
+        for(Filter& filter : filter_list)
+            filters.emplace_back(filter);
         return *this;
-    };*/
+    };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::filter(std::list<Filter>&& filter_list)
+    {
+        std::move_backward(filter_list.begin(), filter_list.end(), filters.end())
+        return *this;
+    };
 
     /*template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum)
