@@ -16,7 +16,6 @@ namespace orm
 
             template<typename U,typename ... Args>
             QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
-
             QuerySet<T>& filter(const std::list<Filter>& filter_list);
             QuerySet<T>& filter(std::list<Filter>&& filter_list);
 
@@ -24,9 +23,12 @@ namespace orm
             QuerySet<T>& orderBy(std::string&& colum);
             //QuerySet& orderBy(int,const std::string& colum);
 
-            /*QuerySet& exclude();
+            template<typename U,typename ... Args>
+            QuerySet<T>& exclude(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
+            QuerySet<T>& exclude(const std::list<Filter>& exclude_list);
+            QuerySet<T>& exclude(std::list<Filter>&& exclude_list);
 
-            QuerySet& agregate();
+            /*QuerySet& agregate();
 
             QuerySet& limite(int max);
             QuerySet& limite(int min,int max);
@@ -54,6 +56,7 @@ namespace orm
             QuerySet& operator=(const QuerySet&) = delete;
 
             std::list<Filter> filters;
+            std::list<Filter> excludes;
             std::vector<std::string> order_by;
                         
     };

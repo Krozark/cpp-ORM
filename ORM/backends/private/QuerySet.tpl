@@ -11,6 +11,8 @@ namespace orm
     QuerySet<T>::QuerySet(QuerySet&& tmp)
     {
         std::swap(filters,tmp.filters);
+        std::swap(excludes,tmp.excludes);
+        std::swap(order_by,tmp.order_by);
     }
 
     template<typename T>
@@ -49,6 +51,29 @@ namespace orm
         order_by.push_back(colum);
         return *this;
     }
+
+    template<typename T>
+    template<typename U,typename ... Args>
+    QuerySet<T>& QuerySet<T>::exclude(const U& value,const std::string& operande,const std::string& colum,const Args& ... args)
+    {
+        excludes.emplace_back(Filter(makeColumName(T::table,colum,args ...),operande,value));
+        return *this;
+    };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::exclude(const std::list<Filter>& exclude_list)
+    {
+        for(Filter& filter : exclude_list)
+            excludes.emplace_back(filter);
+        return *this;
+    };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::exclude(std::list<Filter>&& exclude_list)
+    {
+        std::move_backward(exclude_list.begin(), exclude_list.end(), excludes.end());
+        return *this;
+    };
 
     /*template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum)
