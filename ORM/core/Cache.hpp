@@ -9,6 +9,7 @@
 namespace orm
 {
     template<typename T> class SQLObject;
+    template<typename T> class FKBase;
 
     template<typename T>
     class Cache
@@ -40,7 +41,9 @@ namespace orm
 
         private:
             friend class SQLObject<T>;
-            bool add(T& obj);
+            friend class FKBase<T>;
+            type_ptr& add(T& obj);
+            type_ptr& add(type_ptr& obj);
             std::unordered_map<int,type_ptr> map;
     };
 }

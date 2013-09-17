@@ -110,6 +110,7 @@ namespace orm
     template<typename T>
     T* FKBase<T>::operator->()
     {
+        modify = true;
         return getObjectT_ptr();
     };
 
@@ -125,18 +126,21 @@ namespace orm
     template<typename T>
     bool FKBase<T>::save(bool recursive)
     {
-        bool res = false;
+        bool res = true;
 
-        if(loaded)
-        {
-            res = value_ptr->save(recursive);
-            fk = value_ptr->pk;
-        }
-        else if(not nullable)
+        if(not nullable)
         {
             getObjectT_ptr();
+        }
+        if(modify)
+        {
             res = value_ptr->save(recursive);
+            if(fk<=0)
+            {
+                value_ptr = T::cache.add(value_ptr);
+            }
             fk = value_ptr->pk;
+            modify = false;
         }
         return res;
     }

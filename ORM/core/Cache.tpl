@@ -11,9 +11,9 @@ namespace orm
     template<typename T>
     Cache<T>::~Cache()
     {
+        #if ORM_DEBUG & ORM_DEBUG_REGISTER
         std::cerr<<MAGENTA<<"[Delete] Cache of "<<T::table<<BLANC<<std::endl;
-        map.clear();
-        std::cerr<<MAGENTA<<"[Delete] END Cache of "<<T::table<<BLANC<<std::endl;
+        #endif
     }
 
     //TODO tester le retour de _get_ptr qui peut être 0
@@ -72,16 +72,29 @@ namespace orm
     }
 
     template<typename T>
-    bool Cache<T>::add(T& obj)
+    typename Cache<T>::type_ptr& Cache<T>::add(T& obj)
     {
         const auto& res=map.find(obj.pk);
         if(res != map.end())
         {
-            return false;
+            return res->second;
         }
         type_ptr& r = map[obj.pk];
         r.reset(&obj);
-        return true;
+        return r;
     }
+
+    template<typename T>
+    typename Cache<T>::type_ptr& Cache<T>::add(typename Cache<T>::type_ptr& obj)
+    {
+        const auto& res=map.find(obj->pk);
+        if(res != map.end())
+        {
+            return res->second;
+        }
+        map[obj->pk] = obj;
+        return obj;
+    }
+
 
 }
