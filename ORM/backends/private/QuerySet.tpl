@@ -152,13 +152,13 @@ namespace orm
         std::cout<<"Filter: ";
         for (auto& u :  filters)
             u.__print__();
-        std::cout<<std::endl<<"exclude: ";
+        std::cout<<"exclude: ";
         for (auto& u :  excludes)
             u.__print__();
-        std::cout<<std::endl<<"order_by: ";
+        std::cout<<"order_by: ";
         for (auto& u :  order_by)
             std::cout<<u<<" ";
-        std::cout<<std::endl<<"limite"<<limit_min<<":"<<limit_max<<std::endl;
+        std::cout<<std::endl<<"limite:<"<<limit_min<<","<<limit_max<<">"<<std::endl;
 
 
     };

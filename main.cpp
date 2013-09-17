@@ -131,7 +131,7 @@ int main(int argc,char* argv[])
    {
         auto& p1 = Perso::get(1);
        QuerySet<Perso> queryset = Perso::query();
-       queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl);
+       queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10);
 
        queryset.__print__();
        /*for(auto u : lis)
