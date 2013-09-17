@@ -3,7 +3,7 @@
 namespace orm
 {
     template<typename T>
-    QuerySet<T>::QuerySet()
+    QuerySet<T>::QuerySet(): limit_min(-1), limit_max(-1)
     {
     }
 
@@ -13,6 +13,8 @@ namespace orm
         std::swap(filters,tmp.filters);
         std::swap(excludes,tmp.excludes);
         std::swap(order_by,tmp.order_by);
+        limit_min = tmp.limit_min;
+        limit_max = tmp.limit_max;
     }
 
     template<typename T>
@@ -74,6 +76,19 @@ namespace orm
         std::move_backward(exclude_list.begin(), exclude_list.end(), excludes.end());
         return *this;
     };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::limit(const unsigned int& max)
+    {
+        limit_max = static_cast<int>(max);
+    };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::limit(const unsigned int& min,const unsigned int& max)
+    {
+        limit_min = static_cast<int>(min);
+        limit_max = static_cast<int>(max);
+    }
 
     /*template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum)

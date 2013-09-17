@@ -28,10 +28,10 @@ namespace orm
             QuerySet<T>& exclude(const std::list<Filter>& exclude_list);
             QuerySet<T>& exclude(std::list<Filter>&& exclude_list);
 
-            /*QuerySet& agregate();
+            QuerySet<T>& limit(const unsigned int& max);
+            QuerySet<T>& limit(const unsigned int& min,const unsigned int& max);
 
-            QuerySet& limite(int max);
-            QuerySet& limite(int min,int max);
+            /*QuerySet& agregate();
 
             T get();
             bool get(T& obj);
@@ -58,6 +58,7 @@ namespace orm
             std::list<Filter> filters;
             std::list<Filter> excludes;
             std::vector<std::string> order_by;
+            int limit_min,limit_max;
                         
     };
 }
