@@ -12,6 +12,7 @@ namespace orm
             template<typename T>
             Filter(const std::string& colum,const std::string& ope, const T& value);
             
+            void __print__() const;
 
         private:
             template<typename T> friend class SQLObject;

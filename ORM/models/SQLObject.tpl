@@ -1,4 +1,5 @@
 #include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/private/QuerySet.hpp>
 
 
 namespace orm
@@ -76,6 +77,13 @@ namespace orm
         delete q;
         return res;
     };
+
+    template<typename T>
+    QuerySet<T> SQLObject<T>::query()
+    {
+        return QuerySet<T>();
+    }
+
 
     /*template<typename T>
     template<typename U>

@@ -6,7 +6,10 @@ namespace std
 namespace orm
 {
     template<typename T>
-    Filter::Filter(const std::string& col,const std::string& op, const T& val) : colum(col), ope(op), value(std::to_string(val))
+    Filter::Filter(const std::string& col,const std::string& op, const T& val) :
+        colum(col),
+        ope(op),
+        value(std::to_string(val))
     {
     }
 
@@ -15,8 +18,13 @@ namespace orm
     {
     }
 
-    template<>
+    /*template<>
     Filter::Filter(const std::string& col,const std::string& op,char* const& val) : colum(col), ope(op), value(std::string(val))
     {
+    }*/
+
+    void Filter::__print__() const
+    {
+        std::cout<<colum<<" "<<ope<<" "<<value<<std::endl;
     }
 };

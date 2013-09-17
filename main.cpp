@@ -128,14 +128,17 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
-    /*
-       {
+   {
+        auto& p1 = Perso::get(1);
+       QuerySet<Perso> queryset = Perso::query();
+       queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl);
 
-       std::list<std::shared_ptr<Perso> > lis= Perso::filter(Filter(Perso::_lvl,"gt",4));
-       for(auto u : lis)
-       cout<<*u<<endl;
-       }
-       {
+       queryset.__print__();
+       /*for(auto u : lis)
+           cout<<*u<<endl;
+        */
+   }
+   /*    {
 
        list<Filter> filters = {
        Filter(Perso::_lvl,"gt",4),

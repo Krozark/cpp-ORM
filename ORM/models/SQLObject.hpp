@@ -14,11 +14,12 @@ namespace orm
 {
     class Bdd;
     class Query;
-    class Filter;
+    //class Filter;
     class VAttr;
     class VFK;
     template<typename T> class FKBase;
     template<typename T> class SQLObject;
+    template<typename T> class QuerySet;
 
     /* class to register colum name as static (Hack) */
     template<typename T>
@@ -61,10 +62,7 @@ namespace orm
 
         static std::list<typename Cache<T>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
-        /*template<typename U>
-        static std::list<typename Cache<T>::type_ptr> filter(const std::string& colum,const std::string& ope,const U& value);
-        static std::list<typename Cache<T>::type_ptr> filter(const Filter& filter);
-        static std::list<typename Cache<T>::type_ptr> filter(const std::list<Filter>& filters);*/
+        static QuerySet<T> query();
 
         virtual bool save(bool recursive=false);
         virtual bool del(bool recursive=false);
@@ -88,6 +86,7 @@ namespace orm
         template<typename U,typename V> friend class ManyToMany;
         friend class FKBase<T>;
         friend class Query;
+        friend class QuerySet<T>;
 
         static Register<T> _register;
         static std::vector<const VAttr*> colum_attrs;

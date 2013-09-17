@@ -6,16 +6,21 @@
 
 namespace orm
 {
+    template<typename T> class SQLObject;
+
     template <typename T>
     class QuerySet
     {
         public:
-            template<typename U>
-            QuerySet& filter(const std::string& colum,const std::string operande, const U& value);
-            template<typename U,typename ... Args>
-            QuerySet& filter(Filter<U>&& filter,Args&& ... args);
+            QuerySet(QuerySet<T>&& tmp);
 
-            QuerySet& orderBy(const std::string& colum);
+            template<typename U,typename ... Args>
+            QuerySet& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
+
+            /*template<typename ... Args>
+            QuerySet& filter(Filter&& filter,Args&& ... args);*/
+
+            /*QuerySet& orderBy(const std::string& colum);
 
             QuerySet& exclude();
 
@@ -26,18 +31,28 @@ namespace orm
 
             T get();
             bool get(T& obj);
-            bool get(typename std::list<Cache<T>::type_ptr>& obj);
+            bool get(typename std::list<Cache<T>::type_ptr>& obj);*/
+
+            void __print__() const;
 
 
         private:
-            QuerySet();
+            friend class SQLObject<T>;
+
+            template<typename ... Args>
+            static std::string makeColumName(const std::string& prefix,const std::string& colum,Args&& ... args);
+            template<typename ... Args>
+            static std::string makeColumName(std::string&& prefix,std::string&& colum,Args&& ... args);
+            static std::string makeColumName(std::string colum);
+
+            explicit QuerySet();
             QuerySet(const QuerySet&) = delete;
             QuerySet& operator=(const QuerySet&) = delete;
 
-            std::vector<Filter> filters;
-            std::vector<std::string> order_by;
+            std::list<Filter> filters;
+            //std::vector<std::string> order_by;
                         
     };
 }
-#include <ORM/backends/QuerySet.tpl>
+#include <ORM/backends/private/QuerySet.tpl>
 #endif

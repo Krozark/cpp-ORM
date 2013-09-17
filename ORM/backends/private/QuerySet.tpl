@@ -1,3 +1,5 @@
+#include <algorithm>    // std::swap
+
 namespace orm
 {
     template<typename T>
@@ -6,22 +8,30 @@ namespace orm
     }
 
     template<typename T>
-    template<typename U>
-    QuerySet<T>& QuerySet<T>::filter(const std::string& colum,const std::string operande, const U& value)
+    QuerySet<T>::QuerySet(QuerySet&& tmp)
     {
-        std::cerr<<"[TODO]: QuerySet<T>::filter()"<<std::endl;
-        return *this;
-    };
+        std::swap(filters,tmp.filters);
+    }
 
     template<typename T>
     template<typename U,typename ... Args>
-    QuerySet<T>& QuerySet<T>::filter(Filter<U>&& filter,Args&& ... args)
+    QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args)
     {
-        std::cerr<<"[TODO]: QuerySet<T>::filter()"<<std::endl;
+        std::string col = makeColumName(T::table,colum,args ...);
+        filters.emplace_back(Filter(col,operande,value));
         return *this;
     };
 
-    template<typename T>
+    /*template<typename T>
+    template<typename ... Args>
+    QuerySet<T>& QuerySet<T>::filter(Filter&& filter,Args&& ... args)
+    {
+        filters.emplace_back(filter);
+        filter(args...);
+        return *this;
+    };*/
+
+    /*template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum)
     {
         std::cerr<<"[TODO]: QuerySet<T>::orderBy()"<<std::endl;
@@ -75,5 +85,33 @@ namespace orm
     {
         std::cerr<<"[todo]: queryset<t>::get(Cache<T>::type_ptr&)"<<std::endl;
         return T();
+    }*/
+
+    template<typename T>
+    void QuerySet<T>::__print__() const
+    {
+        std::cout<<"Filter: ";
+        for (auto& u :  filters)
+            u.__print__();
+    };
+
+    template<typename T>
+    template<typename ... Args>
+    std::string QuerySet<T>::makeColumName(const std::string& prefix,const std::string& colum,Args&& ...args)
+    {
+        return makeColumName(JOIN_ALIAS(prefix,colum),args...);
+    }
+
+    template<typename T>
+    template<typename ... Args>
+    std::string QuerySet<T>::makeColumName(std::string&& prefix,std::string&& colum,Args&& ...args)
+    {
+        return makeColumName(JOIN_ALIAS(prefix,colum),args ...);
+    }
+
+    template<typename T>
+    std::string QuerySet<T>::makeColumName(std::string colum)
+    {
+        return colum;
     }
 }
