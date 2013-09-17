@@ -15,14 +15,16 @@ namespace orm
             QuerySet(QuerySet<T>&& tmp);
 
             template<typename U,typename ... Args>
-            QuerySet& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
+            QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
 
-            QuerySet& filter(const std::list<Filter>& filter_list);
-            QuerySet& filter(std::list<Filter>&& filter_list);
+            QuerySet<T>& filter(const std::list<Filter>& filter_list);
+            QuerySet<T>& filter(std::list<Filter>&& filter_list);
 
-            /*QuerySet& orderBy(const std::string& colum);
+            QuerySet<T>& orderBy(const std::string& colum);
+            QuerySet<T>& orderBy(std::string&& colum);
+            //QuerySet& orderBy(int,const std::string& colum);
 
-            QuerySet& exclude();
+            /*QuerySet& exclude();
 
             QuerySet& agregate();
 
@@ -39,18 +41,20 @@ namespace orm
         private:
             friend class SQLObject<T>;
 
+            explicit QuerySet();
+
             template<typename ... Args>
             static std::string makeColumName(const std::string& prefix,const std::string& colum,Args&& ... args);
             template<typename ... Args>
             static std::string makeColumName(std::string&& prefix,std::string&& colum,Args&& ... args);
             static std::string makeColumName(std::string colum);
 
-            explicit QuerySet();
+
             QuerySet(const QuerySet&) = delete;
             QuerySet& operator=(const QuerySet&) = delete;
 
             std::list<Filter> filters;
-            //std::vector<std::string> order_by;
+            std::vector<std::string> order_by;
                         
     };
 }
