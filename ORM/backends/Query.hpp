@@ -53,25 +53,120 @@ namespace orm
 
             virtual Query& orderBy(const std::string& colum,char order='+') = 0;
             virtual Query& join(const std::string& colum,const Query& other) = 0;*/
+
+            /**
+             * \brief Count the number of object returned by the batabase
+             *
+             * \return  The number of objects
+             **/
             virtual int count()const = 0;
 
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(bool& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(int& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(unsigned int& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(long long int& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(long long unsigned int& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(float& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(long double& value,const std::string& colum)const = 0;
+
+            /**
+             * \brief Get a value of a colum, and store it 
+             *
+             * \param colun The colum the extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(std::string& value,const std::string& colum)const = 0;
 
 
-            /* construct objects from the query result and the number of object created */
+            /**
+             * \brief Construct objects from the query. T must be a SQLObject
+             *
+             * \param obj Where the object will be stored
+             * \param max_depth The maximum recursion depth of object construction (for FK)
+             *
+             * \return the number of object created
+             **/
             template<typename T>
             int getObj(T& obj,int max_depth);
 
+            /**
+             * \brief Construct objects from the query. T must be a SQLObject
+             *
+             * \param objs Where the objects will be stored
+             * \param max_depth The maximum recursion depth of object construction (for FK)
+             *
+             * \return the number of object created
+             **/
             template<typename T>
             int getObj(std::list<std::shared_ptr<T>>& objs,int max_depth);
 
+            /**
+             * \brief Print the content of the query for debug help
+             **/
             friend std::ostream& operator<<(std::ostream& output,const Query* self)
             {
                 output<<self->query;
@@ -83,31 +178,118 @@ namespace orm
             friend class MySQLBdd;
             template<typename T> friend class Attr;
             template<typename T> friend class FKBase;
-            /* query as string */
-            std::string query;
-            /* where to execute the query */
-            Bdd* bdd;
+
+            std::string query; ///<query as string
+            Bdd* bdd; ///< database where the query will be executed
     
-            /* whene the query have been execute, for parse each raw */
+            /**
+             * \brief Wwene the query have been execute, for loop in results
+             *
+             * \results fals if fail 
+             **/
             virtual bool next() = 0;
             
-            /* for prepared query */
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const bool& value,const unsigned int& colum) = 0;
+
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const int& value,const unsigned int& colum) = 0;
+
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const unsigned int& value,const unsigned int& colum) = 0;
+
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const long long int& value,const unsigned int& colum) = 0;
+
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const long long unsigned int& value,const unsigned int& colum) = 0;
+
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const float& value,const unsigned int& colum) = 0;
+
+            /**
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const long double& value,const unsigned int& colum) = 0;
+            /**
+             *
+             * \brief For prepared query only, set the colum value
+             *
+             * \param value The value to set
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool set(const std::string& value,const unsigned int& colum) = 0;
 
+            /**
+             * \brief For prepared query only, set the colum value to null
+             *
+             * \param value Not use. Allow overload only
+             * \param colum The colum number to set
+             *
+             * \results false if fail
+             **/
             virtual bool setNull(const int& value,const unsigned int& colum) = 0;
 
-            bool prepared;
+            bool prepared; ///< is the query is a prepared one?
 
         private:
+            /**
+             * \brief Execute the query on the database
+             *
+             * \return false if fail
+             **/
             bool execute();
-            bool executed;
+
+            bool executed; ///< is the query already executed?
     };
 };
 #include <ORM/backends/Query.tpl>
