@@ -18,8 +18,8 @@ namespace orm
              );*/
             std::string q_str="SELECT "
                 //owner (juste pk)
-                +bdd_used->escape_colum(T::table)+"."+bdd_used->escape_colum("id")
-                +" AS "+bdd_used->escape_value(T::table+".id");
+                +bdd_used->escapeColum(T::table)+"."+bdd_used->escapeColum("id")
+                +" AS "+bdd_used->escapeValue(T::table+".id");
             q_str+=", ";
 
             //linked(all)
@@ -27,12 +27,12 @@ namespace orm
 
             q_str+=" FROM "+table
                 +" INNER JOIN "+T::table+" ON ( "
-                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_owner)+bdd_used->operators.at("exact")+T::table+".id), "
+                +bdd_used->escapeColum(table)+"."+bdd_used->escapeColum(_owner)+bdd_used->operators.at("exact")+T::table+".id), "
                 +U::table
                 +" WHERE ("
-                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_owner)+bdd_used->operators.at("exact")+std::to_string(owner.pk)
+                +bdd_used->escapeColum(table)+"."+bdd_used->escapeColum(_owner)+bdd_used->operators.at("exact")+std::to_string(owner.pk)
                 +" AND "
-                +bdd_used->escape_colum(table)+"."+bdd_used->escape_colum(_linked)+bdd_used->operators.at("exact")+U::table+".id"
+                +bdd_used->escapeColum(table)+"."+bdd_used->escapeColum(_linked)+bdd_used->operators.at("exact")+U::table+".id"
                 +")";
             Query* q = bdd_used->query(q_str);
             linked.clear();
@@ -49,7 +49,7 @@ namespace orm
         if(obj.pk==-1)
             obj.save();
         
-        std::string q_str = "INSERT INTO "+bdd_used->escape_colum(table)
+        std::string q_str = "INSERT INTO "+bdd_used->escapeColum(table)
             +"("+_owner+","+_linked+") VALUES ((?),(?));";
 
         Query* q = bdd_used->prepareQuery(q_str);

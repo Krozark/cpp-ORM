@@ -37,7 +37,7 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "INSERT INTO "+escape_colum(table)+"("+attrs[0]->colum;
+            std::string str_q = "INSERT INTO "+escapeColum(table)+"("+attrs[0]->colum;
 
             for(unsigned int i=1;i<size;++i)
                 str_q+=","+attrs[i]->colum;
@@ -85,7 +85,7 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "UPDATE "+escape_colum(table)+" SET ";
+            std::string str_q = "UPDATE "+escapeColum(table)+" SET ";
 
             bool first(true);
             for(unsigned int i=1;i<size;++i)
@@ -99,7 +99,7 @@ namespace orm
                 }
             }
 
-            str_q+=" WHERE "+escape_colum(table)+"."+escape_colum("id")+operators.at("exact")+std::to_string(pk)+";"; //TODO colum.id
+            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+operators.at("exact")+std::to_string(pk)+";"; //TODO colum.id
             
 
             if(first) //NO MAJ TODO
@@ -142,7 +142,7 @@ namespace orm
 
     bool Bdd::del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+escape_colum(table)+" WHERE ("+escape_colum(table)+"."+escape_colum("id")+operators.at("exact")+std::to_string(pk)+");";
+        std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+operators.at("exact")+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<"\033[31m"<<str_q<<"\033[00m"<<std::endl;
@@ -155,25 +155,25 @@ namespace orm
         return true;
     };
 
-    std::string Bdd::escape_colum(const std::string& str) const
+    std::string Bdd::escapeColum(const std::string& str) const
     {
         return "'"+str+"'";
     }
 
-    std::string Bdd::escape_value(const std::string& str) const
+    std::string Bdd::escapeValue(const std::string& str) const
     {
         return "'"+str+"'";
     }
 
-    std::string Bdd::escape_value(const std::string& filter,const std::string& value) const
+    std::string Bdd::escapeValue(const std::string& filter,const std::string& value) const
     {
         if(filter == "contains")
         {
-            return operators.at(filter)+escape_value("%"+value+"%");
+            return operators.at(filter)+escapeValue("%"+value+"%");
         }
         else if(filter == "icontains")
         {
-            return operators.at(filter)+escape_value("%"+value+"%");
+            return operators.at(filter)+escapeValue("%"+value+"%");
         }
         /*else if(filter == "regex")
         {
@@ -183,23 +183,23 @@ namespace orm
         }*/
         else if(filter == "startswith")
         {
-            return operators.at(filter)+escape_value(value+"%");
+            return operators.at(filter)+escapeValue(value+"%");
         }
         else if(filter == "endswith" )
         {
-            return operators.at(filter)+escape_value("%"+value);
+            return operators.at(filter)+escapeValue("%"+value);
         }
         else if(filter == "istartswith")
         {
-            return operators.at(filter)+escape_value(value+"%");
+            return operators.at(filter)+escapeValue(value+"%");
         }
         else if(filter == "iendswith")
         {
-            return operators.at(filter)+escape_value("%"+value);
+            return operators.at(filter)+escapeValue("%"+value);
         }
         else
         {
-            return operators.at(filter)+escape_value(value);
+            return operators.at(filter)+escapeValue(value);
         }
     }
 

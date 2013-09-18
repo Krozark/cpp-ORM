@@ -174,8 +174,8 @@ namespace orm
                     if(_size == 1)
                         q_str+=" AND ";
 
-                    q_str+= T::bdd_used->escape_colum(filter.colum)
-                            +T::bdd_used->escape_value(filter.ope,filter.value);
+                    q_str+= T::bdd_used->escapeColum(filter.colum)
+                            +T::bdd_used->escapeValue(filter.ope,filter.value);
                 --_size;
                 }
             q_str+=") ";

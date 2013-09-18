@@ -2,14 +2,14 @@
 #define ORM_FILTER_HPP
 
 #include <string>
-/**
- * \brief A class representing filter in query
- **/
 namespace orm
 {
     template<typename T> class SQLObject;
     template<typename T> class QuerySet;
 
+    /**
+     * \brief A class representing filter in query
+     **/
     class Filter
     {
         public:

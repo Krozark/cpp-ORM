@@ -7,9 +7,6 @@
 #include <unordered_map>
 #include <vector>
 
-/**
- * \brief Abstract class to deal with any database 
- **/
 namespace orm
 {
     class Query;
@@ -19,6 +16,9 @@ namespace orm
     template<typename T,typename U> class ManyToMany;
     class VAttr;
 
+    /**
+     * \brief Abstract class to deal with any database 
+     **/
     class Bdd
     {
         public:
@@ -198,9 +198,9 @@ namespace orm
             *
             * \return The escaped colum name
             *
-            * \see escape_value
+            * \see escapeValue
             **/
-            virtual std::string escape_colum(const std::string& colum) const;
+            virtual std::string escapeColum(const std::string& colum) const;
 
             /**
             * \brief Escape the String
@@ -209,9 +209,9 @@ namespace orm
             *
             * \return The escaped value
             *
-            * \see escape_colum
+            * \see escapeColum
             **/
-            virtual std::string escape_value(const std::string& value) const;
+            virtual std::string escapeValue(const std::string& value) const;
 
             /**
             * \brief format the operation for the database
@@ -223,7 +223,7 @@ namespace orm
             *
             * \see operators
             **/
-            std::string escape_value(const std::string& ope,const std::string& value) const;
+            std::string escapeValue(const std::string& ope,const std::string& value) const;
     };
 };
 

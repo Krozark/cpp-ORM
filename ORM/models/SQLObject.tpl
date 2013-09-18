@@ -40,9 +40,9 @@ namespace orm
         nameTables(q_str,"",max_depth);
 
         q_str+=" \nWHERE ("
-        +bdd_used->escape_colum(table)+"."
-        +bdd_used->escape_colum("id")+ " "
-        +bdd_used->escape_value("exact",std::to_string(id));
+        +bdd_used->escapeColum(table)+"."
+        +bdd_used->escapeColum("id")+ " "
+        +bdd_used->escapeValue("exact",std::to_string(id));
         q_str+=") ";
 
         Query* q = bdd_used->query(q_str);
@@ -104,7 +104,7 @@ namespace orm
 
         q_str+=+" \nWHERE ( "
             +filter.colum+" "
-            +bdd_used->escape_value(filter.ope,filter.value);
+            +bdd_used->escapeValue(filter.ope,filter.value);
 
         nameFks(q_str);
         q_str+=") ";
@@ -138,7 +138,7 @@ namespace orm
                     q_str+="\nAND ";
                 
                 q_str+=filter.colum+" "
-                    +bdd_used->escape_value(filter.ope,filter.value);
+                    +bdd_used->escapeValue(filter.ope,filter.value);
 
                 first = false;
             }
@@ -208,7 +208,7 @@ namespace orm
     template<typename T>
     void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)
     {
-        q_str+= bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum("id")+" AS "+bdd_used->escape_value(JOIN_ALIAS(prefix,"id"));
+        q_str+= bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum("id")+" AS "+bdd_used->escapeValue(JOIN_ALIAS(prefix,"id"));
         
         {
             const int size = colum_attrs.size();
@@ -216,9 +216,9 @@ namespace orm
             {
                 const std::string& col = colum_attrs[i]->getColum();
                 q_str+= ", "
-                +bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum(col)
+                +bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum(col)
                 +" AS "
-                +bdd_used->escape_value(JOIN_ALIAS(prefix,col));
+                +bdd_used->escapeValue(JOIN_ALIAS(prefix,col));
             }
         }
         if(--max_depth <0)
@@ -242,7 +242,7 @@ namespace orm
     void SQLObject<T>::nameTables(std::string& q_str,const std::string& prefix,int max_depth)
     {
         const std::string table_alias = MAKE_PREFIX(prefix,table);
-        const std::string escaped_table_alias = bdd_used->escape_colum(table_alias);
+        const std::string escaped_table_alias = bdd_used->escapeColum(table_alias);
 
         q_str+=escaped_table_alias+" AS "+escaped_table_alias;
 
@@ -266,9 +266,9 @@ namespace orm
 
             q_str+= "\nLEFT JOIN "+object.getTable()+" AS "+table_alias
                 +" ON ("
-                +bdd_used->escape_colum(prefix)+"."+bdd_used->escape_colum(col)
+                +bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum(col)
                 +bdd_used->operators.at("exact")
-                +bdd_used->escape_colum(table_alias)+"."+bdd_used->escape_colum("id")
+                +bdd_used->escapeColum(table_alias)+"."+bdd_used->escapeColum("id")
                 +")";
 
             if(max_depth>=0)

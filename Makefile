@@ -22,6 +22,11 @@ CLEANDIRS = $(SUBDIRS:%=clean-%)
 
 all: $(OBJ) subdirs
 
+doc : doc/html 
+
+doc/html :
+	cd doc && doxygen
+
 subdirs: $(SUBDIRS)
      
 $(SUBDIRS):
