@@ -42,7 +42,7 @@ namespace orm
 #endif
 
 /**
- * \class Filter
+ * \class orm::Filter
  * \ingroup backends
  *
  * orm::Filter is a simple class to represent
@@ -55,6 +55,6 @@ namespace orm
  * \endcode
  *
  * Note : ope is a operator define in Bdd class.
- * \see Bdd
+ * \see Bdd::operators
  **/
 

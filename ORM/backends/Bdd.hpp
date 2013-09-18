@@ -58,7 +58,7 @@ namespace orm
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
             *
-            * \return Return NULL if faild.
+            * \return NULL if faild.
             **/
             virtual Query* query()= 0;
 
@@ -67,7 +67,7 @@ namespace orm
             *
             * \param query The query to execute
             *
-            * \return Return NULL if faild.
+            * \return NULL if faild.
             **/
             virtual Query* query(const std::string& query) = 0;
 
@@ -76,7 +76,7 @@ namespace orm
             *
             * \param query The query to execute
             *
-            * \return Return NULL if faild.
+            * \return NULL if faild.
             **/
             virtual Query* query(std::string&&) = 0;
 
@@ -85,7 +85,7 @@ namespace orm
             *
             * \param query The query to execute
             *
-            * \return Return NULL if faild.
+            * \return NULL if faild.
             **/
             virtual Query* prepareQuery(const std::string&) = 0;
 
@@ -94,7 +94,7 @@ namespace orm
             *
             * \param query The query to execute
             *
-            * \return Return NULL if faild.
+            * \return NULL if faild.
             **/
             virtual Query* prepareQuery(std::string&&) = 0;
 
@@ -123,20 +123,7 @@ namespace orm
             /**
             * \brief Map the operators that can be use
             *
-            * "exact"
-            * "iexact"
-            * "contains"
-            * "icontains"
-            * "regex"
-            * "iregex"
-            * "gt"
-            * "gte"
-            * "lt"
-            * "lte"
-            * "startswith"
-            * "endswith"
-            * "istartswith"
-            * "iendswith"
+            * Operators : "exact", "iexact", "contains", "icontains","regex", "iregex", "gt", "gte", "lt", "lte", "startswith", "endswith", "istartswith", "iendswith"
             **/
             std::unordered_map<std::string,std::string> operators;
 
