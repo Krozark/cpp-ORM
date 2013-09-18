@@ -10,6 +10,7 @@ namespace orm
         driver(0),
         dbConn(0)
     {
+        //Operators
         operators["exact"] = "= ";
         operators["iexact"] = "LIKE ";
         operators["contains"]= "LIKE BINARY ";
@@ -24,6 +25,11 @@ namespace orm
         operators["endswith"]= "LIKE BINARY ";
         operators["istartswith"]= "LIKE ";
         operators["iendswith"]= "LIKE ";
+
+        //ordering
+        operators["?"] = "RAND() ";
+        operators["+"] = "ASC ";
+        operators["-"] = "DESC ";
 
         //escape_char = "";
     };

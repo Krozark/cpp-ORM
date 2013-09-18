@@ -124,6 +124,7 @@ namespace orm
             * \brief Map the operators that can be use
             *
             * Operators : "exact", "iexact", "contains", "icontains","regex", "iregex", "gt", "gte", "lt", "lte", "startswith", "endswith", "istartswith", "iendswith"
+            * Ordering : "?","+","-"
             **/
             std::unordered_map<std::string,std::string> operators;
 

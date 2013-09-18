@@ -90,9 +90,14 @@ namespace orm
         limit_max = static_cast<int>(max);
     }
 
-
+    /***
+    * \todo make query like:
+    * SELECT SUM(`sort`.`niveau_max`) AS `niveau_max__sum` FROM `sort` WHERE (...)
+    * SELECT AVG(`website_sort`.`niveau_max`) AS `niveau_max__avg`, SUM(`website_sort`.`niveau_max`) AS `niveau_max__sum` FROM `website_sort` WHERE (`website_sort`.`passif` = 0  AND `website_sort`.`niveau_max` >= 2 )
+    * AVG, SUM, MIN, MAX
+    **/
     /*template<typename T>
-    QuerySet<T>& QuerySet<T>::agregate()
+    QuerySet<T>& QuerySet<T>::aggregate()
     {
         std::cerr<<"[todo]: queryset<t>::agregate()"<<std::endl;
         return *this;
@@ -164,27 +169,62 @@ namespace orm
         q_str+="\nFROM ";
         T::nameTables(q_str,"",max_depth);
 
-        //filters
-        int _size = filters.size();
-        if(_size > 0)
-        {
-            q_str+=" \nWHERE (";
-                for (Filter& filter : filters)
-                {
-                    if(_size == 1)
-                        q_str+=" AND ";
+        {//filters and excludes
+            const int filters_size = filters.size();
+            const int excludes_size = excludes.size();
 
-                    q_str+= T::bdd_used->escapeColum(filter.colum)
-                            +T::bdd_used->escapeValue(filter.ope,filter.value);
-                --_size;
+            bool all = filters_size > 0 and excludes_size > 0;
+
+            if(all)
+                q_str+=" \nWHERE (";
+
+            if(filters_size > 0)
+            {
+                auto begin = filters.begin();
+                const auto& end = filters.end();
+
+                q_str+= T::bdd_used->escapeColum(begin->colum)
+                    +T::bdd_used->escapeValue(begin->ope,begin->value);
+
+                while(++begin != end)
+                {
+                    q_str+=" AND "
+                        +T::bdd_used->escapeColum(begin->colum)
+                        +T::bdd_used->escapeValue(begin->ope,begin->value);
                 }
-            q_str+=") ";
+            }
+
+            if(excludes_size >0)
+            {
+                if(filters_size >0)
+                    q_str+=" AND NOT (";
+                else
+                    q_str+="NOT (";
+
+                auto begin = excludes.begin();
+                const auto& end = excludes.end();
+
+                q_str+= T::bdd_used->escapeColum(begin->colum)
+                    +T::bdd_used->escapeValue(begin->ope,begin->value);
+
+                while(++begin != end)
+                {
+                    q_str+=" AND "
+                        +T::bdd_used->escapeColum(begin->colum)
+                        +T::bdd_used->escapeValue(begin->ope,begin->value);
+                }
+
+                q_str+=") ";
+            }
+
+            if(all)
+                q_str+=") ";
         }
         
-        _size = order_by.size();
+        /*int _size = order_by.size();
         if(_size >0)
         {
-        }
+        }*/
         
 
         return T::bdd_used->query(q_str);

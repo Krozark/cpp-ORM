@@ -133,7 +133,7 @@ namespace orm
              **/
             QuerySet<T>& limit(const unsigned int& min,const unsigned int& max);
 
-            //QuerySet& agregate();
+            //QuerySet& aggregate();
 
             /**
              * \brief Execute tho query and return the coresponding object
