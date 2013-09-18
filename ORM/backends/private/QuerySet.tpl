@@ -90,59 +90,31 @@ namespace orm
         limit_max = static_cast<int>(max);
     }
 
+
     /*template<typename T>
-    QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum)
-    {
-        std::cerr<<"[TODO]: QuerySet<T>::orderBy()"<<std::endl;
-        return *this;
-    };
-
-    template<typename T>
-    QuerySet<T>& QuerySet::exclude()
-    {
-        std::cerr<<"[todo]: queryset<t>::exclude()"<<std::endl;
-        return *this;
-    }
-
-    template<typename T>
     QuerySet<T>& QuerySet<T>::agregate()
     {
         std::cerr<<"[todo]: queryset<t>::agregate()"<<std::endl;
         return *this;
-    };
+    };*/
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::limite(int max)
-    {
-        std::cerr<<"[todo]: queryset<t>::limite(int)"<<std::endl;
-        return *this;
-    }
-    
-    template<typename T>
-    QuerySet<T>& QuerySet<T>::limite(int min,int max)
-    {
-        std::cerr<<"[todo]: queryset<t>::limite(int,int)"<<std::endl;
-        return *this;
-    }
-
-    template<typename T>
-    T QuerySet<T>::get()
-    {
-        std::cerr<<"[todo]: queryset<t>::get()"<<std::endl;
-        return T();
-    }
-
-    template<typename T>
-    bool QuerySet<T>::get(T& obj)
+    bool QuerySet<T>::get(T& obj,int max_depth)
     {
         std::cerr<<"[todo]: queryset<t>::get(T& obj)"<<std::endl;
+        Query* q = makeQuery(max_depth);
+        std::cout<<q<<std::endl;
+        delete q;
+    
         return false;
     }
 
-    template<typename T>
-    bool QuerySet<T>::get(typename std::list<Cache<T>::type_ptr>& objs);
+    /*template<typename T>
+    bool QuerySet<T>::get(typename std::list<Cache<T>::type_ptr>& objs,int max_depth);
     {
         std::cerr<<"[todo]: queryset<t>::get(Cache<T>::type_ptr&)"<<std::endl;
+        Query* q = makeQuery(max_depth);
+        delete q;
         return T();
     }*/
 
@@ -182,4 +154,41 @@ namespace orm
     {
         return colum;
     }
+
+    template<typename T>
+    Query* QuerySet<T>::makeQuery(int max_depth)
+    {
+        std::string q_str ="SELECT ";
+        T::nameAttrs(q_str,T::table,max_depth);
+
+        q_str+="\nFROM ";
+        T::nameTables(q_str,"",max_depth);
+
+        //filters
+        int _size = filters.size();
+        if(_size > 0)
+        {
+            q_str+=" \nWHERE (";
+                for (Filter& filter : filters)
+                {
+                    if(_size > 1)
+                        q_str+=" AND ";
+
+                    q_str+= T::bdd_used->escape_colum(filter.colum)
+                            +T::bdd_used->escape_value(filter.ope,filter.value);
+                --_size;
+                }
+            q_str+=") ";
+        }
+        
+        _size = order_by.size();
+        if(_size >0)
+        {
+        }
+        
+
+        return T::bdd_used->query(q_str);
+    }
+
+
 }

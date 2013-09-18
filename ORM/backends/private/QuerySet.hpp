@@ -31,11 +31,10 @@ namespace orm
             QuerySet<T>& limit(const unsigned int& max);
             QuerySet<T>& limit(const unsigned int& min,const unsigned int& max);
 
-            /*QuerySet& agregate();
+            //QuerySet& agregate();
 
-            T get();
-            bool get(T& obj);
-            bool get(typename std::list<Cache<T>::type_ptr>& obj);*/
+            bool get(T& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            //bool get(typename std::list<Cache<T>::type_ptr>& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             void __print__() const;
 
@@ -50,6 +49,8 @@ namespace orm
             template<typename ... Args>
             static std::string makeColumName(std::string&& prefix,std::string&& colum,Args&& ... args);
             static std::string makeColumName(std::string colum);
+
+            Query* makeQuery(int max_depth);
 
 
             QuerySet(const QuerySet&) = delete;

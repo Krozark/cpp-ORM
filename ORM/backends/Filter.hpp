@@ -6,6 +6,7 @@
 namespace orm
 {
     template<typename T> class SQLObject;
+    template<typename T> class QuerySet;
     class Filter
     {
         public:
@@ -16,6 +17,7 @@ namespace orm
 
         private:
             template<typename T> friend class SQLObject;
+            template<typename T> friend class QuerySet;
             const std::string colum;
             const std::string ope;
             const std::string value;

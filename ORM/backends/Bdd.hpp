@@ -14,6 +14,7 @@ namespace orm
     class Query;
     class SQLObjectBase;
     template<typename T> class SQLObject;
+    template<typename T> class QuerySet;
     template<typename T,typename U> class ManyToMany;
     class VAttr;
 
@@ -53,7 +54,9 @@ namespace orm
             friend class Query;
             friend class SQLObjectBase;
             template<typename T> friend class SQLObject;
+            template<typename T> friend class QuerySet;
             template<typename T,typename U> friend class ManyToMany;
+
             /* Info for connection */
             const std::string s_username;
             const std::string s_password;
