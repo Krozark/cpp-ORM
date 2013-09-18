@@ -171,7 +171,7 @@ namespace orm
             q_str+=" \nWHERE (";
                 for (Filter& filter : filters)
                 {
-                    if(_size > 1)
+                    if(_size == 1)
                         q_str+=" AND ";
 
                     q_str+= T::bdd_used->escape_colum(filter.colum)
