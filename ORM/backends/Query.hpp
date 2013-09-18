@@ -15,11 +15,33 @@ namespace orm
     template<typename T> class FKBase;
     template<typename T> class Attr;
 
+    /**
+     * \brief Abstract class to manage query
+     **/
     class Query
     {
         public:
+            /**
+             * \brief Create a empty query
+             *
+             * \param bdd database where the query will be execute
+             **/
             Query(Bdd* bdd);
+
+            /**
+             * \brief Create a query
+             *
+             * \param bdd database where the query will be execute
+             * \param query Query string to execute
+             **/
             Query(Bdd* bdd,const std::string& query);
+
+            /**
+             * \brief Create a query
+             *
+             * \param bdd database where the query will be execute
+             * \param query Query string to execute
+             **/
             Query(Bdd* bdd,std::string&& query);
 
             Query(const Query&) = delete;
@@ -27,10 +49,10 @@ namespace orm
 
             virtual ~Query();
 
-            virtual Query& limit(const unsigned int& limit);
+            /*virtual Query& limit(const unsigned int& limit);
 
             virtual Query& orderBy(const std::string& colum,char order='+') = 0;
-            virtual Query& join(const std::string& colum,const Query& other) = 0;
+            virtual Query& join(const std::string& colum,const Query& other) = 0;*/
             virtual int count()const = 0;
 
             virtual bool get(bool& value,const std::string& colum)const = 0;

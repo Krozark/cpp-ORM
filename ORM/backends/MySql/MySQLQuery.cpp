@@ -24,7 +24,7 @@ namespace orm
             delete bdd_res;
     };
 
-    MySQLQuery& MySQLQuery::orderBy(const std::string& colum,char order)
+    /*MySQLQuery& MySQLQuery::orderBy(const std::string& colum,char order)
     {
         return *this;
     };
@@ -32,7 +32,7 @@ namespace orm
     MySQLQuery& MySQLQuery::join(const std::string& colum,const Query& other)
     {
         return *this;
-    };
+    };*/
 
     int MySQLQuery::count()const
     {
