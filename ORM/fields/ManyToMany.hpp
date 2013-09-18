@@ -9,6 +9,10 @@
 
 namespace orm
 {
+
+    /**
+     * \todo faire la classe
+     **/
     template<typename T,typename U>
     class ManyToMany
     {

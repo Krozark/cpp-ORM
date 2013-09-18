@@ -14,7 +14,7 @@ namespace orm
         public:
             FKBase(const FKBase&) = delete;
 
-            ~FKBase(); //TODO --on cache counter
+            ~FKBase(); ///< \todo --on cache counter
 
             virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
             virtual bool save(bool recursive=false);            
@@ -29,7 +29,7 @@ namespace orm
 
         protected:
             //FKBase(const int& id,const std::string& colum,const bool nullable=true);//TODO ++on cache counter
-            FKBase(const std::string& colum,const bool nullable=true);//TODO idem
+            FKBase(const std::string& colum,const bool nullable=true);///< \todo ajouter au cache
             std::shared_ptr<T> value_ptr;
 
             virtual void print(std::ostream& output) const;

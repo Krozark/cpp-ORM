@@ -12,7 +12,10 @@
 
 //make string name for attrs
 #define _MAKE_NAME(name)  _ ## name
-//TODO
+
+/*
+ * \todo faire _MAKE_NAME_VALUE
+ **/
 //#define _MAKE_NAME_VALUE(klass,value)  klass::table+"."+value
 #define _MAKE_NAME_VALUE(klass,value)  value
 

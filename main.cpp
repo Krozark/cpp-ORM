@@ -39,7 +39,9 @@ class Stats : public orm::SQLObject<Stats>
 };
 REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
 
-//TODO ajouter à loadobjet un argument en plus : la colonne (facultatif)
+/**
+* \todo ajouter à loadobjet un argument en plus : la colonne (facultatif)
+*/
 class Perso : public orm::SQLObject<Perso>
 {
     public:

@@ -99,10 +99,10 @@ namespace orm
                 }
             }
 
-            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+operators.at("exact")+std::to_string(pk)+";"; //TODO colum.id
+            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+operators.at("exact")+std::to_string(pk)+";"; ///< \todo colum.id
             
 
-            if(first) //NO MAJ TODO
+            if(first) //NO MAJ NEDEED
             {
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<"\033[36m"<<str_q<<"\nNo Update needed, exit\033[00m"<<std::endl;

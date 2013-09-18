@@ -21,7 +21,7 @@ namespace orm
     template<typename T>
     FKBase<T>::~FKBase()
     {
-        //TODO if cache[T::table] ==1
+        /// \todo if cache[T::table] ==1
         //delete value_ptr
         //cache.remove(T::table)
         //value_ptr = 0;
@@ -66,7 +66,7 @@ namespace orm
             value_ptr = T::cache.getOrCreate(id,query,colum_alias,max_depth);
             loaded = true;
         }
-        //TODO delete ptr or set to NULL???
+        /// \todo delete ptr or set to NULL???
         /*else
         {
             value_ptr = NULL;
