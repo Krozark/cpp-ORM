@@ -46,7 +46,7 @@ namespace orm
             virtual bool connect() = 0;
 
             /**
-            * \brief Clase the connextion with the database
+            * \brief Close the connextion with the database
             *
             * \return false if fail
             **/
