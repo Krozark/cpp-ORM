@@ -191,7 +191,7 @@ namespace orm
             Bdd* bdd; ///< database where the query will be executed
     
             /**
-             * \brief Wwene the query have been execute, for loop in results
+             * \brief Whene the query have been execute, for loop in results
              *
              * \results fals if fail 
              **/
@@ -266,6 +266,7 @@ namespace orm
              * \results false if fail
              **/
             virtual bool set(const long double& value,const unsigned int& colum) = 0;
+
             /**
              *
              * \brief For prepared query only, set the colum value
