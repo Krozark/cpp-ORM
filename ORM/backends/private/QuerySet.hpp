@@ -64,19 +64,21 @@ namespace orm
              * \brief Add a order by constrait to the query
              *
              * \param colum The colum to use for ordering
+             * \param oder The colum ordering ( +=ASC or -=DESC)
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(const std::string& colum);
+            QuerySet<T>& orderBy(const std::string& colum,const char order='+');
 
             /**
              * \brief Add a order by constrait to the query
              *
              * \param colum The colum to use for ordering
+             * \param oder The colum ordering ( +=ASC or -=DESC)
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(std::string&& colum);
+            QuerySet<T>& orderBy(std::string&& colum,const char order="+");
             //QuerySet& orderBy(int,const std::string& colum);
 
             /**
@@ -111,27 +113,25 @@ namespace orm
             QuerySet<T>& exclude(std::list<Filter>&& exclude_list);
 
             /**
-             * \brief Add a limite of the number of object return by the dbtabase
+             * \brief Add a limit of the number of object return by the dbtabase
              *
-             * \param max Maximun number of object
+             * \param count Maximun number of object
              *
              * \return *this
              **/
-            QuerySet<T>& limit(const unsigned int& max);
+            QuerySet<T>& limit(const unsigned int& count);
 
             /**
-             * \brief Add a limite of the number of object return by the dbtabase.
+             * \brief Add a limit of the number of object return by the dbtabase.
              *
-             * .limite(2,5) will return in maximun 3 (5-2) objects after the execution of the query.
+             * .limit(2,5) will return up to 5 (0~5) objects after the execution of the query.
              *
-             * \param min Minimal range of object
-             * \param max Maximun range of object
-             *
-             *
+             * \param skip Skip the first <skipe> objects
+             * \param count Maximun range of object to return
              *
              * \return *this
              **/
-            QuerySet<T>& limit(const unsigned int& min,const unsigned int& max);
+            QuerySet<T>& limit(const unsigned int& skip,const unsigned int& count);
 
             //QuerySet& aggregate();
 
@@ -209,8 +209,8 @@ namespace orm
             std::list<Filter> filters; ///< Store all the filters
             std::list<Filter> excludes;///< Store all the negative filters
             std::vector<std::string> order_by; ///< store the colum name for ordering
-            int limit_min, ///< minimun limite (default is none)
-                limit_max; ///< maximun limite (default is none)
+            int limit_skip, ///< skip limit (default is 0)
+                limit_count; ///< skip limit (default is all)
     };
 }
 #include <ORM/backends/private/QuerySet.tpl>

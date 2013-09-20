@@ -3,7 +3,7 @@
 namespace orm
 {
     template<typename T>
-    QuerySet<T>::QuerySet(): limit_min(-1), limit_max(-1)
+    QuerySet<T>::QuerySet(): limit_skip(0), limit_count(-1)
     {
     }
 
@@ -13,8 +13,8 @@ namespace orm
         std::swap(filters,tmp.filters);
         std::swap(excludes,tmp.excludes);
         std::swap(order_by,tmp.order_by);
-        limit_min = tmp.limit_min;
-        limit_max = tmp.limit_max;
+        limit_skip = tmp.limit_skip;
+        limit_count = tmp.limit_count;
     }
 
     template<typename T>
@@ -41,16 +41,22 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum)
+    QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum,const char order)
     {
-        order_by.emplace_back(colum);
+        if( order == '-')
+            order_by.push_back(colum+" DESC");
+        else
+            order_by.push_back(colum+" ASC");
         return *this;
     }
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::orderBy(std::string&& colum)
+    QuerySet<T>& QuerySet<T>::orderBy(std::string&& colum,const char order)
     {
-        order_by.push_back(colum);
+        if( order == '-')
+            order_by.push_back(colum+" DESC");
+        else
+            order_by.push_back(colum+" ASC");
         return *this;
     }
 
@@ -78,16 +84,16 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::limit(const unsigned int& max)
+    QuerySet<T>& QuerySet<T>::limit(const unsigned int& count)
     {
-        limit_max = static_cast<int>(max);
+        limit_count = static_cast<int>(count);
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::limit(const unsigned int& min,const unsigned int& max)
+    QuerySet<T>& QuerySet<T>::limit(const unsigned int& skip,const unsigned int& count)
     {
-        limit_min = static_cast<int>(min);
-        limit_max = static_cast<int>(max);
+        limit_skip = static_cast<int>(skip);
+        limit_count = static_cast<int>(count);
     }
 
     /***
@@ -135,7 +141,7 @@ namespace orm
         std::cout<<"order_by: ";
         for (auto& u :  order_by)
             std::cout<<u<<" ";
-        std::cout<<std::endl<<"limite:<"<<limit_min<<","<<limit_max<<">"<<std::endl;
+        std::cout<<std::endl<<"limit:<"<<limit_skip<<","<<limit_count<<">"<<std::endl;
 
 
     };
@@ -221,10 +227,20 @@ namespace orm
                 q_str+=") ";
         }
         
-        /*int _size = order_by.size();
+        int _size = order_by.size();
         if(_size >0)
         {
-        }*/
+            q_str+=" ORDER BY ";
+            auto begin = order_by.begin();
+            const auto& end = order_by.end();
+            q_str+= (*begin);
+
+            while(++begin != end)
+            {
+                q_str+=" ,"+(*begin);
+            }
+
+        }
         
 
         return T::bdd_used->query(q_str);
