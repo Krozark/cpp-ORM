@@ -241,10 +241,12 @@ namespace orm
             }
 
         }
+
+        Query* q = T::bdd_used->query(q_str);
+
+        if(limit_count > 0)
+            q->limit(limit_skip,limit_count);
         
-
-        return T::bdd_used->query(q_str);
+        return q;
     }
-
-
 }

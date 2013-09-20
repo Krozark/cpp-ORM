@@ -49,10 +49,18 @@ namespace orm
 
             virtual ~Query();
 
-            /*virtual Query& limit(const unsigned int& limit);
+            /**
+             * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
+             *
+             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql 
+             *
+             * \param skip Number of object to skip
+             * \param count Maximum number of object to return
+             *
+             * \return *this
+             **/
+            virtual Query& limit(const int& skip,const int& count) = 0;
 
-            virtual Query& orderBy(const std::string& colum,char order='+') = 0;
-            virtual Query& join(const std::string& colum,const Query& other) = 0;*/
 
             /**
              * \brief Count the number of object returned by the batabase

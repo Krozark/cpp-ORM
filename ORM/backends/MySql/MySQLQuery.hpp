@@ -22,8 +22,8 @@ namespace orm
             
             ~MySQLQuery();
 
-            /*virtual MySQLQuery& orderBy(const std::string& colum,char order='+');
-            virtual MySQLQuery& join(const std::string& colum,const Query& other);*/
+            virtual MySQLQuery& limit(const int& skip,const int& count);
+
             virtual int count()const;
             
             virtual bool get(bool& value,const std::string& colum)const;
