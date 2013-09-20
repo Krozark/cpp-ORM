@@ -44,9 +44,9 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum,const char order)
     {
         if( order == '-')
-            order_by.push_back(colum+" DESC");
+            order_by.push_back(makeColumName(T::table,colum)+" DESC");
         else
-            order_by.push_back(colum+" ASC");
+            order_by.push_back(makeColumName(T::table,colum)+" ASC");
         return *this;
     }
 
@@ -54,9 +54,9 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(std::string&& colum,const char order)
     {
         if( order == '-')
-            order_by.push_back(colum+" DESC");
+            order_by.push_back(makeColumName(T::table,colum)+" DESC");
         else
-            order_by.push_back(colum+" ASC");
+            order_by.push_back(makeColumName(T::table,colum)+" ASC");
         return *this;
     }
 
@@ -114,10 +114,11 @@ namespace orm
     {
         std::cerr<<"[todo]: queryset<t>::get(T& obj)"<<std::endl;
         Query* q = makeQuery(max_depth);
+        bool res = q->getObj(obj,max_depth);
         std::cout<<q<<std::endl;
         delete q;
     
-        return false;
+        return res;
     }
 
     /*template<typename T>
@@ -179,9 +180,8 @@ namespace orm
             const int filters_size = filters.size();
             const int excludes_size = excludes.size();
 
-            bool all = filters_size > 0 and excludes_size > 0;
 
-            if(all)
+            if(filters_size > 0 or excludes_size >0)
                 q_str+=" \nWHERE (";
 
             if(filters_size > 0)
@@ -189,13 +189,13 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                q_str+= T::bdd_used->escapeColum(begin->colum)
+                q_str+= T::bdd_used->escapeValue(begin->colum)
                     +T::bdd_used->escapeValue(begin->ope,begin->value);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +T::bdd_used->escapeColum(begin->colum)
+                        +T::bdd_used->escapeValue(begin->colum)
                         +T::bdd_used->escapeValue(begin->ope,begin->value);
                 }
             }
@@ -210,20 +210,20 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                q_str+= T::bdd_used->escapeColum(begin->colum)
+                q_str+= T::bdd_used->escapeValue(begin->colum)
                     +T::bdd_used->escapeValue(begin->ope,begin->value);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +T::bdd_used->escapeColum(begin->colum)
+                        +T::bdd_used->escapeValue(begin->colum)
                         +T::bdd_used->escapeValue(begin->ope,begin->value);
                 }
 
                 q_str+=") ";
             }
 
-            if(all)
+            if(filters_size > 0 or excludes_size > 0)
                 q_str+=") ";
         }
         

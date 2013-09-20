@@ -134,10 +134,12 @@ int main(int argc,char* argv[])
        auto& p1 = Perso::get(1);
        Perso p2;
 
+       cout<<p2<<endl;
        QuerySet<Perso> queryset = Perso::query();
-       queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"exact",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
-
+       //queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"exact",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
+       queryset.filter(4,"gt",Perso::_lvl).orderBy(Perso::_name).limit(1).get(p2);
        queryset.__print__();
+       cout<<p2<<endl;
        /*for(auto u : lis)
            cout<<*u<<endl;
         */

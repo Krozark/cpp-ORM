@@ -15,7 +15,8 @@ namespace orm
      **/
     class MySQLQuery : public Query
     {
-        public:
+        //public:
+        protected:
             /**
              * \brief Create a empty query
              *
@@ -144,7 +145,6 @@ namespace orm
             virtual bool get(std::string& value,const std::string& colum)const;
             
         
-        protected:
             /**
              * \brief Whene the query have been execute, for loop in results
              *
