@@ -112,23 +112,20 @@ namespace orm
     template<typename T>
     bool QuerySet<T>::get(T& obj,int max_depth)
     {
-        std::cerr<<"[todo]: queryset<t>::get(T& obj)"<<std::endl;
         Query* q = makeQuery(max_depth);
         bool res = q->getObj(obj,max_depth);
-        std::cout<<q<<std::endl;
         delete q;
-    
         return res;
     }
 
-    /*template<typename T>
-    bool QuerySet<T>::get(typename std::list<Cache<T>::type_ptr>& objs,int max_depth);
+    template<typename T>
+    int QuerySet<T>::get(typename std::list<std::shared_ptr<T>>& objs,int max_depth)
     {
-        std::cerr<<"[todo]: queryset<t>::get(Cache<T>::type_ptr&)"<<std::endl;
         Query* q = makeQuery(max_depth);
+        int res = q->getObj(objs,max_depth);
         delete q;
-        return T();
-    }*/
+        return res;
+    }
 
     template<typename T>
     void QuerySet<T>::__print__() const
@@ -183,6 +180,7 @@ namespace orm
 
             if(filters_size > 0 or excludes_size >0)
                 q_str+=" \nWHERE (";
+            /// \todo change colum alias for complet name
 
             if(filters_size > 0)
             {

@@ -3,6 +3,7 @@
 
 #include <ORM/backends/Filter.hpp>
 #include <ORM/core/Cache.hpp>
+#include <memory>
 
 namespace orm
 {
@@ -144,7 +145,16 @@ namespace orm
              * \return false if no object match with the query.
              **/
             bool get(T& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
-            //bool get(typename std::list<Cache<T>::type_ptr>& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+
+            /**
+             * \brief Execute tho query and return the list list of objects
+             *
+             * \param obj Where the results will be stored. The objects are added to the list.
+             * \param max_depth the maximun recursion depth for the object construction (for fk)
+             *
+             * \return Number of objects
+             **/
+            int get(typename std::list<std::shared_ptr<T>>& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief Print the content of the filter for debug help

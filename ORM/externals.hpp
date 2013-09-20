@@ -3,6 +3,8 @@
 
 #include <ORM/debug.hpp>
 
+#include <iostream>
+
 namespace orm
 {
     static const std::string TABLE_ALIAS_SEPARATOR("__");

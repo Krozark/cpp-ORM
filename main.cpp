@@ -8,6 +8,8 @@ orm::Bdd& orm::Bdd::Default = def;
 #include <ORM/fields.hpp>
 #include <ORM/models/SQLObject.hpp>
 
+#include <iostream>
+
 
 /*class Spell : public orm::SQLObject<Spell>
 {
@@ -134,15 +136,24 @@ int main(int argc,char* argv[])
        auto& p1 = Perso::get(1);
        Perso p2;
 
-       cout<<p2<<endl;
-       QuerySet<Perso> queryset = Perso::query();
+       std::list<Cache<Perso>::type_ptr> results;
+       //QuerySet<Perso> queryset = Perso::query();
        //queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"exact",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
-       queryset.filter(4,"gt",Perso::_lvl).orderBy(Perso::_name).limit(1).get(p2);
-       queryset.__print__();
-       cout<<p2<<endl;
-       /*for(auto u : lis)
-           cout<<*u<<endl;
-        */
+
+       cout<<"All perso"<<endl;
+       Perso::query().get(results);
+       for(auto& perso : results)
+           cout<<*perso<<endl;
+
+       results.clear();
+
+       cout<<"All perso where lvl < 200"<<endl;
+       Perso::query().filter(200,"lt",Perso::_lvl).get(results);
+       for(auto& perso : results)
+           cout<<*perso<<endl;
+
+
+
    }
    /*    {
 
