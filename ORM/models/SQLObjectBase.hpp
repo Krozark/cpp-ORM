@@ -29,6 +29,9 @@ namespace orm
             virtual bool save(bool recursive=false) = 0;
             virtual bool del(bool recursive=false) = 0;
 
+            /**
+             * \brief Display the object in json
+             **/
             friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
 
 

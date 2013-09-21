@@ -63,19 +63,9 @@ namespace orm
     template<typename T>
     std::list<typename Cache<T>::type_ptr> SQLObject<T>::all(int max_depth)
     {
-        std::string q_str ="SELECT ";
-        nameAttrs(q_str,table,max_depth);
-                                    
-        q_str+="\nFROM ";
-        nameTables(q_str,"",max_depth);
-
-        Query* q = bdd_used->query(q_str);
-
-        std::list<typename Cache<T>::type_ptr> res;
-        q->getObj(res,max_depth);
-
-        delete q;
-        return res;
+        std::list<typename Cache<T>::type_ptr> results;
+        query().get(results,max_depth);
+        return results;
     };
 
     template<typename T>
