@@ -81,7 +81,7 @@ namespace orm
         if(loaded)
             output<<(*value_ptr);
         else
-            output<<"{[id/pk]:"<<fk<<",NULL}";
+            output<<"{\"pk\":\""<<fk<<"\",\"_data_\" = null}";
     }
 
     template<typename T>

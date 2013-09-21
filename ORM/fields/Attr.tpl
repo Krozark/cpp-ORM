@@ -21,7 +21,7 @@ namespace orm
     template<typename T>
     void Attr<T>::print(std::ostream& output) const
     {
-        output<<value;
+        output<<'"'<<value<<'"';
     };
 
     template<typename T>
@@ -33,6 +33,6 @@ namespace orm
     template<typename T>
     std::ostream& Attr<T>::print_value(std::ostream& output)const
     {
-        return (output<<value);
+        return (output<<'"'<<value<<'"');
     }
 };

@@ -39,9 +39,9 @@ namespace orm
 
     std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self)
     {
-        output<<"{[id/pk]:"<<self.pk;
+        output<<"{ \"pk\":"<<self.pk;
         for(VAttr* attr: self.attrs)
-            output<<", ["<<attr->getColum()<<"]:"<<*attr;
+            output<<", \""<<attr->getColum()<<"\":"<<*attr;
         output<<"}";
         return output;
     };
