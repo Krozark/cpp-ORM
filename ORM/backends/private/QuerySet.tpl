@@ -151,17 +151,17 @@ namespace orm
         return makeColumName(JOIN_ALIAS(prefix,colum),args...);
     }
 
-    template<typename T>
+    /*template<typename T>
     template<typename ... Args>
     std::string QuerySet<T>::makeColumName(std::string&& prefix,std::string&& colum,Args&& ...args)
     {
         return makeColumName(JOIN_ALIAS(prefix,colum),args ...);
-    }
+    }*/
 
     template<typename T>
-    std::string QuerySet<T>::makeColumName(std::string colum)
+    std::string QuerySet<T>::makeColumName(const std::string& prefix,const std::string& colum)
     {
-        return colum;
+        return T::bdd_used->escapeColum(prefix)+"."+T::bdd_used->escapeColum(colum);
     }
 
     template<typename T>
@@ -187,13 +187,13 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                q_str+= T::bdd_used->escapeValue(begin->colum)
+                q_str+= begin->colum
                     +T::bdd_used->escapeValue(begin->ope,begin->value);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +T::bdd_used->escapeValue(begin->colum)
+                        +begin->colum
                         +T::bdd_used->escapeValue(begin->ope,begin->value);
                 }
             }
@@ -208,13 +208,13 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                q_str+= T::bdd_used->escapeValue(begin->colum)
+                q_str+= begin->colum
                     +T::bdd_used->escapeValue(begin->ope,begin->value);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +T::bdd_used->escapeValue(begin->colum)
+                        +begin->colum
                         +T::bdd_used->escapeValue(begin->ope,begin->value);
                 }
 

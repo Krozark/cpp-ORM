@@ -14,7 +14,7 @@
 #define ORM_DEBUG_FULL (0xFFFFFFFF)
 
 //#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
-#define ORM_DEBUG (ORM_DEBUG_SQL)
+#define ORM_DEBUG (ORM_DEBUG_FULL)
 
 #if ORM_DEBUG > 0
 #include <iostream>

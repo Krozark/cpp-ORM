@@ -1,7 +1,7 @@
 #include <ORM/backends/MySql.hpp>
 
-//orm::MySQLBdd def("root","toor","test");
-orm::MySQLBdd def("root","root","test");
+orm::MySQLBdd def("root","toor","test");
+//orm::MySQLBdd def("root","root","test");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -133,19 +133,19 @@ int main(int argc,char* argv[])
 
     }*/
    {
-       auto& p1 = Perso::get(1);
+       //auto& p1 = Perso::get(1);
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
        //QuerySet<Perso> queryset = Perso::query();
        //queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"exact",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
 
-       cout<<"All perso"<<endl;
+       /*cout<<"All perso"<<endl;
        Perso::query().get(results);
        for(auto& perso : results)
            cout<<*perso<<endl;
 
-       results.clear();
+       results.clear();*/
 
        cout<<"All perso where lvl < 200"<<endl;
        Perso::query().filter(200,"lt",Perso::_lvl).get(results);

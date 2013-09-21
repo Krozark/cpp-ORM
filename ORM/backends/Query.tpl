@@ -22,11 +22,12 @@ namespace orm
         int res = 0;
         while(next())
         {
-            T* tmp = T::createFromBdd(*this,"",max_depth);
+            objs.emplace_back(T::cache.getOrCreate(*this,max_depth));
+            /*T* tmp = T::createFromBdd(*this,"",max_depth);
             if (tmp)
             {
                 objs.emplace_back(T::cache.getOrCreate(tmp));
-            }
+            }*/
             ++res;
         }   
         return res;     

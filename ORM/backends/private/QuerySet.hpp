@@ -191,8 +191,8 @@ namespace orm
              *
              * \return the complet alias
              **/
-            template<typename ... Args>
-            static std::string makeColumName(std::string&& prefix,std::string&& colum,Args&& ... args);
+            /*template<typename ... Args>
+            static std::string makeColumName(std::string&& prefix,std::string&& colum,Args&& ... args);*/
 
             /**
              * \brief Do nothing
@@ -201,7 +201,7 @@ namespace orm
              *
              * \return colum
              **/
-            static std::string makeColumName(std::string colum);
+            static std::string makeColumName(const std::string& prefix,const std::string& colum);
 
             /**
              * \brief Construct the query with all constraints

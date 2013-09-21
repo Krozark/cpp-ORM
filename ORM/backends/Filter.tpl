@@ -18,10 +18,18 @@ namespace orm
     {
     }
 
-    /*template<>
-    Filter::Filter(const std::string& col,const std::string& op,char* const& val) : colum(col), ope(op), value(std::string(val))
+    template<typename T>
+    Filter::Filter(std::string&& col,const std::string& op, const T& val) :
+        colum(col),
+        ope(op),
+        value(std::to_string(val))
     {
-    }*/
+    }
+
+    template<>
+    Filter::Filter(std::string&& col,const std::string& op, const std::string& val) : colum(col), ope(op), value(val)
+    {
+    }
 
     void Filter::__print__() const
     {

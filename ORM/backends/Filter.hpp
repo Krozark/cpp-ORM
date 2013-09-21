@@ -22,6 +22,16 @@ namespace orm
              **/
             template<typename T>
             Filter(const std::string& colum,const std::string& ope, const T& value);
+
+            /**
+             * \brief Create a filter
+             *
+             * \param colum Colum where the filter will be apply
+             * \param ope Operator to apply
+             * \param value Value to compare
+             **/
+            template<typename T>
+            Filter(std::string&& colum,const std::string& ope, const T& value);
             
             /**
              * \brief Print the content of the filter for debug help

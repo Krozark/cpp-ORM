@@ -17,14 +17,22 @@ namespace orm
     template<typename T> class Attr;
     template<typename T> class QuerySet;
     template<typename T> class SQLObject;
+    template<typename T> class Cache;
 
     /**
      * \brief Abstract class to manage query
      **/
     class Query
     {
-        //public:
         protected:
+            friend class Bdd;
+            friend class MySQLBdd;
+            friend class SQLObjectBase;
+            template<typename T> friend class Attr;
+            template<typename T> friend class FKBase;
+            template<typename T> friend class QuerySet;
+            template<typename T> friend class SQLObject;
+            template<typename T> friend class Cache;
             /**
              * \brief Create a empty query
              *
@@ -185,13 +193,6 @@ namespace orm
                 return output;
             };
 
-            friend class Bdd;
-            friend class MySQLBdd;
-            friend class SQLObjectBase;
-            template<typename T> friend class Attr;
-            template<typename T> friend class FKBase;
-            template<typename T> friend class QuerySet;
-            template<typename T> friend class SQLObject;
 
             std::string query; ///<query as string
             Bdd* bdd; ///< database where the query will be executed
