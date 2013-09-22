@@ -262,15 +262,45 @@ SQLITE_NULL     5
 SQLITE_TEXT     3
 
 const void *sqlite3_column_blob(sqlite3_stmt*, int iCol);
-int sqlite3_column_bytes(sqlite3_stmt*, int iCol);
+int sqlite3_column_bytes(sqlite3_stmt*, int iCol); //  returns the number of bytes in that BLOB or string.
 int sqlite3_column_bytes16(sqlite3_stmt*, int iCol);
 double sqlite3_column_double(sqlite3_stmt*, int iCol);
 int sqlite3_column_int(sqlite3_stmt*, int iCol);
 sqlite3_int64 sqlite3_column_int64(sqlite3_stmt*, int iCol);
 const unsigned char *sqlite3_column_text(sqlite3_stmt*, int iCol);
 const void *sqlite3_column_text16(sqlite3_stmt*, int iCol);
-int sqlite3_column_type(sqlite3_stmt*, int iCol);
-sqlite3_value *sqlite3_column_value(sqlite3_stmt*, int iCol);
+int sqlite3_column_type(sqlite3_stmt*, int iCol); // returned value is one of [SQLITE_INTEGER],
+** [SQLITE_FLOAT], [SQLITE_TEXT], [SQLITE_BLOB], or [SQLITE_NULL].  
+
+//1 statement
+//2 index : 1-> x
+//3 value
+//4 length in byte of value
+//5 SQLITE_STATIC|SQLITE_TRANSIENT. the special value [SQLITE_STATIC], then SQLite assumes that the
+** information is in static, unmanaged space and does not need to be freed.
+** ^If the fifth argument has the value [SQLITE_TRANSIENT], then
+** SQLite makes its own private copy of the data immediately, before
+** the sqlite3_bind_*() routine returns.
+
+** ^The sqlite3_bind_zeroblob() routine binds a BLOB of length N that
+** is filled with zeroes.  ^A zeroblob uses a fixed amount of memory
+** (just an integer to hold its size) while it is being processed.
+** Zeroblobs are intended to serve as placeholders for BLOBs whose
+** content is later written using
+** [sqlite3_blob_open | incremental BLOB I/O] routines.
+** ^A negative value for the zeroblob results in a zero-length BLOB.
+
+int sqlite3_bind_blob(sqlite3_stmt*, int, const void*, int n, void(*)(void*));
+int sqlite3_bind_double(sqlite3_stmt*, int, double);
+int sqlite3_bind_int(sqlite3_stmt*, int, int);
+int sqlite3_bind_int64(sqlite3_stmt*, int, sqlite3_int64);
+int sqlite3_bind_null(sqlite3_stmt*, int);
+int sqlite3_bind_text(sqlite3_stmt*, int, const char*, int n, void(*)(void*));
+int sqlite3_bind_text16(sqlite3_stmt*, int, const void*, int, void(*)(void*));
+int sqlite3_bind_value(sqlite3_stmt*, int, const sqlite3_value*);
+int sqlite3_bind_zeroblob(sqlite3_stmt*, int, int n);
+
+
 
 */
 

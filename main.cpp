@@ -7,6 +7,10 @@ orm::Sqlite3Bdd def("./datas/test.db");
 
 orm::Bdd& orm::Bdd::Default = def;
 
+/**
+ * \todo ADD transaction (start transaction / commit)
+ **/
+
 #include <ORM/fields.hpp>
 #include <ORM/models/SQLObject.hpp>
 
@@ -233,6 +237,13 @@ int main(int argc,char* argv[])
             master = sqlite3_column_int(statement,5);
 
             std::cout<<"pk:"<<id<<", name:"<<name<<", lvl:"<<lvl<<", stats:"<<stats<<", stats_tmp"<<stats_tmp<<", master:"<<master<<std::endl;
+
+    }
+
+    result = sqlite3_finalize(statement);
+    if(result != SQLITE_OK)
+    {
+        std::cerr<<"Failed to close the statement "<<sqlite3_errstr(result)<<std::endl;
 
     }
 
