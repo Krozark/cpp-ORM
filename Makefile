@@ -1,6 +1,6 @@
 export CC = g++
 INCPATH = -I"$(CURDIR)"
-LIBS = -lmysqlcppconn 
+LIBS = -lmysqlcppconn -lsqlite3
 #-lpthread 
 export DEFINES = 
 export FLAGS = -g -std=c++0x $(INCPATH) $(LIBS) $(DEFINES)

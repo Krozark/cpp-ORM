@@ -4,8 +4,7 @@
 
 namespace orm
 {
-    Sqlite3Bdd::Sqlite3Bdd(std::string bdd) :
-        Bdd("","",bdd,"",""),
+    Sqlite3Bdd::Sqlite3Bdd(std::string bdd) : Bdd("","",bdd,"","")
     {
         //Operators
         operators["exact"] = "= ";
@@ -111,7 +110,7 @@ namespace orm
 
         if(query.prepared)
         {
-            q.bdd_res = 0;
+            //q.bdd_res = 0;
             /// \todo return q.prepared_statement->execute();
         }
         else

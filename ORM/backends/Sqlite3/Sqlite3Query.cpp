@@ -44,13 +44,13 @@ namespace orm
         /** \todo return bdd_res->rowsCount();*/
     };
 
-    /*bool Sqlite3Query::get(bool& value,const std::string& colum)const
+    bool Sqlite3Query::get(bool& value,const std::string& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getBoolean(colum);
@@ -59,7 +59,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -70,7 +70,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getInt(colum);
@@ -79,7 +79,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -89,7 +89,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getUInt(colum);
@@ -98,7 +98,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -108,7 +108,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getInt64(colum);
@@ -117,7 +117,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -127,7 +127,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getUInt64(colum);
@@ -136,7 +136,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -146,7 +146,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = static_cast<float>(bdd_res->getDouble(colum));
@@ -155,7 +155,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -165,7 +165,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getDouble(colum);
@@ -174,7 +174,7 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
     };
 
@@ -184,7 +184,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        #if ORM_ALLOW_EXCEPTION
+        /*#if ORM_ALLOW_EXCEPTION
         try{
         #endif
             value = bdd_res->getString(colum);
@@ -193,22 +193,22 @@ namespace orm
         catch(sql::InvalidArgumentException& e){
             return false;
         }
-        #endif
+        #endif*/
         return true;
-    };*/
+    };
 
     //std::istream * getBlob
 
-    /*bool Sqlite3Query::next()
+    bool Sqlite3Query::next()
     {
-        return bdd_res->next();
+        //return bdd_res->next();
     }
 
     bool Sqlite3Query::set(const bool& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        prepared_statement->setBoolean(colum,value);
+        //prepared_statement->setBoolean(colum,value);
         return true;
     };
 
@@ -216,7 +216,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setInt(colum,value);
+        //prepared_statement->setInt(colum,value);
         return true;
     };
 
@@ -224,7 +224,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setUInt(colum,value);
+        //prepared_statement->setUInt(colum,value);
         return true;
     };
 
@@ -232,7 +232,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setInt64(colum,value);
+        //prepared_statement->setInt64(colum,value);
         return true;
     };
 
@@ -240,7 +240,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setUInt64(colum,value);
+        //prepared_statement->setUInt64(colum,value);
         return true;
     };
 
@@ -248,7 +248,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setDouble(colum,static_cast<double>(value));
+        //prepared_statement->setDouble(colum,static_cast<double>(value));
         return true;
     };
 
@@ -256,7 +256,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setDouble(colum,value);
+        //prepared_statement->setDouble(colum,value);
         return true;
     };
 
@@ -264,7 +264,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setString(colum,value);
+        //prepared_statement->setString(colum,value);
         return true;
     };
 
@@ -272,7 +272,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        prepared_statement->setNull(colum,sql::DataType::INTEGER);
+        //prepared_statement->setNull(colum,sql::DataType::INTEGER);
         return true;
-    };*/
+    };
 };

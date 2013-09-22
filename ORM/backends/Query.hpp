@@ -12,6 +12,7 @@ namespace orm
 {
     class Bdd;
     class MySQLBdd;
+    class Sqlite3Bdd;;
     class SQLObjectBase;
     template<typename T> class FKBase;
     template<typename T> class Attr;
@@ -27,6 +28,7 @@ namespace orm
         protected:
             friend class Bdd;
             friend class MySQLBdd;
+            friend class Sqlite3Bdd;
             friend class SQLObjectBase;
             template<typename T> friend class Attr;
             template<typename T> friend class FKBase;

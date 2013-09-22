@@ -1,7 +1,9 @@
-#include <ORM/backends/MySql.hpp>
-
-orm::MySQLBdd def("root","toor","test");
+//#include <ORM/backends/MySql.hpp>
+//orm::MySQLBdd def("root","toor","test");
 //orm::MySQLBdd def("root","root","test");
+
+#include <ORM/backends/Sqlite3.hpp>
+orm::Sqlite3Bdd def("./data/test.db");
 
 orm::Bdd& orm::Bdd::Default = def;
 
