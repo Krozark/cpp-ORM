@@ -111,8 +111,8 @@ namespace orm
             virtual std::string escapeColum(const std::string&) const;
             
         private:
+            sqlite3 * dbConn; ///< Create a pointer to a database connection object
             /*sql::Driver     *driver; ///< Create a pointer to a Sqlite3 driver object
-            sql::Connection *dbConn; ///< Create a pointer to a database connection object
             sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our SQL commands
             */
     };

@@ -3,7 +3,7 @@
 //orm::MySQLBdd def("root","root","test");
 
 #include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3Bdd def("./data/test.db");
+orm::Sqlite3Bdd def("./datas/test.db");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -76,7 +76,7 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    orm::Bdd::Default.connect();
+    //orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
     /*
@@ -134,7 +134,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
-   {
+   /*{
        //auto& p1 = Perso::get(1);
        Perso p2;
 
@@ -142,12 +142,12 @@ int main(int argc,char* argv[])
        //QuerySet<Perso> queryset = Perso::query();
        //queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"exact",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
 
-       /*cout<<"All perso"<<endl;
+       cout<<"All perso"<<endl;
        Perso::query().get(results);
        for(auto& perso : results)
            cout<<*perso<<endl;
 
-       results.clear();*/
+       results.clear();
 
        cout<<"All perso where lvl < 200"<<endl;
        Perso::query().filter(200,"lt",Perso::_lvl).get(results);
@@ -155,7 +155,7 @@ int main(int argc,char* argv[])
            cout<<*perso<<endl;
 
 
-   }
+   }*/
    /*    {
 
        list<Filter> filters = {
@@ -187,6 +187,62 @@ int main(int argc,char* argv[])
        cout<<*u<<endl;
        */
 
+    ///SQLITE3 tests
+    sqlite3 * dbConn; // store db connextion
+    // open db
+    int result=sqlite3_open("./datas/test.db",&dbConn);
+
+    if (result != SQLITE_OK)
+    {
+        std::cerr<<"Failed to open database "<<sqlite3_errstr(result)<<std::endl;
+        sqlite3_close(dbConn) ;
+    }
+
+    /*
+     * Prepare statement
+     */    
+    sqlite3_stmt *statement;
+    char query[] = "SELECT id,name,lvl,stats,stats_tmp,master FROM perso;";
+
+    result = sqlite3_prepare_v2(dbConn,query, sizeof(query)+1, &statement, NULL);
+    if (result != SQLITE_OK) {
+        std::cerr<<"Failed to prepare database "<<sqlite3_errstr(result)<<std::endl;
+        sqlite3_close(dbConn) ;
+    }
+
+
+    /*
+     * Get data
+     */
+    
+    int id;
+    std::string name;
+    int lvl;
+    int stats;
+    int stats_tmp;
+    int master;
+
+
+    while((result = sqlite3_step (statement)) == SQLITE_ROW) // can read data
+    {
+            id = sqlite3_column_int(statement,0);
+            name = (const char*)sqlite3_column_text(statement,1);
+            lvl = sqlite3_column_int(statement,2);
+            stats = sqlite3_column_int(statement,3);
+            stats_tmp = sqlite3_column_int(statement,4);
+            master = sqlite3_column_int(statement,5);
+
+            std::cout<<"pk:"<<id<<", name:"<<name<<", lvl:"<<lvl<<", stats:"<<stats<<", stats_tmp"<<stats_tmp<<", master:"<<master<<std::endl;
+
+    }
+
+    result = sqlite3_close(dbConn);// free db and close
+    while(result != SQLITE_OK)
+    {
+        std::cerr<<"Failed to close database "<<sqlite3_errstr(result)<<std::endl;
+        result = sqlite3_close(dbConn);
+
+    }
 
     return 0;
 };

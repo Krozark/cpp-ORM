@@ -4,7 +4,8 @@
 
 namespace orm
 {
-    Sqlite3Bdd::Sqlite3Bdd(std::string bdd) : Bdd("","",bdd,"","")
+    Sqlite3Bdd::Sqlite3Bdd(std::string bdd) : Bdd("","",bdd,"","")/*,driver(0)*/, dbConn(0)
+
     {
         //Operators
         operators["exact"] = "= ";
@@ -32,14 +33,27 @@ namespace orm
 
     Sqlite3Bdd::~Sqlite3Bdd()
     {
-        /**if(statement)
+        /*
+        if(statement)
             delete statement;
+        */
         if(dbConn)
-            delete dbConn;*/
+            sqlite3_close(dbConn);
     };
     
     bool Sqlite3Bdd::connect()
     {
+
+        /* open the database */
+        int result=sqlite3_open(s_bdd_name.c_str(),&dbConn);
+        if (result != SQLITE_OK)
+        {
+            std::cerr<<"Failed to open database "<<sqlite3_errstr(result)<<std::endl;
+            sqlite3_close(dbConn);
+            return false;
+        }
+        return false;
+
         /*try{
             driver = get_driver_instance();
         }catch (sql::SQLException e){

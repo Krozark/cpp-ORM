@@ -246,8 +246,9 @@ namespace orm
 
         private:
             friend class Sqlite3Bdd;
+
+            sqlite3_stmt *prepared_statement; ///< Hold the prepared statement
             /*sql::ResultSet  *bdd_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
-            sql::PreparedStatement *prepared_statement; ///< Hold the statement
             */
     };
 };
@@ -259,6 +260,18 @@ SQLITE_FLOAT    2
 SQLITE_BLOB     4
 SQLITE_NULL     5
 SQLITE_TEXT     3
+
+const void *sqlite3_column_blob(sqlite3_stmt*, int iCol);
+int sqlite3_column_bytes(sqlite3_stmt*, int iCol);
+int sqlite3_column_bytes16(sqlite3_stmt*, int iCol);
+double sqlite3_column_double(sqlite3_stmt*, int iCol);
+int sqlite3_column_int(sqlite3_stmt*, int iCol);
+sqlite3_int64 sqlite3_column_int64(sqlite3_stmt*, int iCol);
+const unsigned char *sqlite3_column_text(sqlite3_stmt*, int iCol);
+const void *sqlite3_column_text16(sqlite3_stmt*, int iCol);
+int sqlite3_column_type(sqlite3_stmt*, int iCol);
+sqlite3_value *sqlite3_column_value(sqlite3_stmt*, int iCol);
+
 */
 
 #endif
