@@ -1,5 +1,5 @@
-#ifndef ORM_MYSQLBDD_HPP
-#define ORM_MYSQLBDD_HPP
+#ifndef ORM_SQLITE3BDD_HPP
+#define ORM_SQLITE3BDD_HPP
 
 #include <ORM/backends/Bdd.hpp>
 
