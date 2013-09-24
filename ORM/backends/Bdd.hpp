@@ -11,10 +11,11 @@ namespace orm
 {
     class Query;
     class SQLObjectBase;
+    class VAttr;
     template<typename T> class SQLObject;
     template<typename T> class QuerySet;
+    template<typename T> class QuerySet;
     template<typename T,typename U> class ManyToMany;
-    class VAttr;
 
     /**
      * \brief Abstract class to deal with any database 
@@ -108,8 +109,10 @@ namespace orm
         protected:
             friend class Query;
             friend class SQLObjectBase;
+            friend class VAttr;
             template<typename T> friend class SQLObject;
             template<typename T> friend class QuerySet;
+            template<typename T> friend class FKBase;
             template<typename T,typename U> friend class ManyToMany;
 
             /* Info for connection */
@@ -206,6 +209,12 @@ namespace orm
             * \see operators
             **/
             std::string escapeValue(const std::string& ope,const std::string& value) const;
+
+            /**
+             * \return Return the initial colum number for extract values (0 or 1)
+             */
+            int virtual getInitialGetColumnNumber() const = 0;
+
     };
 };
 

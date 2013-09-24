@@ -137,4 +137,10 @@ namespace orm
     {
         return "`"+str+"`";
     }
+
+    int Sqlite3Bdd::getInitialGetColumnNumber() const
+    {
+        return 0;
+    }
+
 };

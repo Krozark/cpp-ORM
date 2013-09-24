@@ -10,7 +10,7 @@ namespace orm
     };
 
     template<typename T>
-    T* SQLObject<T>::createFromBdd(const Query& query,const std::string& prefix, int max_depth)
+    T* SQLObject<T>::createFromBdd(const Query& query,int& prefix, int max_depth)
     {
         T* res = new T();
         if(not res->loadFromBdd(query,prefix,max_depth))
@@ -200,31 +200,10 @@ namespace orm
     {
         q_str+= bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum("id")+" AS "+bdd_used->escapeValue(JOIN_ALIAS(prefix,"id"));
         
-        {
-            const int size = colum_attrs.size();
-            for(int i=0;i<size;++i)
-            {
-                const std::string& col = colum_attrs[i]->getColum();
-                q_str+= ", "
-                +bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum(col)
-                +" AS "
-                +bdd_used->escapeValue(JOIN_ALIAS(prefix,col));
-            }
-        }
-        if(--max_depth <0)
-            return;
-        
-        const int size = colum_fks.size();
+        const int size = colum_attrs.size();
         for(int i=0;i<size;++i)
         {
-            const SQLObjectBase& object = colum_fks[i]->getObject();
-            /*if (&object == NULL)
-                continue;*/
-            const std::string& col = colum_fks[i]->getColum();
-            const std::string table_alias = MAKE_PREFIX(prefix,col);
-
-            q_str+="\n,";
-            object._nameAttrs(q_str,table_alias,max_depth);
+            q_str+= colum_attrs[i]->makeName(bdd_used,prefix,max_depth);
         }
     }
 

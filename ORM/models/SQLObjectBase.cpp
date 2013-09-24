@@ -11,26 +11,44 @@ namespace orm
 
     bool SQLObjectBase::loadFromBdd(const Query& query,int max_depth)
     {
-        return loadFromBdd(query,"",max_depth);
+        int prefix=getBdd()->getInitialGetColumnNumber() -1;
+        return loadFromBdd(query,prefix,max_depth);
     };
 
-    bool SQLObjectBase::loadFromBdd(const Query& query,const std::string& prefix,int max_depth)
+    bool SQLObjectBase::loadFromBdd(const Query& query,int& prefix,int max_depth)
     {
-        bool res = true;
-        const std::string& table_alias = (prefix.size()>0)?prefix:getTable();
+        ++prefix;
+
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        std::cerr<<MAGENTA<<"[ATTR] get attr("<<prefix<<") : id"<<BLANC<<std::endl;
+        #endif
+
+        bool res = query.get(pk,prefix); //id
+
+        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+        if(not res)
+            std::cerr<<ROUGE<<"[ATTR] get attr("<<prefix<<") : id"<<" fail"<<BLANC<<std::endl;
+        #endif
         for(VAttr* attr: attrs)
         {
-            bool tmp = attr->get(query,table_alias,max_depth);
-            res = res &&  tmp;
+            ++prefix;
+            #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+            std::cerr<<MAGENTA<<"[ATTR] get attr("<<prefix<<") : "<<attr->getColum()<<BLANC<<std::endl;
+            #endif
+
+            bool tmp = attr->get(query,prefix,max_depth); //incrementation of colum number for the next
+
+            #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
+            if(not tmp)
+                std::cerr<<ROUGE<<"[ATTR] get attr("<<prefix<<") : "<<attr->getColum()<<" fail"<<BLANC<<std::endl;
+            #endif
+            res = (res and  tmp);
         }
-        if(res)
-        {
-            query.get(pk,JOIN_ALIAS(table_alias,"id"));
-        }
+
         #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
-        else
+        if(not res)
         {
-            std::cerr<<ROUGE<<"[GET OBJ] SQLObjectBase::loadFromBdd(const Query& query,const std::string& prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
+            std::cerr<<ROUGE<<"[GET OBJ] SQLObjectBase::loadFromBdd(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
         }
         #endif
         return res;

@@ -20,11 +20,13 @@ namespace orm
 
             virtual std::ostream& print_value(std::ostream& output)const;
 
+
         protected:
             template<typename T> friend class SQLObject;
             int fk;
             bool loaded;
             const bool nullable;
+
     };
 }
 #endif

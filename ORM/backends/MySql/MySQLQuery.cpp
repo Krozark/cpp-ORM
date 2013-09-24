@@ -44,10 +44,6 @@ namespace orm
 
     bool MySQLQuery::get(bool& value,const int& colum)const
     {
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -63,11 +59,6 @@ namespace orm
 
     bool MySQLQuery::get(int& value,const int& colum)const
     {
-
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -83,10 +74,6 @@ namespace orm
 
     bool MySQLQuery::get(unsigned int& value,const int& colum)const
     {
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -102,10 +89,6 @@ namespace orm
 
     bool MySQLQuery::get(long long int& value,const int& colum)const
     {    
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -121,10 +104,6 @@ namespace orm
 
     bool MySQLQuery::get(long long unsigned int& value,const int& colum)const
     {
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -140,10 +119,6 @@ namespace orm
 
     bool MySQLQuery::get(float& value,const int& colum)const
     {
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -159,10 +134,6 @@ namespace orm
 
     bool MySQLQuery::get(long double& value,const int& colum)const
     {
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -178,10 +149,6 @@ namespace orm
 
     bool MySQLQuery::get(std::string& value,const int& colum)const
     {
-        #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
-        #endif
-
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif

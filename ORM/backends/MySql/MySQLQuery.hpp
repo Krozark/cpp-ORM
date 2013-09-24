@@ -143,7 +143,7 @@ namespace orm
              * \return false if fail
              **/
             virtual bool get(std::string& value,const int& colum)const;
-            
+           
         
             /**
              * \brief Whene the query have been execute, for loop in results

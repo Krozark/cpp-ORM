@@ -37,7 +37,7 @@ namespace orm
     * \todo add to creatoFromBdd depth
     **/
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,const std::string& prefix,int max_depth)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth)
     {
         const auto& res= map.find(pk);
         if(res != map.end())
@@ -57,7 +57,7 @@ namespace orm
         if(res != map.end())
             return res->second;
         type_ptr& r= map[pk];
-        r.reset(T::createFromBdd(query,"",max_depth));
+        r.reset(T::createFromBdd(query,0,max_depth));
         return r;
     }
 

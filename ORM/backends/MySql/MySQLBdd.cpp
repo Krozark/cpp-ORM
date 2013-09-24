@@ -143,7 +143,7 @@ namespace orm
         q.next();
 
         int pk = -1;
-        q.get(pk,"LAST_INSERT_ID()");
+        q.get(pk,0);
 
         delete &q;
 
@@ -154,4 +154,10 @@ namespace orm
     {
         return "`"+str+"`";
     }
+
+    int MySQLBdd::getInitialGetColumnNumber() const
+    {
+        return 1;
+    }
+
 };

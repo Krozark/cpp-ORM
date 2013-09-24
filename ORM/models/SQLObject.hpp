@@ -56,7 +56,7 @@ namespace orm
         SQLObject(const SQLObject&) = delete;
         SQLObject& operator=(const SQLObject&) = delete;
 
-        static T* createFromBdd(const Query& query,const std::string& prefix,int max_depth);
+        static T* createFromBdd(const Query& query,int& prefix,int max_depth);
         
         static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 

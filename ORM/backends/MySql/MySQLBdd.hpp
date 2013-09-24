@@ -107,7 +107,12 @@ namespace orm
             * \see escapeValue
             **/
             virtual std::string escapeColum(const std::string&) const;
-            
+
+            /**
+            * \return Return the initial colum number for extract values (0 or 1)
+            */
+            int virtual getInitialGetColumnNumber() const;
+
         private:
             sql::Driver     *driver; ///< Create a pointer to a MySQL driver object
             sql::Connection *dbConn; ///< Create a pointer to a database connection object

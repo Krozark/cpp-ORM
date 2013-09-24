@@ -47,7 +47,7 @@ namespace orm
             std::vector<VAttr*> attrs;
             std::vector<VFK*> fks;
 
-            bool loadFromBdd(const Query& query,const std::string& prefix,int max_depth);
+            bool loadFromBdd(const Query& query,int& prefix,int max_depth);
 
             virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const =0;
             virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const =0;

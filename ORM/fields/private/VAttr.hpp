@@ -37,7 +37,9 @@ namespace orm
             const std::string& colum;
             virtual void print(std::ostream& output) const =0;
             virtual bool set(Query& query,const unsigned int& colum) = 0;
-            virtual bool get(const Query& query,const std::string& prefix,int max_depth) = 0;
+            virtual bool get(const Query& query,int& prefix,int max_depth) = 0;
+
+            virtual std::string makeName(const Bdd* bdd,const std::string& prefix,int max_depth) const;
 
 
     };

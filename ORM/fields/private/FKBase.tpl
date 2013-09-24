@@ -1,5 +1,5 @@
+#include <ORM/backends/Bdd.hpp>
 #include <ORM/backends/Query.hpp>
-
 #include <ORM/models/SQLObjectBase.hpp>
 
 namespace orm
@@ -55,23 +55,16 @@ namespace orm
     };
 
     template<typename T>
-    bool FKBase<T>::get(const Query& query,const std::string& prefix,int max_depth)
+    bool FKBase<T>::get(const Query& query,int& prefix,int max_depth)
     {
-        const std::string colum_alias(JOIN_ALIAS(prefix,colum));
-        bool res = query.get(fk,colum_alias);
-
+        bool res = query.get(fk,prefix);
+        
         if(res and --max_depth>=0)
         {
             const unsigned int id = fk;
-            value_ptr = T::cache.getOrCreate(id,query,colum_alias,max_depth);
+            value_ptr = T::cache.getOrCreate(id,query,prefix,max_depth);
             loaded = true;
         }
-        /// \todo delete ptr or set to NULL???
-        /*else
-        {
-            value_ptr = NULL;
-        }*/
-        //res = res and (value_ptr->loadFromBdd(query));
         return res;
     }
     
@@ -155,5 +148,20 @@ namespace orm
             fk = value_ptr->pk;
         }
         return res;
+    }
+
+    template<typename T>
+    std::string FKBase<T>::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
+    {
+        std::string q_str(",\n "+bdd->escapeColum(prefix)+"."+bdd->escapeColum(colum)+" AS "+bdd->escapeValue(JOIN_ALIAS(prefix,colum)));
+
+        if(--max_depth <0)
+            return q_str;
+
+        const std::string table_alias = MAKE_PREFIX(prefix,colum);
+
+        q_str+=",";
+        T::nameAttrs(q_str,table_alias,max_depth);
+        return q_str;
     }
 }

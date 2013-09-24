@@ -83,10 +83,10 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-   /*{ 
+   { 
         auto& p1 = Perso::get(1);
         cout<<"Current perso1 "<<*p1<<endl;
-        cout<<" add 1 to lvl"<<endl;
+        /*cout<<" add 1 to lvl"<<endl;
         p1->lvl = p1->lvl + 1;
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<"save it"<<endl;
@@ -103,8 +103,8 @@ int main(int argc,char* argv[])
         cout<<"delete p1->master->master"<<endl;
         p1->maitre->maitre.del(true);
 
-        cout<<"Current perso1 "<<*p1<<endl;
-    }*/
+        cout<<"Current perso1 "<<*p1<<endl;*/
+    }
 
    /*{
        cout<<"All persos"<<endl;
@@ -184,7 +184,7 @@ int main(int argc,char* argv[])
        cout<<*u<<endl;
        */
 
-    
+   /* 
     ///SQLITE3 tests
     sqlite3 * dbConn; // store db connextion
     // open db
@@ -252,8 +252,28 @@ int main(int argc,char* argv[])
         result = sqlite3_close(dbConn);
 
     }
+    */
 
     Bdd::Default.disconnect();
+    /*
+     * perso id : "1"
+     * perso master : "2"
+     * + perso master id : 2
+     * + perso master master : 0
+     * + perso master stats_tmp : 6
+     * + perso master stats : 2
+     * + perso master lvl : 789
+     * + perso master name : test2
+     * perso stats_tmp : "5"
+     * + perso stats_tmp id :"5"
+     * + perso stats_tmp pi : "0"
+     * + perso stats_tmp pv : "20"
+     * perso stats : "1"
+     * + perso stats id : "1"
+     * + perso stats pi : "12"
+     * + perso stats pv : "342"
+     * perso lvl : "80"
+     * perso name : "test1"
 
     return 0;
 };

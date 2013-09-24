@@ -12,7 +12,7 @@ namespace orm
 {
     class Bdd;
     class MySQLBdd;
-    class Sqlite3Bdd;;
+    class Sqlite3Bdd;
     class SQLObjectBase;
     template<typename T> class FKBase;
     template<typename T> class Attr;
@@ -121,7 +121,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(long long int& value,const iny& colum)const = 0;
+            virtual bool get(long long int& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 

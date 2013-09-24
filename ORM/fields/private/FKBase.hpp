@@ -34,8 +34,10 @@ namespace orm
 
             virtual void print(std::ostream& output) const;
             virtual bool set(Query& query,const unsigned int& colum);
-            virtual bool get(const Query& query,const std::string& prefix,int max_depth);
+            virtual bool get(const Query& query,int& prefix,int max_depth);
             T* getObjectT_ptr(int max_depth = ORM_DEFAULT_MAX_DEPTH);
+
+            virtual std::string makeName(const Bdd* bdd,const std::string& prefix,int max_depth) const;
 
     };
 }

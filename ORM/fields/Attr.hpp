@@ -77,7 +77,7 @@ namespace orm
         protected:
             virtual void print(std::ostream& output) const;
             virtual bool set(Query& query,const unsigned int& colum);
-            virtual bool get(const Query& query,const std::string& prefix,int max_depth);
+            virtual bool get(const Query& query,int& prefix,int max_depth);
     };
 };
 #include <ORM/fields/Attr.tpl>
