@@ -3,45 +3,45 @@
 
 namespace orm
 {
-    Sqlite3Query::Sqlite3Query(Bdd* bdd) : Query(bdd)/*, bdd_res(0), prepared_statement(0)*/
+    Sqlite3Query::Sqlite3Query(Bdd* bdd) : Query(bdd), statement(0)
     {
     };
 
-    Sqlite3Query::Sqlite3Query(Bdd* bdd,const std::string& query) : Query(bdd,query)/*, bdd_res(0), prepared_statement(0)*/
+    Sqlite3Query::Sqlite3Query(Bdd* bdd,const std::string& query) : Query(bdd,query), statement(0)
     {
     };
 
-    Sqlite3Query::Sqlite3Query(Bdd* bdd,std::string&& query) : Query(bdd,query)/*, bdd_res(0), prepared_statement(0)*/
+    Sqlite3Query::Sqlite3Query(Bdd* bdd,std::string&& query) : Query(bdd,query), statement(0)
     {
     };
 
     Sqlite3Query::~Sqlite3Query()
     {
-        /** \todo
-        if(prepared and prepared_statement)
-            delete prepared_statement;
-        if(bdd_res)
-            delete bdd_res;
-        */
+        if(statement)
+        {
+            int result = sqlite3_finalize(statement);
+            if(result != SQLITE_OK)
+            {
+                std::cerr<<ROUGE<<"[Query] Failed to close the statement"<<BLANC<<std::endl;
+                /// \todo <<sqlite3_errstr(result)<<std::endl;
+            }
+        }
     };
 
     Sqlite3Query& Sqlite3Query::limit(const int& skip,const int& count)
     {
-        /**
-         \todo
-         if(skip > 0 and count > 0)
-            query+=" LIMIT "+std::to_string(skip)+" , "+std::to_string(count);
+        if(skip > 0 and count > 0)
+            query+=" LIMIT "+std::to_string(count)+" OFFEST "+std::to_string(skip);
         else if (count > 0)
             query+=" LIMIT "+std::to_string(count);
         else
             std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
-        */
         return *this;
     };
 
     int Sqlite3Query::count()const
     {
-        /** \todo return bdd_res->rowsCount();*/
+        return sqlite3_data_count(statement);
     };
 
     bool Sqlite3Query::get(bool& value,const std::string& colum)const
@@ -50,16 +50,8 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getBoolean(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
+        value = (bool)sqlite3_column_int(statement,colum);
+
         return true;
     };
 
@@ -70,16 +62,8 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getInt(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
+        value = sqlite3_column_int(statement,colum);
+
         return true;
     };
 
@@ -88,17 +72,9 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
+        
+        value = (unsigned int)sqlite3_column_int(statement,colum);
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getUInt(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
         return true;
     };
 
@@ -107,17 +83,9 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
+        
+        value = (long long int)sqlite3_column_int64(statement,colum);
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getInt64(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
         return true;
     };
 
@@ -127,16 +95,8 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getUInt64(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
+        value = (unsigned long long int)sqlite3_column_int64(statement,colum);
+
         return true;
     };
 
@@ -146,16 +106,8 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = static_cast<float>(bdd_res->getDouble(colum));
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
+        value = (float)sqlite3_column_double(statement,colum);
+
         return true;
     };
 
@@ -165,16 +117,8 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getDouble(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
+        value = (long double)sqlite3_column_double(statement,colum);
+
         return true;
     };
 
@@ -184,96 +128,77 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
         #endif
 
-        /*#if ORM_ALLOW_EXCEPTION
-        try{
-        #endif
-            value = bdd_res->getString(colum);
-        #if ORM_ALLOW_EXCEPTION
-        }
-        catch(sql::InvalidArgumentException& e){
-            return false;
-        }
-        #endif*/
+        value = (const char*)sqlite3_column_text(statement,colum);
+
         return true;
     };
 
-    //std::istream * getBlob
-
     bool Sqlite3Query::next()
     {
-        //return bdd_res->next();
+        return(sqlite3_step(statement) == SQLITE_OK);
     }
 
     bool Sqlite3Query::set(const bool& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setBoolean(colum,value);
-        return true;
+        return (sqlite3_bind_int(statement,(int)colum,(int)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const int& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setInt(colum,value);
-        return true;
+        return (sqlite3_bind_int(statement,(int)colum,(int)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const unsigned int& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setUInt(colum,value);
-        return true;
+        return (sqlite3_bind_int(statement,(int)colum,(int)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const long long int& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setInt64(colum,value);
-        return true;
+        return (sqlite3_bind_int64(statement,(int)colum,(sqlite3_int64)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const long long unsigned int& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setUInt64(colum,value);
-        return true;
+        return (sqlite3_bind_int64(statement,(int)colum,(sqlite3_int64)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const float& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setDouble(colum,static_cast<double>(value));
-        return true;
+        return (sqlite3_bind_double(statement,(int)colum,(double)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const long double& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setDouble(colum,value);
-        return true;
+        return (sqlite3_bind_double(statement,(int)colum,(double)value)== SQLITE_OK)
     };
 
     bool Sqlite3Query::set(const std::string& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setString(colum,value);
-        return true;
+        return (sqlite3_bind_text(statement,(int)colum,value.c_str(),value.size())== SQLITE_OK)
     };
 
     bool Sqlite3Query::setNull(const int& value,const unsigned int& colum)
     {
         if(not prepared)
             return false;
-        //prepared_statement->setNull(colum,sql::DataType::INTEGER);
-        return true;
+        return (sqlite3_bind_null(statement,(int)colum)== SQLITE_OK);
     };
 
     bool Sqlite3Query::executeQuery()
@@ -281,16 +206,15 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<"\033[32m"<<query<<"\033[00m"<<std::endl;
         #endif
-        if(prepared)
+
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        if (result != SQLITE_OK)
         {
-            /*bdd_res = 0;
-            return prepared_statement->execute();*/
+            std::cerr<<ROUGE<<"[Query] Failed to make the statment"<<BLANC<<std::endl;
+            /// \todo <<sqlite3_errstr(result)<<std::endl;
+            return false;
         }
-        else
-        {
-            /*bdd_res = statement->executeQuery(query);
-            return true;*/
-        }
+        return true;
     };
     
 };
