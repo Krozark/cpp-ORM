@@ -243,11 +243,18 @@ namespace orm
              **/
             virtual bool setNull(const int& value,const unsigned int& colum);
 
+            /**
+            * \brief Execute a query
+            *
+            * \return false if faild
+            * */
+            virtual bool executeQuery();
+
 
         private:
             friend class Sqlite3Bdd;
 
-            sqlite3_stmt *prepared_statement; ///< Hold the prepared statement
+            sqlite3_stmt *statement; ///< Hold the  statement
             /*sql::ResultSet  *bdd_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
             */
     };

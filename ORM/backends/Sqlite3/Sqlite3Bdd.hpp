@@ -85,12 +85,6 @@ namespace orm
         protected:
             friend class Sqlite3Query;
 
-            /**
-            * \brief Execute a query
-            *
-            * \return false if faild
-            * */
-            virtual bool executeQuery(Query& query);
 
             /**
             * \brief Get the pk of the last object created in the database

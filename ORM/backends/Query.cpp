@@ -35,7 +35,7 @@ namespace orm
         {
             query+=";";
         }
-        return bdd->executeQuery(*this);
+        return executeQuery();
     };
 
 };

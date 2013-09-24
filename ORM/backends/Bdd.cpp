@@ -66,7 +66,7 @@ namespace orm
             std::cerr<<")"<<std::endl;
             #endif
 
-            executeQuery(q);
+            q.execute();
             delete &q;
 
             pk = getLastInsertPk();
@@ -133,7 +133,7 @@ namespace orm
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")\33[00m"<<std::endl;
             #endif
-            executeQuery(q);
+            q.execute();
             delete &q;
 
         }
@@ -149,7 +149,7 @@ namespace orm
         #endif
 
         Query* q = prepareQuery(str_q);
-        executeQuery(*q);
+        q->execute();
         delete  q;
 
         return true;

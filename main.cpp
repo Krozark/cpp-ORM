@@ -80,11 +80,10 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    //orm::Bdd::Default.connect();
+    orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-    /*
-   { 
+   /*{ 
         auto& p1 = Perso::get(1);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
@@ -105,19 +104,16 @@ int main(int argc,char* argv[])
         p1->maitre->maitre.del(true);
 
         cout<<"Current perso1 "<<*p1<<endl;
-    }
-    */
+    }*/
 
-    /*
-   {
+   /*{
        cout<<"All persos"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
        cout<<*u<<endl;
-   }
-    */
+   }*/
 
-    /*{
+   /*{
        cout<<"Create Perso"<<endl;
        Perso p2;// = new Perso;
 
@@ -160,37 +156,35 @@ int main(int argc,char* argv[])
 
 
    }*/
-   /*    {
+   /*{
 
        list<Filter> filters = {
-       Filter(Perso::_lvl,"gt",4),
-       Filter(Perso::_name,"startswith","tes"),
-       Filter(Stats::_pv,"gt",4)
+           Filter("perso.lvl","gt",4),
+           Filter("perso.name","startswith","tes"),
+           Filter("perso.pv","gt",4)
        };
-       std::list<std::shared_ptr<Perso> > lis= Perso::filter(filters);
+       std::list<std::shared_ptr<Perso>> lis;
+       Perso::query().filter(filters).get(lis);
        for(auto u : lis)
-       cout<<*u<<endl;
-       }
+           cout<<*u<<endl;
+   }*/
 
 
+    /*{
+        cout<<"Perso Cache"<<endl;
+        Perso::cache.__print__();
 
-       cout<<"All persos current current="<<p2<<endl;
-       lis= Perso::all();
-       for(auto u : lis)
-       cout<<*u<<endl;
+        cout<<"Stats Cache"<<endl;
+        Stats::cache.__print__();
+    }*/
 
-       cout<<"Perso Cache"<<endl;
-       Perso::cache.__print__();
-
-       cout<<"Stats Cache"<<endl;
-       Stats::cache.__print__();
-       */
     /*
        const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
        for(auto u : spells)
        cout<<*u<<endl;
        */
 
+    
     ///SQLITE3 tests
     sqlite3 * dbConn; // store db connextion
     // open db
@@ -198,26 +192,28 @@ int main(int argc,char* argv[])
 
     if (result != SQLITE_OK)
     {
-        std::cerr<<"Failed to open database "<<sqlite3_errstr(result)<<std::endl;
+        std::cerr<<"Failed to open database "<<std::endl;
+        //<<sqlite3_errstr(result)<<std::endl;
         sqlite3_close(dbConn) ;
     }
 
-    /*
-     * Prepare statement
-     */    
+    ///
+    // Prepare statement
+    ////    
     sqlite3_stmt *statement;
     char query[] = "SELECT id,name,lvl,stats,stats_tmp,master FROM perso;";
 
     result = sqlite3_prepare_v2(dbConn,query, sizeof(query)+1, &statement, NULL);
     if (result != SQLITE_OK) {
-        std::cerr<<"Failed to prepare database "<<sqlite3_errstr(result)<<std::endl;
+        std::cerr<<"Failed to prepare database "<<std::endl;
+        //<<sqlite3_errstr(result)<<std::endl;
         sqlite3_close(dbConn) ;
     }
 
 
-    /*
-     * Get data
-     */
+    ////
+    // Get data
+    ///
     
     int id;
     std::string name;
@@ -243,17 +239,21 @@ int main(int argc,char* argv[])
     result = sqlite3_finalize(statement);
     if(result != SQLITE_OK)
     {
-        std::cerr<<"Failed to close the statement "<<sqlite3_errstr(result)<<std::endl;
+        std::cerr<<"Failed to close the statement "<<std::endl;
+        ///<<sqlite3_errstr(result)<<std::endl;
 
     }
 
     result = sqlite3_close(dbConn);// free db and close
     while(result != SQLITE_OK)
     {
-        std::cerr<<"Failed to close database "<<sqlite3_errstr(result)<<std::endl;
+        std::cerr<<"Failed to close database "<<std::endl;
+        //<<sqlite3_errstr(result)<<std::endl;
         result = sqlite3_close(dbConn);
 
     }
+
+    Bdd::Default.disconnect();
 
     return 0;
 };

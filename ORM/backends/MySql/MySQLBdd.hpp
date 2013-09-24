@@ -91,13 +91,6 @@ namespace orm
             friend class MySQLQuery;
 
             /**
-            * \brief Execute a query
-            *
-            * \return false if faild
-            * */
-            virtual bool executeQuery(Query& query);
-
-            /**
             * \brief Get the pk of the last object created in the database
             *
             * \return The pk
@@ -118,7 +111,6 @@ namespace orm
         private:
             sql::Driver     *driver; ///< Create a pointer to a MySQL driver object
             sql::Connection *dbConn; ///< Create a pointer to a database connection object
-            sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our SQL commands
     };
 };
 

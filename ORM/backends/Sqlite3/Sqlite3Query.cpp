@@ -275,4 +275,22 @@ namespace orm
         //prepared_statement->setNull(colum,sql::DataType::INTEGER);
         return true;
     };
+
+    bool Sqlite3Query::executeQuery()
+    {
+        #if ORM_DEBUG & ORM_DEBUG_SQL
+        std::cerr<<"\033[32m"<<query<<"\033[00m"<<std::endl;
+        #endif
+        if(prepared)
+        {
+            /*bdd_res = 0;
+            return prepared_statement->execute();*/
+        }
+        else
+        {
+            /*bdd_res = statement->executeQuery(query);
+            return true;*/
+        }
+    };
+    
 };

@@ -28,7 +28,7 @@ namespace orm
     template<typename T>
     QuerySet<T>& QuerySet<T>::filter(const std::list<Filter>& filter_list)
     {
-        for(Filter& filter : filter_list)
+        for(const Filter& filter : filter_list)
             filters.emplace_back(filter);
         return *this;
     };

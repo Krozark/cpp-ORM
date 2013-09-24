@@ -4,15 +4,15 @@
 
 namespace orm
 {
-    MySQLQuery::MySQLQuery(Bdd* bdd) : Query(bdd), bdd_res(0), prepared_statement(0)
+    MySQLQuery::MySQLQuery(Bdd* bdd) : Query(bdd), bdd_res(0), prepared_statement(0), statement(0)
     {
     };
 
-    MySQLQuery::MySQLQuery(Bdd* bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0)
+    MySQLQuery::MySQLQuery(Bdd* bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
     {
     };
 
-    MySQLQuery::MySQLQuery(Bdd* bdd,std::string&& query) : Query(bdd,query), bdd_res(0), prepared_statement(0)
+    MySQLQuery::MySQLQuery(Bdd* bdd,std::string&& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
     {
     };
 
@@ -20,6 +20,8 @@ namespace orm
     {
         if(prepared and prepared_statement)
             delete prepared_statement;
+        if(not prepared and statement)
+            delete statement;
         if(bdd_res)
             delete bdd_res;
     };
@@ -271,4 +273,22 @@ namespace orm
         prepared_statement->setNull(colum,sql::DataType::INTEGER);
         return true;
     };
+
+    bool MySQLQuery::executeQuery()
+    {
+        #if ORM_DEBUG & ORM_DEBUG_SQL
+        std::cerr<<"\033[32m"<<query<<"\033[00m"<<std::endl;
+        #endif
+        if(prepared)
+        {
+            bdd_res = 0;
+            return prepared_statement->execute();
+        }
+        else
+        {
+            bdd_res = statement->executeQuery(query);
+            return true;
+        }
+    };
+
 };

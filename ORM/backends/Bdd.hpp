@@ -128,12 +128,6 @@ namespace orm
             **/
             std::unordered_map<std::string,std::string> operators;
 
-            /**
-            * \brief Execute a query
-            *
-            * \return false if faild
-            * */
-            virtual bool executeQuery(Query& query) = 0;
 
             /**
             * \brief Get the pk of the last object created in the database

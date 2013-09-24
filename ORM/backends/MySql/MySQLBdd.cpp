@@ -11,33 +11,34 @@ namespace orm
         dbConn(0)
     {
         //Operators
-        operators["exact"] = "= ";
-        operators["iexact"] = "LIKE ";
-        operators["contains"]= "LIKE BINARY ";
-        operators["icontains"]= "LIKE ";
-        operators["regex"]= "REGEXP BINARY ";
-        operators["iregex"]= "REGEXP ";
-        operators["gt"]= "> ";
-        operators["gte"]= ">= ";
-        operators["lt"]= "< ";
-        operators["lte"]= "<= ";
-        operators["startswith"]= "LIKE BINARY ";
-        operators["endswith"]= "LIKE BINARY ";
-        operators["istartswith"]= "LIKE ";
-        operators["iendswith"]= "LIKE ";
+        operators["exact"] = " = ";
+        operators["iexact"] = " LIKE ";
+        operators["contains"]= " LIKE BINARY ";
+        operators["icontains"]= " LIKE ";
+        operators["regex"]= " REGEXP BINARY ";
+        operators["iregex"]= " REGEXP ";
+        operators["gt"]= " > ";
+        operators["gte"]= " >= ";
+        operators["lt"]= " < ";
+        operators["lte"]= " <= ";
+        operators["startswith"]= " LIKE BINARY ";
+        operators["endswith"]= " LIKE BINARY ";
+        operators["istartswith"]= " LIKE ";
+        operators["iendswith"]= " LIKE ";
 
         //ordering
-        operators["?"] = "RAND() ";
-        operators["+"] = "ASC ";
-        operators["-"] = "DESC ";
+        operators["?"] = " RAND() ";
+        operators["+"] = " ASC ";
+        operators["-"] = " DESC ";
 
         //escape_char = "";
     };
 
     MySQLBdd::~MySQLBdd()
     {
-        if(statement)
+        /*if(statement)
             delete statement;
+        */
         if(dbConn)
             delete dbConn;
     };
@@ -58,10 +59,12 @@ namespace orm
             std::cerr<< "Could not connect to database. Error message: " << e.what() << std::endl;
             return false;
         }
-        statement = dbConn->createStatement();
+        sql::Statement* statement = dbConn->createStatement();
         statement->execute("USE "+s_bdd_name);
 
         std::cerr<<"MySQLBdd::Connect to "<<s_serveur<<" using database: "<<s_bdd_name<<std::endl;
+
+        delete statement;
 
         return true;
     };
@@ -73,17 +76,26 @@ namespace orm
 
     Query* MySQLBdd::query()
     {
-        return new MySQLQuery(this);
+        auto q = new MySQLQuery(this);
+        q->statement = dbConn->createStatement();
+        q->prepared = false;
+        return q;
     };
 
     Query* MySQLBdd::query(const std::string& str)
     {
-        return new MySQLQuery(this,str);
+        auto q = new MySQLQuery(this,str);
+        q->statement = dbConn->createStatement();
+        q->prepared = false;
+        return q;
     };
 
     Query* MySQLBdd::query(std::string&& str)
     {
-        return new MySQLQuery(this,str);
+        auto q = new MySQLQuery(this,str);
+        q->statement = dbConn->createStatement();
+        q->prepared = false;
+        return q;
     };
 
 
@@ -105,7 +117,7 @@ namespace orm
 
     /************** PROTECTED **********************/
 
-    bool MySQLBdd::executeQuery(Query& query)
+    /*bool MySQLBdd::executeQuery(Query& query)
     {
         MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
         #if ORM_DEBUG & ORM_DEBUG_SQL
@@ -121,13 +133,13 @@ namespace orm
             q.bdd_res = statement->executeQuery(q.query);
             return true;
         }
-    };
+    };*/
 
     int MySQLBdd::getLastInsertPk()
     {
         Query& q = *query("SELECT LAST_INSERT_ID()");
 
-        executeQuery(q);
+        q.execute();
         q.next();
 
         int pk = -1;

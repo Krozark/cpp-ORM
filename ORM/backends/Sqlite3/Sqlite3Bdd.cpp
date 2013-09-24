@@ -48,7 +48,7 @@ namespace orm
         int result=sqlite3_open(s_bdd_name.c_str(),&dbConn);
         if (result != SQLITE_OK)
         {
-            std::cerr<<"Failed to open database "<<sqlite3_errstr(result)<<std::endl;
+            std::cerr<<"Failed to open database "/*<<sqlite3_errstr(result)*/<<std::endl;
             sqlite3_close(dbConn);
             return false;
         }
@@ -115,24 +115,6 @@ namespace orm
 
     /************** PROTECTED **********************/
 
-    bool Sqlite3Bdd::executeQuery(Query& query)
-    {
-        Sqlite3Query& q = dynamic_cast<Sqlite3Query&>(query);
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<"\033[32m"<<query.query<<"\033[00m"<<std::endl;
-        #endif
-
-        if(query.prepared)
-        {
-            //q.bdd_res = 0;
-            /// \todo return q.prepared_statement->execute();
-        }
-        else
-        {
-            /// \todo q.bdd_res = statement->executeQuery(q.query);
-            return true;
-        }
-    };
 
     int Sqlite3Bdd::getLastInsertPk()
     {
