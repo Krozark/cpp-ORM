@@ -66,82 +66,82 @@ namespace orm
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(bool& value,const std::string& colum)const;
+            virtual bool get(bool& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(int& value,const std::string& colum)const;
+            virtual bool get(int& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(unsigned int& value,const std::string& colum)const;
+            virtual bool get(unsigned int& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long int& value,const std::string& colum)const;
+            virtual bool get(long long int& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long unsigned int& value,const std::string& colum)const;
+            virtual bool get(long long unsigned int& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(float& value,const std::string& colum)const;
+            virtual bool get(float& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long double& value,const std::string& colum)const;
+            virtual bool get(long double& value,const int& colum)const;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
+             * \param colun The colum to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(std::string& value,const std::string& colum)const;
+            virtual bool get(std::string& value,const int& colum)const;
             
         
             /**

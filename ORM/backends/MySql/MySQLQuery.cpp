@@ -42,7 +42,7 @@ namespace orm
         return bdd_res->rowsCount();
     };
 
-    bool MySQLQuery::get(bool& value,const std::string& colum)const
+    bool MySQLQuery::get(bool& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -51,7 +51,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getBoolean(colum);
+            value = bdd_res->getBoolean((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -61,7 +61,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(int& value,const std::string& colum)const
+    bool MySQLQuery::get(int& value,const int& colum)const
     {
 
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
@@ -71,7 +71,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getInt(colum);
+            value = bdd_res->getInt((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -81,7 +81,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(unsigned int& value,const std::string& colum)const
+    bool MySQLQuery::get(unsigned int& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -90,7 +90,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getUInt(colum);
+            value = bdd_res->getUInt((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -100,7 +100,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long long int& value,const std::string& colum)const
+    bool MySQLQuery::get(long long int& value,const int& colum)const
     {    
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -109,7 +109,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getInt64(colum);
+            value = bdd_res->getInt64((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -119,7 +119,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long long unsigned int& value,const std::string& colum)const
+    bool MySQLQuery::get(long long unsigned int& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -128,7 +128,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getUInt64(colum);
+            value = bdd_res->getUInt64((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -138,7 +138,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(float& value,const std::string& colum)const
+    bool MySQLQuery::get(float& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -147,7 +147,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = static_cast<float>(bdd_res->getDouble(colum));
+            value = static_cast<float>(bdd_res->getDouble((uint32_t)colum));
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -157,7 +157,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long double& value,const std::string& colum)const
+    bool MySQLQuery::get(long double& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -166,7 +166,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getDouble(colum);
+            value = bdd_res->getDouble((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -176,7 +176,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(std::string& value,const std::string& colum)const
+    bool MySQLQuery::get(std::string& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -185,7 +185,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getString(colum);
+            value = bdd_res->getString((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){

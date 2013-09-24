@@ -44,7 +44,7 @@ namespace orm
         return sqlite3_data_count(statement);
     };
 
-    bool Sqlite3Query::get(bool& value,const std::string& colum)const
+    bool Sqlite3Query::get(bool& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -55,7 +55,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(int& value,const std::string& colum)const
+    bool Sqlite3Query::get(int& value,const int& colum)const
     {
 
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
@@ -67,7 +67,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(unsigned int& value,const std::string& colum)const
+    bool Sqlite3Query::get(unsigned int& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -78,7 +78,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(long long int& value,const std::string& colum)const
+    bool Sqlite3Query::get(long long int& value,const int& colum)const
     {    
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -89,7 +89,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(long long unsigned int& value,const std::string& colum)const
+    bool Sqlite3Query::get(long long unsigned int& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -100,7 +100,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(float& value,const std::string& colum)const
+    bool Sqlite3Query::get(float& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -111,7 +111,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(long double& value,const std::string& colum)const
+    bool Sqlite3Query::get(long double& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;
@@ -122,7 +122,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(std::string& value,const std::string& colum)const
+    bool Sqlite3Query::get(std::string& value,const int& colum)const
     {
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         std::cerr<<MAGENTA<<"[ATTR] get attr : "<<colum<<BLANC<<std::endl;

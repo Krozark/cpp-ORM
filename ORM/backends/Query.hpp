@@ -87,81 +87,81 @@ namespace orm
              * \brief Get a value of a colum, and store it 
              *
              * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(bool& value,const std::string& colum)const = 0;
+            virtual bool get(bool& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(int& value,const std::string& colum)const = 0;
+            virtual bool get(int& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(unsigned int& value,const std::string& colum)const = 0;
+            virtual bool get(unsigned int& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long int& value,const std::string& colum)const = 0;
+            virtual bool get(long long int& value,const iny& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long unsigned int& value,const std::string& colum)const = 0;
+            virtual bool get(long long unsigned int& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(float& value,const std::string& colum)const = 0;
+            virtual bool get(float& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long double& value,const std::string& colum)const = 0;
+            virtual bool get(long double& value,const int& colum)const = 0;
 
             /**
              * \brief Get a value of a colum, and store it 
              *
-             * \param colun The colum the extract
-             * \param value Wher the value will be stored
+             * \param colun The colum to extract
+             * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(std::string& value,const std::string& colum)const = 0;
+            virtual bool get(std::string& value,const int& colum)const = 0;
 
 
             /**
