@@ -244,12 +244,10 @@ namespace orm
         if(limit_count > 0)
             q_str+= T::bdd_used->limit(limit_skip,limit_count);
 
-        std::cout<<q_str<<std::endl;
-
         Query* q = T::bdd_used->prepareQuery(q_str);
 
         {//bind values
-            int index = 1;
+            int index = 0;
             if(filters_size > 0)
             {
                 auto begin = filters.begin();

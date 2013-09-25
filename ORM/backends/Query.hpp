@@ -281,7 +281,7 @@ namespace orm
             virtual bool setNull(const int& value,const unsigned int& colum) = 0;
 
             bool prepared; ///< is the query is a prepared one?
-            virtual bool executeQuery() = 0;
+            virtual void executeQuery() = 0;
 
         private:
             /**
@@ -289,7 +289,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            bool execute();
+            void execute();
 
             bool executed; ///< is the query already executed?
     };

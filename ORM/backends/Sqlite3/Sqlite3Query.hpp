@@ -230,7 +230,7 @@ namespace orm
             *
             * \return false if faild
             * */
-            virtual bool executeQuery();
+            virtual void executeQuery();
 
 
         private:

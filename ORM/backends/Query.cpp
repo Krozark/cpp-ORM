@@ -19,14 +19,18 @@ namespace orm
     }
 
 
-    bool Query::execute()
+    void Query::execute()
     {
+        #if (ORM_DEBUG & ORM_DEBUG_SQL)
+        std::cerr<<VERT<<"[SQL] Query::execute()"<<query<<BLANC<<std::endl;
+        #endif
+        
         executed = true;
         if(not prepared)
         {
             query+=";";
         }
-        return executeQuery();
+        executeQuery();
     };
 
 };

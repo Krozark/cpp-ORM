@@ -36,7 +36,7 @@ namespace orm
             str_q+=");";
             
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<"\033[33m"<<str_q<<"\nVALUES = (";
+            std::cerr<<BLEU<<"[SQL:save] "<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -54,11 +54,12 @@ namespace orm
             #endif
 
             q.execute();
+            q.next();
             delete &q;
 
             pk = getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<" new PK: "<<pk<<"\033[00m"<<std::endl;
+            std::cerr<<" new PK: "<<pk<<BLANC<<std::endl;
             #endif
 
             return true;
@@ -86,20 +87,20 @@ namespace orm
                 }
             }
 
-            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+" = ",std::to_string(pk)+";"; ///< \todo colum.id
+            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+" = "+std::to_string(pk)+";"; ///< \todo colum.id
             
 
             if(first) //NO MAJ NEDEED
             {
                 #if ORM_DEBUG & ORM_DEBUG_SQL
-                std::cerr<<"\033[36m"<<str_q<<"\nNo Update needed, exit\033[00m"<<std::endl;
+                std::cerr<<BLEU2<<"[SQL:update] "<<str_q<<"\nNo Update needed, exit"<<BLANC<<std::endl;
                 #endif
 
                 return true;
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<"\33[34m"<<str_q<<"\nVALUES = (";
+            std::cerr<<BLEU2<<"[SQL:update] "<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -118,9 +119,10 @@ namespace orm
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<")\33[00m"<<std::endl;
+            std::cerr<<")"<<BLANC<<std::endl;
             #endif
             q.execute();
+            q.next();
             delete &q;
 
         }
@@ -132,11 +134,12 @@ namespace orm
         std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<"\033[31m"<<str_q<<"\033[00m"<<std::endl;
+        std::cerr<<COMMENTAIRE<<"[SQL:delete]"<<str_q<<BLANC<<std::endl;
         #endif
 
         Query* q = prepareQuery(str_q);
         q->execute();
+        q->next();
         delete  q;
 
         return true;
@@ -185,11 +188,6 @@ namespace orm
             value = "%"+value;
         }
 
-        /*const std::string& op = operators.at(filter);
-        char buffer[value.size() + op.size()];
-        sprintf(buffer,op.c_str(),value.c_str());
-
-        return std::string(buffer);*/
         return value;
     }
 

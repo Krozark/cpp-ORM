@@ -42,7 +42,6 @@ namespace orm
         const auto& res= map.find(pk);
         if(res != map.end())
         {
-            std::cout<<"TODO : inc prefix with depth"<<std::endl;
             T::incDepth(prefix,max_depth);
             return res->second;
         }

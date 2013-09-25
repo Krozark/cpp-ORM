@@ -132,24 +132,6 @@ namespace orm
 
     /************** PROTECTED **********************/
 
-    /*bool MySQLBdd::executeQuery(Query& query)gg
-    {
-        MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<"\033[32m"<<query.query<<"\033[00m"<<std::endl;
-        #endif
-        if(query.prepared)
-        {
-            q.bdd_res = 0;
-            return q.prepared_statement->execute();
-        }
-        else
-        {
-            q.bdd_res = statement->executeQuery(q.query);
-            return true;
-        }
-    };*/
-
     int MySQLBdd::getLastInsertPk()
     {
         Query& q = *query("SELECT LAST_INSERT_ID()");

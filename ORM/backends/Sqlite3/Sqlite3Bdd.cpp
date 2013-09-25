@@ -47,7 +47,9 @@ namespace orm
         int result=sqlite3_open(s_bdd_name.c_str(),&dbConn);
         if (result != SQLITE_OK)
         {
-            std::cerr<<"Failed to open database "/*<<sqlite3_errstr(result)*/<<std::endl;
+            #if ORM_VERBOSITY & ORM_WARNING
+            std::cerr<<ROUGE<<"[ERROR] Sqlite3Bdd::connect() Failed to open database "/*<<sqlite3_errstr(result)*/<<BLANC<<std::endl;
+            #endif
             sqlite3_close(dbConn);
             return false;
         }
@@ -60,7 +62,9 @@ namespace orm
         int result = sqlite3_close(dbConn);
         if (result != SQLITE_OK)
         {
-            std::cerr<<"Failed to close database "/*<<sqlite3_errstr(result)*/<<std::endl;
+            #if ORM_VERBOSITY & ORM_WARNING
+            std::cerr<<JAUNE<<"[WARNING] Sqlite3Bdd::disconnect() Failed to close database "/*<<sqlite3_errstr(result)*/<<BLANC<<std::endl;
+            #endif
             return false;
         }
         return true;
@@ -79,16 +83,14 @@ namespace orm
 
     Query* Sqlite3Bdd::prepareQuery(const std::string& str)
     {
-        auto q = new Sqlite3Query(this,str);
-        /// \todo q->prepared_statement = dbConn->prepareStatement(str);
+        Sqlite3Query* q = new Sqlite3Query(this,str);
         q->prepared = true;
         return q;
     };
 
     Query* Sqlite3Bdd::prepareQuery(std::string&& str)
     {
-        auto q = new Sqlite3Query(this,str);
-        /// \todo q->prepared_statement = dbConn->prepareStatement(str);
+        Sqlite3Query* q = new Sqlite3Query(this,str);
         q->prepared = true;
         return q;
     }
@@ -119,11 +121,10 @@ namespace orm
             query+=" LIMIT "+std::to_string(count)+" OFFEST "+std::to_string(skip);
         else if (count > 0)
             query+=" LIMIT "+std::to_string(count);
+        #if ORM_VERBOSITY & ORM_WARNING
         else
-            std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
+            std::cerr<<JAUNE<<"[WARNING] Sqlite3Bdd::Limit(skip,count) count can't be <= 0"<<std::endl;
+        #endif
         return query;
     };
-
-
-
 };

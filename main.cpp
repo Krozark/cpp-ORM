@@ -106,12 +106,12 @@ int main(int argc,char* argv[])
         cout<<"Current perso1 "<<*p1<<endl;
     }*/
 
-   /*{
+   {
        cout<<"All persos"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
            cout<<*u<<endl;
-   }*/
+   }
 
    /*{
        cout<<"Create Perso"<<endl;
@@ -134,40 +134,45 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
+   //{
+   //    Perso p2;
+
+   //    std::list<Cache<Perso>::type_ptr> results;
+   //    Perso::query()\
+   //        .filter(4,"gt",Perso::_lvl)\
+   //        /*.filter(42,"gte",Perso::_lvl)\*/
+   //        /*.exclude(4,"lt",Perso::_lvl)\*/
+   //        /*.orderBy(Perso::_name).limit(10)\*/
+   //        .get(p2,0);
+
+   //    std::cout<<p2<<std::endl;
+
+   //    /*cout<<"All perso"<<endl;
+   //    Perso::query().get(results);
+   //    for(auto& perso : results)
+   //        cout<<*perso<<endl;
+
+   //    results.clear();
+
+   //    cout<<"All perso where lvl < 200"<<endl;
+   //    Perso::query().filter(200,"lt",Perso::_lvl).get(results);
+   //    for(auto& perso : results)
+   //        cout<<*perso<<endl;*/
+
+
+   //}
    /*{
-       Perso p2;
-
-       std::list<Cache<Perso>::type_ptr> results;
-       Perso::query().filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"gte",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
-
-       std::cout<<p2<<std::endl;
-
-       cout<<"All perso"<<endl;
-       Perso::query().get(results);
-       for(auto& perso : results)
-           cout<<*perso<<endl;
-
-       results.clear();
-
-       cout<<"All perso where lvl < 200"<<endl;
-       Perso::query().filter(200,"lt",Perso::_lvl).get(results);
-       for(auto& perso : results)
-           cout<<*perso<<endl;
-
-
-   }*/
-   {
 
        list<Filter> filters = {
            //Filter("perso.lvl","gt",4),
-           Filter("perso.name","startswith","test%")
+           Filter("perso.name","startswith","test")
            //Filter("perso__stats.pv","gt",4)
        };
        std::list<std::shared_ptr<Perso>> lis;
        Perso::query().filter("test%","startswith",Perso::_name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
-   }
+   }*/
 
 
     /*{
@@ -185,7 +190,50 @@ int main(int argc,char* argv[])
        */
 
 
-    Bdd::Default.disconnect();
+    /*Bdd::Default.disconnect();
+
+    sqlite3 * db;
+    int result=sqlite3_open("./datas/test.db",&db);
+
+    if (result != SQLITE_OK)
+        std::cerr<<ROUGE<<"[ERROR] open"<<sqlite3_errstr(result)<<BLANC<<std::endl;
+
+    sqlite3_stmt *statement;
+    char query[] = "SELECT `perso`.`id` AS perso__id,\
+                    `perso`.`master` AS perso__master,\
+                    `perso`.`stats_tmp` AS perso__stats_tmp,\
+                    `perso`.`stats` AS perso__stats,\
+                    `perso`.`lvl` AS perso__lvl,\
+                    `perso`.`name` AS perso__name\
+                    FROM `perso` AS `perso` \
+                    WHERE (`perso`.`lvl` > (?)) ";
+
+    result = sqlite3_prepare_v2(db,query,sizeof(query)+1, &statement, NULL);
+    if (result != SQLITE_OK)
+        std::cerr<<ROUGE<<"[ERROR] prepare"<<sqlite3_errstr(result)<<BLANC<<std::endl;
+
+    result = sqlite3_bind_int(statement,1,4);//,2,SQLITE_TRANSIENT);
+    if (result != SQLITE_OK)
+        std::cerr<<ROUGE<<"[ERROR] bind"<<sqlite3_errstr(result)<<BLANC<<std::endl;
+
+    result = sqlite3_step(statement);
+    if(result != SQLITE_ROW)
+        std::cerr<<ROUGE<<"[ERROR] next"<<sqlite3_errstr(result)<<BLANC<<std::endl;
+
+    int id = sqlite3_column_int(statement,0);
+    int master = sqlite3_column_int(statement,1);
+    int stats_tmp = sqlite3_column_int(statement,2);
+    int stats = sqlite3_column_int(statement,3);
+    int lvl = sqlite3_column_int(statement,4);
+    const unsigned char* name = sqlite3_column_text(statement,5);
+
+    std::cout<<"id:"<<id<<" master:"<<master<<" stats_tmp:"<<stats_tmp<<" stats:"<<stats<<" lvl:"<<lvl<<" name:"<<name<<std::endl;
+
+    result = sqlite3_finalize(statement);
+    if (result != SQLITE_OK)
+        std::cerr<<ROUGE<<"[ERROR] finalize"<<sqlite3_errstr(result)<<BLANC<<std::endl;
+       
+    sqlite3_close(db);  */
 
     return 0;
 };

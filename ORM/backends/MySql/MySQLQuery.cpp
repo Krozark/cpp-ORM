@@ -227,21 +227,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::executeQuery()
+    void MySQLQuery::executeQuery()
     {
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<"\033[32m"<<query<<"\033[00m"<<std::endl;
-        #endif
         if(prepared)
-        {
-            bdd_res = 0;
-            return prepared_statement->execute();
-        }
+            bdd_res = prepared_statement->executeQuery();
         else
-        {
             bdd_res = statement->executeQuery(query);
-            return true;
-        }
     };
 
 };

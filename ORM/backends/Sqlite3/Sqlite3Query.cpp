@@ -7,21 +7,27 @@ namespace orm
     Sqlite3Query::Sqlite3Query(Bdd* bdd,const std::string& query) : Query(bdd,query), statement(0)
     {
         int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+
+        #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            std::cerr<<ROUGE<<"[Query] Failed to make the statment"<<BLANC<<std::endl;
+            std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::Sqlite3Query(bdd,string&) Failed to make the statment"<<BLANC<<std::endl;
             /// \todo <<sqlite3_errstr(result)<<std::endl;
         }
+        #endif
     };
 
     Sqlite3Query::Sqlite3Query(Bdd* bdd,std::string&& query) : Query(bdd,query), statement(0)
     {
         int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+
+        #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            std::cerr<<ROUGE<<"[Query] Failed to make the statment"<<BLANC<<std::endl;
+            std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::Sqlite3Query(bdd,string&&) Failed to make the statment"<<BLANC<<std::endl;
             /// \todo <<sqlite3_errstr(result)<<std::endl;
         }
+        #endif
     };
 
     Sqlite3Query::~Sqlite3Query()
@@ -29,11 +35,14 @@ namespace orm
         if(statement)
         {
             int result = sqlite3_finalize(statement);
+
+            #if ORM_VERBOSITY & ORM_ERROR
             if(result != SQLITE_OK)
             {
-                std::cerr<<ROUGE<<"[Query] Failed to close the statement"<<BLANC<<std::endl;
+                std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::~Sqlite3Query() Failed to close the statement"<<BLANC<<std::endl;
                 /// \todo <<sqlite3_errstr(result)<<std::endl;
             }
+            #endif
         }
     };
 
@@ -100,7 +109,15 @@ namespace orm
 
     bool Sqlite3Query::next()
     {
-        return(sqlite3_step(statement) == SQLITE_ROW);
+        int result = sqlite3_step(statement);
+        if(result == SQLITE_ROW)
+            return true;
+        #if ORM_VERBOSITY & ORM_ERROR
+        std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::next() imposible to get next row"<<BLANC<<std::endl;
+        #endif
+            ///\ todo sqlite3_errstr(result)<<std::endl;
+        return false;
+
     }
 
     bool Sqlite3Query::set(const bool& value,const unsigned int& colum)
@@ -166,15 +183,8 @@ namespace orm
         return (sqlite3_bind_null(statement,(int)colum)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::executeQuery()
+    void Sqlite3Query::executeQuery()
     {
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<"\033[32m"<<query<<"\033[00m"<<std::endl;
-        #endif
-
-        if(prepared)
-            return next();
-        return true;
     };
     
 };

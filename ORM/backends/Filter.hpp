@@ -44,6 +44,7 @@ namespace orm
 
             const std::string colum;
             const std::string ope;
+
             const std::string value;
     };
 };

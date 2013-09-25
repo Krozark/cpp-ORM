@@ -8,8 +8,8 @@ namespace orm
         
         if (next())
             return obj.loadFromBdd(*this,max_depth);
-        #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
-        std::cerr<<ROUGE<<"[GET OBJ] int Query::getObj(T& obj,int max_depth) failed : No raw"<<BLANC<<std::endl;
+        #if (ORM_DEBUG & ORM_DEBUG_GET_OBJ) || (ORM_VERBOSITY | ORM_WARNING)
+        std::cerr<<JAUNE<<"[WARNING] Query::getObj(T& obj,int max_depth) failed : No raw return"<<BLANC<<std::endl;
         #endif
         return 0;
     };
