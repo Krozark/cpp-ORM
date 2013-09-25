@@ -41,7 +41,10 @@ namespace orm
     {
         const auto& res= map.find(pk);
         if(res != map.end())
+        {
+            std::cout<<"TODO : inc prefix with depth"<<std::endl;
             return res->second;
+        }
         type_ptr& r= map[pk];
         r.reset(T::createFromBdd(query,prefix,max_depth));
         return r;

@@ -11,7 +11,22 @@ namespace orm
         dbConn(0)
     {
         //Operators
-        operators["exact"] = " = ";
+        operators["exact"]= " = %s";
+        operators["iexact"]= " LIKE %s";
+        operators["contains"]= " LIKE BINARY %s";
+        operators["icontains"]= " LIKE %s";
+        operators["regex"]= " REGEXP BINARY %s";
+        operators["iregex"]= " REGEXP %s";
+        operators["gt"]= " > %s";
+        operators["gte"]= " >= %s";
+        operators["lt"]= " < %s";
+        operators["lte"]= " <= %s";
+        operators["startswith"]= " LIKE BINARY %s";
+        operators["endswith"]= " LIKE BINARY %s";
+        operators["istartswith"]= " LIKE %s";
+        operators["iendswith"]= " LIKE %s";
+
+        /*operators["exact"] = " = ";
         operators["iexact"] = " LIKE ";
         operators["contains"]= " LIKE BINARY ";
         operators["icontains"]= " LIKE ";
@@ -24,7 +39,7 @@ namespace orm
         operators["startswith"]= " LIKE BINARY ";
         operators["endswith"]= " LIKE BINARY ";
         operators["istartswith"]= " LIKE ";
-        operators["iendswith"]= " LIKE ";
+        operators["iendswith"]= " LIKE ";*/
 
         //ordering
         operators["?"] = " RAND() ";
@@ -117,7 +132,7 @@ namespace orm
 
     /************** PROTECTED **********************/
 
-    /*bool MySQLBdd::executeQuery(Query& query)
+    /*bool MySQLBdd::executeQuery(Query& query)gg
     {
         MySQLQuery& q = dynamic_cast<MySQLQuery&>(query);
         #if ORM_DEBUG & ORM_DEBUG_SQL
@@ -160,4 +175,57 @@ namespace orm
         return 1;
     }
 
+    std::string MySQLBdd::escapeValue(const std::string& filter,const std::string& value) const
+    {
+
+        std::string formated_value;
+
+        if(filter == "contains")
+        {
+            formated_value = Bdd::escapeValue("%"+value+"%");
+        }
+        else if(filter == "icontains")
+        {
+            formated_value = Bdd::escapeValue("%"+value+"%");
+        }
+        else if(filter == "startswith")
+        {
+            formated_value = Bdd::escapeValue(value+"%");
+        }
+        else if(filter == "endswith" )
+        {
+            formated_value = Bdd::escapeValue("%"+value);
+        }
+        else if(filter == "istartswith")
+        {
+            formated_value = Bdd::escapeValue(value+"%");
+        }
+        else if(filter == "iendswith")
+        {
+            formated_value = Bdd::escapeValue("%"+value);
+        }
+        else
+        {
+            formated_value =  Bdd::escapeValue(value);
+        }
+
+        const std::string& op = operators.at(filter);
+        char buffer[formated_value.size() + op.size()];
+        sprintf(buffer,op.c_str(),formated_value.c_str());
+
+        return std::string(buffer);
+    }
+
+    std::string MySQLBdd::limit(const int& skip,const int& count)const
+    {
+        std::string query;
+        if(skip > 0 and count > 0)
+            query+=" LIMIT "+std::to_string(skip)+" , "+std::to_string(count);
+        else if (count > 0)
+            query+=" LIMIT "+std::to_string(count);
+        else
+            std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
+        return query;
+    };
+    
 };

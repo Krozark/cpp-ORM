@@ -37,16 +37,6 @@ namespace orm
         }
     };
 
-    Sqlite3Query& Sqlite3Query::limit(const int& skip,const int& count)
-    {
-        if(skip > 0 and count > 0)
-            query+=" LIMIT "+std::to_string(count)+" OFFEST "+std::to_string(skip);
-        else if (count > 0)
-            query+=" LIMIT "+std::to_string(count);
-        else
-            std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
-        return *this;
-    };
 
     int Sqlite3Query::count()const
     {
@@ -166,7 +156,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_text(statement,(int)colum,value.c_str(),value.size(),SQLITE_STATIC)== SQLITE_OK);
+        return (sqlite3_bind_text(statement,(int)colum,value.c_str(),value.size()+1,SQLITE_TRANSIENT)== SQLITE_OK);
     };
 
     bool Sqlite3Query::setNull(const int& value,const unsigned int& colum)

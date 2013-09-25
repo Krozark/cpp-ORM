@@ -22,16 +22,6 @@ namespace orm
             delete bdd_res;
     };
 
-    MySQLQuery& MySQLQuery::limit(const int& skip,const int& count)
-    {
-        if(skip > 0 and count > 0)
-            query+=" LIMIT "+std::to_string(skip)+" , "+std::to_string(count);
-        else if (count > 0)
-            query+=" LIMIT "+std::to_string(count);
-        else
-            std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
-        return *this;
-    };
 
     int MySQLQuery::count()const
     {

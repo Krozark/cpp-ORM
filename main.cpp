@@ -106,14 +106,14 @@ int main(int argc,char* argv[])
         cout<<"Current perso1 "<<*p1<<endl;
     }*/
 
-   {
+   /*{
        cout<<"All persos"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
            cout<<*u<<endl;
-   }
+   }*/
 
-   {
+   /*{
        cout<<"Create Perso"<<endl;
        Perso p2;// = new Perso;
 
@@ -133,14 +133,14 @@ int main(int argc,char* argv[])
        for(auto u : lis)
            cout<<*u<<endl;
 
-    }
+    }*/
    /*{
-       //auto& p1 = Perso::get(1);
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
-       //QuerySet<Perso> queryset = Perso::query();
-       //queryset.filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"exact",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
+       Perso::query().filter(4,"gt",Perso::_maitre,Perso::_lvl).filter(42,"gte",Perso::_lvl).exclude(4,"lt",Perso::_lvl).orderBy(Perso::_name).limit(10).get(p2);
+
+       std::cout<<p2<<std::endl;
 
        cout<<"All perso"<<endl;
        Perso::query().get(results);
@@ -156,18 +156,18 @@ int main(int argc,char* argv[])
 
 
    }*/
-   /*{
+   {
 
        list<Filter> filters = {
-           Filter("perso.lvl","gt",4),
-           Filter("perso.name","startswith","tes"),
-           Filter("perso.pv","gt",4)
+           //Filter("perso.lvl","gt",4),
+           Filter("perso.name","startswith","test%")
+           //Filter("perso__stats.pv","gt",4)
        };
        std::list<std::shared_ptr<Perso>> lis;
-       Perso::query().filter(filters).get(lis);
+       Perso::query().filter("test%","startswith",Perso::_name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
-   }*/
+   }
 
 
     /*{
@@ -184,97 +184,8 @@ int main(int argc,char* argv[])
        cout<<*u<<endl;
        */
 
-   /* 
-    ///SQLITE3 tests
-    sqlite3 * dbConn; // store db connextion
-    // open db
-    int result=sqlite3_open("./datas/test.db",&dbConn);
-
-    if (result != SQLITE_OK)
-    {
-        std::cerr<<"Failed to open database "<<std::endl;
-        //<<sqlite3_errstr(result)<<std::endl;
-        sqlite3_close(dbConn) ;
-    }
-
-    ///
-    // Prepare statement
-    ////    
-    sqlite3_stmt *statement;
-    char query[] = "SELECT id,name,lvl,stats,stats_tmp,master FROM perso;";
-
-    result = sqlite3_prepare_v2(dbConn,query, sizeof(query)+1, &statement, NULL);
-    if (result != SQLITE_OK) {
-        std::cerr<<"Failed to prepare database "<<std::endl;
-        //<<sqlite3_errstr(result)<<std::endl;
-        sqlite3_close(dbConn) ;
-    }
-
-
-    ////
-    // Get data
-    ///
-    
-    int id;
-    std::string name;
-    int lvl;
-    int stats;
-    int stats_tmp;
-    int master;
-
-
-    while((result = sqlite3_step (statement)) == SQLITE_ROW) // can read data
-    {
-            id = sqlite3_column_int(statement,0);
-            name = (const char*)sqlite3_column_text(statement,1);
-            lvl = sqlite3_column_int(statement,2);
-            stats = sqlite3_column_int(statement,3);
-            stats_tmp = sqlite3_column_int(statement,4);
-            master = sqlite3_column_int(statement,5);
-
-            std::cout<<"pk:"<<id<<", name:"<<name<<", lvl:"<<lvl<<", stats:"<<stats<<", stats_tmp"<<stats_tmp<<", master:"<<master<<std::endl;
-
-    }
-
-    result = sqlite3_finalize(statement);
-    if(result != SQLITE_OK)
-    {
-        std::cerr<<"Failed to close the statement "<<std::endl;
-        ///<<sqlite3_errstr(result)<<std::endl;
-
-    }
-
-    result = sqlite3_close(dbConn);// free db and close
-    while(result != SQLITE_OK)
-    {
-        std::cerr<<"Failed to close database "<<std::endl;
-        //<<sqlite3_errstr(result)<<std::endl;
-        result = sqlite3_close(dbConn);
-
-    }
-    */
 
     Bdd::Default.disconnect();
-    /*
-     * perso id : "1"
-     * perso master : "2"
-     * + perso master id : 2
-     * + perso master master : 0
-     * + perso master stats_tmp : 6
-     * + perso master stats : 2
-     * + perso master lvl : 789
-     * + perso master name : test2
-     * perso stats_tmp : "5"
-     * + perso stats_tmp id :"5"
-     * + perso stats_tmp pi : "0"
-     * + perso stats_tmp pv : "20"
-     * perso stats : "1"
-     * + perso stats id : "1"
-     * + perso stats pi : "12"
-     * + perso stats pv : "342"
-     * perso lvl : "80"
-     * perso name : "test1"
-     */
 
     return 0;
 };

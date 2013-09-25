@@ -39,18 +39,6 @@ namespace orm
             ~Sqlite3Query();
 
             /**
-             * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
-             *
-             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" 
-             *
-             * \param skip Number of object to skip
-             * \param count Maximum number of object to return
-             *
-             * \return *this
-             **/
-            virtual Sqlite3Query& limit(const int& skip,const int& count);
-
-            /**
              * \brief Count the number of object returned by the batabase
              *
              * \return  The number of objects

@@ -18,11 +18,6 @@ namespace orm
     {
     }
 
-    /*Query& Query::limit(const unsigned int& l)
-    {
-        query += " LIMIT "+std::to_string(l);
-    };*/
-
 
     bool Query::execute()
     {

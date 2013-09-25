@@ -210,12 +210,24 @@ namespace orm
             *
             * \see operators
             **/
-            std::string escapeValue(const std::string& ope,const std::string& value) const;
+            virtual std::string escapeValue(const std::string& ope,const std::string& value) const = 0;
 
             /**
              * \return Return the initial colum number for extract values (0 or 1)
              */
             int virtual getInitialGetColumnNumber() const = 0;
+
+            /**
+             * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
+             *
+             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql 
+             *
+             * \param skip Number of object to skip
+             * \param count Maximum number of object to return
+             *
+             * \return *this
+             **/
+            virtual std::string limit(const int& skip,const int& count) const = 0;
 
     };
 };

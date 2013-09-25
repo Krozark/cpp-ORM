@@ -173,9 +173,10 @@ namespace orm
         q_str+="\nFROM ";
         T::nameTables(q_str,"",max_depth);
 
+        const int filters_size = filters.size();
+        const int excludes_size = excludes.size();
+
         {//filters and excludes
-            const int filters_size = filters.size();
-            const int excludes_size = excludes.size();
 
 
             if(filters_size > 0 or excludes_size >0)
@@ -187,7 +188,7 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                q_str+= begin->colum
+                /*q_str+= begin->colum
                     +T::bdd_used->escapeValue(begin->ope,begin->value);
 
                 while(++begin != end)
@@ -195,6 +196,16 @@ namespace orm
                     q_str+=" AND "
                         +begin->colum
                         +T::bdd_used->escapeValue(begin->ope,begin->value);
+                }*/
+
+                q_str+= begin->colum
+                    +T::bdd_used->escapeValue(begin->ope,"(?)");
+
+                while(++begin != end)
+                {
+                    q_str+=" AND "
+                        +begin->colum
+                        +T::bdd_used->escapeValue(begin->ope,"(?)");
                 }
             }
 
@@ -208,7 +219,7 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                q_str+= begin->colum
+                /*q_str+= begin->colum
                     +T::bdd_used->escapeValue(begin->ope,begin->value);
 
                 while(++begin != end)
@@ -216,6 +227,16 @@ namespace orm
                     q_str+=" AND "
                         +begin->colum
                         +T::bdd_used->escapeValue(begin->ope,begin->value);
+                }*/
+
+                q_str+= begin->colum
+                    +T::bdd_used->escapeValue(begin->ope,"(?)");
+
+                while(++begin != end)
+                {
+                    q_str+=" AND "
+                        +begin->colum
+                        +T::bdd_used->escapeValue(begin->ope,"(?)");
                 }
 
                 q_str+=") ";
@@ -240,10 +261,37 @@ namespace orm
 
         }
 
-        Query* q = T::bdd_used->query(q_str);
-
         if(limit_count > 0)
-            q->limit(limit_skip,limit_count);
+            q_str+= T::bdd_used->limit(limit_skip,limit_count);
+
+        std::cout<<q_str<<std::endl;
+
+        Query* q = T::bdd_used->prepareQuery(q_str);
+
+        {//bind values
+            int index = 1;
+            if(filters_size > 0)
+            {
+                auto begin = filters.begin();
+                const auto& end = filters.end();
+                while(begin != end)
+                {
+                    std::cout<<begin->value<<std::endl;
+                    q->set(begin->value,index++);
+                    ++begin;
+                }
+            }
+            if(excludes_size >0)
+            {
+                auto begin = excludes.begin();
+                const auto& end = excludes.end();
+                while(begin != end)
+                {
+                    q->set(begin->value,index++);
+                    ++begin;
+                }
+            }
+        }
         
         return q;
     }

@@ -1,8 +1,8 @@
+#include <stdio.h>
+
 #include <ORM/backends/Bdd.hpp>
 #include <ORM/backends/Query.hpp>
-
 #include <ORM/models/SQLObjectBase.hpp>
-
 #include <ORM/fields/private/VAttr.hpp>
 
 namespace orm
@@ -18,19 +18,6 @@ namespace orm
     Bdd::~Bdd()
     {
     } 
-
-    /*const std::string& Bdd::operator[](const std::string& key)
-    {
-        return operators[key];
-    };*/
-
-    /*bool Bdd::save(SQLObjectBase* obj)
-    {
-    };
-
-    bool Bdd::update(SQLObjectBase* obj)
-    {
-    };*/
 
     bool Bdd::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
     {
@@ -99,7 +86,7 @@ namespace orm
                 }
             }
 
-            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+operators.at("exact")+std::to_string(pk)+";"; ///< \todo colum.id
+            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+escapeValue("exact",std::to_string(pk))+";"; ///< \todo colum.id
             
 
             if(first) //NO MAJ NEDEED
@@ -142,7 +129,7 @@ namespace orm
 
     bool Bdd::del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+operators.at("exact")+std::to_string(pk)+");";
+        std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+escapeValue("exact",std::to_string(pk))+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<"\033[31m"<<str_q<<"\033[00m"<<std::endl;
@@ -160,49 +147,23 @@ namespace orm
         return "'"+str+"'";
     }
 
+    void ReplaceStringInPlace(std::string& subject, const std::string& search,const std::string& replace)
+    {
+        size_t pos = 0;
+        while((pos = subject.find(search, pos)) != std::string::npos)
+        {
+            subject.replace(pos, search.length(), replace);
+            pos += replace.length();
+        }
+    }
+
     std::string Bdd::escapeValue(const std::string& str) const
     {
-        return "'"+str+"'";
+        //return "'"+str+"'";
+        std::string res(str);
+        //ReplaceStringInPlace(res,"'","\\'");
+        return res;
     }
-
-    std::string Bdd::escapeValue(const std::string& filter,const std::string& value) const
-    {
-        if(filter == "contains")
-        {
-            return operators.at(filter)+escapeValue("%"+value+"%");
-        }
-        else if(filter == "icontains")
-        {
-            return operators.at(filter)+escapeValue("%"+value+"%");
-        }
-        /*else if(filter == "regex")
-        {
-        }
-        else if(filter == "iregex")
-        {
-        }*/
-        else if(filter == "startswith")
-        {
-            return operators.at(filter)+escapeValue(value+"%");
-        }
-        else if(filter == "endswith" )
-        {
-            return operators.at(filter)+escapeValue("%"+value);
-        }
-        else if(filter == "istartswith")
-        {
-            return operators.at(filter)+escapeValue(value+"%");
-        }
-        else if(filter == "iendswith")
-        {
-            return operators.at(filter)+escapeValue("%"+value);
-        }
-        else
-        {
-            return operators.at(filter)+escapeValue(value);
-        }
-    }
-
     
 };
 //orm::Bdd* orm::Bdd::Default = 0;

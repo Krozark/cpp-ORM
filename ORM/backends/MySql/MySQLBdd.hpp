@@ -109,10 +109,35 @@ namespace orm
             **/
             virtual std::string escapeColum(const std::string&) const;
 
+                        /**
+            * \brief format the operation for the database
+            *
+            * \param ope Operation ("gt","lt","exact" ...)
+            * \param value  the value to escape
+            *
+            * \return The escaped operation
+            *
+            * \see operators
+            **/
+            virtual std::string escapeValue(const std::string& ope,const std::string& value) const;
+
             /**
             * \return Return the initial colum number for extract values (0 or 1)
             */
             int virtual getInitialGetColumnNumber() const;
+
+            /**
+             * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
+             *
+             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql 
+             *
+             * \param skip Number of object to skip
+             * \param count Maximum number of object to return
+             *
+             * \return *this
+             **/
+            virtual std::string limit(const int& skip,const int& count)const;
+
 
         private:
             sql::Driver     *driver; ///< Create a pointer to a MySQL driver object

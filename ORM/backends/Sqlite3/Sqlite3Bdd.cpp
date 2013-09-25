@@ -4,31 +4,30 @@
 
 namespace orm
 {
-    Sqlite3Bdd::Sqlite3Bdd(std::string bdd) : Bdd("","",bdd,"","")/*,driver(0)*/, dbConn(0)
+    Sqlite3Bdd::Sqlite3Bdd(std::string bdd) : Bdd("","",bdd,"",""), dbConn(0)
 
     {
-        //Operators
-        operators["exact"] = "= ";
-        //operators["iexact"] = "LIKE ";
-        //operators["contains"]= "LIKE BINARY ";
-        //operators["icontains"]= "LIKE ";
-        //operators["regex"]= "REGEXP BINARY ";
-        //operators["iregex"]= "REGEXP ";
-        operators["gt"]= "> ";
-        operators["gte"]= ">= ";
-        operators["lt"]= "< ";
-        operators["lte"]= "<= ";
-        //operators["startswith"]= "LIKE BINARY ";
-        //operators["endswith"]= "LIKE BINARY ";
-        //operators["istartswith"]= "LIKE ";
-        //operators["iendswith"]= "LIKE ";
-
+        //operators
+        operators["exact"]= " = %s";
+        operators["iexact"]= " LIKE %s ESCAPE '\\'";
+        operators["contains"]= " LIKE %s ESCAPE '\\'";
+        operators["icontains"]= " LIKE %s ESCAPE '\\'";
+        operators["regex"]= " REGEXP %s";
+        operators["iregex"]= " REGEXP '(?i)' || %s";
+        operators["gt"]= " > %s";
+        operators["gte"]= " >= %s";
+        operators["lt"]= " < %s";
+        operators["lte"]= " <= %s";
+        operators["startswith"]= " LIKE %s ESCAPE '\\'";
+        operators["endswith"]= " LIKE %s ESCAPE '\\'";
+        operators["istartswith"]= " LIKE %s ESCAPE '\\'";
+        operators["iendswith"]= " LIKE %s ESCAPE '\\'";
+        
         //ordering
         operators["?"] = "RAND() ";
         operators["+"] = "ASC ";
         operators["-"] = "DESC ";
 
-        //escape_char = "";
     };
 
     Sqlite3Bdd::~Sqlite3Bdd()
@@ -111,5 +110,61 @@ namespace orm
     {
         return 0;
     }
+
+    std::string Sqlite3Bdd::escapeValue(const std::string& filter,const std::string& value) const
+    {
+
+        std::string formated_value;
+
+        /*if(filter == "contains")
+        {
+            formated_value = Bdd::escapeValue("%"+value+"%");
+        }
+        else if(filter == "icontains")
+        {
+            formated_value = Bdd::escapeValue("%"+value+"%");
+        }
+        else if(filter == "startswith")
+        {
+            formated_value = Bdd::escapeValue(value+"%");
+        }
+        else if(filter == "endswith" )
+        {
+            formated_value = Bdd::escapeValue("%"+value);
+        }
+        else if(filter == "istartswith")
+        {
+            formated_value = Bdd::escapeValue(value+"%");
+        }
+        else if(filter == "iendswith")
+        {
+            formated_value = Bdd::escapeValue("%"+value);
+        }
+        else
+        {
+            formated_value =  Bdd::escapeValue(value);
+        }*/
+        formated_value =  Bdd::escapeValue(value);
+
+        const std::string& op = operators.at(filter);
+        char buffer[formated_value.size() + op.size()];
+        sprintf(buffer,op.c_str(),formated_value.c_str());
+
+        return std::string(buffer);
+    }
+
+    std::string Sqlite3Bdd::limit(const int& skip,const int& count) const
+    {
+        std::string query;
+        if(skip > 0 and count > 0)
+            query+=" LIMIT "+std::to_string(count)+" OFFEST "+std::to_string(skip);
+        else if (count > 0)
+            query+=" LIMIT "+std::to_string(count);
+        else
+            std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
+        return query;
+    };
+
+
 
 };

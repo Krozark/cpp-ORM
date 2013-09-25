@@ -41,7 +41,7 @@ namespace orm
 
         q_str+=" \nWHERE ("
         +bdd_used->escapeColum(table)+"."
-        +bdd_used->escapeColum("id")+ " "
+        +bdd_used->escapeColum("id")
         +bdd_used->escapeValue("exact",std::to_string(id));
         q_str+=") ";
 
@@ -236,8 +236,7 @@ namespace orm
             q_str+= "\nLEFT JOIN "+object.getTable()+" AS "+table_alias
                 +" ON ("
                 +bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum(col)
-                +bdd_used->operators.at("exact")
-                +bdd_used->escapeColum(table_alias)+"."+bdd_used->escapeColum("id")
+                +" = "+bdd_used->escapeColum(table_alias)+"."+bdd_used->escapeColum("id")
                 +")";
 
             if(max_depth>=0)
