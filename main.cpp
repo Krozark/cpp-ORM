@@ -1,9 +1,9 @@
-#include <ORM/backends/MySql.hpp>
-orm::MySQLBdd def("root","toor","test");
+//#include <ORM/backends/MySql.hpp>
+//orm::MySQLBdd def("root","toor","test");
 //orm::MySQLBdd def("root","root","test");
 
-//#include <ORM/backends/Sqlite3.hpp>
-//orm::Sqlite3Bdd def("./datas/test.db");
+#include <ORM/backends/Sqlite3.hpp>
+orm::Sqlite3Bdd def("./datas/test.db");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -113,7 +113,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
    }
 
-   /*{
+   {
        cout<<"Create Perso"<<endl;
        Perso p2;// = new Perso;
 
@@ -133,7 +133,7 @@ int main(int argc,char* argv[])
        for(auto u : lis)
            cout<<*u<<endl;
 
-    }*/
+    }
    /*{
        //auto& p1 = Perso::get(1);
        Perso p2;
