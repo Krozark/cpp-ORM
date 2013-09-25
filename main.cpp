@@ -34,22 +34,19 @@ class Stats : public orm::SQLObject<Stats>
         Stats();
         orm::Attr<int> pv;
         orm::Attr<int> pi;
-        /*orm::Attr<int> intelligence;
-          orm::Attr<int> force;
-          orm::Attr<int> defence;
-          orm::Attr<int> vattaque;
-          orm::Attr<int> esquive;
-          orm::Attr<int> chance;
-          orm::Attr<int> charme;
-          orm::Attr<int> mouvement;*/
+        orm::Attr<int> intelligence;
+        orm::Attr<int> force;
+        orm::Attr<int> defence;
+        orm::Attr<int> vattaque;
+        orm::Attr<int> esquive;
+        orm::Attr<int> chance;
+        orm::Attr<int> charme;
+        orm::Attr<int> mouvement;
 
-        MAKE_STATIC_column(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
+        MAKE_STATIC_column(pv,pi,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement)
 };
-REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
+REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
 
-/**
-* \todo ajouter à loadobjet un argument en plus : la colonne (facultatif)
-*/
 class Perso : public orm::SQLObject<Perso>
 {
     public:
@@ -83,7 +80,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-   { 
+   /*{ 
         auto& p1 = Perso::get(1);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
@@ -104,7 +101,7 @@ int main(int argc,char* argv[])
         p1->maitre->maitre.del(true);
 
         cout<<"Current perso1 "<<*p1<<endl;
-    }
+    }*/
 
    /*{
        cout<<"All persos"<<endl;
