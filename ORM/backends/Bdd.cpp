@@ -86,7 +86,7 @@ namespace orm
                 }
             }
 
-            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+escapeValue("exact",std::to_string(pk))+";"; ///< \todo colum.id
+            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+" = ",std::to_string(pk)+";"; ///< \todo colum.id
             
 
             if(first) //NO MAJ NEDEED
@@ -129,7 +129,7 @@ namespace orm
 
     bool Bdd::del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+escapeValue("exact",std::to_string(pk))+");";
+        std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<"\033[31m"<<str_q<<"\033[00m"<<std::endl;
@@ -157,14 +157,50 @@ namespace orm
         }
     }
 
-    std::string Bdd::escapeValue(const std::string& str) const
+    std::string Bdd::formatValue(const std::string& filter,std::string value) const
     {
-        //return "'"+str+"'";
-        std::string res(str);
-        //ReplaceStringInPlace(res,"'","\\'");
-        return res;
+
+        if(filter == "contains")
+        {
+            value = "%"+value+"%";
+        }
+        else if(filter == "icontains")
+        {
+            value = "%"+value+"%";
+        }
+        else if(filter == "startswith")
+        {
+            value = value+"%";
+        }
+        else if(filter == "endswith" )
+        {
+            value = "%"+value;
+        }
+        else if(filter == "istartswith")
+        {
+            value = value+"%";
+        }
+        else if(filter == "iendswith")
+        {
+            value = "%"+value;
+        }
+
+        /*const std::string& op = operators.at(filter);
+        char buffer[value.size() + op.size()];
+        sprintf(buffer,op.c_str(),value.c_str());
+
+        return std::string(buffer);*/
+        return value;
     }
-    
+
+    std::string Bdd::formatPreparedValue(const std::string& filter) const
+    {
+        const std::string& op = operators.at(filter);
+        char buffer[op.size() + 3];
+        sprintf(buffer,op.c_str(),"(?)");
+
+        return std::string(buffer);
+    }
 };
 //orm::Bdd* orm::Bdd::Default = 0;
 

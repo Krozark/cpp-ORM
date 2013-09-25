@@ -111,47 +111,6 @@ namespace orm
         return 0;
     }
 
-    std::string Sqlite3Bdd::escapeValue(const std::string& filter,const std::string& value) const
-    {
-
-        std::string formated_value;
-
-        /*if(filter == "contains")
-        {
-            formated_value = Bdd::escapeValue("%"+value+"%");
-        }
-        else if(filter == "icontains")
-        {
-            formated_value = Bdd::escapeValue("%"+value+"%");
-        }
-        else if(filter == "startswith")
-        {
-            formated_value = Bdd::escapeValue(value+"%");
-        }
-        else if(filter == "endswith" )
-        {
-            formated_value = Bdd::escapeValue("%"+value);
-        }
-        else if(filter == "istartswith")
-        {
-            formated_value = Bdd::escapeValue(value+"%");
-        }
-        else if(filter == "iendswith")
-        {
-            formated_value = Bdd::escapeValue("%"+value);
-        }
-        else
-        {
-            formated_value =  Bdd::escapeValue(value);
-        }*/
-        formated_value =  Bdd::escapeValue(value);
-
-        const std::string& op = operators.at(filter);
-        char buffer[formated_value.size() + op.size()];
-        sprintf(buffer,op.c_str(),formated_value.c_str());
-
-        return std::string(buffer);
-    }
 
     std::string Sqlite3Bdd::limit(const int& skip,const int& count) const
     {

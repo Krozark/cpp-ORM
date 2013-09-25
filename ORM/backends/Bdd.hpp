@@ -190,27 +190,27 @@ namespace orm
             virtual std::string escapeColum(const std::string& colum) const;
 
             /**
-            * \brief Escape the String
+            * \brief format the operation for the database
             *
-            * \param value  Value to escape
+            * \param ope Operation ("gt","lt","exact" ...)
+            * \param value  the value to format with the operator (add some '%')
             *
-            * \return The escaped value
+            * \return The formated operation
             *
-            * \see escapeColum
+            * \see operators
             **/
-            virtual std::string escapeValue(const std::string& value) const;
+            virtual std::string formatValue(const std::string& ope,std::string value) const;
 
             /**
             * \brief format the operation for the database
             *
             * \param ope Operation ("gt","lt","exact" ...)
-            * \param value  the value to escape
             *
-            * \return The escaped operation
+            * \return The formated operation by adding (?) at the right place
             *
             * \see operators
             **/
-            virtual std::string escapeValue(const std::string& ope,const std::string& value) const = 0;
+            virtual std::string formatPreparedValue(const std::string& ope) const;
 
             /**
              * \return Return the initial colum number for extract values (0 or 1)

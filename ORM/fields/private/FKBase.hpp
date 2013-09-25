@@ -39,6 +39,8 @@ namespace orm
 
             virtual std::string makeName(const Bdd* bdd,const std::string& prefix,int max_depth) const;
 
+            virtual void incDepth(int& depth,int max_depth) const;
+
     };
 }
 

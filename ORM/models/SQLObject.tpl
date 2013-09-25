@@ -42,8 +42,8 @@ namespace orm
         q_str+=" \nWHERE ("
         +bdd_used->escapeColum(table)+"."
         +bdd_used->escapeColum("id")
-        +bdd_used->escapeValue("exact",std::to_string(id));
-        q_str+=") ";
+        +" = "+std::to_string(id)
+        +") ";
 
         Query* q = bdd_used->query(q_str);
 
@@ -198,7 +198,7 @@ namespace orm
     template<typename T>
     void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)
     {
-        q_str+= bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum("id")+" AS "+bdd_used->escapeValue(JOIN_ALIAS(prefix,"id"));
+        q_str+= bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum("id")+" AS "+JOIN_ALIAS(prefix,"id");
         
         const int size = colum_attrs.size();
         for(int i=0;i<size;++i)
@@ -260,5 +260,15 @@ namespace orm
     void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const
     {
         SQLObject<T>::makeJoin(q_str,prefix,max_depth);
+    }
+
+    template<typename T>
+    void SQLObject<T>::incDepth(int& depth,int max_depth)
+    {
+        depth+= (1 + colum_attrs.size()); //id + attrs
+
+        const int _size = colum_fks.size();
+        for(int i=0;i<_size;++i)
+            colum_fks[i]->incDepth(depth,max_depth);
     }
 };

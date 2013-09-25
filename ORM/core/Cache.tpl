@@ -43,6 +43,7 @@ namespace orm
         if(res != map.end())
         {
             std::cout<<"TODO : inc prefix with depth"<<std::endl;
+            T::incDepth(prefix,max_depth);
             return res->second;
         }
         type_ptr& r= map[pk];

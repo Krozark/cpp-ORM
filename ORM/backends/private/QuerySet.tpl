@@ -188,24 +188,14 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                /*q_str+= begin->colum
-                    +T::bdd_used->escapeValue(begin->ope,begin->value);
-
-                while(++begin != end)
-                {
-                    q_str+=" AND "
-                        +begin->colum
-                        +T::bdd_used->escapeValue(begin->ope,begin->value);
-                }*/
-
                 q_str+= begin->colum
-                    +T::bdd_used->escapeValue(begin->ope,"(?)");
+                    +T::bdd_used->formatPreparedValue(begin->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +begin->colum
-                        +T::bdd_used->escapeValue(begin->ope,"(?)");
+                        +T::bdd_used->formatPreparedValue(begin->ope);
                 }
             }
 
@@ -219,24 +209,14 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                /*q_str+= begin->colum
-                    +T::bdd_used->escapeValue(begin->ope,begin->value);
-
-                while(++begin != end)
-                {
-                    q_str+=" AND "
-                        +begin->colum
-                        +T::bdd_used->escapeValue(begin->ope,begin->value);
-                }*/
-
                 q_str+= begin->colum
-                    +T::bdd_used->escapeValue(begin->ope,"(?)");
+                    +T::bdd_used->formatPreparedValue(begin->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +begin->colum
-                        +T::bdd_used->escapeValue(begin->ope,"(?)");
+                        +T::bdd_used->formatPreparedValue(begin->ope);
                 }
 
                 q_str+=") ";
@@ -276,8 +256,8 @@ namespace orm
                 const auto& end = filters.end();
                 while(begin != end)
                 {
-                    std::cout<<begin->value<<std::endl;
-                    q->set(begin->value,index++);
+
+                    q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
                     ++begin;
                 }
             }
@@ -287,7 +267,7 @@ namespace orm
                 const auto& end = excludes.end();
                 while(begin != end)
                 {
-                    q->set(begin->value,index++);
+                    q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
                     ++begin;
                 }
             }

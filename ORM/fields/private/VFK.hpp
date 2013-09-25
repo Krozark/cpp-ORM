@@ -27,6 +27,10 @@ namespace orm
             bool loaded;
             const bool nullable;
 
+            virtual void incDepth(int& depth,int max_depth)const = 0;
+
+
+
     };
 }
 #endif

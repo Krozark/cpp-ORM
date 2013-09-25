@@ -51,52 +51,55 @@ namespace orm
     class SQLObject : public SQLObjectBase
     {
         public:
-        SQLObject();
+            SQLObject();
 
-        SQLObject(const SQLObject&) = delete;
-        SQLObject& operator=(const SQLObject&) = delete;
+            SQLObject(const SQLObject&) = delete;
+            SQLObject& operator=(const SQLObject&) = delete;
 
-        static T* createFromBdd(const Query& query,int& prefix,int max_depth);
-        
-        static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static T* createFromBdd(const Query& query,int& prefix,int max_depth);
+            
+            static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
-        static std::list<typename Cache<T>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static std::list<typename Cache<T>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
-        static QuerySet<T> query();
+            static QuerySet<T> query();
 
-        virtual bool save(bool recursive=false);
-        virtual bool del(bool recursive=false);
+            virtual bool save(bool recursive=false);
+            virtual bool del(bool recursive=false);
 
-        static  Bdd* bdd_used;
+            static  Bdd* bdd_used;
 
-        static Cache<T> cache;
+            static Cache<T> cache;
 
-        protected:
-        const static std::string table;
-        virtual const std::string& getTable()const {return table;};
-        virtual const Bdd* getBdd()const{return bdd_used;};
+            protected:
+            const static std::string table;
+            virtual const std::string& getTable()const {return table;};
+            virtual const Bdd* getBdd()const{return bdd_used;};
 
-        virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const;
-        virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const;
-        virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const;
+            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const;
+            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const;
+            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const;
 
         private:
-        template<typename U> friend class Cache;
-        template<typename U> friend class Register;
-        template<typename U,typename V> friend class ManyToMany;
-        friend class FKBase<T>;
-        friend class Query;
-        friend class QuerySet<T>;
 
-        static Register<T> _register;
-        static std::vector<const VAttr*> colum_attrs;
-        static std::vector<VFK*> colum_fks;
+            template<typename U> friend class Cache;
+            template<typename U> friend class Register;
+            template<typename U,typename V> friend class ManyToMany;
+            friend class FKBase<T>;
+            friend class Query;
+            friend class QuerySet<T>;
 
-        static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
-        static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);
-        static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth);
+            static Register<T> _register;
+            static std::vector<const VAttr*> colum_attrs;
+            static std::vector<VFK*> colum_fks;
 
-        static T* _get_ptr(const unsigned int id,int max_depth);
+            static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
+            static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);
+            static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth);
+
+            static T* _get_ptr(const unsigned int id,int max_depth);
+
+            static void incDepth(int& depth,int max_depth);
     };
 };
 

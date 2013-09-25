@@ -153,7 +153,7 @@ namespace orm
     template<typename T>
     std::string FKBase<T>::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
     {
-        std::string q_str(",\n "+bdd->escapeColum(prefix)+"."+bdd->escapeColum(colum)+" AS "+bdd->escapeValue(JOIN_ALIAS(prefix,colum)));
+        std::string q_str(",\n "+bdd->escapeColum(prefix)+"."+bdd->escapeColum(colum)+" AS "+JOIN_ALIAS(prefix,colum));
 
         if(--max_depth <0)
             return q_str;
@@ -163,5 +163,14 @@ namespace orm
         q_str+=",";
         T::nameAttrs(q_str,table_alias,max_depth);
         return q_str;
+    }
+
+    template<typename T>
+    void FKBase<T>::incDepth(int& depth,int max_depth) const
+    {
+        if(--max_depth>=0)
+        {
+            T::incDepth(depth,max_depth);
+        }
     }
 }

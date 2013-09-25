@@ -105,18 +105,6 @@ namespace orm
             virtual std::string escapeColum(const std::string&) const;
 
             /**
-            * \brief format the operation for the database
-            *
-            * \param ope Operation ("gt","lt","exact" ...)
-            * \param value  the value to escape
-            *
-            * \return The escaped operation
-            *
-            * \see operators
-            **/
-            virtual std::string escapeValue(const std::string& ope,const std::string& value) const;
-
-            /**
              * \return Return the initial colum number for extract values (0 or 1)
              */
             int virtual getInitialGetColumnNumber() const;
