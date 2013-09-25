@@ -36,6 +36,10 @@ namespace orm
             **/
             Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
 
+
+            /***
+             * \brief Destructor
+             **/
             virtual ~Bdd();
 
             Bdd(const Bdd&) = delete;
@@ -92,13 +96,15 @@ namespace orm
             **/
             virtual Query* prepareQuery(std::string&&) = 0;
 
-
             /**
             * \brief The user defined default bdd to use
             **/
             static Bdd& Default;
 
 
+            /**
+             * \brief Compare 2 Bdd
+             **/
             bool operator==(const Bdd& other) const;
 
 
@@ -128,7 +134,6 @@ namespace orm
             * Ordering : "?","+","-"
             **/
             std::unordered_map<std::string,std::string> operators;
-
 
             /**
             * \brief Get the pk of the last object created in the database
@@ -224,7 +229,6 @@ namespace orm
              * \return *this
              **/
             virtual std::string limit(const int& skip,const int& count) const = 0;
-
     };
 };
 /**

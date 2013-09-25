@@ -14,7 +14,6 @@ namespace orm
      **/
     class Sqlite3Query : public Query
     {
-        //public:
         protected:
             
             /**
@@ -36,6 +35,9 @@ namespace orm
             Sqlite3Query(const Sqlite3Query&) = delete;
             Sqlite3Query& operator=(const Sqlite3Query&) = delete;
             
+            /**
+             * \brief Destructor
+             **/
             ~Sqlite3Query();
 
             /**
@@ -237,8 +239,6 @@ namespace orm
             friend class Sqlite3Bdd;
 
             sqlite3_stmt *statement; ///< Hold the  statement
-            /*sql::ResultSet  *bdd_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
-            */
     };
 };
 

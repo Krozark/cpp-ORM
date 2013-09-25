@@ -33,10 +33,10 @@ namespace orm
              **/
             VFilter(std::string&& column,const std::string& ope);
 
-            
+            /**
+             * \brief Destructor
+             **/
             virtual ~VFilter();
-
-           
             
             /**
              * \brief Print the content of the filter for debug help
@@ -49,8 +49,8 @@ namespace orm
             template<typename T> friend class SQLObject;
             template<typename T> friend class QuerySet;
 
-            const std::string column;
-            const std::string ope;
+            const std::string column; ///< Colum to apply filter
+            const std::string ope; ///< operator to use. \see Bdd::operators
 
            /**
             * \brief set the value in the filter in the query
@@ -60,7 +60,6 @@ namespace orm
             *
             * \return false if fail
             **/
-
             virtual bool set(Query* query,unsigned int& column) const = 0;
     };
 };

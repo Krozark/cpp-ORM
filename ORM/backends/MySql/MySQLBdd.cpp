@@ -26,21 +26,6 @@ namespace orm
         operators["istartswith"]= " LIKE %s";
         operators["iendswith"]= " LIKE %s";
 
-        /*operators["exact"] = " = ";
-        operators["iexact"] = " LIKE ";
-        operators["contains"]= " LIKE BINARY ";
-        operators["icontains"]= " LIKE ";
-        operators["regex"]= " REGEXP BINARY ";
-        operators["iregex"]= " REGEXP ";
-        operators["gt"]= " > ";
-        operators["gte"]= " >= ";
-        operators["lt"]= " < ";
-        operators["lte"]= " <= ";
-        operators["startswith"]= " LIKE BINARY ";
-        operators["endswith"]= " LIKE BINARY ";
-        operators["istartswith"]= " LIKE ";
-        operators["iendswith"]= " LIKE ";*/
-
         //ordering
         operators["?"] = " RAND() ";
         operators["+"] = " ASC ";
@@ -51,9 +36,6 @@ namespace orm
 
     MySQLBdd::~MySQLBdd()
     {
-        /*if(statement)
-            delete statement;
-        */
         if(dbConn)
             delete dbConn;
     };
@@ -74,6 +56,7 @@ namespace orm
             std::cerr<< "Could not connect to database. Error message: " << e.what() << std::endl;
             return false;
         }
+
         sql::Statement* statement = dbConn->createStatement();
         statement->execute("USE "+s_bdd_name);
 
@@ -88,14 +71,6 @@ namespace orm
     {
         return true;
     };
-
-    /*Query* MySQLBdd::query()
-    {
-        auto q = new MySQLQuery(this);
-        q->statement = dbConn->createStatement();
-        q->prepared = false;
-        return q;
-    };*/
 
     Query* MySQLBdd::query(const std::string& str)
     {

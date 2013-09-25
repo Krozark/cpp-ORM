@@ -57,6 +57,9 @@ namespace orm
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
 
+            /**
+             * \brief Destructor
+             **/
             virtual ~Query();
 
             /**
@@ -178,10 +181,6 @@ namespace orm
                 return output;
             };
 
-
-            std::string query; ///<query as string
-            Bdd* bdd; ///< database where the query will be executed
-    
             /**
              * \brief Whene the query have been execute, for loop in results
              *
@@ -280,8 +279,15 @@ namespace orm
              **/
             virtual bool setNull(const int& value,const unsigned int& column) = 0;
 
-            bool prepared; ///< is the query is a prepared one?
+            /**
+             * \brief Allow subclass to custom the execute function by adding code
+             **/
             virtual void executeQuery() = 0;
+
+            bool prepared; ///< is the query is a prepared one?
+            std::string query; ///<query as string
+            Bdd* bdd; ///< database where the query will be executed
+    
 
         private:
             /**

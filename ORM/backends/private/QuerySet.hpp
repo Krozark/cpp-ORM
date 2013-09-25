@@ -179,5 +179,17 @@ namespace orm
                 limit_count; ///< skip limit (default is all)
     };
 }
+/***
+ * \todo make query like:
+ * SELECT SUM(`sort`.`niveau_max`) AS `niveau_max__sum` FROM `sort` WHERE (...)
+ * SELECT AVG(`website_sort`.`niveau_max`) AS `niveau_max__avg`, SUM(`website_sort`.`niveau_max`) AS `niveau_max__sum` FROM `website_sort` WHERE (`website_sort`.`passif` = 0  AND `website_sort`.`niveau_max` >= 2 )
+ * AVG, SUM, MIN, MAX
+ **/
+/*template<typename T>
+  QuerySet<T>& QuerySet<T>::aggregate()
+  {
+  std::cerr<<"[todo]: queryset<t>::agregate()"<<std::endl;
+  return *this;
+  };*/
 #include <ORM/backends/private/QuerySet.tpl>
 #endif

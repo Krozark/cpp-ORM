@@ -18,7 +18,6 @@ namespace orm
     {
     }
 
-
     void Query::execute()
     {
         #if (ORM_DEBUG & ORM_DEBUG_SQL)

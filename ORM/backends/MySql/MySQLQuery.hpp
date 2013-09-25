@@ -15,9 +15,7 @@ namespace orm
      **/
     class MySQLQuery : public Query
     {
-        //public:
         protected:
-            
             /**
              * \brief Create a query
              *
@@ -37,6 +35,9 @@ namespace orm
             MySQLQuery(const MySQLQuery&) = delete;
             MySQLQuery& operator=(const MySQLQuery&) = delete;
             
+            /**
+             * \brief Destructor
+             **/
             ~MySQLQuery();
 
             /**
@@ -236,6 +237,7 @@ namespace orm
 
         private:
             friend class MySQLBdd;
+
             sql::ResultSet  *bdd_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
             sql::PreparedStatement *prepared_statement; ///< Hold the statement
             sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our SQL commands

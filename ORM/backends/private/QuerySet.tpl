@@ -78,18 +78,6 @@ namespace orm
         limit_count = static_cast<int>(count);
     }
 
-    /***
-    * \todo make query like:
-    * SELECT SUM(`sort`.`niveau_max`) AS `niveau_max__sum` FROM `sort` WHERE (...)
-    * SELECT AVG(`website_sort`.`niveau_max`) AS `niveau_max__avg`, SUM(`website_sort`.`niveau_max`) AS `niveau_max__sum` FROM `website_sort` WHERE (`website_sort`.`passif` = 0  AND `website_sort`.`niveau_max` >= 2 )
-    * AVG, SUM, MIN, MAX
-    **/
-    /*template<typename T>
-    QuerySet<T>& QuerySet<T>::aggregate()
-    {
-        std::cerr<<"[todo]: queryset<t>::agregate()"<<std::endl;
-        return *this;
-    };*/
 
     template<typename T>
     bool QuerySet<T>::get(T& obj,int max_depth)
@@ -153,12 +141,8 @@ namespace orm
         const int excludes_size = excludes.size();
 
         {//filters and excludes
-
-
             if(filters_size > 0 or excludes_size >0)
                 q_str+=" \nWHERE (";
-            /// \todo change column alias for complet name
-
             if(filters_size > 0)
             {
                 auto begin = filters.begin();
@@ -234,7 +218,6 @@ namespace orm
                     (*begin)->set(q,index);
                     ++begin;
                     ++index;
-                    //q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
                 }
             }
             if(excludes_size >0)
@@ -246,7 +229,6 @@ namespace orm
                     (*begin)->set(q,index);
                     ++begin;
                     ++index;
-                    //q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
                 }
             }
         }

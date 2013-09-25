@@ -32,17 +32,12 @@ namespace orm
 
     Sqlite3Bdd::~Sqlite3Bdd()
     {
-        /*
-        if(statement)
-            delete statement;
-        */
         if(dbConn)
             sqlite3_close(dbConn);
     };
     
     bool Sqlite3Bdd::connect()
     {
-
         /* open the database */
         int result=sqlite3_open(s_bdd_name.c_str(),&dbConn);
         if (result != SQLITE_OK)

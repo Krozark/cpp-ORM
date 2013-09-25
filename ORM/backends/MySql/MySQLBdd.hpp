@@ -24,6 +24,9 @@ namespace orm
             **/
             MySQLBdd(std::string username,std::string pass,std::string bdd,std::string serveur="tcp://127.0.0.1",std::string port="3306");
 
+            /**
+             * \brief Destructor
+             **/
             ~MySQLBdd();
             
             MySQLBdd(const MySQLBdd&) = delete;
@@ -41,14 +44,6 @@ namespace orm
             * \return false if fail
             **/
             virtual bool disconnect();
-
-
-            /**
-            * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
-            *
-            * \return NULL if faild.
-            **/
-            //virtual /*MySQL*/Query* query();
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.

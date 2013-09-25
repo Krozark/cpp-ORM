@@ -19,6 +19,9 @@ namespace orm
             **/
             Sqlite3Bdd(std::string bdd);
 
+            /**
+             * \brief Destructor
+             **/
             ~Sqlite3Bdd();
             
             Sqlite3Bdd(const Sqlite3Bdd&) = delete;
@@ -37,13 +40,6 @@ namespace orm
             **/
             virtual bool disconnect();
 
-
-            /**
-            * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
-            *
-            * \return NULL if faild.
-            **/
-            //virtual /*Sqlite3*/Query* query();
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
             *
@@ -123,9 +119,6 @@ namespace orm
 
         private:
             sqlite3 * dbConn; ///< Create a pointer to a database connection object
-            /*sql::Driver     *driver; ///< Create a pointer to a Sqlite3 driver object
-            sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our SQL commands
-            */
     };
 };
 

@@ -148,8 +148,6 @@ namespace orm
         return true;
     };
 
-    //std::istream * getBlob
-
     bool MySQLQuery::next()
     {
         return bdd_res->next();

@@ -39,7 +39,8 @@ namespace orm
             
 
         protected:
-            const T value;
+            const T value; ///< Store the value of the filter to compare with
+
            /**
             * \brief set the value in the filter in the query
             *
