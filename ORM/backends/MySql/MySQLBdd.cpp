@@ -74,13 +74,13 @@ namespace orm
         return true;
     };
 
-    Query* MySQLBdd::query()
+    /*Query* MySQLBdd::query()
     {
         auto q = new MySQLQuery(this);
         q->statement = dbConn->createStatement();
         q->prepared = false;
         return q;
-    };
+    };*/
 
     Query* MySQLBdd::query(const std::string& str)
     {

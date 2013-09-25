@@ -4,10 +4,6 @@
 
 namespace orm
 {
-    MySQLQuery::MySQLQuery(Bdd* bdd) : Query(bdd), bdd_res(0), prepared_statement(0), statement(0)
-    {
-    };
-
     MySQLQuery::MySQLQuery(Bdd* bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
     {
     };

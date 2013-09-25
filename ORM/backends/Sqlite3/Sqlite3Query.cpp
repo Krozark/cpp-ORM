@@ -4,16 +4,24 @@
 
 namespace orm
 {
-    Sqlite3Query::Sqlite3Query(Bdd* bdd) : Query(bdd), statement(0)
-    {
-    };
-
     Sqlite3Query::Sqlite3Query(Bdd* bdd,const std::string& query) : Query(bdd,query), statement(0)
     {
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        if (result != SQLITE_OK)
+        {
+            std::cerr<<ROUGE<<"[Query] Failed to make the statment"<<BLANC<<std::endl;
+            /// \todo <<sqlite3_errstr(result)<<std::endl;
+        }
     };
 
     Sqlite3Query::Sqlite3Query(Bdd* bdd,std::string&& query) : Query(bdd,query), statement(0)
     {
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        if (result != SQLITE_OK)
+        {
+            std::cerr<<ROUGE<<"[Query] Failed to make the statment"<<BLANC<<std::endl;
+            /// \todo <<sqlite3_errstr(result)<<std::endl;
+        }
     };
 
     Sqlite3Query::~Sqlite3Query()
@@ -90,9 +98,8 @@ namespace orm
 
     bool Sqlite3Query::get(std::string& value,const int& colum)const
     {
-        std::cout<<colum<<" "<<std::string(sqlite3_column_name(statement,colum))<<std::endl;
-
         const unsigned char* res = sqlite3_column_text(statement,colum);
+
         if (res)
             value = (const char*)res;
         else
@@ -175,13 +182,8 @@ namespace orm
         std::cerr<<"\033[32m"<<query<<"\033[00m"<<std::endl;
         #endif
 
-        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
-        if (result != SQLITE_OK)
-        {
-            std::cerr<<ROUGE<<"[Query] Failed to make the statment"<<BLANC<<std::endl;
-            /// \todo <<sqlite3_errstr(result)<<std::endl;
-            return false;
-        }
+        if(prepared)
+            return next();
         return true;
     };
     

@@ -48,7 +48,8 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*MySQL*/Query* query();
+            //virtual /*MySQL*/Query* query();
+
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
             *

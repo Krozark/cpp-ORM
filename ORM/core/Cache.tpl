@@ -51,13 +51,14 @@ namespace orm
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
-        query.get(pk,JOIN_ALIAS(T::table,"id"));
+        int index = T::bdd_used->getInitialGetColumnNumber();
+        query.get(pk,index);
         
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
         type_ptr& r= map[pk];
-        r.reset(T::createFromBdd(query,0,max_depth));
+        r.reset(T::createFromBdd(query,--index,max_depth));
         return r;
     }
 

@@ -117,7 +117,7 @@ namespace orm
 
             Query& q = *prepareQuery(str_q);
             
-            int j=1;
+            int index=1;
             for(unsigned int i=0;i<size;++i)
             {
                 if(attrs[i]->modify)
@@ -125,7 +125,7 @@ namespace orm
                     #if ORM_DEBUG & ORM_DEBUG_SQL
                     attrs[i]->print_value(std::cerr)<<",";
                     #endif
-                    attrs[i]->set(q,j++);
+                    attrs[i]->set(q,index++);
                     attrs[i]->modify = false;
                 }
             }

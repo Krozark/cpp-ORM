@@ -5,10 +5,6 @@
 
 namespace orm
 {
-    Query::Query(Bdd* b) : bdd(b), executed(false), prepared(false)
-    {
-    };
-
     Query::Query(Bdd* b,const std::string& q) : bdd(b),query(q), executed(false), prepared(false)
     {
     };

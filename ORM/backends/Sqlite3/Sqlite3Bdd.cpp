@@ -81,10 +81,10 @@ namespace orm
         return true;
     };
 
-    Query* Sqlite3Bdd::query()
+    /*Query* Sqlite3Bdd::query()
     {
         return new Sqlite3Query(this);
-    };
+    };*/
 
     Query* Sqlite3Bdd::query(const std::string& str)
     {

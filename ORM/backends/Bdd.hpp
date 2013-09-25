@@ -14,7 +14,8 @@ namespace orm
     class VAttr;
     template<typename T> class SQLObject;
     template<typename T> class QuerySet;
-    template<typename T> class QuerySet;
+    template<typename T> class FKBase;
+    template<typename T> class Cache;
     template<typename T,typename U> class ManyToMany;
 
     /**
@@ -61,7 +62,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* query()= 0;
+            //virtual Query* query()= 0;
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -112,6 +113,7 @@ namespace orm
             friend class VAttr;
             template<typename T> friend class SQLObject;
             template<typename T> friend class QuerySet;
+            template<typename T> friend class Cache;
             template<typename T> friend class FKBase;
             template<typename T,typename U> friend class ManyToMany;
 

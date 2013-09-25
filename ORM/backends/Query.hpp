@@ -35,12 +35,6 @@ namespace orm
             template<typename T> friend class QuerySet;
             template<typename T> friend class SQLObject;
             template<typename T> friend class Cache;
-            /**
-             * \brief Create a empty query
-             *
-             * \param bdd database where the query will be execute
-             **/
-            Query(Bdd* bdd);
 
             /**
              * \brief Create a query

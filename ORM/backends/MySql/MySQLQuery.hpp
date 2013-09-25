@@ -17,12 +17,6 @@ namespace orm
     {
         //public:
         protected:
-            /**
-             * \brief Create a empty query
-             *
-             * \param bdd database where the query will be execute
-             **/
-            MySQLQuery(Bdd* bdd);
             
             /**
              * \brief Create a query

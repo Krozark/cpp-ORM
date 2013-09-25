@@ -43,7 +43,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*Sqlite3*/Query* query();
+            //virtual /*Sqlite3*/Query* query();
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
             *

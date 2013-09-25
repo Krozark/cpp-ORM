@@ -16,12 +16,6 @@ namespace orm
     {
         //public:
         protected:
-            /**
-             * \brief Create a empty query
-             *
-             * \param bdd database where the query will be execute
-             **/
-            Sqlite3Query(Bdd* bdd);
             
             /**
              * \brief Create a query
