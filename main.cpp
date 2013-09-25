@@ -161,13 +161,13 @@ int main(int argc,char* argv[])
 
 
    }*/
-   {
+   /*{
 
        std::list<std::shared_ptr<Perso>> lis;
        Perso::query().filter(string("test"),"startswith",Perso::_name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
-   }
+   }*/
 
 
     /*{
@@ -185,50 +185,6 @@ int main(int argc,char* argv[])
        */
 
 
-    /*Bdd::Default.disconnect();
-
-    sqlite3 * db;
-    int result=sqlite3_open("./datas/test.db",&db);
-
-    if (result != SQLITE_OK)
-        std::cerr<<ROUGE<<"[ERROR] open"<<sqlite3_errstr(result)<<BLANC<<std::endl;
-
-    sqlite3_stmt *statement;
-    char query[] = "SELECT `perso`.`id` AS perso__id,\
-                    `perso`.`master` AS perso__master,\
-                    `perso`.`stats_tmp` AS perso__stats_tmp,\
-                    `perso`.`stats` AS perso__stats,\
-                    `perso`.`lvl` AS perso__lvl,\
-                    `perso`.`name` AS perso__name\
-                    FROM `perso` AS `perso` \
-                    WHERE (`perso`.`lvl` > (?)) ";
-
-    result = sqlite3_prepare_v2(db,query,sizeof(query)+1, &statement, NULL);
-    if (result != SQLITE_OK)
-        std::cerr<<ROUGE<<"[ERROR] prepare"<<sqlite3_errstr(result)<<BLANC<<std::endl;
-
-    result = sqlite3_bind_int(statement,1,4);//,2,SQLITE_TRANSIENT);
-    if (result != SQLITE_OK)
-        std::cerr<<ROUGE<<"[ERROR] bind"<<sqlite3_errstr(result)<<BLANC<<std::endl;
-
-    result = sqlite3_step(statement);
-    if(result != SQLITE_ROW)
-        std::cerr<<ROUGE<<"[ERROR] next"<<sqlite3_errstr(result)<<BLANC<<std::endl;
-
-    int id = sqlite3_column_int(statement,0);
-    int master = sqlite3_column_int(statement,1);
-    int stats_tmp = sqlite3_column_int(statement,2);
-    int stats = sqlite3_column_int(statement,3);
-    int lvl = sqlite3_column_int(statement,4);
-    const unsigned char* name = sqlite3_column_text(statement,5);
-
-    std::cout<<"id:"<<id<<" master:"<<master<<" stats_tmp:"<<stats_tmp<<" stats:"<<stats<<" lvl:"<<lvl<<" name:"<<name<<std::endl;
-
-    result = sqlite3_finalize(statement);
-    if (result != SQLITE_OK)
-        std::cerr<<ROUGE<<"[ERROR] finalize"<<sqlite3_errstr(result)<<BLANC<<std::endl;
-       
-    sqlite3_close(db);  */
-
+    Bdd::Default.disconnect();
     return 0;
 };

@@ -24,7 +24,7 @@ namespace orm
         operators["iendswith"]= " LIKE %s ESCAPE '\\'";
         
         //ordering
-        operators["?"] = "RAND() ";
+        operators["?"] = "RANDOM() ";
         operators["+"] = "ASC ";
         operators["-"] = "DESC ";
 
