@@ -30,6 +30,8 @@ namespace orm
              **/
             Filter(std::string&& column,const std::string& ope,const T& value);
 
+            virtual ~Filter();
+
             /**
              * \brief Print the content of the filter for debug help
              **/

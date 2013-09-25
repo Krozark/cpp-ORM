@@ -20,6 +20,7 @@ namespace orm
     class QuerySet
     {
         public:
+
             /**
              * \brief Construct a QuerySet from a tmp value
              *
@@ -28,6 +29,11 @@ namespace orm
              * Note : tmp as an undefined status after the call of this function
              **/
             QuerySet(QuerySet<T>&& tmp);
+
+            /**
+             * \brief Destructor
+             **/
+            ~QuerySet();
 
             /**
              * \brief Construct a filter to apply in the query

@@ -131,7 +131,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
-   /*{
+   {
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
@@ -157,7 +157,7 @@ int main(int argc,char* argv[])
            cout<<*perso<<endl;
 
 
-   }*/
+   }
    /*{
 
        std::list<std::shared_ptr<Perso>> lis;

@@ -33,6 +33,9 @@ namespace orm
              **/
             VFilter(std::string&& column,const std::string& ope);
 
+            
+            virtual ~VFilter();
+
            
             
             /**

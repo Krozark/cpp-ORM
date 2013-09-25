@@ -11,6 +11,12 @@ namespace orm
     };
 
     template<typename T>
+    Filter<T>::~Filter()
+    {
+    };
+
+
+    template<typename T>
     void Filter<T>::__print__() const
     {
         std::cout<<"column:"<<column<<" operator:"<<ope<<" value:"<<value;

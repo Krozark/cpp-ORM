@@ -59,8 +59,6 @@ namespace orm
 
             virtual ~Query();
 
-
-
             /**
              * \brief Count the number of object returned by the batabase
              *

@@ -6,7 +6,18 @@ namespace orm
     template<typename T>
     QuerySet<T>::QuerySet(): limit_skip(0), limit_count(-1)
     {
+        
     }
+
+    template<typename T>
+    QuerySet<T>::~QuerySet()
+    {
+        for(auto* it : filters)
+            delete it;
+        for(auto* it: excludes)
+            delete it;
+    }
+
 
     template<typename T>
     QuerySet<T>::QuerySet(QuerySet&& tmp)
