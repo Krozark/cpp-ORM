@@ -17,7 +17,18 @@ namespace orm
 
     Bdd::~Bdd()
     {
-    } 
+    }
+
+    bool Bdd::operator==(const Bdd& other) const
+    {
+        return (
+                (s_bdd_name == s_bdd_name)
+                and (s_serveur ==s_serveur)
+                and (s_port == s_port)
+                //and (s_username == other.s_username)
+                //and (s_password === other.s_password)
+                );
+    }
 
     bool Bdd::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
     {

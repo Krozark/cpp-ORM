@@ -108,6 +108,9 @@ namespace orm
             static Bdd& Default;
 
 
+            bool operator==(const Bdd& other) const;
+
+
         protected:
             friend class Query;
             friend class SQLObjectBase;

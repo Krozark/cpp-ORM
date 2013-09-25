@@ -83,7 +83,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-   /*{ 
+   { 
         auto& p1 = Perso::get(1);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
@@ -104,7 +104,7 @@ int main(int argc,char* argv[])
         p1->maitre->maitre.del(true);
 
         cout<<"Current perso1 "<<*p1<<endl;
-    }*/
+    }
 
    /*{
        cout<<"All persos"<<endl;
