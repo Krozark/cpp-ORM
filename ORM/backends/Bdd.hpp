@@ -16,6 +16,7 @@ namespace orm
     template<typename T> class QuerySet;
     template<typename T> class FKBase;
     template<typename T> class Cache;
+    template<typename T> class Filter;
     template<typename T,typename U> class ManyToMany;
 
     /**
@@ -115,6 +116,7 @@ namespace orm
             template<typename T> friend class QuerySet;
             template<typename T> friend class Cache;
             template<typename T> friend class FKBase;
+            template<typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;
 
             /* Info for connection */
@@ -199,7 +201,7 @@ namespace orm
             *
             * \see operators
             **/
-            virtual std::string formatValue(const std::string& ope,std::string value) const;
+            std::string formatValue(const std::string& ope,std::string value) const;
 
             /**
             * \brief format the operation for the database
@@ -210,7 +212,7 @@ namespace orm
             *
             * \see operators
             **/
-            virtual std::string formatPreparedValue(const std::string& ope) const;
+            std::string formatPreparedValue(const std::string& ope) const;
 
             /**
              * \return Return the initial column number for extract values (0 or 1)

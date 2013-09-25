@@ -134,7 +134,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
-   {
+   /*{
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
@@ -160,19 +160,14 @@ int main(int argc,char* argv[])
            cout<<*perso<<endl;
 
 
-   }
-   /*{
+   }*/
+   {
 
-       list<Filter> filters = {
-           //Filter("perso.lvl","gt",4),
-           Filter("perso.name","startswith","test")
-           //Filter("perso__stats.pv","gt",4)
-       };
        std::list<std::shared_ptr<Perso>> lis;
-       Perso::query().filter("test%","startswith",Perso::_name).get(lis);
+       Perso::query().filter(string("test"),"startswith",Perso::_name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
-   }*/
+   }
 
 
     /*{
