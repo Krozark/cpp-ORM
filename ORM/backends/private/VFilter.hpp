@@ -18,20 +18,20 @@ namespace orm
             /**
              * \brief Create a filter
              *
-             * \param colum Colum where the filter will be apply
+             * \param column column where the filter will be apply
              * \param ope Operator to apply
              * \param value Value to compare
              **/
-            VFilter(const std::string& colum,const std::string& ope);
+            VFilter(const std::string& column,const std::string& ope);
 
             /**
              * \brief Create a filter
              *
-             * \param colum Colum where the filter will be apply
+             * \param column column where the filter will be apply
              * \param ope Operator to apply
              * \param value Value to compare
              **/
-            VFilter(std::string&& colum,const std::string& ope);
+            VFilter(std::string&& column,const std::string& ope);
 
            
             
@@ -46,19 +46,19 @@ namespace orm
             template<typename T> friend class SQLObject;
             template<typename T> friend class QuerySet;
 
-            const std::string colum;
+            const std::string column;
             const std::string ope;
 
            /**
             * \brief set the value in the filter in the query
             *
             * \param query Prepared query
-            * \param colum Colum index
+            * \param column column index
             *
             * \return false if fail
             **/
 
-            virtual bool set(Query* query,unsigned int& colum) const = 0;
+            virtual bool set(Query* query,unsigned int& column) const = 0;
     };
 };
 

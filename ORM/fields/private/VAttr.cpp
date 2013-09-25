@@ -4,7 +4,7 @@
 
 namespace orm 
 {
-    VAttr::VAttr(const std::string& col) : colum(col), modify(false)
+    VAttr::VAttr(const std::string& col) : column(col), modify(false)
     {
     };
 
@@ -13,9 +13,9 @@ namespace orm
         self.print(output);
         return output;
     };
-    const std::string& VAttr::getColum() const
+    const std::string& VAttr::getcolumn() const
     {
-        return colum;
+        return column;
     }
     
     void VAttr::registerAttr(SQLObjectBase& object)
@@ -25,6 +25,6 @@ namespace orm
 
     std::string VAttr::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
     {
-        return ", "+bdd->escapeColum(prefix)+"."+bdd->escapeColum(colum)+" AS "+JOIN_ALIAS(prefix,colum);
+        return ", "+bdd->escapecolumn(prefix)+"."+bdd->escapecolumn(column)+" AS "+JOIN_ALIAS(prefix,column);
     }
 };

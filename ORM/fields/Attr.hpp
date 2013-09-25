@@ -14,8 +14,8 @@ namespace orm
     class Attr : public VAttr
     {
         public:
-            Attr(const T& value,const std::string& colum);
-            Attr(const std::string& colum);
+            Attr(const T& value,const std::string& column);
+            Attr(const std::string& column);
 
             Attr(const Attr&) = delete;
 
@@ -76,7 +76,7 @@ namespace orm
 
         protected:
             virtual void print(std::ostream& output) const;
-            virtual bool set(Query& query,const unsigned int& colum);
+            virtual bool set(Query& query,const unsigned int& column);
             virtual bool get(const Query& query,int& prefix,int max_depth);
     };
 };

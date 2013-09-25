@@ -28,12 +28,12 @@ namespace orm
         return bdd_res->rowsCount();
     };
 
-    bool MySQLQuery::get(bool& value,const int& colum)const
+    bool MySQLQuery::get(bool& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getBoolean((uint32_t)colum);
+            value = bdd_res->getBoolean((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -43,12 +43,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(int& value,const int& colum)const
+    bool MySQLQuery::get(int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getInt((uint32_t)colum);
+            value = bdd_res->getInt((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -58,12 +58,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(unsigned int& value,const int& colum)const
+    bool MySQLQuery::get(unsigned int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getUInt((uint32_t)colum);
+            value = bdd_res->getUInt((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -73,12 +73,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long long int& value,const int& colum)const
+    bool MySQLQuery::get(long long int& value,const int& column)const
     {    
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getInt64((uint32_t)colum);
+            value = bdd_res->getInt64((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -88,12 +88,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long long unsigned int& value,const int& colum)const
+    bool MySQLQuery::get(long long unsigned int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getUInt64((uint32_t)colum);
+            value = bdd_res->getUInt64((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -103,12 +103,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(float& value,const int& colum)const
+    bool MySQLQuery::get(float& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = static_cast<float>(bdd_res->getDouble((uint32_t)colum));
+            value = static_cast<float>(bdd_res->getDouble((uint32_t)column));
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -118,12 +118,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long double& value,const int& colum)const
+    bool MySQLQuery::get(long double& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getDouble((uint32_t)colum);
+            value = bdd_res->getDouble((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -133,12 +133,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(std::string& value,const int& colum)const
+    bool MySQLQuery::get(std::string& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getString((uint32_t)colum);
+            value = bdd_res->getString((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -155,75 +155,75 @@ namespace orm
         return bdd_res->next();
     }
 
-    bool MySQLQuery::set(const bool& value,const unsigned int& colum)
+    bool MySQLQuery::set(const bool& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setBoolean(colum,value);
+        prepared_statement->setBoolean(column,value);
         return true;
     };
 
-    bool MySQLQuery::set(const int& value,const unsigned int& colum)
+    bool MySQLQuery::set(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setInt(colum,value);
+        prepared_statement->setInt(column,value);
         return true;
     };
 
-    bool MySQLQuery::set(const unsigned int& value,const unsigned int& colum)
+    bool MySQLQuery::set(const unsigned int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setUInt(colum,value);
+        prepared_statement->setUInt(column,value);
         return true;
     };
 
-    bool MySQLQuery::set(const long long int& value,const unsigned int& colum)
+    bool MySQLQuery::set(const long long int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setInt64(colum,value);
+        prepared_statement->setInt64(column,value);
         return true;
     };
 
-    bool MySQLQuery::set(const long long unsigned int& value,const unsigned int& colum)
+    bool MySQLQuery::set(const long long unsigned int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setUInt64(colum,value);
+        prepared_statement->setUInt64(column,value);
         return true;
     };
 
-    bool MySQLQuery::set(const float& value,const unsigned int& colum)
+    bool MySQLQuery::set(const float& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setDouble(colum,static_cast<double>(value));
+        prepared_statement->setDouble(column,static_cast<double>(value));
         return true;
     };
 
-    bool MySQLQuery::set(const long double& value,const unsigned int& colum)
+    bool MySQLQuery::set(const long double& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setDouble(colum,value);
+        prepared_statement->setDouble(column,value);
         return true;
     };
 
-    bool MySQLQuery::set(const std::string& value,const unsigned int& colum)
+    bool MySQLQuery::set(const std::string& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setString(colum,value);
+        prepared_statement->setString(column,value);
         return true;
     };
 
-    bool MySQLQuery::setNull(const int& value,const unsigned int& colum)
+    bool MySQLQuery::setNull(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        prepared_statement->setNull(colum,sql::DataType::INTEGER);
+        prepared_statement->setNull(column,sql::DataType::INTEGER);
         return true;
     };
 

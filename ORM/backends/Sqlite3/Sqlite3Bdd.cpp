@@ -47,9 +47,7 @@ namespace orm
         int result=sqlite3_open(s_bdd_name.c_str(),&dbConn);
         if (result != SQLITE_OK)
         {
-            #if ORM_VERBOSITY & ORM_WARNING
-            std::cerr<<ROUGE<<"[ERROR] Sqlite3Bdd::connect() Failed to open database "/*<<sqlite3_errstr(result)*/<<BLANC<<std::endl;
-            #endif
+            ORM_PRINT_ERROR("Sqlite3Bdd::connect() Failed to open database ")
             sqlite3_close(dbConn);
             return false;
         }
@@ -62,9 +60,7 @@ namespace orm
         int result = sqlite3_close(dbConn);
         if (result != SQLITE_OK)
         {
-            #if ORM_VERBOSITY & ORM_WARNING
-            std::cerr<<JAUNE<<"[WARNING] Sqlite3Bdd::disconnect() Failed to close database "/*<<sqlite3_errstr(result)*/<<BLANC<<std::endl;
-            #endif
+            ORM_PRINT_WARNING("Sqlite3Bdd::disconnect() Failed to close database")
             return false;
         }
         return true;
@@ -103,12 +99,12 @@ namespace orm
         return (int)sqlite3_last_insert_rowid(dbConn);
     }
 
-    std::string Sqlite3Bdd::escapeColum(const std::string& str) const
+    std::string Sqlite3Bdd::escapecolumn(const std::string& str) const
     {
         return "`"+str+"`";
     }
 
-    int Sqlite3Bdd::getInitialGetColumnNumber() const
+    int Sqlite3Bdd::getInitialGetcolumnNumber() const
     {
         return 0;
     }
@@ -123,7 +119,7 @@ namespace orm
             query+=" LIMIT "+std::to_string(count);
         #if ORM_VERBOSITY & ORM_WARNING
         else
-            std::cerr<<JAUNE<<"[WARNING] Sqlite3Bdd::Limit(skip,count) count can't be <= 0"<<std::endl;
+            ORM_PRINT_WARNING("Sqlite3Bdd::Limit(skip,count) count can't be <= 0")
         #endif
         return query;
     };

@@ -146,7 +146,7 @@ namespace orm
             *
             * \param table Table of the object
             * \param pk PK of the object to save
-            * \param attrs Colum of the oject to save
+            * \param attrs column of the oject to save
             *
             * \return false if fail
             *
@@ -159,7 +159,7 @@ namespace orm
             *
             * \param table Table of the object
             * \param pk PK of the object to save
-            * \param attrs Colum of the oject to update
+            * \param attrs column of the oject to update
             *
             * \return false if fail
             *
@@ -181,13 +181,13 @@ namespace orm
             /**
             * \brief Escape the String
             *
-            * \param colum Colum name to escape
+            * \param column column name to escape
             *
-            * \return The escaped colum name
+            * \return The escaped column name
             *
             * \see escapeValue
             **/
-            virtual std::string escapeColum(const std::string& colum) const;
+            virtual std::string escapecolumn(const std::string& column) const;
 
             /**
             * \brief format the operation for the database
@@ -213,9 +213,9 @@ namespace orm
             virtual std::string formatPreparedValue(const std::string& ope) const;
 
             /**
-             * \return Return the initial colum number for extract values (0 or 1)
+             * \return Return the initial column number for extract values (0 or 1)
              */
-            int virtual getInitialGetColumnNumber() const = 0;
+            int virtual getInitialGetcolumnNumber() const = 0;
 
             /**
              * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one

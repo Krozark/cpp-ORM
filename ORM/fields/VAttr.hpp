@@ -14,14 +14,14 @@ namespace orm
     class VAttr
     {
         public:
-            VAttr(const std::string& colum);
+            VAttr(const std::string& column);
 
             VAttr(const VAttr&) = delete;
             VAttr& operator=(const VAttr&) = delete;
 
             friend std::ostream& operator<<(std::ostream& output,const VAttr& self);
 
-            const std::string& getColum() const;
+            const std::string& getcolumn() const;
 
             virtual void registerAttr(SQLObjectBase&);
 
@@ -32,9 +32,9 @@ namespace orm
             template<typename T> friend class SQLObject;
 
             bool modify;
-            const std::string& colum;
+            const std::string& column;
             virtual void print(std::ostream& output) const =0;
-            virtual bool set(Query& query,const unsigned int& colum) = 0;
+            virtual bool set(Query& query,const unsigned int& column) = 0;
             virtual bool get(const Query& query,const std::string& prefix,int max_depth) = 0;
 
 

@@ -24,10 +24,10 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "INSERT INTO "+escapeColum(table)+"("+attrs[0]->colum;
+            std::string str_q = "INSERT INTO "+escapecolumn(table)+"("+attrs[0]->column;
 
             for(unsigned int i=1;i<size;++i)
-                str_q+=","+attrs[i]->colum;
+                str_q+=","+attrs[i]->column;
             str_q+=") ";
 
             str_q+="VALUES ((?)";
@@ -73,7 +73,7 @@ namespace orm
         const int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "UPDATE "+escapeColum(table)+" SET ";
+            std::string str_q = "UPDATE "+escapecolumn(table)+" SET ";
 
             bool first(true);
             for(unsigned int i=1;i<size;++i)
@@ -83,11 +83,11 @@ namespace orm
                     if(not first)
                         str_q+=",";
                     first = false;
-                    str_q+=attrs[i]->colum+"=(?)";
+                    str_q+=attrs[i]->column+"=(?)";
                 }
             }
 
-            str_q+=" WHERE "+escapeColum(table)+"."+escapeColum("id")+" = "+std::to_string(pk)+";"; ///< \todo colum.id
+            str_q+=" WHERE "+escapecolumn(table)+"."+escapecolumn("id")+" = "+std::to_string(pk)+";"; ///< \todo column.id
             
 
             if(first) //NO MAJ NEDEED
@@ -131,7 +131,7 @@ namespace orm
 
     bool Bdd::del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+escapeColum(table)+" WHERE ("+escapeColum(table)+"."+escapeColum("id")+" = "+std::to_string(pk)+");";
+        std::string str_q = "DELETE FROM "+escapecolumn(table)+" WHERE ("+escapecolumn(table)+"."+escapecolumn("id")+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<"[SQL:delete]"<<str_q<<BLANC<<std::endl;
@@ -145,7 +145,7 @@ namespace orm
         return true;
     };
 
-    std::string Bdd::escapeColum(const std::string& str) const
+    std::string Bdd::escapecolumn(const std::string& str) const
     {
         return "'"+str+"'";
     }

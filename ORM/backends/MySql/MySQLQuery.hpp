@@ -47,84 +47,84 @@ namespace orm
             virtual int count()const;
             
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(bool& value,const int& colum)const;
+            virtual bool get(bool& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(int& value,const int& colum)const;
+            virtual bool get(int& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(unsigned int& value,const int& colum)const;
+            virtual bool get(unsigned int& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long int& value,const int& colum)const;
+            virtual bool get(long long int& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long unsigned int& value,const int& colum)const;
+            virtual bool get(long long unsigned int& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(float& value,const int& colum)const;
+            virtual bool get(float& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long double& value,const int& colum)const;
+            virtual bool get(long double& value,const int& column)const;
 
             /**
-             * \brief Get a value of a colum, and store it 
+             * \brief Get a value of a column, and store it 
              *
-             * \param colun The colum to extract
+             * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(std::string& value,const int& colum)const;
+            virtual bool get(std::string& value,const int& column)const;
            
         
             /**
@@ -136,95 +136,95 @@ namespace orm
 
             /* for prepared query */
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const bool& value,const unsigned int& colum);
+            virtual bool set(const bool& value,const unsigned int& column);
 
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const int& value,const unsigned int& colum);
+            virtual bool set(const int& value,const unsigned int& column);
 
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const unsigned int& value,const unsigned int& colum);
+            virtual bool set(const unsigned int& value,const unsigned int& column);
 
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const long long int& value,const unsigned int& colum);
+            virtual bool set(const long long int& value,const unsigned int& column);
 
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const long long unsigned int& value,const unsigned int& colum);
+            virtual bool set(const long long unsigned int& value,const unsigned int& column);
             
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const float& value,const unsigned int& colum);
+            virtual bool set(const float& value,const unsigned int& column);
             
             /**
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const long double& value,const unsigned int& colum);
+            virtual bool set(const long double& value,const unsigned int& column);
 
             /**
              *
-             * \brief For prepared query only, set the colum value
+             * \brief For prepared query only, set the column value
              *
              * \param value The value to set
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool set(const std::string& value,const unsigned int& colum);
+            virtual bool set(const std::string& value,const unsigned int& column);
             
             /**
-             * \brief For prepared query only, set the colum value to null
+             * \brief For prepared query only, set the column value to null
              *
              * \param value Not use. Allow overload only
-             * \param colum The colum number to set
+             * \param column The column number to set
              *
              * \results false if fail
              **/
-            virtual bool setNull(const int& value,const unsigned int& colum);
+            virtual bool setNull(const int& value,const unsigned int& column);
 
             /**
             * \brief Execute a query

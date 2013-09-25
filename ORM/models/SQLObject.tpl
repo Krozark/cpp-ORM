@@ -40,8 +40,8 @@ namespace orm
         nameTables(q_str,"",max_depth);
 
         q_str+=" \nWHERE ("
-        +bdd_used->escapeColum(table)+"."
-        +bdd_used->escapeColum("id")
+        +bdd_used->escapecolumn(table)+"."
+        +bdd_used->escapecolumn("id")
         +" = "+std::to_string(id)
         +") ";
 
@@ -77,9 +77,9 @@ namespace orm
 
     /*template<typename T>
     template<typename U>
-    std::list<typename Cache<T>::type_ptr> SQLObject<T>::filter(const std::string& colum,const std::string& ope,const U& value)
+    std::list<typename Cache<T>::type_ptr> SQLObject<T>::filter(const std::string& column,const std::string& ope,const U& value)
     {
-        return filter(Filter(colum,ope,value));
+        return filter(Filter(column,ope,value));
     }
 
 
@@ -93,7 +93,7 @@ namespace orm
         nameTables(q_str);
 
         q_str+=+" \nWHERE ( "
-            +filter.colum+" "
+            +filter.column+" "
             +bdd_used->escapeValue(filter.ope,filter.value);
 
         nameFks(q_str);
@@ -127,7 +127,7 @@ namespace orm
                 if(not first)
                     q_str+="\nAND ";
                 
-                q_str+=filter.colum+" "
+                q_str+=filter.column+" "
                     +bdd_used->escapeValue(filter.ope,filter.value);
 
                 first = false;
@@ -198,12 +198,12 @@ namespace orm
     template<typename T>
     void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)
     {
-        q_str+= bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum("id")+" AS "+JOIN_ALIAS(prefix,"id");
+        q_str+= bdd_used->escapecolumn(prefix)+"."+bdd_used->escapecolumn("id")+" AS "+JOIN_ALIAS(prefix,"id");
         
-        const int size = colum_attrs.size();
+        const int size = column_attrs.size();
         for(int i=0;i<size;++i)
         {
-            q_str+= colum_attrs[i]->makeName(bdd_used,prefix,max_depth);
+            q_str+= column_attrs[i]->makeName(bdd_used,prefix,max_depth);
         }
     }
 
@@ -211,7 +211,7 @@ namespace orm
     void SQLObject<T>::nameTables(std::string& q_str,const std::string& prefix,int max_depth)
     {
         const std::string table_alias = MAKE_PREFIX(prefix,table);
-        const std::string escaped_table_alias = bdd_used->escapeColum(table_alias);
+        const std::string escaped_table_alias = bdd_used->escapecolumn(table_alias);
 
         q_str+=escaped_table_alias+" AS "+escaped_table_alias;
 
@@ -222,21 +222,21 @@ namespace orm
     template<typename T>
     void SQLObject<T>::makeJoin(std::string& q_str,const std::string& prefix,int max_depth)
     {
-        const int size = colum_fks.size();
+        const int size = column_fks.size();
         --max_depth;
         for(int i=0;i<size;++i)
         {
 
-            const SQLObjectBase& object = colum_fks[i]->getObject();
+            const SQLObjectBase& object = column_fks[i]->getObject();
             /*if (&object == NULL)
                 continue;*/
-            const std::string& col = colum_fks[i]->getColum();
+            const std::string& col = column_fks[i]->getcolumn();
             const std::string table_alias = MAKE_PREFIX(prefix,col);
 
             q_str+= "\nLEFT JOIN "+object.getTable()+" AS "+table_alias
                 +" ON ("
-                +bdd_used->escapeColum(prefix)+"."+bdd_used->escapeColum(col)
-                +" = "+bdd_used->escapeColum(table_alias)+"."+bdd_used->escapeColum("id")
+                +bdd_used->escapecolumn(prefix)+"."+bdd_used->escapecolumn(col)
+                +" = "+bdd_used->escapecolumn(table_alias)+"."+bdd_used->escapecolumn("id")
                 +")";
 
             if(max_depth>=0)
@@ -265,10 +265,10 @@ namespace orm
     template<typename T>
     void SQLObject<T>::incDepth(int& depth,int max_depth)
     {
-        depth+= (1 + colum_attrs.size()); //id + attrs
+        depth+= (1 + column_attrs.size()); //id + attrs
 
-        const int _size = colum_fks.size();
+        const int _size = column_fks.size();
         for(int i=0;i<_size;++i)
-            colum_fks[i]->incDepth(depth,max_depth);
+            column_fks[i]->incDepth(depth,max_depth);
     }
 };

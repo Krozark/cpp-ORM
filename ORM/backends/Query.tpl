@@ -8,9 +8,8 @@ namespace orm
         
         if (next())
             return obj.loadFromBdd(*this,max_depth);
-        #if (ORM_DEBUG & ORM_DEBUG_GET_OBJ) || (ORM_VERBOSITY | ORM_WARNING)
-        std::cerr<<JAUNE<<"[WARNING] Query::getObj(T& obj,int max_depth) failed : No raw return"<<BLANC<<std::endl;
-        #endif
+
+        ORM_PRINT_WARNING("Query::getObj(T& obj,int max_depth) failed : No raw return")
         return 0;
     };
 
@@ -23,11 +22,6 @@ namespace orm
         while(next())
         {
             objs.emplace_back(T::cache.getOrCreate(*this,max_depth));
-            /*T* tmp = T::createFromBdd(*this,"",max_depth);
-            if (tmp)
-            {
-                objs.emplace_back(T::cache.getOrCreate(tmp));
-            }*/
             ++res;
         }   
         return res;     

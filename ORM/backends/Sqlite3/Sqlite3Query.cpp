@@ -11,7 +11,7 @@ namespace orm
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::Sqlite3Query(bdd,string&) Failed to make the statment"<<BLANC<<std::endl;
+            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(bdd,string&) Failed to make the statment")
             /// \todo <<sqlite3_errstr(result)<<std::endl;
         }
         #endif
@@ -24,7 +24,7 @@ namespace orm
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::Sqlite3Query(bdd,string&&) Failed to make the statment"<<BLANC<<std::endl;
+            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(bdd,string&&) Failed to make the statment")
             /// \todo <<sqlite3_errstr(result)<<std::endl;
         }
         #endif
@@ -39,7 +39,7 @@ namespace orm
             #if ORM_VERBOSITY & ORM_ERROR
             if(result != SQLITE_OK)
             {
-                std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::~Sqlite3Query() Failed to close the statement"<<BLANC<<std::endl;
+                ORM_PRINT_ERROR("Sqlite3Query::~Sqlite3Query() Failed to close the statement")
                 /// \todo <<sqlite3_errstr(result)<<std::endl;
             }
             #endif
@@ -52,52 +52,52 @@ namespace orm
         return sqlite3_data_count(statement);
     };
 
-    bool Sqlite3Query::get(bool& value,const int& colum)const
+    bool Sqlite3Query::get(bool& value,const int& column)const
     {
-        value = (bool)sqlite3_column_int(statement,colum);
+        value = (bool)sqlite3_column_int(statement,column);
         return true;
     };
 
-    bool Sqlite3Query::get(int& value,const int& colum)const
+    bool Sqlite3Query::get(int& value,const int& column)const
     {
-        value = sqlite3_column_int(statement,colum);
+        value = sqlite3_column_int(statement,column);
         return true;
     };
 
-    bool Sqlite3Query::get(unsigned int& value,const int& colum)const
+    bool Sqlite3Query::get(unsigned int& value,const int& column)const
     {
-        value = (unsigned int)sqlite3_column_int(statement,colum);
+        value = (unsigned int)sqlite3_column_int(statement,column);
         return true;
     };
 
-    bool Sqlite3Query::get(long long int& value,const int& colum)const
+    bool Sqlite3Query::get(long long int& value,const int& column)const
     {    
-        value = (long long int)sqlite3_column_int64(statement,colum);
+        value = (long long int)sqlite3_column_int64(statement,column);
         return true;
     };
 
-    bool Sqlite3Query::get(long long unsigned int& value,const int& colum)const
+    bool Sqlite3Query::get(long long unsigned int& value,const int& column)const
     {
-        value = (unsigned long long int)sqlite3_column_int64(statement,colum);
+        value = (unsigned long long int)sqlite3_column_int64(statement,column);
 
         return true;
     };
 
-    bool Sqlite3Query::get(float& value,const int& colum)const
+    bool Sqlite3Query::get(float& value,const int& column)const
     {
-        value = (float)sqlite3_column_double(statement,colum);
+        value = (float)sqlite3_column_double(statement,column);
         return true;
     };
 
-    bool Sqlite3Query::get(long double& value,const int& colum)const
+    bool Sqlite3Query::get(long double& value,const int& column)const
     {
-        value = (long double)sqlite3_column_double(statement,colum);
+        value = (long double)sqlite3_column_double(statement,column);
         return true;
     };
 
-    bool Sqlite3Query::get(std::string& value,const int& colum)const
+    bool Sqlite3Query::get(std::string& value,const int& column)const
     {
-        const unsigned char* res = sqlite3_column_text(statement,colum);
+        const unsigned char* res = sqlite3_column_text(statement,column);
 
         if (res)
             value = (const char*)res;
@@ -112,75 +112,75 @@ namespace orm
         int result = sqlite3_step(statement);
         if(result == SQLITE_ROW)
             return true;
-        #if ORM_VERBOSITY & ORM_ERROR
-        std::cerr<<ROUGE<<"[ERROR] Sqlite3Query::next() imposible to get next row"<<BLANC<<std::endl;
-        #endif
-            ///\ todo sqlite3_errstr(result)<<std::endl;
+
+        ORM_PRINT_WARNING("Sqlite3Query::next() imposible to get next row")
+        ///\ todo sqlite3_errstr(result)<<std::endl;
+
         return false;
 
     }
 
-    bool Sqlite3Query::set(const bool& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const bool& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_int(statement,(int)colum,(int)value)== SQLITE_OK);
+        return (sqlite3_bind_int(statement,(int)column,(int)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const int& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_int(statement,(int)colum,(int)value)== SQLITE_OK);
+        return (sqlite3_bind_int(statement,(int)column,(int)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const unsigned int& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const unsigned int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_int(statement,(int)colum,(int)value)== SQLITE_OK);
+        return (sqlite3_bind_int(statement,(int)column,(int)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const long long int& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const long long int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_int64(statement,(int)colum,(sqlite3_int64)value)== SQLITE_OK);
+        return (sqlite3_bind_int64(statement,(int)column,(sqlite3_int64)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const long long unsigned int& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const long long unsigned int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_int64(statement,(int)colum,(sqlite3_int64)value)== SQLITE_OK);
+        return (sqlite3_bind_int64(statement,(int)column,(sqlite3_int64)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const float& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const float& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_double(statement,(int)colum,(double)value)== SQLITE_OK);
+        return (sqlite3_bind_double(statement,(int)column,(double)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const long double& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const long double& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_double(statement,(int)colum,(double)value)== SQLITE_OK);
+        return (sqlite3_bind_double(statement,(int)column,(double)value)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const std::string& value,const unsigned int& colum)
+    bool Sqlite3Query::set(const std::string& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_text(statement,(int)colum,value.c_str(),value.size()+1,SQLITE_TRANSIENT)== SQLITE_OK);
+        return (sqlite3_bind_text(statement,(int)column,value.c_str(),value.size()+1,SQLITE_TRANSIENT)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::setNull(const int& value,const unsigned int& colum)
+    bool Sqlite3Query::setNull(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_null(statement,(int)colum)== SQLITE_OK);
+        return (sqlite3_bind_null(statement,(int)column)== SQLITE_OK);
     };
 
     void Sqlite3Query::executeQuery()

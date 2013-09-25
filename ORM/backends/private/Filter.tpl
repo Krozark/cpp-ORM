@@ -1,24 +1,24 @@
 namespace orm
 {
     template<typename T>
-    Filter<T>::Filter(const std::string& colum,const std::string& ope,const T& value) : VFilter(colum,ope), value(value)
+    Filter<T>::Filter(const std::string& column,const std::string& ope,const T& value) : VFilter(column,ope), value(value)
     {
     };
 
     template<typename T>
-    Filter<T>::Filter(std::string&& colum,const std::string& ope,const T& value) : VFilter(colum,ope), value(value)
+    Filter<T>::Filter(std::string&& column,const std::string& ope,const T& value) : VFilter(column,ope), value(value)
     {
     };
 
     template<typename T>
     void Filter<T>::__print__() const
     {
-        std::cout<<"column:"<<colum<<" operator:"<<ope<<" value:"<<value;
+        std::cout<<"column:"<<column<<" operator:"<<ope<<" value:"<<value;
     };
 
     template<typename T>
-    bool Filter<T>::set(Query* query,unsigned int& colum) const
+    bool Filter<T>::set(Query* query,unsigned int& column) const
     {
-        return query->set(value,colum);
+        return query->set(value,column);
     }
 }

@@ -9,8 +9,8 @@ namespace orm
     class FK : public FKBase<T>
     {
         public:
-            //FK(const int& id,const std::string& colum);
-            FK(const std::string& colum);
+            //FK(const int& id,const std::string& column);
+            FK(const std::string& column);
 
             FK(const FK&) = delete;
     };

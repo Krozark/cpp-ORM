@@ -9,9 +9,9 @@ namespace orm
 {
     static const std::string TABLE_ALIAS_SEPARATOR("__");
 
-    static inline const std::string JOIN_ALIAS(const std::string& prefix,const std::string& colum)
+    static inline const std::string JOIN_ALIAS(const std::string& prefix,const std::string& column)
     {
-        return prefix+TABLE_ALIAS_SEPARATOR+colum;
+        return prefix+TABLE_ALIAS_SEPARATOR+column;
     };
 
     static inline const std::string MAKE_PREFIX(const std::string& prefix,const std::string& table)

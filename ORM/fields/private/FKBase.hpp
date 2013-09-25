@@ -28,12 +28,12 @@ namespace orm
             FKBase<T>& operator=(const FKBase<T>& other);
 
         protected:
-            //FKBase(const int& id,const std::string& colum,const bool nullable=true);//TODO ++on cache counter
-            FKBase(const std::string& colum,const bool nullable=true);///< \todo ajouter au cache
+            //FKBase(const int& id,const std::string& column,const bool nullable=true);//TODO ++on cache counter
+            FKBase(const std::string& column,const bool nullable=true);///< \todo ajouter au cache
             std::shared_ptr<T> value_ptr;
 
             virtual void print(std::ostream& output) const;
-            virtual bool set(Query& query,const unsigned int& colum);
+            virtual bool set(Query& query,const unsigned int& column);
             virtual bool get(const Query& query,int& prefix,int max_depth);
             T* getObjectT_ptr(int max_depth = ORM_DEFAULT_MAX_DEPTH);
 

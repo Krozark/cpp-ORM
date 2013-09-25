@@ -15,20 +15,20 @@ namespace orm
             /**
              * \brief Create a filter
              *
-             * \param colum Colum where the filter will be apply
+             * \param column column where the filter will be apply
              * \param ope Operator to apply
              * \param value Value to compare
              **/
-            Filter(const std::string& colum,const std::string& ope,const T& value);
+            Filter(const std::string& column,const std::string& ope,const T& value);
 
             /**
              * \brief Create a filter
              *
-             * \param colum Colum where the filter will be apply
+             * \param column column where the filter will be apply
              * \param ope Operator to apply
              * \param value Value to compare
              **/
-            Filter(std::string&& colum,const std::string& ope,const T& value);
+            Filter(std::string&& column,const std::string& ope,const T& value);
 
             /**
              * \brief Print the content of the filter for debug help
@@ -42,11 +42,11 @@ namespace orm
             * \brief set the value in the filter in the query
             *
             * \param query Prepared query
-            * \param colum Colum index
+            * \param column column index
             *
             * \return false if fail
             **/
-            virtual bool set(Query* query,unsigned int& colum) const;
+            virtual bool set(Query* query,unsigned int& column) const;
     };
 }
 #include <ORM/backends/private/Filter.tpl>

@@ -11,7 +11,7 @@ namespace orm
 
     bool SQLObjectBase::loadFromBdd(const Query& query,int max_depth)
     {
-        int prefix=getBdd()->getInitialGetColumnNumber() -1;
+        int prefix=getBdd()->getInitialGetcolumnNumber() -1;
         return loadFromBdd(query,prefix,max_depth);
     };
 
@@ -33,14 +33,14 @@ namespace orm
         {
             ++prefix;
             #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-            std::cerr<<MAGENTA<<"[ATTR] get attr("<<prefix<<") : "<<attr->getColum()<<BLANC<<std::endl;
+            std::cerr<<MAGENTA<<"[ATTR] get attr("<<prefix<<") : "<<attr->getcolumn()<<BLANC<<std::endl;
             #endif
 
-            bool tmp = attr->get(query,prefix,max_depth); //incrementation of colum number for the next
+            bool tmp = attr->get(query,prefix,max_depth); //incrementation of column number for the next
 
             #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
             if(not tmp)
-                std::cerr<<ROUGE<<"[ATTR] get attr("<<prefix<<") : "<<attr->getColum()<<" fail"<<BLANC<<std::endl;
+                std::cerr<<ROUGE<<"[ATTR] get attr("<<prefix<<") : "<<attr->getcolumn()<<" fail"<<BLANC<<std::endl;
             #endif
             res = (res and  tmp);
         }
@@ -59,7 +59,7 @@ namespace orm
     {
         output<<"{ \"pk\":"<<self.pk;
         for(VAttr* attr: self.attrs)
-            output<<", \""<<attr->getColum()<<"\":"<<*attr;
+            output<<", \""<<attr->getcolumn()<<"\":"<<*attr;
         output<<"}";
         return output;
     };

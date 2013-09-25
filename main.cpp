@@ -24,7 +24,7 @@ orm::Bdd& orm::Bdd::Default = def;
         orm::Attr<int> element;
 
 
-        MAKE_STATIC_COLUM(element);
+        MAKE_STATIC_column(element);
 };
 REGISTER_AND_CONSTRUCT(Spell,"spell",element,"element")*/
 
@@ -43,7 +43,7 @@ class Stats : public orm::SQLObject<Stats>
           orm::Attr<int> charme;
           orm::Attr<int> mouvement;*/
 
-        MAKE_STATIC_COLUM(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
+        MAKE_STATIC_column(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
 };
 REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
 
@@ -62,7 +62,7 @@ class Perso : public orm::SQLObject<Perso>
 
         //orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUM(name,lvl,stats,stats2,maitre)
+        MAKE_STATIC_column(name,lvl,stats,stats2,maitre)
 };
 REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 //M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
@@ -140,14 +140,14 @@ int main(int argc,char* argv[])
        std::list<Cache<Perso>::type_ptr> results;
        Perso::query()\
            .filter(4,"gt",Perso::_lvl)\
-           /*.filter(42,"gte",Perso::_lvl)\*/
-           /*.exclude(4,"lt",Perso::_lvl)\*/
-           /*.orderBy(Perso::_name).limit(10)\*/
-           .get(p2,0);
+           .filter(42,"gte",Perso::_lvl)\
+           .exclude(4,"lt",Perso::_lvl)\
+           .orderBy(Perso::_name)\
+           .get(p2);
 
        std::cout<<p2<<std::endl;
 
-       /*cout<<"All perso"<<endl;
+       cout<<"All perso"<<endl;
        Perso::query().get(results);
        for(auto& perso : results)
            cout<<*perso<<endl;
@@ -157,7 +157,7 @@ int main(int argc,char* argv[])
        cout<<"All perso where lvl < 200"<<endl;
        Perso::query().filter(200,"lt",Perso::_lvl).get(results);
        for(auto& perso : results)
-           cout<<*perso<<endl;*/
+           cout<<*perso<<endl;
 
 
    }

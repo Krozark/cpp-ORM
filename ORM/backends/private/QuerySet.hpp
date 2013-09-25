@@ -34,46 +34,46 @@ namespace orm
              *
              * \param value The value to compare with
              * \param The operator to use see Bdd::Operators for detail
-             * \param colum The colum to apply the comparasion
-             * \param args If more than one collum is send, all colum will be concatenate (with the correct format) to create the correct colum name. Args must be std::string
+             * \param column The column to apply the comparasion
+             * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
              **/
             template<typename U,typename ... Args>
-            QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
+            QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a order by constrait to the query
              *
-             * \param colum The colum to use for ordering
-             * \param oder The colum ordering ( +=ASC or -=DESC)
+             * \param column The column to use for ordering
+             * \param oder The column ordering ( +=ASC or -=DESC)
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(const std::string& colum,const char order='+');
+            QuerySet<T>& orderBy(const std::string& column,const char order='+');
 
             /**
              * \brief Add a order by constrait to the query
              *
-             * \param colum The colum to use for ordering
-             * \param oder The colum ordering ( +=ASC or -=DESC)
+             * \param column The column to use for ordering
+             * \param oder The column ordering ( +=ASC or -=DESC)
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(std::string&& colum,const char order="+");
-            //QuerySet& orderBy(int,const std::string& colum);
+            QuerySet<T>& orderBy(std::string&& column,const char order="+");
+            //QuerySet& orderBy(int,const std::string& column);
 
             /**
              * \brief Add a negatide filter to the query
              *
              * \param value The value to compare with
              * \param The operator to use see Bdd::Operators for detail
-             * \param colum The colum to apply the comparasion
-             * \param args If more than one collum is send, all colum will be concatenate (with the correct format) to create the correct colum name. Args must be std::string
+             * \param column The column to apply the comparasion
+             * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              *
              * \return *this
              **/
             template<typename U,typename ... Args>
-            QuerySet<T>& exclude(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
+            QuerySet<T>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase
@@ -133,25 +133,25 @@ namespace orm
             explicit QuerySet();
 
             /**
-             * \brief Merge colum name to build the alias
+             * \brief Merge column name to build the alias
              *
-             * \param prefix The prefix colum alias
-             * \param colum  The colum alias to merge
-             * \param args Some optional colum alias
+             * \param prefix The prefix column alias
+             * \param column  The column alias to merge
+             * \param args Some optional column alias
              *
              * \return the complet alias
              **/
             template<typename ... Args>
-            static std::string makeColumName(const std::string& prefix,const std::string& colum,Args&& ... args);
+            static std::string makecolumname(const std::string& prefix,const std::string& column,Args&& ... args);
 
             /**
              * \brief Do nothing
              *
-             * \param colum  The colum alias to merge
+             * \param column  The column alias to merge
              *
-             * \return colum
+             * \return column
              **/
-            static std::string makeColumName(const std::string& prefix,const std::string& colum);
+            static std::string makecolumname(const std::string& prefix,const std::string& column);
 
             /**
              * \brief Construct the query with all constraints
@@ -168,7 +168,7 @@ namespace orm
 
             std::list<VFilter*> filters; ///< Store all the filters
             std::list<VFilter*> excludes;///< Store all the negative filters
-            std::vector<std::string> order_by; ///< store the colum name for ordering
+            std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
     };

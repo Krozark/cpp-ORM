@@ -11,7 +11,7 @@ namespace orm
     class VFK : public VAttr
     {
         public:
-            VFK(const std::string& colum,const bool nullable=true);
+            VFK(const std::string& column,const bool nullable=true);
 
             virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
             virtual void registerAttr(SQLObjectBase&);

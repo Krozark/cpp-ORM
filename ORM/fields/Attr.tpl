@@ -25,9 +25,9 @@ namespace orm
     };
 
     template<typename T>
-    bool Attr<T>::set(Query& query,const unsigned int& colum)
+    bool Attr<T>::set(Query& query,const unsigned int& column)
     {
-        return query.set(value,colum);
+        return query.set(value,column);
     };
 
     template<typename T>

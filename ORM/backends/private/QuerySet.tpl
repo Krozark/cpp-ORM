@@ -20,37 +20,37 @@ namespace orm
 
     template<typename T>
     template<typename U,typename ... Args>
-    QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args)
+    QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        filters.emplace_back(new Filter<U>(makeColumName(T::table,colum,args ...),operande,value));
+        filters.emplace_back(new Filter<U>(makecolumname(T::table,column,args ...),operande,value));
         return *this;
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::orderBy(const std::string& colum,const char order)
+    QuerySet<T>& QuerySet<T>::orderBy(const std::string& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makeColumName(T::table,colum)+" DESC");
+            order_by.push_back(makecolumname(T::table,column)+" DESC");
         else
-            order_by.push_back(makeColumName(T::table,colum)+" ASC");
+            order_by.push_back(makecolumname(T::table,column)+" ASC");
         return *this;
     }
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::orderBy(std::string&& colum,const char order)
+    QuerySet<T>& QuerySet<T>::orderBy(std::string&& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makeColumName(T::table,colum)+" DESC");
+            order_by.push_back(makecolumname(T::table,column)+" DESC");
         else
-            order_by.push_back(makeColumName(T::table,colum)+" ASC");
+            order_by.push_back(makecolumname(T::table,column)+" ASC");
         return *this;
     }
 
     template<typename T>
     template<typename U,typename ... Args>
-    QuerySet<T>& QuerySet<T>::exclude(const U& value,const std::string& operande,const std::string& colum,const Args& ... args)
+    QuerySet<T>& QuerySet<T>::exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        excludes.emplace_back(new Filter<U>(makeColumName(T::table,colum,args ...),operande,value));
+        excludes.emplace_back(new Filter<U>(makecolumname(T::table,column,args ...),operande,value));
         return *this;
     };
 
@@ -83,6 +83,9 @@ namespace orm
     template<typename T>
     bool QuerySet<T>::get(T& obj,int max_depth)
     {
+        if(limit_count <= 0)
+            limit_count = 1;
+
         Query* q = makeQuery(max_depth);
         bool res = q->getObj(obj,max_depth);
         delete q;
@@ -115,15 +118,15 @@ namespace orm
 
     template<typename T>
     template<typename ... Args>
-    std::string QuerySet<T>::makeColumName(const std::string& prefix,const std::string& colum,Args&& ...args)
+    std::string QuerySet<T>::makecolumname(const std::string& prefix,const std::string& column,Args&& ...args)
     {
-        return makeColumName(JOIN_ALIAS(prefix,colum),args...);
+        return makecolumname(JOIN_ALIAS(prefix,column),args...);
     }
 
     template<typename T>
-    std::string QuerySet<T>::makeColumName(const std::string& prefix,const std::string& colum)
+    std::string QuerySet<T>::makecolumname(const std::string& prefix,const std::string& column)
     {
-        return T::bdd_used->escapeColum(prefix)+"."+T::bdd_used->escapeColum(colum);
+        return T::bdd_used->escapecolumn(prefix)+"."+T::bdd_used->escapecolumn(column);
     }
 
     template<typename T>
@@ -143,20 +146,20 @@ namespace orm
 
             if(filters_size > 0 or excludes_size >0)
                 q_str+=" \nWHERE (";
-            /// \todo change colum alias for complet name
+            /// \todo change column alias for complet name
 
             if(filters_size > 0)
             {
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                q_str+= (*begin)->colum
+                q_str+= (*begin)->column
                     +T::bdd_used->formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +(*begin)->colum
+                        +(*begin)->column
                         +T::bdd_used->formatPreparedValue((*begin)->ope);
                 }
             }
@@ -171,13 +174,13 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                q_str+= (*begin)->colum
+                q_str+= (*begin)->column
                     +T::bdd_used->formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +(*begin)->colum
+                        +(*begin)->column
                         +T::bdd_used->formatPreparedValue((*begin)->ope);
                 }
 

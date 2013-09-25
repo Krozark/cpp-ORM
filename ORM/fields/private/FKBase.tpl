@@ -5,7 +5,7 @@
 namespace orm
 {
     /*template<typename T>
-    FKBase<T>::FKBase(const int& id,const std::string& colum,bool nullable) : VFK(colum,nullable)
+    FKBase<T>::FKBase(const int& id,const std::string& column,bool nullable) : VFK(column,nullable)
     {
         fk = id;
         value_ptr = T::get(fk);
@@ -13,7 +13,7 @@ namespace orm
     }*/
 
     template<typename T>
-    FKBase<T>::FKBase(const std::string& colum,bool nullable) : VFK(colum,nullable)/*, value_ptr(0)*/
+    FKBase<T>::FKBase(const std::string& column,bool nullable) : VFK(column,nullable)/*, value_ptr(0)*/
     {
         //value_ptr.reset(new T());
     }
@@ -78,19 +78,19 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::set(Query& query,const unsigned int& colum)
+    bool FKBase<T>::set(Query& query,const unsigned int& column)
     {
         /*if (not nullable)
         {
             if(not loaded)
                 getObjectT_ptr();
-            return query.set(fk,colum);
+            return query.set(fk,column);
         }
-        return query.setNull(fk,colum);
+        return query.setNull(fk,column);
         */
         if(loaded)
-            return query.set(fk,colum);
-        return query.setNull(fk,colum);
+            return query.set(fk,column);
+        return query.setNull(fk,column);
     };
 
 
@@ -153,12 +153,12 @@ namespace orm
     template<typename T>
     std::string FKBase<T>::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
     {
-        std::string q_str(",\n "+bdd->escapeColum(prefix)+"."+bdd->escapeColum(colum)+" AS "+JOIN_ALIAS(prefix,colum));
+        std::string q_str(",\n "+bdd->escapecolumn(prefix)+"."+bdd->escapecolumn(column)+" AS "+JOIN_ALIAS(prefix,column));
 
         if(--max_depth <0)
             return q_str;
 
-        const std::string table_alias = MAKE_PREFIX(prefix,colum);
+        const std::string table_alias = MAKE_PREFIX(prefix,column);
 
         q_str+=",";
         T::nameAttrs(q_str,table_alias,max_depth);

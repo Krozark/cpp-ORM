@@ -21,7 +21,7 @@ namespace orm
     template<typename T> class SQLObject;
     template<typename T> class QuerySet;
 
-    /* class to register colum name as static (Hack) */
+    /* class to register column name as static (Hack) */
     template<typename T>
     class Register
     {
@@ -35,11 +35,11 @@ namespace orm
             static T tmp;
             for(VAttr* attr: tmp.attrs)
             {
-                SQLObject<T>::colum_attrs.emplace_back(attr);
+                SQLObject<T>::column_attrs.emplace_back(attr);
             }
             for(VFK* fk: tmp.fks)
             {
-                SQLObject<T>::colum_fks.emplace_back(fk);
+                SQLObject<T>::column_fks.emplace_back(fk);
             }
             #if ORM_DEBUG & ORM_DEBUG_REGISTER
             std::cerr<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
@@ -90,8 +90,8 @@ namespace orm
             friend class QuerySet<T>;
 
             static Register<T> _register;
-            static std::vector<const VAttr*> colum_attrs;
-            static std::vector<VFK*> colum_fks;
+            static std::vector<const VAttr*> column_attrs;
+            static std::vector<VFK*> column_fks;
 
             static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
             static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);
