@@ -106,12 +106,12 @@ int main(int argc,char* argv[])
         cout<<"Current perso1 "<<*p1<<endl;
     }*/
 
-   {
+   /*{
        cout<<"All persos"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
            cout<<*u<<endl;
-   }
+   }*/
 
    /*{
        cout<<"Create Perso"<<endl;
@@ -134,33 +134,33 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
-   //{
-   //    Perso p2;
+   {
+       Perso p2;
 
-   //    std::list<Cache<Perso>::type_ptr> results;
-   //    Perso::query()\
-   //        .filter(4,"gt",Perso::_lvl)\
-   //        /*.filter(42,"gte",Perso::_lvl)\*/
-   //        /*.exclude(4,"lt",Perso::_lvl)\*/
-   //        /*.orderBy(Perso::_name).limit(10)\*/
-   //        .get(p2,0);
+       std::list<Cache<Perso>::type_ptr> results;
+       Perso::query()\
+           .filter(4,"gt",Perso::_lvl)\
+           /*.filter(42,"gte",Perso::_lvl)\*/
+           /*.exclude(4,"lt",Perso::_lvl)\*/
+           /*.orderBy(Perso::_name).limit(10)\*/
+           .get(p2,0);
 
-   //    std::cout<<p2<<std::endl;
+       std::cout<<p2<<std::endl;
 
-   //    /*cout<<"All perso"<<endl;
-   //    Perso::query().get(results);
-   //    for(auto& perso : results)
-   //        cout<<*perso<<endl;
+       /*cout<<"All perso"<<endl;
+       Perso::query().get(results);
+       for(auto& perso : results)
+           cout<<*perso<<endl;
 
-   //    results.clear();
+       results.clear();
 
-   //    cout<<"All perso where lvl < 200"<<endl;
-   //    Perso::query().filter(200,"lt",Perso::_lvl).get(results);
-   //    for(auto& perso : results)
-   //        cout<<*perso<<endl;*/
+       cout<<"All perso where lvl < 200"<<endl;
+       Perso::query().filter(200,"lt",Perso::_lvl).get(results);
+       for(auto& perso : results)
+           cout<<*perso<<endl;*/
 
 
-   //}
+   }
    /*{
 
        list<Filter> filters = {

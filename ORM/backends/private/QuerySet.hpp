@@ -1,7 +1,7 @@
 #ifndef ORM_QUERYSET_HPP
 #define ORM_QUERYSET_HPP
 
-#include <ORM/backends/Filter.hpp>
+#include <ORM/backends/private/VFilter.hpp>
 #include <ORM/core/Cache.hpp>
 #include <memory>
 
@@ -42,26 +42,6 @@ namespace orm
             QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
 
             /**
-             * \brief Add some filters to apply in the query
-             *
-             * \param filter_list some Filter to apply to the query.
-             *
-             * \return *this
-             **/
-            QuerySet<T>& filter(const std::list<Filter>& filter_list);
-
-            /**
-             * \brief Add some filters to apply in the query from a tmp value
-             *
-             * \param filter_list some Filter to apply to the query.
-             *
-             * \return *this
-             *
-             * Note : filter_list as an undefined status after the call of this function
-             **/
-            QuerySet<T>& filter(std::list<Filter>&& filter_list);
-
-            /**
              * \brief Add a order by constrait to the query
              *
              * \param colum The colum to use for ordering
@@ -94,24 +74,6 @@ namespace orm
              **/
             template<typename U,typename ... Args>
             QuerySet<T>& exclude(const U& value,const std::string& operande,const std::string& colum,const Args& ... args);
-
-            /**
-             * \brief Add some negative filters to apply in the query
-             *
-             * \param filter_list some Filter to apply to the query.
-             *
-             * \return *this
-             **/
-            QuerySet<T>& exclude(const std::list<Filter>& exclude_list);
-
-            /**
-             * \brief Add some negative filters to apply in the query
-             *
-             * \param filter_list some Filter to apply to the query.
-             *
-             * \return *this
-             **/
-            QuerySet<T>& exclude(std::list<Filter>&& exclude_list);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase
@@ -183,18 +145,6 @@ namespace orm
             static std::string makeColumName(const std::string& prefix,const std::string& colum,Args&& ... args);
 
             /**
-             * \brief Merge colum name to build the alias
-             *
-             * \param prefix The prefix colum alias
-             * \param colum  The colum alias to merge
-             * \param args Some optional colum alias
-             *
-             * \return the complet alias
-             **/
-            /*template<typename ... Args>
-            static std::string makeColumName(std::string&& prefix,std::string&& colum,Args&& ... args);*/
-
-            /**
              * \brief Do nothing
              *
              * \param colum  The colum alias to merge
@@ -216,8 +166,8 @@ namespace orm
             QuerySet(const QuerySet&) = delete;
             QuerySet& operator=(const QuerySet&) = delete;
 
-            std::list<Filter> filters; ///< Store all the filters
-            std::list<Filter> excludes;///< Store all the negative filters
+            std::list<VFilter*> filters; ///< Store all the filters
+            std::list<VFilter*> excludes;///< Store all the negative filters
             std::vector<std::string> order_by; ///< store the colum name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)

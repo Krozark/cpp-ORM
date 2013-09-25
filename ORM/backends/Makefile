@@ -1,7 +1,7 @@
 SRC = $(wildcard *.c*)
 OBJ = $(SRC:.cpp=.o) $(SRC:*.cpp=.o)
 
-SUBDIRS = MySql Sqlite3 
+SUBDIRS = private MySql Sqlite3 
 
 CLEANDIRS = $(SUBDIRS:%=clean-%)
 

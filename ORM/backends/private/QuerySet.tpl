@@ -1,4 +1,5 @@
 #include <algorithm>    // std::swap
+#include <ORM/backends/private/Filter.hpp>
 
 namespace orm
 {
@@ -21,22 +22,7 @@ namespace orm
     template<typename U,typename ... Args>
     QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& colum,const Args& ... args)
     {
-        filters.emplace_back(Filter(makeColumName(T::table,colum,args ...),operande,value));
-        return *this;
-    };
-
-    template<typename T>
-    QuerySet<T>& QuerySet<T>::filter(const std::list<Filter>& filter_list)
-    {
-        for(const Filter& filter : filter_list)
-            filters.emplace_back(filter);
-        return *this;
-    };
-
-    template<typename T>
-    QuerySet<T>& QuerySet<T>::filter(std::list<Filter>&& filter_list)
-    {
-        std::move_backward(filter_list.begin(), filter_list.end(), filters.end());
+        filters.emplace_back(new Filter<U>(makeColumName(T::table,colum,args ...),operande,value));
         return *this;
     };
 
@@ -64,22 +50,7 @@ namespace orm
     template<typename U,typename ... Args>
     QuerySet<T>& QuerySet<T>::exclude(const U& value,const std::string& operande,const std::string& colum,const Args& ... args)
     {
-        excludes.emplace_back(Filter(makeColumName(T::table,colum,args ...),operande,value));
-        return *this;
-    };
-
-    template<typename T>
-    QuerySet<T>& QuerySet<T>::exclude(const std::list<Filter>& exclude_list)
-    {
-        for(Filter& filter : exclude_list)
-            excludes.emplace_back(filter);
-        return *this;
-    };
-
-    template<typename T>
-    QuerySet<T>& QuerySet<T>::exclude(std::list<Filter>&& exclude_list)
-    {
-        std::move_backward(exclude_list.begin(), exclude_list.end(), excludes.end());
+        excludes.emplace_back(new Filter<U>(makeColumName(T::table,colum,args ...),operande,value));
         return *this;
     };
 
@@ -131,17 +102,15 @@ namespace orm
     void QuerySet<T>::__print__() const
     {
         std::cout<<"Filter: ";
-        for (auto& u :  filters)
-            u.__print__();
+        for (auto* u :  filters)
+            u->__print__();
         std::cout<<"exclude: ";
-        for (auto& u :  excludes)
-            u.__print__();
+        for (auto* u :  excludes)
+            u->__print__();
         std::cout<<"order_by: ";
         for (auto& u :  order_by)
             std::cout<<u<<" ";
         std::cout<<std::endl<<"limit:<"<<limit_skip<<","<<limit_count<<">"<<std::endl;
-
-
     };
 
     template<typename T>
@@ -150,13 +119,6 @@ namespace orm
     {
         return makeColumName(JOIN_ALIAS(prefix,colum),args...);
     }
-
-    /*template<typename T>
-    template<typename ... Args>
-    std::string QuerySet<T>::makeColumName(std::string&& prefix,std::string&& colum,Args&& ...args)
-    {
-        return makeColumName(JOIN_ALIAS(prefix,colum),args ...);
-    }*/
 
     template<typename T>
     std::string QuerySet<T>::makeColumName(const std::string& prefix,const std::string& colum)
@@ -188,14 +150,14 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                q_str+= begin->colum
-                    +T::bdd_used->formatPreparedValue(begin->ope);
+                q_str+= (*begin)->colum
+                    +T::bdd_used->formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +begin->colum
-                        +T::bdd_used->formatPreparedValue(begin->ope);
+                        +(*begin)->colum
+                        +T::bdd_used->formatPreparedValue((*begin)->ope);
                 }
             }
 
@@ -209,14 +171,14 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                q_str+= begin->colum
-                    +T::bdd_used->formatPreparedValue(begin->ope);
+                q_str+= (*begin)->colum
+                    +T::bdd_used->formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
-                        +begin->colum
-                        +T::bdd_used->formatPreparedValue(begin->ope);
+                        +(*begin)->colum
+                        +T::bdd_used->formatPreparedValue((*begin)->ope);
                 }
 
                 q_str+=") ";
@@ -247,7 +209,7 @@ namespace orm
         Query* q = T::bdd_used->prepareQuery(q_str);
 
         {//bind values
-            int index = 0;
+            unsigned int index = 1;
             if(filters_size > 0)
             {
                 auto begin = filters.begin();
@@ -255,8 +217,10 @@ namespace orm
                 while(begin != end)
                 {
 
-                    q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
+                    (*begin)->set(q,index);
                     ++begin;
+                    ++index;
+                    //q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
                 }
             }
             if(excludes_size >0)
@@ -265,8 +229,10 @@ namespace orm
                 const auto& end = excludes.end();
                 while(begin != end)
                 {
-                    q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
+                    (*begin)->set(q,index);
                     ++begin;
+                    ++index;
+                    //q->set(T::bdd_used->formatValue(begin->ope,begin->value),index++);
                 }
             }
         }

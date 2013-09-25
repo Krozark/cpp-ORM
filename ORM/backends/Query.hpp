@@ -19,6 +19,7 @@ namespace orm
     template<typename T> class QuerySet;
     template<typename T> class SQLObject;
     template<typename T> class Cache;
+    template<typename T> class Filter;
 
     /**
      * \brief Abstract class to manage query
@@ -35,6 +36,7 @@ namespace orm
             template<typename T> friend class QuerySet;
             template<typename T> friend class SQLObject;
             template<typename T> friend class Cache;
+            template<typename T> friend class Filter;
 
             /**
              * \brief Create a query
