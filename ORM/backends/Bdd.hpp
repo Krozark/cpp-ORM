@@ -126,7 +126,6 @@ namespace orm
             const std::string s_serveur; ///< Ip of tfe serveur to make the connection
             const std::string s_port; ///< Port to use for the connection
 
-            
             /**
             * \brief Map the operators that can be use
             *

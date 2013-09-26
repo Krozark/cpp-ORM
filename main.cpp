@@ -12,6 +12,7 @@ orm::Bdd& orm::Bdd::Default = def;
  **/
 
 #include <ORM/fields.hpp>
+#include <ORM/fields/ManyToMany.hpp>
 #include <ORM/models/SQLObject.hpp>
 
 #include <iostream>
@@ -21,10 +22,10 @@ class Spell : public orm::SQLObject<Spell>
 {
     public:
         Spell();
-        orm::Attr<std::string> name;
-        orm::Attr<int> element;
+        orm::CharField<255> name;
+        orm::IntegerField element;
 
-        MAKE_STATIC_column(name,element);
+        MAKE_STATIC_COLUMN(name,element);
 
 };
 REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
@@ -33,45 +34,46 @@ class Stats : public orm::SQLObject<Stats>
 {
     public:
         Stats();
-        orm::Attr<int> pv;
-        orm::Attr<int> pi;
-        orm::Attr<int> intelligence;
-        orm::Attr<int> force;
-        orm::Attr<int> defence;
-        orm::Attr<int> vattaque;
-        orm::Attr<int> esquive;
-        orm::Attr<int> chance;
-        orm::Attr<int> charme;
-        orm::Attr<int> mouvement;
+        orm::IntegerField pv;
+        orm::IntegerField pi;
+        /*orm::IntegerField intelligence;
+        orm::IntegerField force;
+        orm::IntegerField defence;
+        orm::IntegerField vattaque;
+        orm::IntegerField esquive;
+        orm::IntegerField chance;
+        orm::IntegerField charme;
+        orm::IntegerField mouvement;*/
 
-        MAKE_STATIC_column(pv,pi,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement)
+        MAKE_STATIC_COLUMN(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
 };
-REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi",intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement")
+REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
 
 class Perso : public orm::SQLObject<Perso>
 {
     public:
         Perso();
-        orm::Attr<std::string> name;
-        orm::Attr<int> lvl;
+        orm::CharField<255> name;
+        orm::IntegerField lvl;
         orm::FK<Stats,false> stats;
         orm::FK<Stats,false> stats2;
         orm::FK<Perso,true> maitre;
 
-        //orm::ManyToMany<Perso,Spell> spells;
+        orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_column(name,lvl,stats,stats2,maitre)
+        MAKE_STATIC_COLUMN(name,lvl,stats,stats2,maitre)
 };
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
-//M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
-//REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp")
-//Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2)/*, spells(*this)*/
-//{
-//    name.registerAttr(*this);
-//    lvl.registerAttr(*this);
-//    stats.registerAttr(*this);
-//    stats2.registerAttr(*this);
-//}
+//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
+M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
+REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
+Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2), maitre(_maitre), spells(*this)
+{
+    name.registerAttr(*this);
+    lvl.registerAttr(*this);
+    stats.registerAttr(*this);
+    stats2.registerAttr(*this);
+    maitre.registerAttr(*this);
+}
 
 using namespace orm;
 using namespace std;
@@ -181,6 +183,20 @@ int main(int argc,char* argv[])
        for(auto u : spells)
        cout<<*u<<endl;
        */
+
+    /*{
+       std::list<std::shared_ptr<Spell>> list;
+       Spell::query().get(list);
+       for(auto u : list)
+           cout<<*u<<endl;
+    }*/
+
+    auto& p1 = Perso::get(1);
+    std::cout<<*p1<<std::endl;
+
+    p1->spells.query();
+
+
 
 
     Bdd::Default.disconnect();

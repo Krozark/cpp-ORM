@@ -424,6 +424,22 @@ namespace orm
              **/
             virtual bool get(const Query& query,int& prefix,int max_depth);
     };
+
+    // define more common type
+    using IntegerField = Attr<int>;
+    using BooleanField = Attr<bool>;
+    using PositiveIntegerField = Attr<unsigned int>;
+    using BigIntegerField = Attr<long long int>;
+    using FloatField = Attr<float>;
+    using DoubleField = Attr<double>;
+    using BigDoubleField = Attr<long double>;
+
+    template<size_t max_length>
+    using CharField = Attr<std::string>;
+
+    /*template<bool auto_increment>
+    using AutoField = Attr<int>;*/
+
 };
 #include <ORM/fields/Attr.tpl>
 

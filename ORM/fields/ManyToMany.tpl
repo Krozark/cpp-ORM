@@ -6,17 +6,40 @@ namespace orm
     }
 
     template<typename T,typename U>
-    const std::list<std::shared_ptr<U> >& ManyToMany<T,U>::all(bool maj)
+    M2MQuerySet<ManyToMany<T,U>,T,U> ManyToMany<T,U>::query()
     {
-        if(maj or linked.size() == 0 or modify)
+        return M2MQuerySet<ManyToMany<T,U>,T,U>();
+    }
+
+    /*template<typename T,typename U>
+    void ManyToMany<T,U>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)
+    {
+    }
+    
+    template<typename T,typename U>
+    void ManyToMany<T,U>::nameTables(std::string& q_str,const std::string& prefix,int max_depth)
+    {
+    }
+
+    template<typename T,typename U>
+    void ManyToMany<T,U>::makeJoin(std::string& q_str,const std::string& prefix,int max_depth)
+    {
+    }*/
+
+    /*template<typename T,typename U>
+    const std::list<std::shared_ptr<U> >& ManyToMany<T,U>::all()
+    {
+        if(linked.size() == 0 or modify)
         {
-            /*select * 
-             from perso_spell,perso,spell
-             WHERE (
-             perso.id = perso_spell.perso_id
-             AND spell.id = perso_spell.spell_id
-             );*/
-            std::string q_str="SELECT "
+             SELECT perso_spell.spell_id, perso_spell.perso_id,
+             perso.id, perso.name,
+             spell.name, spell.element
+             FROM perso_spell
+             LEFT JOIN perso  ON  (perso_spell.perso_id = perso.id)
+             LEFT JOIN spell ON (perso_spell.spell_id = spell.id)
+             WHERE (perso_spell.perso_id = 1)
+             */
+            /*std::string q_str="SELECT "
                 //owner (juste pk)
                 +bdd_used->escapeColum(T::table)+"."+bdd_used->escapeColum("id")
                 +" AS "+bdd_used->escapeValue(T::table+".id");
@@ -40,12 +63,12 @@ namespace orm
             delete q;
         }
         return linked;
-    }
+    }*/
 
     template<typename T,typename U>
     void ManyToMany<T,U>::add(const U& obj)
     {
-        modify = true;
+        /*modify = true;
         if(obj.pk==-1)
             obj.save();
         
@@ -63,6 +86,6 @@ namespace orm
         bdd_used->executeQuery(*q);
         delete q;
 
-        linked.emplace_back(obj);
+        linked.emplace_back(obj);*/
     };
 }

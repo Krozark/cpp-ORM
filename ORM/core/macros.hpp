@@ -64,46 +64,46 @@
 /**
  * \brief make static const std::string param_name
  **/
-#define _MAKE_STATIC_column_0 
-#define _MAKE_STATIC_column_1(name) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_2(name,...) _MAKE_STATIC_column_1(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_3(name,...) _MAKE_STATIC_column_2(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_4(name,...) _MAKE_STATIC_column_3(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_5(name,...) _MAKE_STATIC_column_4(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_6(name,...) _MAKE_STATIC_column_5(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_7(name,...) _MAKE_STATIC_column_6(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_8(name,...) _MAKE_STATIC_column_7(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_9(name,...) _MAKE_STATIC_column_8(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_10(name,...) _MAKE_STATIC_column_9(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_11(name,...) _MAKE_STATIC_column_10(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_12(name,...) _MAKE_STATIC_column_11(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_13(name,...) _MAKE_STATIC_column_12(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_14(name,...) _MAKE_STATIC_column_13(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_15(name,...) _MAKE_STATIC_column_14(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_16(name,...) _MAKE_STATIC_column_15(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_17(name,...) _MAKE_STATIC_column_16(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_18(name,...) _MAKE_STATIC_column_17(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_19(name,...) _MAKE_STATIC_column_18(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_20(name,...) _MAKE_STATIC_column_19(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_21(name,...) _MAKE_STATIC_column_20(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_22(name,...) _MAKE_STATIC_column_21(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_23(name,...) _MAKE_STATIC_column_22(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_24(name,...) _MAKE_STATIC_column_23(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_25(name,...) _MAKE_STATIC_column_24(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_26(name,...) _MAKE_STATIC_column_25(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_27(name,...) _MAKE_STATIC_column_26(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_28(name,...) _MAKE_STATIC_column_27(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_29(name,...) _MAKE_STATIC_column_28(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_30(name,...) _MAKE_STATIC_column_30(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_31(name,...) _MAKE_STATIC_column_31(__VA_ARGS__) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_column_32(name,...) _MAKE_STATIC_column_32(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_0 
+#define _MAKE_STATIC_COLUMN_1(name) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_2(name,...) _MAKE_STATIC_COLUMN_1(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_3(name,...) _MAKE_STATIC_COLUMN_2(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_4(name,...) _MAKE_STATIC_COLUMN_3(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_5(name,...) _MAKE_STATIC_COLUMN_4(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_6(name,...) _MAKE_STATIC_COLUMN_5(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_7(name,...) _MAKE_STATIC_COLUMN_6(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_8(name,...) _MAKE_STATIC_COLUMN_7(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_9(name,...) _MAKE_STATIC_COLUMN_8(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_10(name,...) _MAKE_STATIC_COLUMN_9(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_11(name,...) _MAKE_STATIC_COLUMN_10(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_12(name,...) _MAKE_STATIC_COLUMN_11(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_13(name,...) _MAKE_STATIC_COLUMN_12(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_14(name,...) _MAKE_STATIC_COLUMN_13(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_15(name,...) _MAKE_STATIC_COLUMN_14(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_16(name,...) _MAKE_STATIC_COLUMN_15(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_17(name,...) _MAKE_STATIC_COLUMN_16(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_18(name,...) _MAKE_STATIC_COLUMN_17(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_19(name,...) _MAKE_STATIC_COLUMN_18(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_20(name,...) _MAKE_STATIC_COLUMN_19(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_21(name,...) _MAKE_STATIC_COLUMN_20(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_22(name,...) _MAKE_STATIC_COLUMN_21(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_23(name,...) _MAKE_STATIC_COLUMN_22(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_24(name,...) _MAKE_STATIC_COLUMN_23(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_25(name,...) _MAKE_STATIC_COLUMN_24(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_26(name,...) _MAKE_STATIC_COLUMN_25(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_27(name,...) _MAKE_STATIC_COLUMN_26(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_28(name,...) _MAKE_STATIC_COLUMN_27(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_29(name,...) _MAKE_STATIC_COLUMN_28(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_30(name,...) _MAKE_STATIC_COLUMN_30(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_31(name,...) _MAKE_STATIC_COLUMN_31(__VA_ARGS__) static const std::string _MAKE_NAME(name);
+#define _MAKE_STATIC_COLUMN_32(name,...) _MAKE_STATIC_COLUMN_32(__VA_ARGS__) static const std::string _MAKE_NAME(name);
 /**
  * \brief init call
  **/
-#define _MAKE_STATIC_column_N1(N,...) _MAKE_STATIC_column_##N(__VA_ARGS__)
-#define _MAKE_STATIC_column(N,...) _MAKE_STATIC_column_N1(N,__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_N1(N,...) _MAKE_STATIC_COLUMN_##N(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN(N,...) _MAKE_STATIC_COLUMN_N1(N,__VA_ARGS__)
 
-#define MAKE_STATIC_column(...) _MAKE_STATIC_column(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
+#define MAKE_STATIC_COLUMN(...) _MAKE_STATIC_COLUMN(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
 
 
 /********************************

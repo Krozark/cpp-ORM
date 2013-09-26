@@ -13,15 +13,21 @@ namespace orm
     /**
      * \todo faire la classe
      **/
-    template<typename T,typename U>
+    template<typename OWNER,typename RELATED>
     class ManyToMany
     {
         public:
-            ManyToMany(T& owner);
+            ManyToMany(OWNER& owner);
             //void registerAttr(SQLObjectBase&);
-            const std::list<std::shared_ptr<U> >& all(bool maj=false);
-            //Query* filter();
-            void add(const U&);
+
+            /**
+             * \brief create a queryset for the objet. Use it to make your query
+             *
+             * \return The tempory queryset. use chaine function, or copy it
+             **/
+            static M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query();
+            
+            void add(const RELATED& obj);
 
             template<typename ... Args>
             void add(const Args& ... args);
@@ -31,11 +37,38 @@ namespace orm
         protected:
             bool modify;
             const static std::string table;
-            T& owner;
-            std::list<std::shared_ptr<U> > linked;
+            OWNER& owner;
+            std::list<std::shared_ptr<RELATED>> linked;
 
-            MAKE_STATIC_COLUM(owner,linked)
+            MAKE_STATIC_COLUMN(owner,linked)
             //FK<U> linked;
+
+                        /**
+            * \brief make the attrs columns alias
+            *
+            * \param q_str string query to add the alias
+            * \param prefix prefix column name
+            * \param max_depth maximun depth of constrution
+            **/
+            static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
+             /**
+             * \brief make the table alias
+             *
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
+            static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);
+
+            /**
+             * \brief make the table alias of fk with join
+             *
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
+            static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth);
+
     };
 }
 #include <ORM/fields/ManyToMany.tpl>

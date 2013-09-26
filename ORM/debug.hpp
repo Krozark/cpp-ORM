@@ -13,7 +13,7 @@
 #define ORM_DEBUG_GET_OBJ 1<<3 ///< print object construction
 #define ORM_DEBUG_GET_ATTR 1<<4 ///< print attr construction (verbose)
 
-#define ORM_DEBUG_FULL (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_OBJ | ORM_DEBUG_GET_ATTR) ///< all debug mods
+#define ORM_DEBUG_FULL (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER ) ///< all debug mods
 
 //#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
 #define ORM_DEBUG (ORM_DEBUG_FULL) ///<current debug mod
