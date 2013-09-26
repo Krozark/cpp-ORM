@@ -7,13 +7,13 @@
 /**********************************
  ******* DEBUG MOD ****************
  *********************************/
-#define ORM_DEGUG_NO 0
-#define ORM_DEBUG_SQL 1<<1
-#define ORM_DEBUG_REGISTER 1<<2
-#define ORM_DEBUG_GET_OBJ 1<<3
-#define ORM_DEBUG_GET_ATTR 1<<4
+#define ORM_DEGUG_NO 0 ///< no debug print
+#define ORM_DEBUG_SQL 1<<1 ///< print sql
+#define ORM_DEBUG_REGISTER 1<<2 ///< print regiter of class
+#define ORM_DEBUG_GET_OBJ 1<<3 ///< print object construction
+#define ORM_DEBUG_GET_ATTR 1<<4 ///< print attr construction (verbose)
 
-#define ORM_DEBUG_FULL (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_OBJ | ORM_DEBUG_GET_ATTR)
+#define ORM_DEBUG_FULL (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_OBJ | ORM_DEBUG_GET_ATTR) ///< all debug mods
 
 //#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
 #define ORM_DEBUG (ORM_DEBUG_FULL) ///<current debug mod
@@ -25,9 +25,9 @@
 /*******************************
  ******** VEREBOSITY ***********
  ******************************/
-#define ORM_VERBOSE 1<<1
-#define ORM_WARNING 1<<2
-#define ORM_ERROR   1<<3
+#define ORM_VERBOSE 1<<1 ///< Notification
+#define ORM_WARNING 1<<2 ///< semi important, could change the running
+#define ORM_ERROR   1<<3 ///< critical
 
 #define ORM_VERBOSITY (ORM_VERBOSE | ORM_WARNING | ORM_ERROR) ///< current verbosity
 
@@ -66,6 +66,5 @@
 #define BLEU2 "\033[36m"
 #define COMMENTAIRE "\033[31m"
 #define BLANC 	"\033[00m"
-
 
 #endif

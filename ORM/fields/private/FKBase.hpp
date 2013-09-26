@@ -14,32 +14,117 @@ namespace orm
         public:
             FKBase(const FKBase&) = delete;
 
-            ~FKBase(); ///< \todo --on cache counter
+            /**
+             * \brief Destructor
+             **/
+            ~FKBase();
 
-            virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
+
+            /**
+             * \brief Save or update the object on the fk
+             *
+             * \param recursive save recursively
+             *
+             * \return false if fail
+             **/
             virtual bool save(bool recursive=false);            
+
+            /**
+             * \brief Delete the object from the bdd and cache
+             *  
+             *  Note : whe use on object linked in other object with fks can cause trouble because of the remove of the cache
+             *  Set the pk to -1
+             *
+             * \return fale if fail
+             **/
             virtual bool del(bool recursive=false);
 
-            typedef T type;
+            typedef T type; ///< Type of stored object
 
-            //T& operator*();
+            /**
+             * \brief assessor operator to the stored object
+             **/
             T* operator->();
 
+            /**
+             * \brief Copy operator
+             **/
             FKBase<T>& operator=(const FKBase<T>& other);
 
         protected:
-            //FKBase(const int& id,const std::string& column,const bool nullable=true);//TODO ++on cache counter
-            FKBase(const std::string& column,const bool nullable=true);///< \todo ajouter au cache
-            std::shared_ptr<T> value_ptr;
+            /**
+             * \brief Construct a FK
+             *
+             * \param column Column where the object fk is stored
+             * \param nullable if the fk can be null
+             **/
+            FKBase(const std::string& column,const bool nullable=true);
 
+            std::shared_ptr<T> value_ptr; ///< the stored object
+
+            /**
+             * \brief Print the object
+             **/
             virtual void print(std::ostream& output) const;
+
+            /**
+             * \brief Set the fk value to the query
+             *
+             * \param query the prepared query
+             * \param column the column number of the table
+             *
+             * \return false if fail
+             **/
             virtual bool set(Query& query,const unsigned int& column);
+
+            /**
+             * \brief get the fk from the query
+             *
+             * \param query the executed query
+             * \param prefix the column number
+             * \param max_depth the maximun recursion of construction
+             *
+             * \return false if fail
+             **/
             virtual bool get(const Query& query,int& prefix,int max_depth);
+
+            /**
+             * \brief Construct a new object from the bdd
+             *
+             * \param max_depth maximun depth of construction
+             *
+             * \return The new object
+             **/
             T* getObjectT_ptr(int max_depth = ORM_DEFAULT_MAX_DEPTH);
 
+            /**
+             * \brief make the attrs colum name
+             *
+             * \param bdd bdd use for the query
+             * \param prefix prefix table alias for linked object
+             * \param max_depth maximun depth of construction
+             *
+             * \return the columns alias
+             **/
             virtual std::string makeName(const Bdd* bdd,const std::string& prefix,int max_depth) const;
 
+            /**
+             * \brief Use for increment the column number without construction.
+             * Note : this is use with the cache if the object is find in it
+             *
+             * \param depth column nuber to increment
+             * \param max_depth maximun depth of construction
+             **/
             virtual void incDepth(int& depth,int max_depth) const;
+
+            /**
+             * \brief get the stored object
+             *
+             * \param max_depth maximun depth of construction if object not existe
+             *
+             * \return the stored object
+             **/
+            virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
     };
 }
