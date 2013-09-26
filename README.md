@@ -16,15 +16,15 @@ functions
 ---------
 
 * Persistant Object
-** print as json
-** save / update / load
+ * print as json
+ * save / update / load
 * Foreign key
-** save / update / load
+ * save / update / load
 * fiters
-** WHERE statement
-** exclude
-** order by
-** limite
+ * WHERE statement
+ * exclude
+ * order by
+ * limite
 * caching
 * debug output (set ORM_DEBUG to ORM_DEBUG_XXX in debug.hpp)
 
