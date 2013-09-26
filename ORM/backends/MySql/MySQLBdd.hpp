@@ -10,6 +10,9 @@ namespace orm
 {
     class MySQLQuery;
 
+    /**
+     * \brief Class to deal with Mysql database
+     **/
     class MySQLBdd : public Bdd
     {
         public:
@@ -65,7 +68,7 @@ namespace orm
 
             /* manualy create  a query */
             /**
-            * \breif Create a prepared query to execute
+            * \brief Create a prepared query to execute
             *
             * \param query The query to execute
             *
@@ -74,7 +77,7 @@ namespace orm
             virtual Query* prepareQuery(const std::string&);
 
             /**
-            * \breif Create a prepared query to execute
+            * \brief Create a prepared query to execute
             *
             * \param query The query to execute
             *

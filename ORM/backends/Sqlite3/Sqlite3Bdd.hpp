@@ -9,6 +9,9 @@ namespace orm
 {
     class Sqlite3Query;
 
+    /**
+     * \brief Class to deal with Sqlite3 databas
+     **/
     class Sqlite3Bdd : public Bdd
     {
         public:
@@ -60,7 +63,7 @@ namespace orm
 
             /* manualy create  a query */
             /**
-            * \breif Create a prepared query to execute
+            * \brief Create a prepared query to execute
             *
             * \param query The query to execute
             *
@@ -69,7 +72,7 @@ namespace orm
             virtual Query* prepareQuery(const std::string&);
 
             /**
-            * \breif Create a prepared query to execute
+            * \brief Create a prepared query to execute
             *
             * \param query The query to execute
             *

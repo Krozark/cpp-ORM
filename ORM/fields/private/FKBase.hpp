@@ -8,6 +8,9 @@ namespace orm
 {
     class Query;
 
+    /**
+     * \brief Store a FK to a object
+     **/
     template<typename T>
     class FKBase : public VFK
     {

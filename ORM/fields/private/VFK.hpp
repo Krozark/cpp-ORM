@@ -8,6 +8,9 @@ namespace orm
     class SQLObjectBase;
     template<typename T> class SQLObject;
 
+    /**
+     * \brief base classe of all FK stored in database
+     **/
     class VFK : public VAttr
     {
         public:

@@ -10,6 +10,9 @@ namespace orm
 {
     class Query;
 
+    /**
+     * \brief Store a value ass database row
+     **/
     template<typename T>
     class Attr : public VAttr
     {

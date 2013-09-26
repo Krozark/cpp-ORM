@@ -11,6 +11,9 @@ namespace orm
     class SQLObjectBase;
     template<typename T> class Register;
 
+    /**
+     * \brief base class of all attribute stored in data base
+     **/
     class VAttr
     {
         public:

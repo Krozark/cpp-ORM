@@ -16,17 +16,36 @@ namespace orm
     template<typename T> class FKBase;
     template<typename T> class SQLObject;
 
-
+    /**
+     * \brief Base classe to manage SQLObjects. Usfull to store them in containers
+     **/
     class SQLObjectBase
     {
         public:
+            /**
+             * \brief Make a SQLObjectBase
+             **/
             SQLObjectBase();
 
             SQLObjectBase(const SQLObjectBase&)=delete;
             SQLObjectBase& operator=(const SQLObjectBase&)=delete;
 
-            bool loadFromBdd(const Query& query,int max_depth);
+
+            /**
+             * \brief save/update the object in data base
+             *
+             * \param recursive recursive?
+             *
+             * \return false if fail
+             **/
             virtual bool save(bool recursive=false) = 0;
+
+            /**
+             * \brief delete the object from de data base
+             *
+             * \param recursive recursive?
+             * \return false if fail
+             **/
             virtual bool del(bool recursive=false) = 0;
 
             /**
@@ -43,17 +62,66 @@ namespace orm
             template<typename T> friend class Register;
             template<typename T> friend class SQLObject;
 
-            int pk;
-            std::vector<VAttr*> attrs;
-            std::vector<VFK*> fks;
+            int pk; ///< the object pf
+            std::vector<VAttr*> attrs; ///< the object attrs
+            std::vector<VFK*> fks; ///< the object FK
 
+            /**
+             * \brief create the object using the query
+             *
+             * \param  query The executed query row
+             * \param max_depth the maximun depth of constrution
+             *
+             * \return false if fail 
+             **/
+            bool loadFromBdd(const Query& query,int max_depth);
+
+            /**
+             * \brief create the object using the query
+             *
+             * \param  query The executed query row
+             * \param max_depth the maximun depth of constrution
+             * \param prefix column number
+             *
+             * \return false if fail 
+             **/
             bool loadFromBdd(const Query& query,int& prefix,int max_depth);
 
+            /**
+             * \brief make the attrs columns alias
+             *
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
             virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+
+            /**
+             * \brief make the table alias
+             *
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
             virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+
+            /**
+             * \brief make the table alias of fk with join
+             *
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
             virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const =0;
 
+            /**
+             * \return the table name
+             **/
             virtual const std::string& getTable() const = 0;
+
+            /**
+             * \return the bdd use to store the object
+             **/
             virtual const Bdd* getBdd() const = 0;
     };
 };

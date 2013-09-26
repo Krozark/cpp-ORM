@@ -8,6 +8,10 @@ namespace orm
 {
     class Query;
 
+    /**
+     * \brief A class to build filters
+     * T have to be a primitiv type (char, bool,int, float, double, unsigned, long, long long)
+     **/
     template<typename T>
     class Filter : public VFilter
     {

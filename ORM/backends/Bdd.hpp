@@ -79,7 +79,7 @@ namespace orm
             virtual Query* query(std::string&&) = 0;
 
             /**
-            * \breif Create a prepared query to execute
+            * \brief Create a prepared query to execute
             *
             * \param query The query to execute
             *
@@ -88,7 +88,7 @@ namespace orm
             virtual Query* prepareQuery(const std::string&) = 0;
 
             /**
-            * \breif Create a prepared query to execute
+            * \brief Create a prepared query to execute
             *
             * \param query The query to execute
             *

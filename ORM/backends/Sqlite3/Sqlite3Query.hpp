@@ -10,7 +10,7 @@ namespace orm
     class Sqlite3Bdd;
 
     /**
-     * \brief Abstract class to manage query with Mysql only
+     * \brief Abstract class to manage query with sqlite3 only
      **/
     class Sqlite3Query : public Query
     {

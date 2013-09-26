@@ -11,6 +11,9 @@ namespace orm
     template<typename T> class SQLObject;
     template<typename T> class FKBase;
 
+    /**
+     * \brief Class to store object tha have already be query
+     **/
     template<typename T>
     class Cache
     {
