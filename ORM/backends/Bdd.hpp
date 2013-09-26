@@ -18,6 +18,7 @@ namespace orm
     template<typename T> class Cache;
     template<typename T> class Filter;
     template<typename T,typename U> class ManyToMany;
+    template<typename T,typename U,typename V> class M2MQuerySet;
 
     /**
      * \brief Abstract class to deal with any database 
@@ -118,6 +119,7 @@ namespace orm
             template<typename T> friend class FKBase;
             template<typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;
+            template<typename T,typename U,typename V> friend class M2MQuerySet;
 
             /* Info for connection */
             const std::string s_username; ///< Username use for the connection

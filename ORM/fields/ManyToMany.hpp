@@ -10,6 +10,7 @@
 namespace orm
 {
 
+    template<typename T,typename U,typename V> class M2MQuerySet;
     /**
      * \todo faire la classe
      **/
@@ -34,9 +35,12 @@ namespace orm
 
             static  Bdd* bdd_used;
 
-        protected:
-            bool modify;
             const static std::string table;
+
+        protected:
+            friend class M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED>;
+
+            bool modify;
             OWNER& owner;
             std::list<std::shared_ptr<RELATED>> linked;
 
@@ -50,7 +54,7 @@ namespace orm
             * \param prefix prefix column name
             * \param max_depth maximun depth of constrution
             **/
-            static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
+            static void nameAttrs(std::string& q_str,/*const std::string& prefix,*/int max_depth);
              /**
              * \brief make the table alias
              *
@@ -58,7 +62,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);
+            static void nameTables(std::string& q_str,/*const std::string& prefix,*/int max_depth);
 
             /**
              * \brief make the table alias of fk with join
@@ -67,7 +71,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth);
+            static void makeJoin(std::string& q_str,/*const std::string& prefix,*/int max_depth);
 
     };
 }

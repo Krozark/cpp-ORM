@@ -120,16 +120,16 @@ namespace orm
     template <typename M2M,typename OWNER, typename RELATED>
     Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth)
     {
-        /*std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,max_depth);
+        std::string q_str ="SELECT ";
+        M2M::nameAttrs(q_str,/*M2M::table,*/max_depth);
 
-        q_str+="\nFROM ";
-        T::nameTables(q_str,"",max_depth);
+        //q_str+="\nFROM ";
+        //M2M::nameTables(q_str,/*"",*/max_depth);
 
         const int filters_size = filters.size();
         const int excludes_size = excludes.size();
 
-        {//filters and excludes
+        /*{//filters and excludes
             if(filters_size > 0 or excludes_size >0)
                 q_str+=" \nWHERE (";
             if(filters_size > 0)
@@ -188,12 +188,12 @@ namespace orm
                 q_str+=" ,"+(*begin);
             }
 
-        }
+        }*/
 
         if(limit_count > 0)
-            q_str+= T::bdd_used->limit(limit_skip,limit_count);
+            q_str+= M2M::bdd_used->limit(limit_skip,limit_count);
 
-        Query* q = T::bdd_used->prepareQuery(q_str);
+        Query* q = M2M::bdd_used->prepareQuery(q_str);
 
         {//bind values
             unsigned int index = 1;
@@ -222,6 +222,6 @@ namespace orm
             }
         }
         
-        return q;*/
+        return q;
     }
 }

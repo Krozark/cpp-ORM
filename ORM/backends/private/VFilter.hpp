@@ -7,6 +7,7 @@ namespace orm
 {
     template<typename T> class SQLObject;
     template<typename T> class QuerySet;
+    template<typename T,typename U,typename V> class M2MQuerySet;
     class Query;
 
     /**
@@ -48,6 +49,7 @@ namespace orm
         protected:
             template<typename T> friend class SQLObject;
             template<typename T> friend class QuerySet;
+            template<typename T,typename U,typename V> friend class M2MQuerySet;
 
             const std::string column; ///< Colum to apply filter
             const std::string ope; ///< operator to use. \see Bdd::operators

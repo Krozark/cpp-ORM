@@ -20,6 +20,7 @@ namespace orm
     template<typename T> class SQLObject;
     template<typename T> class Cache;
     template<typename T> class Filter;
+    template<typename T,typename U,typename V> class M2MQuerySet;
 
     /**
      * \brief Abstract class to manage query
@@ -37,6 +38,7 @@ namespace orm
             template<typename T> friend class SQLObject;
             template<typename T> friend class Cache;
             template<typename T> friend class Filter;
+            template<typename T,typename U,typename V> friend class M2MQuerySet;
 
             /**
              * \brief Create a query

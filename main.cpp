@@ -191,11 +191,15 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
     }*/
 
-    auto& p1 = Perso::get(1);
-    std::cout<<*p1<<std::endl;
+    {
+        auto& p1 = Perso::get(1);
+        std::cout<<*p1<<std::endl;
 
-    p1->spells.query();
-
+        std::list<std::shared_ptr<Spell>> list;
+        p1->spells.query()\
+            .filter(1,"exact",Spell::_element)\
+            .get(list);
+    }
 
 
 
