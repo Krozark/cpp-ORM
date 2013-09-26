@@ -17,16 +17,17 @@ orm::Bdd& orm::Bdd::Default = def;
 #include <iostream>
 
 
-/*class Spell : public orm::SQLObject<Spell>
+class Spell : public orm::SQLObject<Spell>
 {
     public:
         Spell();
+        orm::Attr<std::string> name;
         orm::Attr<int> element;
 
+        MAKE_STATIC_column(name,element);
 
-        MAKE_STATIC_column(element);
 };
-REGISTER_AND_CONSTRUCT(Spell,"spell",element,"element")*/
+REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
 
 class Stats : public orm::SQLObject<Stats>
 {
@@ -131,7 +132,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
 
     }*/
-   {
+   /*{
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
@@ -157,7 +158,7 @@ int main(int argc,char* argv[])
            cout<<*perso<<endl;
 
 
-   }
+   }*/
    /*{
 
        std::list<std::shared_ptr<Perso>> lis;

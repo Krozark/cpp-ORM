@@ -1,5 +1,5 @@
-cpp-ORM
-=======
+cpp-ORM 0.2
+===========
 
 A project to create a simple ORM.
 
@@ -7,18 +7,118 @@ You can symply create persistents objects using datas bases.
 
 The object representation:
     Each object have to be in a separate table whith a pk colum named 'id' as autoincrement.
-    each attre is a colum in this table.
+    each attr is a column in this table.
+
+For the moment you have to create tables by hand.
+
+
+functions
+---------
+
+* Persistant Object
+** print as json
+** save / update / load
+* Foreign key
+** save / update / load
+* fiters
+** WHERE statement
+** exclude
+** order by
+** limite
+* caching
+* debug output (set ORM_DEBUG to ORM_DEBUG_XXX in debug.hpp)
 
 Data bases supported
 =====================
 
 * MySql
+* Sqlite3
 
 
 Requirement
 ===========
 
 * Mysql cppcon
+* lib Sqlite3
+* doxygen (for user doc only)
+
+
+Exemple
+=======
+
+You can see complet exemple in main.cpp
+    
+    //#include <ORM/backends/MySql.hpp>
+    //create your default database
+    orm::MySQLBdd def("root","root","test");
+
+    //#include <ORM/backends/Sqlite3.hpp>
+    //orm::Sqlite3Bdd def("./datas/test.db"); //if you want to use sqlite3
+
+    //make it as default
+    orm::Bdd& orm::Bdd::Default = def;
+
+    
+    #include <ORM/fields.hpp>
+    #include <ORM/models/SQLObject.hpp>
+    //create you class
+    class Perso : public orm::SQLObject<Perso>
+    {
+        public:
+            Perso();
+            orm::Attr<std::string> name;
+            orm::Attr<int> pv;
+            orm::Attr<int> lvl;
+    
+            MAKE_STATIC_COLUM(name,pv,lvl)
+    };
+    REGISTER_AND_CONSTRUCT(Perso,"perso",name,"nom",pv,"pv",lvl,"lvl")
+
+    int main(int argc,char* argv[])
+    {
+        //connect to database
+        orm::Bdd::Default.connect();
+    
+        //get perso with pk=1
+        auto& p1 = Perso::get(1);
+        //see it
+        cout<<*p1<<endl;
+        //modify it
+        p1->pv +=14;
+        //save it
+        p1->save();
+
+
+        //add one
+        Perso p2;// = new Perso;
+        p2.name = "test insert";
+        p2.lvl = 75;
+        p2.save(); //save it
+        cout<<p2<<endl;
+
+        // all
+        cout<<"All persos"<<endl;
+        std::list<std::shared_ptr<Perso> > lis= Perso::all();
+        for(auto u : lis)
+            cout<<*u<<endl;
+
+        list.clear();
+        //custom query
+        Perso::query()\
+            .filter(4,"gt",Perso::_lvl)\
+            .filter(42,"gte",Perso::_lvl)\
+            .filter("test","startswith",Perso::_name)\
+            .exclude(4,"lt",Perso::_lvl)\
+            .orderBy(Perso::_name)\
+            .limit(42)\
+            .get(lis); //get take a list<shared_ptr<T>>& or a T& as param
+        for(auto u : lis)
+            cout<<*u<<endl;
+
+
+        orm::Bdd::Default.disconnect();
+        return 0;
+    }
 
 
 Class
@@ -33,19 +133,17 @@ orm::SQLObject<T>
 Base class for persistent T class. It add all static methode / attribute to your class.
 
 make some static method:
-* T* get(int pk)
+* std::shared_ptr\<T\> get(int pk)
 * std::list\<std::shared_ptr\<T\>\> all()
-* std::list\<std::shared_ptr\<T\>\> filter(const std::string& colum,const std::string& ope,const U& value);
-* std::list\<std::shared_ptr\<T\>\> filter(const Filter& filter);
-* std::list\<std::shared_ptr\<T\>\> filter(const std::list<Filter>& filters);
+* orm::QuerySet\<T\> T::query()  construct a queryset to make custom query
 
 static member:
 * Bdd* bdd_used : database where the object is contain
 * std::string table : table name on the database
 
 make member fonction:
-* bool save(bool force=false)
-* bool del() 
+* bool save(bool recursive=false)
+* bool del(bool recursive=false)
 
 Exemple: see main.cpp
 
@@ -60,11 +158,6 @@ You can acces to the value using:
 
 All operators are overloads to make a easy use of it.
 
-orm::VAttr
-----------
-
-Base class for Attr. you don't need to use it directly
-
 orm::ManyToMany\<T,U\>
 ======================
 
@@ -73,22 +166,6 @@ I create a link with the 2 class, and you can acces to the U using:
 
 accesor:
 * std::list\<std::shared_ptr\<U\>\> .all()
-
-
-orm::Filter
------------
-
-Construct a filter to make a query (where clause). Constructor 
-
-template<typename T>
-Filter(const std::string& colum,const std::string& ope, const T& value);
-
-
-orm::Query
-----------
-Base classe for query.
-
-Use to creat query in the database. You can use subclasse to make custom query, but it is not need. Create the using the ::Query of a Bdd.
 
 
 orm::Bdd
@@ -187,47 +264,5 @@ for each att in ...
 
 
 
-Exemple
-=======
-
-You can see complet exemple in main.cpp
-
-    //create your default database
-    orm::MySQLBdd def("root","root","test");
-    //make it as default
-    orm::Bdd& orm::Bdd::Default = def;
-    
-    //create you class
-    class Perso : public orm::SQLObject<Perso>
-    {
-        public:
-            Perso();
-            orm::Attr<std::string> name;
-            orm::Attr<int> pv;
-            orm::Attr<int> lvl;
-    
-            MAKE_STATIC_COLUM(name,pv,lvl)
-    };
-    REGISTER_AND_CONSTRUCT(Perso,"perso",name,"nom",pv,"pv",lvl,"lvl")
-
-    int main(int argc,char* argv[])
-    {
-        //connect to database
-        orm::Bdd::Default.connect();
-    
-        //get perso with pk=1
-        Perso* p1 = Perso::get(1);
-        //see it
-        cout<<*p1<<endl;
-        //modify it
-        p1->pv +=14;
-        //save it
-        p1->save();
-    
-        //don't forget to delete it
-        delete p1;
-    
-        return 0;
-    }
 
 
