@@ -4,9 +4,9 @@
 namespace orm
 {
     template <typename M2M,typename OWNER, typename RELATED>
-    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(): limit_skip(0), limit_count(-1)
+    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m): limit_skip(0), limit_count(-1)
     {
-        
+        filters.emplace_back(new Filter<int>(makecolumname(m2m.table,m2m._owner),"exact",m2m.owner.pk));
     }
 
     template <typename M2M,typename OWNER, typename RELATED>
@@ -33,7 +33,7 @@ namespace orm
     template<typename U,typename ... Args>
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        filters.emplace_back(new Filter<U>(makecolumname(M2M::table,column,args ...),operande,value));
+        filters.emplace_back(new Filter<U>(makecolumname(M2M::_related,column,args ...),operande,value));
         return *this;
     };
 
@@ -41,9 +41,9 @@ namespace orm
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::orderBy(const std::string& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makecolumname(M2M::table,column)+" DESC");
+            order_by.push_back(makecolumname(M2M::_related,column)+" DESC");
         else
-            order_by.push_back(makecolumname(M2M::table,column)+" ASC");
+            order_by.push_back(makecolumname(M2M::_related,column)+" ASC");
         return *this;
     }
 
@@ -61,7 +61,7 @@ namespace orm
     template<typename U,typename ... Args>
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        excludes.emplace_back(new Filter<U>(makecolumname(M2M::table,column,args ...),operande,value));
+        excludes.emplace_back(new Filter<U>(makecolumname(M2M::_related,column,args ...),operande,value));
         return *this;
     };
 
@@ -121,15 +121,15 @@ namespace orm
     Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        M2M::nameAttrs(q_str,/*M2M::table,*/max_depth);
+        M2M::nameAttrs(q_str,max_depth);
 
-        //q_str+="\nFROM ";
-        //M2M::nameTables(q_str,/*"",*/max_depth);
+        q_str+="\nFROM ";
+        M2M::nameTables(q_str,max_depth);
 
         const int filters_size = filters.size();
         const int excludes_size = excludes.size();
 
-        /*{//filters and excludes
+        {//filters and excludes
             if(filters_size > 0 or excludes_size >0)
                 q_str+=" \nWHERE (";
             if(filters_size > 0)
@@ -138,13 +138,13 @@ namespace orm
                 const auto& end = filters.end();
 
                 q_str+= (*begin)->column
-                    +T::bdd_used->formatPreparedValue((*begin)->ope);
+                    +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +(*begin)->column
-                        +T::bdd_used->formatPreparedValue((*begin)->ope);
+                        +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
                 }
             }
 
@@ -159,13 +159,13 @@ namespace orm
                 const auto& end = excludes.end();
 
                 q_str+= (*begin)->column
-                    +T::bdd_used->formatPreparedValue((*begin)->ope);
+                    +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +(*begin)->column
-                        +T::bdd_used->formatPreparedValue((*begin)->ope);
+                        +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
                 }
 
                 q_str+=") ";
@@ -188,7 +188,7 @@ namespace orm
                 q_str+=" ,"+(*begin);
             }
 
-        }*/
+        }
 
         if(limit_count > 0)
             q_str+= M2M::bdd_used->limit(limit_skip,limit_count);

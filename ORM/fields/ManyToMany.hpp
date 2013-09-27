@@ -26,7 +26,14 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            static M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query();
+            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query();
+
+            /**
+            * \brief shortcut for T::query().get(list)
+            *
+            * \return all the objects T
+            **/
+            std::list<typename Cache<RELATED>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
             
             void add(const RELATED& obj);
 
@@ -34,44 +41,39 @@ namespace orm
             void add(const Args& ... args);
 
             static  Bdd* bdd_used;
-
             const static std::string table;
 
         protected:
             friend class M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED>;
 
             bool modify;
-            OWNER& owner;
-            std::list<std::shared_ptr<RELATED>> linked;
+            const OWNER& owner;
 
-            MAKE_STATIC_COLUMN(owner,linked)
+            MAKE_STATIC_COLUMN(owner,linked,related)
             //FK<U> linked;
 
-                        /**
+            /**
             * \brief make the attrs columns alias
             *
             * \param q_str string query to add the alias
-            * \param prefix prefix column name
             * \param max_depth maximun depth of constrution
             **/
-            static void nameAttrs(std::string& q_str,/*const std::string& prefix,*/int max_depth);
+            static void nameAttrs(std::string& q_str,int max_depth);
              /**
              * \brief make the table alias
              *
              * \param q_str string query to add the alias
-             * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            static void nameTables(std::string& q_str,/*const std::string& prefix,*/int max_depth);
+            static void nameTables(std::string& q_str,int max_depth);
 
             /**
              * \brief make the table alias of fk with join
              *
              * \param q_str string query to add the alias
-             * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            static void makeJoin(std::string& q_str,/*const std::string& prefix,*/int max_depth);
+            static void makeJoin(std::string& q_str,int max_depth);
 
     };
 }

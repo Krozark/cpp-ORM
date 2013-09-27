@@ -124,7 +124,7 @@ namespace orm
             /**
              * \brief Construct a empty M2MQuerySet
              **/
-            explicit M2MQuerySet();
+            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m);
 
             /**
              * \brief Merge column name to build the alias

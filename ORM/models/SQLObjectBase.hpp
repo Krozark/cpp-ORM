@@ -15,6 +15,7 @@ namespace orm
     template<typename T> class Register;
     template<typename T> class FKBase;
     template<typename T> class SQLObject;
+    template<typename T,typename U,typename V> class M2MQuerySet;
 
     /**
      * \brief Base classe to manage SQLObjects. Usfull to store them in containers
@@ -56,11 +57,12 @@ namespace orm
 
         protected:
             friend class Bdd;
-            template<typename T> friend class FKBase;
             friend class VFK;
             friend class VAttr;
+            template<typename T> friend class FKBase;
             template<typename T> friend class Register;
             template<typename T> friend class SQLObject;
+            template<typename T,typename U,typename V> friend class M2MQuerySet;
 
             int pk; ///< the object pf
             std::vector<VAttr*> attrs; ///< the object attrs

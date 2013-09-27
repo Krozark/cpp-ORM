@@ -228,6 +228,7 @@
     template<> const std::string orm::ManyToMany<klass,T_linked>::table = table_name;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_owner = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_linked = linked_column;\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::_related = JOIN_ALIAS(table_name,linked_column);\
     template<> orm::Bdd* orm::ManyToMany<klass,T_linked>::bdd_used = &orm::Bdd::Default;
 
 

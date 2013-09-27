@@ -197,8 +197,14 @@ int main(int argc,char* argv[])
 
         std::list<std::shared_ptr<Spell>> list;
         p1->spells.query()\
-            .filter(1,"exact",Spell::_element)\
+            .filter(2,"exact",Spell::_element)\
             .get(list);
+
+       for(auto u : list)
+           cout<<*u<<endl;
+
+       for(auto u : p1->spells.all())
+           cout<<*u<<endl;
     }
 
 

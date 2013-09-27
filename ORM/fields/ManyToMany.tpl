@@ -8,70 +8,48 @@ namespace orm
     template<typename T,typename U>
     M2MQuerySet<ManyToMany<T,U>,T,U> ManyToMany<T,U>::query()
     {
-        return M2MQuerySet<ManyToMany<T,U>,T,U>();
+        return M2MQuerySet<ManyToMany<T,U>,T,U>(*this);
     }
 
-    /*SELECT perso_spell.spell_id, perso_spell.perso_id,
-      perso.id, perso.name,
-      spell.name, spell.element
-      FROM perso_spell
-      LEFT JOIN perso  ON  (perso_spell.perso_id = perso.id)
-      LEFT JOIN spell ON (perso_spell.spell_id = spell.id)
-      WHERE (perso_spell.perso_id = 1)
-      */
     template<typename T,typename U>
-    void ManyToMany<T,U>::nameAttrs(std::string& q_str,/*const std::string& prefix,*/int max_depth)
+    std::list<typename Cache<U>::type_ptr> ManyToMany<T,U>::all(int max_depth)
     {
-        q_str+= bdd_used->escapecolumn(table)+"."+bdd_used->escapecolumn("id")
-            +" AS "+JOIN_ALIAS(table,"id")
-            +", "+bdd_used->escapecolumn(table)+"."+bdd_used->escapecolumn(_owner)
-            +" AS "+JOIN_ALIAS(table,_owner)
-            +", "+bdd_used->escapecolumn(table)+"."+bdd_used->escapecolumn(_linked)
-            +" AS "+JOIN_ALIAS(table,_linked)+", ";
+        std::list<typename Cache<U>::type_ptr> results;
+        query().get(results,max_depth);
+        return results;
+    };
 
-        U::nameAttrs(q_str,JOIN_ALIAS(table,_linked),max_depth);
+    template<typename T,typename U>
+    void ManyToMany<T,U>::nameAttrs(std::string& q_str,int max_depth)
+    {
+        U::nameAttrs(q_str,_related,max_depth);
     }
     
     template<typename T,typename U>
-    void ManyToMany<T,U>::nameTables(std::string& q_str,/*const std::string& prefix,*/int max_depth)
+    void ManyToMany<T,U>::nameTables(std::string& q_str,int max_depth)
     {
+        q_str+= bdd_used->escapecolumn(table)+" AS "+bdd_used->escapecolumn(table);
+        makeJoin(q_str,max_depth);
     }
 
     template<typename T,typename U>
     void ManyToMany<T,U>::makeJoin(std::string& q_str,/*const std::string& prefix,*/int max_depth)
     {
+        const std::string table_alias_T = JOIN_ALIAS(table,_owner);
+
+        q_str+=
+            "\nLEFT JOIN "+T::table+" AS "+table_alias_T
+            +" ON ("
+            +bdd_used->escapecolumn(table)+"."+bdd_used->escapecolumn(_owner)
+            +" = "+bdd_used->escapecolumn(table_alias_T)+"."+bdd_used->escapecolumn("id")
+            +")\nLEFT JOIN "+U::table+" AS "+_related
+            +" ON ("
+            +bdd_used->escapecolumn(table)+"."+bdd_used->escapecolumn(_linked)
+            +" = "+bdd_used->escapecolumn(_related)+"."+bdd_used->escapecolumn("id")
+            +")";
+
+        U::makeJoin(q_str,_related,max_depth);
     }
-
-    /*template<typename T,typename U>
-    const std::list<std::shared_ptr<U> >& ManyToMany<T,U>::all()
-    {
-        if(linked.size() == 0 or modify)
-        {
-            std::string q_str="SELECT "
-                //owner (juste pk)
-                +bdd_used->escapeColum(T::table)+"."+bdd_used->escapeColum("id")
-                +" AS "+bdd_used->escapeValue(T::table+".id");
-            q_str+=", ";
-
-            //linked(all)
-            U::nameAttrs(q_str);
-
-            q_str+=" FROM "+table
-                +" INNER JOIN "+T::table+" ON ( "
-                +bdd_used->escapeColum(table)+"."+bdd_used->escapeColum(_owner)+bdd_used->operators.at("exact")+T::table+".id), "
-                +U::table
-                +" WHERE ("
-                +bdd_used->escapeColum(table)+"."+bdd_used->escapeColum(_owner)+bdd_used->operators.at("exact")+std::to_string(owner.pk)
-                +" AND "
-                +bdd_used->escapeColum(table)+"."+bdd_used->escapeColum(_linked)+bdd_used->operators.at("exact")+U::table+".id"
-                +")";
-            Query* q = bdd_used->query(q_str);
-            linked.clear();
-            q->getObj(linked);
-            delete q;
-        }
-        return linked;
-    }*/
 
     template<typename T,typename U>
     void ManyToMany<T,U>::add(const U& obj)
