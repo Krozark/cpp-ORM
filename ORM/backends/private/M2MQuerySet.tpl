@@ -113,8 +113,8 @@ namespace orm
     template <typename M2M,typename OWNER, typename RELATED>
     std::string M2MQuerySet<M2M,OWNER,RELATED>::makecolumname(const std::string& prefix,const std::string& column)
     {
-        return M2M::bdd_used->escapecolumn(prefix)
-            +"."+M2M::bdd_used->escapecolumn(column);
+        return M2M::bdd_used->escapeColumn(prefix)
+            +"."+M2M::bdd_used->escapeColumn(column);
     }
 
     template <typename M2M,typename OWNER, typename RELATED>

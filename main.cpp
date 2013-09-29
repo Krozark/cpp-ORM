@@ -193,18 +193,27 @@ int main(int argc,char* argv[])
 
     {
         auto& p1 = Perso::get(1);
-        std::cout<<*p1<<std::endl;
+        std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
 
         std::list<std::shared_ptr<Spell>> list;
         p1->spells.query()\
             .filter(2,"exact",Spell::_element)\
             .get(list);
 
-       for(auto u : list)
-           cout<<*u<<endl;
+        cout<<"sorts d'element == 2"<<endl;
+        for(auto u : list)
+            cout<<*u<<endl;
 
-       for(auto u : p1->spells.all())
-           cout<<*u<<endl;
+        cout<<"sorts du perso"<<endl;
+        for(auto u : p1->spells.all())
+            cout<<*u<<endl;
+
+        auto& sort = Spell::get(1);
+        cout<<"sort pk = 1.\n"<<*sort<<endl;
+
+        p1->spells.add(sort);
+        p1->spells.remove(sort);
+
     }
 
 

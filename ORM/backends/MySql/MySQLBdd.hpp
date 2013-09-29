@@ -105,7 +105,7 @@ namespace orm
             *
             * \see escapeValue
             **/
-            virtual std::string escapecolumn(const std::string&) const;
+            virtual std::string escapeColumn(const std::string&) const;
 
             /**
             * \return Return the initial column number for extract values (0 or 1)

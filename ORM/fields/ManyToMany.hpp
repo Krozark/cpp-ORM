@@ -35,22 +35,49 @@ namespace orm
             **/
             std::list<typename Cache<RELATED>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
             
+            /**
+             * \brief add a object in the relation
+             *
+             * \param obj the object to add.
+             * Note : the object must have be save in database.
+             **/
             void add(const RELATED& obj);
 
-            template<typename ... Args>
-            void add(const Args& ... args);
+            /**
+             * \brief add a object in the relation
+             *
+             * \param obj the object to add.
+             * Note : the object must have be save in database.
+             **/
+            void add(const typename Cache<RELATED>::type_ptr& obj);
 
-            static  Bdd* bdd_used;
-            const static std::string table;
+            /**
+             * \brief remove a object in the relation
+             *
+             * \param obj the object to remove.
+             * Note : the object must have be save in database.
+             **/
+            void remove(const RELATED& obj);
+
+            /**
+             * \brief remove a object in the relation
+             *
+             * \param obj the object to remove.
+             * Note : the object must have be save in database.
+             **/
+            void remove(const typename Cache<RELATED>::type_ptr& obj);
+
+
+
+            static  Bdd* bdd_used;///< database use to store the object
+            const static std::string table; ///< table of the object
 
         protected:
             friend class M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED>;
 
-            bool modify;
-            const OWNER& owner;
+            const OWNER& owner; ///< owner of the m2m relation
 
-            MAKE_STATIC_COLUMN(owner,linked,related)
-            //FK<U> linked;
+            MAKE_STATIC_COLUMN(owner,linked,related) ///< colum names of the tables
 
             /**
             * \brief make the attrs columns alias
@@ -59,6 +86,7 @@ namespace orm
             * \param max_depth maximun depth of constrution
             **/
             static void nameAttrs(std::string& q_str,int max_depth);
+
              /**
              * \brief make the table alias
              *

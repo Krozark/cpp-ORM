@@ -94,7 +94,7 @@ namespace orm
         return (int)sqlite3_last_insert_rowid(dbConn);
     }
 
-    std::string Sqlite3Bdd::escapecolumn(const std::string& str) const
+    std::string Sqlite3Bdd::escapeColumn(const std::string& str) const
     {
         return "`"+str+"`";
     }

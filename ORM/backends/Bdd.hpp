@@ -189,7 +189,7 @@ namespace orm
             *
             * \see escapeValue
             **/
-            virtual std::string escapecolumn(const std::string& column) const;
+            virtual std::string escapeColumn(const std::string& column) const;
 
             /**
             * \brief format the operation for the database

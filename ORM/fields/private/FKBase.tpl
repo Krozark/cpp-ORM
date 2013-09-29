@@ -153,7 +153,7 @@ namespace orm
     template<typename T>
     std::string FKBase<T>::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
     {
-        std::string q_str(",\n "+bdd->escapecolumn(prefix)+"."+bdd->escapecolumn(column)+" AS "+JOIN_ALIAS(prefix,column));
+        std::string q_str(",\n "+bdd->escapeColumn(prefix)+"."+bdd->escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column));
 
         if(--max_depth <0)
             return q_str;

@@ -122,7 +122,7 @@ namespace orm
         return pk;
     }
 
-    std::string MySQLBdd::escapecolumn(const std::string& str) const
+    std::string MySQLBdd::escapeColumn(const std::string& str) const
     {
         return "`"+str+"`";
     }

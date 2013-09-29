@@ -25,6 +25,6 @@ namespace orm
 
     std::string VAttr::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
     {
-        return ", "+bdd->escapecolumn(prefix)+"."+bdd->escapecolumn(column)+" AS "+JOIN_ALIAS(prefix,column);
+        return ", "+bdd->escapeColumn(prefix)+"."+bdd->escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
     }
 };

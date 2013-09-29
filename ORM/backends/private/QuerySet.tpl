@@ -125,7 +125,7 @@ namespace orm
     template<typename T>
     std::string QuerySet<T>::makecolumname(const std::string& prefix,const std::string& column)
     {
-        return T::bdd_used->escapecolumn(prefix)+"."+T::bdd_used->escapecolumn(column);
+        return T::bdd_used->escapeColumn(prefix)+"."+T::bdd_used->escapeColumn(column);
     }
 
     template<typename T>
