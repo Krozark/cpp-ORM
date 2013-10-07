@@ -20,6 +20,8 @@ functions
  * save / update / load
 * Foreign key
  * save / update / load
+* ManyToMany
+ * save / update / load / add / remove
 * fiters
  * WHERE statement
  * exclude
