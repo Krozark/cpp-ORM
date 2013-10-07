@@ -127,13 +127,13 @@ namespace orm
         }
         if(modify)
         {
+            modify = false;
             res = value_ptr->save(recursive);
             if(fk<=0)
             {
                 value_ptr = T::cache.add(value_ptr);
             }
             fk = value_ptr->pk;
-            modify = false;
         }
         return res;
     }
