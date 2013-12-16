@@ -45,6 +45,13 @@ Requirement
 * doxygen (for user doc only)
 
 
+Instalation
+===========
+
+    ./build.sh
+    sudo make install
+
+
 Exemple
 =======
 
