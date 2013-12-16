@@ -49,7 +49,9 @@ Exemple
 =======
 
 You can see complet exemple in main.cpp
-    
+
+```C++
+ 
     //#include <ORM/backends/MySql.hpp>
     //create your default database
     orm::MySQLBdd def("root","root","test");
@@ -122,6 +124,7 @@ You can see complet exemple in main.cpp
         return 0;
     }
 
+```
 
 Class
 =====
