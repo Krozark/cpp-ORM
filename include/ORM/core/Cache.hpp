@@ -13,6 +13,7 @@ namespace orm
 
     /**
      * \brief Class to store object tha have already be query
+     * \todo colector that clear unused obj of the Cache every ... minutes
      **/
     template<typename T>
     class Cache
