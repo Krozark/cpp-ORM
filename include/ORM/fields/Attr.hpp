@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <utility>
+#include <string>
 
 #include <ORM/fields/private/VAttr.hpp>
 
@@ -431,11 +432,13 @@ namespace orm
     using PositiveIntegerField = Attr<unsigned int>;
     using BigIntegerField = Attr<long long int>;
     using FloatField = Attr<float>;
-    using DoubleField = Attr<double>;
+    using DoubleField = Attr<double>; ///\todo quesry.set(double,colum)
     using BigDoubleField = Attr<long double>;
+    using TextField = Attr<std::string>;
 
     template<size_t max_length>
     using CharField = Attr<std::string>;
+
 
     /*template<bool auto_increment>
     using AutoField = Attr<int>;*/

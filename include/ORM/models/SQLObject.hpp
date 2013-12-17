@@ -3,7 +3,7 @@
 
 //orm::
 #include <ORM/models/SQLObjectBase.hpp>
-#include <ORM/fields/private/VAttr.hpp>
+#include <ORM/fields/private/VFK.hpp>
 #include <ORM/core/Cache.hpp>
 #include <ORM/core/macros.hpp>
 //std::
