@@ -20,6 +20,8 @@ namespace orm
             FK(const std::string& column);
 
             FK(const FK&) = delete;
+
+            using FKBase<T>::operator=;
     };
 }
 

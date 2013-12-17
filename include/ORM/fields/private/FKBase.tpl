@@ -114,6 +114,17 @@ namespace orm
         fk = other.fk;
         value_ptr = other.value_ptr;
         loaded = other.loaded;
+        return *this;
+    }
+
+    template<typename T>
+    FKBase<T>& FKBase<T>::operator=(const typename Cache<T>::type_ptr& other)
+    {
+        modify = true;
+        fk = other->pk;
+        value_ptr = other;
+        loaded = true;
+        return *this;
     }
 
     template<typename T>

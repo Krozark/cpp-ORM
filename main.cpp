@@ -181,7 +181,7 @@ int main(int argc,char* argv[])
     /*
        const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
        for(auto u : spells)
-       cout<<*u<<endl;
+       cout<<*u<<endl;te_ AnalysePeptide
        */
 
     /*{
@@ -194,6 +194,9 @@ int main(int argc,char* argv[])
     {
         auto& p1 = Perso::get(1);
         std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
+
+        auto& stats = Stats::get(1);
+        p1->stats = stats;
 
         std::list<std::shared_ptr<Spell>> list;
         p1->spells.query()\

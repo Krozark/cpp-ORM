@@ -28,6 +28,8 @@ namespace orm
              **/
             SQLObjectBase();
 
+            virtual ~SQLObjectBase(){};
+
             SQLObjectBase(const SQLObjectBase&)=delete;
             SQLObjectBase& operator=(const SQLObjectBase&)=delete;
 

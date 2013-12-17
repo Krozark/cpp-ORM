@@ -32,7 +32,7 @@ namespace orm
 
     bool Bdd::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
     {
-        const int size = attrs.size();
+        const unsigned int size = attrs.size();
         if(size > 0)
         {
             std::string str_q = "INSERT INTO "+escapeColumn(table)+"("+attrs[0]->column;
@@ -81,7 +81,7 @@ namespace orm
 
     bool Bdd::update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs)
     {
-        const int size = attrs.size();
+        const unsigned int size = attrs.size();
         if(size > 0)
         {
             std::string str_q = "UPDATE "+escapeColumn(table)+" SET ";

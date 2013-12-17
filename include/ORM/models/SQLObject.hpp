@@ -74,6 +74,7 @@ namespace orm
             **/
             SQLObject();
 
+
             SQLObject(const SQLObject&) = delete;
             SQLObject& operator=(const SQLObject&) = delete;
 

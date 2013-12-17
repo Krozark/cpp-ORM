@@ -54,6 +54,11 @@ namespace orm
              **/
             FKBase<T>& operator=(const FKBase<T>& other);
 
+            /**
+             * \brief Copy operator
+             **/
+            FKBase<T>& operator=(const typename Cache<T>::type_ptr& other);
+
         protected:
             /**
              * \brief Construct a FK
