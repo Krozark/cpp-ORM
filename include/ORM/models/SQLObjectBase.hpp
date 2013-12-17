@@ -51,6 +51,12 @@ namespace orm
              **/
             virtual bool del(bool recursive=false) = 0;
 
+
+            /**
+             * \return the object pk
+             */
+            int getPk()const;
+
             /**
              * \brief Display the object in json
              **/

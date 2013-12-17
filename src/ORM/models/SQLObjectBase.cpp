@@ -9,6 +9,11 @@ namespace orm
     {
     }; 
 
+    int SQLObjectBase::getPk()const
+    {
+        return pk;
+    }
+
     bool SQLObjectBase::loadFromBdd(const Query& query,int max_depth)
     {
         int prefix=getBdd()->getInitialGetcolumnNumber() -1;
