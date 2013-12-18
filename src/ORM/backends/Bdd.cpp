@@ -87,7 +87,7 @@ namespace orm
             std::string str_q = "UPDATE "+escapeColumn(table)+" SET ";
 
             bool first(true);
-            for(unsigned int i=1;i<size;++i)
+            for(unsigned int i=0;i<size;++i)
             {
                 if(attrs[i]->modify)
                 {

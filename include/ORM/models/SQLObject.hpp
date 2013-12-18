@@ -41,10 +41,16 @@ namespace orm
                 static T tmp;
                 for(VAttr* attr: tmp.attrs)
                 {
+                    #if ORM_DEBUG & ORM_DEBUG_REGISTER
+                    //std::cerr<<MAGENTA<<"[Register] Attr "<<attr->column<<BLANC<<std::endl;
+                    #endif
                     SQLObject<T>::column_attrs.emplace_back(attr);
                 }
                 for(VFK* fk: tmp.fks)
                 {
+                    #if ORM_DEBUG & ORM_DEBUG_REGISTER
+                    //std::cerr<<MAGENTA<<"[Register] Fk "<<fk->column<<BLANC<<std::endl;
+                    #endif
                     SQLObject<T>::column_fks.emplace_back(fk);
                 }
                 #if ORM_DEBUG & ORM_DEBUG_REGISTER
