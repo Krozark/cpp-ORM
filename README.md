@@ -1,7 +1,7 @@
 cpp-ORM 0.2
 ===========
 
-Current build status: 
+Current build status : 
 [![Build Status](https://travis-ci.org/Krozark/cpp-ORMg.png?branch=master)](https://travis-ci.org/Krozark/cpp-ORM)
 
 
