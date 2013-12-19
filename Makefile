@@ -25,6 +25,7 @@ CLEANDIRS = $(SUBDIRS:%=clean-%)
 .PHONY: subdirs $(CLEANDIRS)
 
 all: $(OBJ) subdirs
+	$(MAKE) -C $@
 
 static : src
 	$(MAKE) static -C obj
@@ -52,7 +53,7 @@ doc/html :
 subdirs: $(SUBDIRS)
      
 $(SUBDIRS):
-	$(MAKE) -C $@
+	$(MAKE) all -C $@
 
 
 .cpp.o:

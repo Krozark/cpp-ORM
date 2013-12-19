@@ -54,6 +54,12 @@ namespace orm
             virtual std::ostream& print_value(std::ostream& output)const;
 
 
+            /**
+             * \return the fk value 
+             */
+            inline int getFk()const{return fk;}
+
+
         protected:
             template<typename T> friend class SQLObject;
 

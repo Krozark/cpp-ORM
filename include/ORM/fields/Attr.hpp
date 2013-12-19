@@ -241,7 +241,14 @@ namespace orm
              *
              * \cast this in value
              **/
-            operator T() {return value;};
+            //operator T() {return value;};
+
+            /**
+             * \brief cast operator
+             *
+             * \cast this in value
+             **/
+            operator T()const {return value;};
             
             /**
              * \brief addition operator
