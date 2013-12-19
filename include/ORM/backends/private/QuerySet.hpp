@@ -66,7 +66,7 @@ namespace orm
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(std::string&& column,const char order="+");
+            QuerySet<T>& orderBy(std::string&& column,const char order='+');
             //QuerySet& orderBy(int,const std::string& column);
 
             /**
