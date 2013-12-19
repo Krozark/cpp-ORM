@@ -1,0 +1,9 @@
+install: 
+
+language: cpp
+
+compiler: gcc
+
+script : ./build.sh 
+        && sudo make install 
+        && sudo make uninstall
