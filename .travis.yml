@@ -1,4 +1,5 @@
 install: 
+    sudo apt-get install libmysqlcppconn-dev libsqlite3-dev
 
 language: cpp
 
