@@ -83,7 +83,7 @@ int main(int argc,char* argv[])
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
 
-   /*{ 
+   { 
         auto& p1 = Perso::get(1);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
@@ -104,16 +104,16 @@ int main(int argc,char* argv[])
         p1->maitre->maitre.del(true);
 
         cout<<"Current perso1 "<<*p1<<endl;
-    }*/
+    }
 
-   /*{
+   {
        cout<<"All persos"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
        for(auto u : lis)
            cout<<*u<<endl;
-   }*/
+   }
 
-   /*{
+   {
        cout<<"Create Perso"<<endl;
        Perso p2;// = new Perso;
 
@@ -133,8 +133,8 @@ int main(int argc,char* argv[])
        for(auto u : lis)
            cout<<*u<<endl;
 
-    }*/
-   /*{
+    }
+   {
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
@@ -160,14 +160,14 @@ int main(int argc,char* argv[])
            cout<<*perso<<endl;
 
 
-   }*/
-   /*{
+   }
+   {
 
        std::list<std::shared_ptr<Perso>> lis;
        Perso::query().filter(string("test"),"startswith",Perso::_name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
-   }*/
+   }
 
 
     /*{
@@ -178,18 +178,20 @@ int main(int argc,char* argv[])
         Stats::cache.__print__();
     }*/
 
-    /*
+   { 
+       auto& p1 = Perso::get(1);
        const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
        for(auto u : spells)
-       cout<<*u<<endl;te_ AnalysePeptide
-       */
+           cout<<*u<<endl;
+   }
+       
 
-    /*{
+    {
        std::list<std::shared_ptr<Spell>> list;
        Spell::query().get(list);
        for(auto u : list)
            cout<<*u<<endl;
-    }*/
+    }
 
     {
         auto& p1 = Perso::get(1);

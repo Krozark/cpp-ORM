@@ -57,6 +57,11 @@ Exemple
 
 You can see complet exemple in main.cpp
 
+To build the exemple (the database is include)
+
+    make all
+
+
 ```C++
  
     //#include <ORM/backends/MySql.hpp>
