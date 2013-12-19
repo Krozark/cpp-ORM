@@ -24,8 +24,6 @@ CLEANDIRS = $(SUBDIRS:%=clean-%)
 .PHONY: subdirs $(SUBDIRS)
 .PHONY: subdirs $(CLEANDIRS)
 
-all: $(OBJ) subdirs
-	$(MAKE) -C $@
 
 static : src
 	$(MAKE) static -C obj
@@ -43,6 +41,9 @@ uninstall:
 	rm -f /usr/local/lib/$(STATIC)
 	rm -f /usr/local/lib/$(SHARED)
 	rm -rf /usr/local/include/ORM
+
+all: $(OBJ) subdirs
+	$(MAKE) -C $@
 
 
 doc : doc/html 

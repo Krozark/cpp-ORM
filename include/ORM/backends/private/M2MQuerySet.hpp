@@ -1,5 +1,5 @@
-#ifndef ORM_QUERYSET_HPP
-#define ORM_QUERYSET_HPP
+#ifndef ORM_M2MQUERYSET_HPP
+#define ORM_M2MQUERYSET_HPP
 
 #include <ORM/backends/private/VFilter.hpp>
 #include <ORM/core/Cache.hpp>
@@ -7,9 +7,7 @@
 
 namespace orm
 {
-    template<typename T> class SQLObject;
     template<typename T,typename U> class ManyToMany;
-
     /**
      * \brief A class that allow you to make query on the type T
      *
@@ -17,24 +15,24 @@ namespace orm
      *
      * \see SQLObject
      **/
-    template <typename T>
-    class QuerySet
+    template <typename M2M,typename OWNER, typename RELATED>
+    class M2MQuerySet
     {
         public:
 
             /**
-             * \brief Construct a QuerySet from a tmp value
+             * \brief Construct a M2MQuerySet from a tmp value
              *
              * \param tmp the tmp value to use
              *
              * Note : tmp as an undefined status after the call of this function
              **/
-            QuerySet(QuerySet<T>&& tmp);
+            M2MQuerySet(M2MQuerySet<M2M,OWNER,RELATED>&& tmp);
 
             /**
              * \brief Destructor
              **/
-            ~QuerySet();
+            ~M2MQuerySet();
 
             /**
              * \brief Construct a filter to apply in the query
@@ -46,7 +44,7 @@ namespace orm
              * \return *this
              **/
             template<typename U,typename ... Args>
-            QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
+            M2MQuerySet<M2M,OWNER,RELATED>& filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a order by constrait to the query
@@ -56,7 +54,7 @@ namespace orm
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(const std::string& column,const char order='+');
+            M2MQuerySet<M2M,OWNER,RELATED>& orderBy(const std::string& column,const char order='+');
 
             /**
              * \brief Add a order by constrait to the query
@@ -66,8 +64,8 @@ namespace orm
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(std::string&& column,const char order="+");
-            //QuerySet& orderBy(int,const std::string& column);
+            M2MQuerySet<M2M,OWNER,RELATED>& orderBy(std::string&& column,const char order="+");
+            //M2MQuerySet& orderBy(int,const std::string& column);
 
             /**
              * \brief Add a negatide filter to the query
@@ -80,7 +78,7 @@ namespace orm
              * \return *this
              **/
             template<typename U,typename ... Args>
-            QuerySet<T>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
+            M2MQuerySet<M2M,OWNER,RELATED>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase
@@ -89,7 +87,7 @@ namespace orm
              *
              * \return *this
              **/
-            QuerySet<T>& limit(const unsigned int& count);
+            M2MQuerySet<M2M,OWNER,RELATED>& limit(const unsigned int& count);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase.
@@ -101,19 +99,9 @@ namespace orm
              *
              * \return *this
              **/
-            QuerySet<T>& limit(const unsigned int& skip,const unsigned int& count);
+            M2MQuerySet<M2M,OWNER,RELATED>& limit(const unsigned int& skip,const unsigned int& count);
 
-            //QuerySet& aggregate();
-
-            /**
-             * \brief Execute tho query and return the coresponding object
-             *
-             * \param obj Where the result will be stored. If mor than one object are return by the databse, only the fist is construct
-             * \param max_depth the maximun recursion depth for the object construction (for fk)
-             *
-             * \return false if no object match with the query.
-             **/
-            bool get(T& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            //M2MQuerySet& aggregate();
 
             /**
              * \brief Execute tho query and return the list list of objects
@@ -123,7 +111,7 @@ namespace orm
              *
              * \return Number of objects
              **/
-            int get(typename std::list<std::shared_ptr<T>>& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            int get(typename std::list<std::shared_ptr<RELATED>>& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief Print the content of the filter for debug help
@@ -132,13 +120,11 @@ namespace orm
 
 
         private:
-            friend class SQLObject<T>;
-            template<typename U,typename V> friend class ManyToMany;
-
+            friend class ManyToMany<OWNER,RELATED>;
             /**
-             * \brief Construct a empty QuerySet
+             * \brief Construct a empty M2MQuerySet
              **/
-            explicit QuerySet();
+            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m);
 
             /**
              * \brief Merge column name to build the alias
@@ -171,8 +157,8 @@ namespace orm
             Query* makeQuery(int max_depth);
 
 
-            QuerySet(const QuerySet&) = delete;
-            QuerySet& operator=(const QuerySet&) = delete;
+            M2MQuerySet(const M2MQuerySet&) = delete;
+            M2MQuerySet& operator=(const M2MQuerySet&) = delete;
 
             std::list<VFilter*> filters; ///< Store all the filters
             std::list<VFilter*> excludes;///< Store all the negative filters
@@ -188,10 +174,10 @@ namespace orm
  * AVG, SUM, MIN, MAX
  **/
 /*template<typename T>
-  QuerySet<T>& QuerySet<T>::aggregate()
+  M2MQuerySet<T>& M2MQuerySet<T>::aggregate()
   {
   std::cerr<<"[todo]: queryset<t>::agregate()"<<std::endl;
   return *this;
   };*/
-#include <ORM/backends/private/QuerySet.tpl>
+#include <ORM/backends/private/M2MQuerySet.tpl>
 #endif

@@ -3,6 +3,7 @@
 
 #include <ORM/models/SQLObject.hpp>
 #include <ORM/backends/Query.hpp>
+#include <ORM/backends/private/M2MQuerySet.hpp>
 #include <string>
 #include <list>
 #include <memory>
