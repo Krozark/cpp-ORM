@@ -173,7 +173,7 @@ namespace orm
     {
         if(not prepared)
             return false;
-        return (sqlite3_bind_text(statement,(int)column,value.c_str(),value.size()+1,SQLITE_TRANSIENT)== SQLITE_OK);
+        return (sqlite3_bind_text(statement,(int)column,value.c_str(),-1,SQLITE_TRANSIENT)== SQLITE_OK);
     };
 
     bool Sqlite3Query::setNull(const int& value,const unsigned int& column)
