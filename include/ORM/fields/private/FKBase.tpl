@@ -93,18 +93,17 @@ namespace orm
         return query.setNull(fk,column);
     };
 
-
-    /*template<typename T>
-    T& FKBase<T>::operator*()
-    {
-        return getObjectT_ptr();
-    };*/
-
     template<typename T>
     T* FKBase<T>::operator->()
     {
         modify = true;
         return getObjectT_ptr();
+    };
+
+    template<typename T>
+    T& FKBase<T>::operator*()
+    {
+        return *getObjectT_ptr();
     };
 
     template<typename T>

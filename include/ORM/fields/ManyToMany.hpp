@@ -27,14 +27,14 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query();
+            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query()const;
 
             /**
             * \brief shortcut for T::query().get(list)
             *
             * \return all the objects T
             **/
-            std::list<typename Cache<RELATED>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            std::list<typename Cache<RELATED>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
             
             /**
              * \brief add a object in the relation

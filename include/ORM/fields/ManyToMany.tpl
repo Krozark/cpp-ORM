@@ -6,13 +6,13 @@ namespace orm
     }
 
     template<typename T,typename U>
-    M2MQuerySet<ManyToMany<T,U>,T,U> ManyToMany<T,U>::query()
+    M2MQuerySet<ManyToMany<T,U>,T,U> ManyToMany<T,U>::query()const
     {
         return M2MQuerySet<ManyToMany<T,U>,T,U>(*this);
     }
 
     template<typename T,typename U>
-    std::list<typename Cache<U>::type_ptr> ManyToMany<T,U>::all(int max_depth)
+    std::list<typename Cache<U>::type_ptr> ManyToMany<T,U>::all(int max_depth) const
     {
         std::list<typename Cache<U>::type_ptr> results;
         query().get(results,max_depth);

@@ -50,6 +50,13 @@ namespace orm
             T* operator->();
 
             /**
+             * \brief cast operator
+             *
+             * \cast this in value
+             **/
+            T& operator*();
+
+            /**
              * \brief Copy operator
              **/
             FKBase<T>& operator=(const FKBase<T>& other);

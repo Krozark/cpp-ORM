@@ -22,6 +22,7 @@ namespace orm
             FK(const FK&) = delete;
 
             using FKBase<T>::operator=;
+            using FKBase<T>::operator*;
     };
 }
 
