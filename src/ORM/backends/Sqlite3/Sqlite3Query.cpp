@@ -89,6 +89,12 @@ namespace orm
         return true;
     };
 
+    bool Sqlite3Query::get(double& value,const int& column)const
+    {
+        value = (double)sqlite3_column_double(statement,column);
+        return true;
+    };
+
     bool Sqlite3Query::get(long double& value,const int& column)const
     {
         value = (long double)sqlite3_column_double(statement,column);
@@ -156,6 +162,13 @@ namespace orm
     };
 
     bool Sqlite3Query::set(const float& value,const unsigned int& column)
+    {
+        if(not prepared)
+            return false;
+        return (sqlite3_bind_double(statement,(int)column,(double)value)== SQLITE_OK);
+    };
+
+    bool Sqlite3Query::set(const double& value,const unsigned int& column)
     {
         if(not prepared)
             return false;

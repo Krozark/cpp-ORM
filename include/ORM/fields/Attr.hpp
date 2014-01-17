@@ -439,7 +439,7 @@ namespace orm
     using PositiveIntegerField = Attr<unsigned int>;
     using BigIntegerField = Attr<long long int>;
     using FloatField = Attr<float>;
-    using DoubleField = Attr<double>; ///\todo quesry.set(double,colum)
+    using DoubleField = Attr<double>;
     using BigDoubleField = Attr<long double>;
     using TextField = Attr<std::string>;
 

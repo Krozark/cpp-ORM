@@ -118,6 +118,21 @@ namespace orm
         return true;
     };
 
+    bool MySQLQuery::get(double& value,const int& column)const
+    {
+        #if ORM_ALLOW_EXCEPTION
+        try{
+        #endif
+            value = bdd_res->getDouble((uint32_t)column);
+        #if ORM_ALLOW_EXCEPTION
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        #endif
+        return true;
+    };
+
     bool MySQLQuery::get(long double& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
@@ -198,6 +213,14 @@ namespace orm
         if(not prepared)
             return false;
         prepared_statement->setDouble(column,static_cast<double>(value));
+        return true;
+    };
+
+    bool MySQLQuery::set(const double& value,const unsigned int& column)
+    {
+        if(not prepared)
+            return false;
+        prepared_statement->setDouble(column,value);
         return true;
     };
 

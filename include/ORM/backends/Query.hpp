@@ -141,6 +141,16 @@ namespace orm
              *
              * \return false if fail
              **/
+            virtual bool get(double& value,const int& column)const = 0;
+
+            /**
+             * \brief Get a value of a column, and store it 
+             *
+             * \param colun The column to extract
+             * \param value Where the value will be stored
+             *
+             * \return false if fail
+             **/
             virtual bool get(long double& value,const int& column)const = 0;
 
             /**
@@ -251,6 +261,16 @@ namespace orm
              * \results false if fail
              **/
             virtual bool set(const float& value,const unsigned int& column) = 0;
+
+            /**
+             * \brief For prepared query only, set the column value
+             *
+             * \param value The value to set
+             * \param column The column number to set
+             *
+             * \results false if fail
+             **/
+            virtual bool set(const double& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
