@@ -30,7 +30,8 @@
 #define ORM_WARNING 1<<2 ///< semi important, could change the running
 #define ORM_ERROR   1<<3 ///< critical
 
-#define ORM_VERBOSITY (ORM_VERBOSE | ORM_WARNING | ORM_ERROR) ///< current verbosity
+//#define ORM_VERBOSITY (ORM_VERBOSE | ORM_WARNING | ORM_ERROR) ///< current verbosity
+#define ORM_VERBOSITY (ORM_ERROR) ///< current verbosity
 
 /*** print macros ****/
 
