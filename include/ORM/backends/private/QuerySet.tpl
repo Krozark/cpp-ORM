@@ -4,7 +4,7 @@
 namespace orm
 {
     template<typename T>
-    QuerySet<T>::QuerySet(): limit_skip(0), limit_count(-1)
+    QuerySet<T>::QuerySet(Bdd& db): limit_skip(0), limit_count(-1), bdd(db)
     {
         
     }
@@ -20,20 +20,10 @@ namespace orm
 
 
     template<typename T>
-    QuerySet<T>::QuerySet(QuerySet&& tmp)
-    {
-        std::swap(filters,tmp.filters);
-        std::swap(excludes,tmp.excludes);
-        std::swap(order_by,tmp.order_by);
-        limit_skip = tmp.limit_skip;
-        limit_count = tmp.limit_count;
-    }
-
-    template<typename T>
     template<typename U,typename ... Args>
     QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        filters.emplace_back(new Filter<U>(makecolumname(T::table,column,args ...),operande,value));
+        filters.emplace_back(new Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
 
@@ -41,9 +31,9 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makecolumname(T::table,column)+" DESC");
+            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
-            order_by.push_back(makecolumname(T::table,column)+" ASC");
+            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" ASC");
         return *this;
     }
 
@@ -129,13 +119,13 @@ namespace orm
     }
 
     template<typename T>
-    Query* QuerySet<T>::makeQuery(int max_depth,Bdd& bdd)
+    Query* QuerySet<T>::makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,max_depth);
+        T::nameAttrs(q_str,T::table,max_depth,bdd);
 
         q_str+="\nFROM ";
-        T::nameTables(q_str,"",max_depth);
+        T::nameTables(q_str,"",max_depth,bdd);
 
         const int filters_size = filters.size();
         const int excludes_size = excludes.size();

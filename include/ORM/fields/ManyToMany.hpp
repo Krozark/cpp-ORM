@@ -27,14 +27,14 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query()const;
+            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query(Bdd& bdd=*default_connection)const;
 
             /**
             * \brief shortcut for T::query().get(list)
             *
             * \return all the objects T
             **/
-            std::list<typename Cache<RELATED>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
+            std::list<typename Cache<RELATED>::type_ptr> all(Bdd& bdd=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
             
             /**
              * \brief add a object in the relation
@@ -42,7 +42,7 @@ namespace orm
              * \param obj the object to add.
              * Note : the object must have be save in database.
              **/
-            void add(const RELATED& obj,Bdd& bdd);
+            void add(const RELATED& obj,Bdd& bdd=*default_connection);
 
             /**
              * \brief add a object in the relation
@@ -50,7 +50,7 @@ namespace orm
              * \param obj the object to add.
              * Note : the object must have be save in database.
              **/
-            void add(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd);
+            void add(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd=*default_connection);
 
             /**
              * \brief remove a object in the relation
@@ -58,7 +58,7 @@ namespace orm
              * \param obj the object to remove.
              * Note : the object must have be save in database.
              **/
-            void remove(const RELATED& obj,Bdd& bdd);
+            void remove(const RELATED& obj,Bdd& bdd=*default_connection);
 
             /**
              * \brief remove a object in the relation
@@ -66,7 +66,7 @@ namespace orm
              * \param obj the object to remove.
              * Note : the object must have be save in database.
              **/
-            void remove(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd);
+            void remove(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd=*default_connection);
 
 
 
@@ -86,7 +86,7 @@ namespace orm
             * \param q_str string query to add the alias
             * \param max_depth maximun depth of constrution
             **/
-            static void nameAttrs(std::string& q_str,int max_depth);
+            static void nameAttrs(std::string& q_str,int max_depth,Bdd& bdd);
 
              /**
              * \brief make the table alias

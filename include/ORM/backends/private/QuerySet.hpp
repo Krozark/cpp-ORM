@@ -21,15 +21,9 @@ namespace orm
     class QuerySet
     {
         public:
-
-            /**
-             * \brief Construct a QuerySet from a tmp value
-             *
-             * \param tmp the tmp value to use
-             *
-             * Note : tmp as an undefined status after the call of this function
-             **/
-            QuerySet(QuerySet<T>&& tmp);
+            
+            QuerySet(QuerySet&&) = default;
+            QuerySet& operator=(QuerySet&&) = default;
 
             /**
              * \brief Destructor
@@ -138,7 +132,7 @@ namespace orm
             /**
              * \brief Construct a empty QuerySet
              **/
-            explicit QuerySet();
+            explicit QuerySet(Bdd& bdd);
 
             /**
              * \brief Merge column name to build the alias
@@ -168,17 +162,20 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            Query* makeQuery(int max_depth,Bdd& bdd);
+            Query* makeQuery(int max_depth);
 
 
             QuerySet(const QuerySet&) = delete;
             QuerySet& operator=(const QuerySet&) = delete;
+
 
             std::list<VFilter*> filters; ///< Store all the filters
             std::list<VFilter*> excludes;///< Store all the negative filters
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
+
+            Bdd& bdd;
     };
 }
 /***

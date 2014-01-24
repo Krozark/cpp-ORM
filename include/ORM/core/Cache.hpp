@@ -44,7 +44,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr& getOrCreate(const unsigned int& pk,int max_depth);
+            type_ptr& getOrCreate(const unsigned int& pk,Bdd& bdd,int max_depth);
 
             /**
              * \brief construct object from query if pk not in cache

@@ -20,14 +20,9 @@ namespace orm
     {
         public:
 
-            /**
-             * \brief Construct a M2MQuerySet from a tmp value
-             *
-             * \param tmp the tmp value to use
-             *
-             * Note : tmp as an undefined status after the call of this function
-             **/
-            M2MQuerySet(M2MQuerySet<M2M,OWNER,RELATED>&& tmp);
+            M2MQuerySet(M2MQuerySet&&) = default;
+            M2MQuerySet& operator=(M2MQuerySet&&) = default;
+
 
             /**
              * \brief Destructor
@@ -124,7 +119,7 @@ namespace orm
             /**
              * \brief Construct a empty M2MQuerySet
              **/
-            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m);
+            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,Bdd& bdd);
 
             /**
              * \brief Merge column name to build the alias
@@ -154,7 +149,7 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            Query* makeQuery(int max_depth,Bdd& bdd);
+            Query* makeQuery(int max_depth);
 
 
             M2MQuerySet(const M2MQuerySet&) = delete;
@@ -165,6 +160,7 @@ namespace orm
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
+            Bdd& bdd;
     };
 }
 /***

@@ -101,21 +101,21 @@ namespace orm
             *
             * Note : if the return obj as a pk of -1 : fail
             **/
-            static typename Cache<T>::type_ptr& get(const unsigned int& id,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static typename Cache<T>::type_ptr& get(const unsigned int& id,Bdd& bdd= *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief shortcut for T::query().get(list)
             *
             * \return all the objects T
             **/
-            static std::list<typename Cache<T>::type_ptr> all(int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static std::list<typename Cache<T>::type_ptr> all(Bdd& bdd = *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief create a queryset for the objet. Use it to make your query
             *
             * \return The tempory queryset. use chaine function, or copy it
             **/
-            static QuerySet<T> query();
+            static QuerySet<T> query(Bdd& bdd = *default_connection);
 
             /**
             * \brief save/update the object in data base
@@ -124,7 +124,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(bool recursive/*=false*/,Bdd& bdd/*=*this->default_connection*/);
+            virtual bool save(Bdd& bdd = *default_connection,bool recursive=false);
 
             /**
             * \brief delete the object from de data base
@@ -132,7 +132,7 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(bool recursive/*=false*/,Bdd& bdd/*=*this->default_connection*/);
+            virtual bool del(Bdd& bdd = *default_connection,bool recursive=false);
 
             static  Bdd* default_connection; ///< bdd use to stor the object
 
@@ -153,7 +153,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const;
+            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const;
 
             /**
              * \brief make the table alias
@@ -162,7 +162,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const;
+            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const;
 
             /**
              * \brief make the table alias of fk with join
@@ -171,7 +171,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const;
+            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const;
 
         private:
 
@@ -221,7 +221,7 @@ namespace orm
             *
             * \return the objet (delete it by hand)
             **/
-            static T* _get_ptr(const unsigned int id,int max_depth,Bdd& bdd);
+            static T* _get_ptr(const unsigned int id,Bdd& bdd,int max_depth);
 
             /**
             * \brief use by the cache to increment depth

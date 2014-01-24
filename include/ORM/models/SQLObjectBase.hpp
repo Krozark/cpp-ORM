@@ -41,7 +41,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive=false) = 0;
+            virtual bool save(Bdd& bdd,bool recursive=false) = 0;
 
             /**
              * \brief delete the object from de data base
@@ -49,7 +49,7 @@ namespace orm
              * \param recursive recursive?
              * \return false if fail
              **/
-            virtual bool del(bool recursive=false) = 0;
+            virtual bool del(Bdd& bdd,bool recursive=false) = 0;
 
 
             /**
@@ -104,7 +104,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const =0;
 
             /**
              * \brief make the table alias
@@ -113,7 +113,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const =0;
 
             /**
              * \brief make the table alias of fk with join
@@ -122,7 +122,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const =0;
+            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const =0;
 
             /**
              * \return the table name

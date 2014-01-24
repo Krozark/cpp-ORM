@@ -82,9 +82,13 @@ int main(int argc,char* argv[])
 {
     orm::Bdd::Default.connect();
     //REGISTER_BDD(Perso,orm::Bdd::Default)
+    
+    Bdd* con2 = orm::Bdd::Default.clone();
+    con2->connect();
 
-   { 
-        auto& p1 = Perso::get(1);
+
+    { 
+        auto& p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
         p1->lvl = p1->lvl + 1;
@@ -97,18 +101,18 @@ int main(int argc,char* argv[])
         cout<<" add 2 to stats.pv"<<endl;
         p1->stats->pv += 2;
         cout<<"Current perso1 "<<*p1<<endl;
-        p1->save(true);
+        p1->save(*Perso::default_connection,true);
         cout<<"Current perso1 "<<*p1<<endl;
 
         cout<<"delete p1->master->master"<<endl;
-        p1->maitre->maitre.del(true);
+        p1->maitre->maitre.del(*Perso::default_connection,true);
 
         cout<<"Current perso1 "<<*p1<<endl;
     }
 
    {
        cout<<"All persos"<<endl;
-       std::list<std::shared_ptr<Perso> > lis= Perso::all();
+       std::list<Cache<Perso>::type_ptr> lis= Perso::all();
        for(auto u : lis)
            cout<<*u<<endl;
    }
@@ -170,13 +174,6 @@ int main(int argc,char* argv[])
    }
 
 
-    /*{
-        cout<<"Perso Cache"<<endl;
-        Perso::cache.__print__();
-
-        cout<<"Stats Cache"<<endl;
-        Stats::cache.__print__();
-    }*/
 
    { 
        auto& p1 = Perso::get(1);

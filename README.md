@@ -1,4 +1,4 @@
-cpp-ORM 0.2
+cpp-ORM 0.3
 ===========
 
 Current build status : 
@@ -14,6 +14,9 @@ The object representation:
     each attr is a column in this table.
 
 For the moment you have to create tables by hand.
+
+
+
 
 
 functions
@@ -33,6 +36,7 @@ functions
  * limite
 * caching
 * debug output (set ORM_DEBUG to ORM_DEBUG_XXX in debug.hpp)
+* multi connection for a single object (select/save) [v 0.3]
 
 Data bases supported
 =====================
@@ -47,6 +51,14 @@ Requirement
 * Mysql cppcon
 * lib Sqlite3
 * doxygen (for user doc only)
+
+
+
+TODO
+====
+
+* MAJ le cache pour fetch 2 BDD différente avec les même classe d'objets et pk identique, mais objets différents
+* Clean le cache sur les objets qui ne sont plus liés en mémoires (free)
 
 
 Instalation

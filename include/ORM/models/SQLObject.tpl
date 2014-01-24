@@ -22,22 +22,22 @@ namespace orm
     };
 
     template<typename T>
-    typename Cache<T>::type_ptr& SQLObject<T>::get(const unsigned int& id,int max_depth)
+    typename Cache<T>::type_ptr& SQLObject<T>::get(const unsigned int& id,Bdd& bdd,int max_depth)
     {
-        return cache.getOrCreate(id,max_depth);
+        return cache.getOrCreate(id,bdd,max_depth);
     }
     
     template<typename T>
-    T* SQLObject<T>::_get_ptr(const unsigned int id,int max_depth,Bdd& bdd)
+    T* SQLObject<T>::_get_ptr(const unsigned int id,Bdd& bdd,int max_depth)
     {
         if(max_depth <0)
             return 0;
 
         std::string q_str ="SELECT ";
-        nameAttrs(q_str,table,max_depth);
+        nameAttrs(q_str,table,max_depth,bdd);
                                     
         q_str+="\nFROM ";
-        nameTables(q_str,"",max_depth);
+        nameTables(q_str,"",max_depth,bdd);
 
         q_str+=" \nWHERE ("
         +bdd.escapeColumn(table)+"."
@@ -61,27 +61,27 @@ namespace orm
     };
 
     template<typename T>
-    std::list<typename Cache<T>::type_ptr> SQLObject<T>::all(int max_depth)
+    std::list<typename Cache<T>::type_ptr> SQLObject<T>::all(Bdd& bdd,int max_depth)
     {
         std::list<typename Cache<T>::type_ptr> results;
-        query().get(results,max_depth);
+        query(bdd).get(results,max_depth);
         return results;
     };
 
     template<typename T>
-    QuerySet<T> SQLObject<T>::query()
+    QuerySet<T> SQLObject<T>::query(Bdd& bdd)
     {
-        return QuerySet<T>();
+        return QuerySet<T>(bdd);
     }
 
 
     template<typename T>
-    bool SQLObject<T>::save(bool recursive,Bdd& bdd)
+    bool SQLObject<T>::save(Bdd& bdd,bool recursive)
     {
         if(recursive)//save all FK
         {
             for(VFK* fk : fks)
-                fk->save(recursive,bdd);
+                fk->save(bdd,recursive);
         }
         else//save or create all FK needed (not null)
         {
@@ -89,7 +89,7 @@ namespace orm
             {
                 VFK& fk_tmp = *fk;
                 if(fk_tmp.nullable == false and (fk_tmp.fk <=0 or fk_tmp.modify == true))
-                    fk_tmp.save(recursive,bdd);
+                    fk_tmp.save(bdd,recursive);
             }
         }
 
@@ -104,7 +104,7 @@ namespace orm
     }
 
     template<typename T>
-    bool SQLObject<T>::del(bool recursive,Bdd& bdd)
+    bool SQLObject<T>::del(Bdd& bdd,bool recursive)
     {
         bool res =true;
         if(bdd.del(table,pk))
@@ -115,7 +115,7 @@ namespace orm
             {
                 for(VFK* fk : fks)
                 {
-                    bool tmp = fk->del(recursive,bdd);
+                    bool tmp = fk->del(bdd,recursive);
                     res = res && tmp;
                 }
             }
@@ -145,7 +145,7 @@ namespace orm
         q_str+=escaped_table_alias+" AS "+escaped_table_alias;
 
         if(--max_depth>=0)
-            makeJoin(q_str,table_alias,max_depth);
+            makeJoin(q_str,table_alias,max_depth,bdd);
     }
 
     template<typename T>
@@ -156,7 +156,7 @@ namespace orm
         for(int i=0;i<size;++i)
         {
 
-            const SQLObjectBase& object = column_fks[i]->getObject();
+            const SQLObjectBase& object = column_fks[i]->getObject(bdd);
             /*if (&object == NULL)
                 continue;*/
             const std::string& col = column_fks[i]->getcolumn();
@@ -169,26 +169,26 @@ namespace orm
                 +")";
 
             if(max_depth>=0)
-                object._makeJoin(q_str,table_alias,max_depth);
+                object._makeJoin(q_str,table_alias,max_depth,bdd);
         }
     }
 
     template<typename T>
-    void SQLObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth)const
+    void SQLObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
     {
-        SQLObject<T>::nameAttrs(q_str,prefix,max_depth);
+        SQLObject<T>::nameAttrs(q_str,prefix,max_depth,bdd);
     }
 
     template<typename T>
-    void SQLObject<T>::_nameTables(std::string& q_str,const std::string& prefix,int max_depth)const
+    void SQLObject<T>::_nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
     {
-        SQLObject<T>::nameTables(q_str,prefix,max_depth);
+        SQLObject<T>::nameTables(q_str,prefix,max_depth,bdd);
     }
 
     template<typename T>
-    void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix,int max_depth)const
+    void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
     {
-        SQLObject<T>::makeJoin(q_str,prefix,max_depth);
+        SQLObject<T>::makeJoin(q_str,prefix,max_depth,bdd);
     }
 
     template<typename T>

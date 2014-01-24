@@ -30,7 +30,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive/*=false*/,Bdd& bdd);            
+            virtual bool save(Bdd& bdd,bool recursive=false);            
 
             /**
              * \brief Delete the object from the bdd and cache
@@ -40,7 +40,7 @@ namespace orm
              *
              * \return fale if fail
              **/
-            virtual bool del(bool recursive/*=false*/,Bdd& bdd);
+            virtual bool del(Bdd& bdd,bool recursive=false);
 
             typedef T type; ///< Type of stored object
 
@@ -110,7 +110,7 @@ namespace orm
              *
              * \return The new object
              **/
-            T* getObjectT_ptr(int max_depth = ORM_DEFAULT_MAX_DEPTH);
+            T* getObjectT_ptr(Bdd& bdd,int max_depth = ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief make the attrs colum name
@@ -121,7 +121,7 @@ namespace orm
              *
              * \return the columns alias
              **/
-            virtual std::string makeName(const Bdd& bdd,const std::string& prefix,int max_depth) const;
+            virtual std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
 
             /**
              * \brief Use for increment the column number without construction.
@@ -139,7 +139,7 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            virtual const SQLObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
     };
 }

@@ -4,7 +4,7 @@
 namespace orm
 {
     template <typename M2M,typename OWNER, typename RELATED>
-    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m): limit_skip(0), limit_count(-1)
+    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,Bdd& db): limit_skip(0), limit_count(-1), bdd(db)
     {
         filters.emplace_back(new Filter<int>(makecolumname(*M2M::default_connection,m2m.table,m2m._owner),"exact",m2m.owner.pk));
     }
@@ -18,16 +18,6 @@ namespace orm
             delete it;
     }
 
-
-    template <typename M2M,typename OWNER, typename RELATED>
-    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(M2MQuerySet&& tmp)
-    {
-        std::swap(filters,tmp.filters);
-        std::swap(excludes,tmp.excludes);
-        std::swap(order_by,tmp.order_by);
-        limit_skip = tmp.limit_skip;
-        limit_count = tmp.limit_count;
-    }
 
     template <typename M2M,typename OWNER, typename RELATED>
     template<typename U,typename ... Args>
@@ -118,13 +108,13 @@ namespace orm
     }
 
     template <typename M2M,typename OWNER, typename RELATED>
-    Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth,Bdd& bdd)
+    Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        M2M::nameAttrs(q_str,max_depth);
+        M2M::nameAttrs(q_str,max_depth,bdd);
 
         q_str+="\nFROM ";
-        M2M::nameTables(q_str,max_depth);
+        M2M::nameTables(q_str,max_depth,bdd);
 
         const int filters_size = filters.size();
         const int excludes_size = excludes.size();

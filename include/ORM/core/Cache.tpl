@@ -20,12 +20,12 @@ namespace orm
     * \todo tester le retour de _get_ptr qui peut être 0
     **/
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,int max_depth)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,Bdd& bdd,int max_depth)
     {
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
-        T* ptr = T::_get_ptr(pk,max_depth);
+        T* ptr = T::_get_ptr(pk,bdd,max_depth);
         //if(ptr == 0)
             
 
@@ -54,7 +54,7 @@ namespace orm
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
-        int index = query.bdd->getInitialGetcolumnNumber();
+        int index = query.bdd.getInitialGetcolumnNumber();
         query.get(pk,index);
         
         const auto& res= map.find(pk);

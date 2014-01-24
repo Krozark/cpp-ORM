@@ -36,7 +36,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive/*=false*/,Bdd& bdd) = 0; 
+            virtual bool save(Bdd& bdd,bool recursive=false) = 0; 
 
             /**
              * \brief Delete the object from the bdd and cache
@@ -46,7 +46,7 @@ namespace orm
              *
              * \return fale if fail
              **/      
-            virtual bool del(bool recursive/*=false*/,Bdd& bdd) = 0;
+            virtual bool del(Bdd& bdd,bool recursive=false) = 0;
 
             /**
              * \brief Print the object
@@ -83,7 +83,7 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SQLObjectBase& getObject(int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
+            virtual const SQLObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
 
 
 
