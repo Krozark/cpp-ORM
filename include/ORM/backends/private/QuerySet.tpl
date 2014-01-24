@@ -51,9 +51,9 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(std::string&& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makecolumname(T::table,column)+" DESC");
+            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
-            order_by.push_back(makecolumname(T::table,column)+" ASC");
+            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" ASC");
         return *this;
     }
 
@@ -61,7 +61,7 @@ namespace orm
     template<typename U,typename ... Args>
     QuerySet<T>& QuerySet<T>::exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        excludes.emplace_back(new Filter<U>(makecolumname(T::table,column,args ...),operande,value));
+        excludes.emplace_back(new Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
 
@@ -117,19 +117,19 @@ namespace orm
 
     template<typename T>
     template<typename ... Args>
-    std::string QuerySet<T>::makecolumname(const std::string& prefix,const std::string& column,Args&& ...args)
+    std::string QuerySet<T>::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ...args)
     {
-        return makecolumname(JOIN_ALIAS(prefix,column),args...);
+        return makecolumname(bdd,JOIN_ALIAS(prefix,column),args...);
     }
 
     template<typename T>
-    std::string QuerySet<T>::makecolumname(const std::string& prefix,const std::string& column)
+    std::string QuerySet<T>::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column)
     {
-        return T::bdd_used->escapeColumn(prefix)+"."+T::bdd_used->escapeColumn(column);
+        return bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column);
     }
 
     template<typename T>
-    Query* QuerySet<T>::makeQuery(int max_depth)
+    Query* QuerySet<T>::makeQuery(int max_depth,Bdd& bdd)
     {
         std::string q_str ="SELECT ";
         T::nameAttrs(q_str,T::table,max_depth);
@@ -149,13 +149,13 @@ namespace orm
                 const auto& end = filters.end();
 
                 q_str+= (*begin)->column
-                    +T::bdd_used->formatPreparedValue((*begin)->ope);
+                    +bdd.formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +(*begin)->column
-                        +T::bdd_used->formatPreparedValue((*begin)->ope);
+                        +bdd.formatPreparedValue((*begin)->ope);
                 }
             }
 
@@ -170,13 +170,13 @@ namespace orm
                 const auto& end = excludes.end();
 
                 q_str+= (*begin)->column
-                    +T::bdd_used->formatPreparedValue((*begin)->ope);
+                    +bdd.formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +(*begin)->column
-                        +T::bdd_used->formatPreparedValue((*begin)->ope);
+                        +bdd.formatPreparedValue((*begin)->ope);
                 }
 
                 q_str+=") ";
@@ -202,9 +202,9 @@ namespace orm
         }
 
         if(limit_count > 0)
-            q_str+= T::bdd_used->limit(limit_skip,limit_count);
+            q_str+= bdd.limit(limit_skip,limit_count);
 
-        Query* q = T::bdd_used->prepareQuery(q_str);
+        Query* q = bdd.prepareQuery(q_str);
 
         {//bind values
             unsigned int index = 1;

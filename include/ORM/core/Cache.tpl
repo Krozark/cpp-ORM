@@ -54,7 +54,7 @@ namespace orm
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
-        int index = T::bdd_used->getInitialGetcolumnNumber();
+        int index = query.bdd->getInitialGetcolumnNumber();
         query.get(pk,index);
         
         const auto& res= map.find(pk);

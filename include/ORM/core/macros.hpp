@@ -197,14 +197,14 @@
 
 #define REGISTER_TABLE(klass,column) \
     template<> const std::string orm::SQLObject<klass>::table = column;\
-    template<> orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;\
+    template<> orm::Bdd* orm::SQLObject<klass>::default_connection = &orm::Bdd::Default;\
     template<> std::vector<const orm::VAttr*> orm::SQLObject<klass>::column_attrs = std::vector<const orm::VAttr*>();\
     template<> std::vector<orm::VFK*> orm::SQLObject<klass>::column_fks = std::vector<orm::VFK*>();\
     template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>();\
     template<> orm::Cache<klass> orm::SQLObject<klass>::cache = orm::Cache<klass>();
 
 #define REGISTER_BDD(klass,bdd) \
-    orm::SQLObject<klass>::bdd_used = bdd;
+    orm::SQLObject<klass>::default_connection = bdd;
 
 #define REGISTER(klass,column,...)\
     REGISTER_TABLE(klass,column)\
@@ -229,7 +229,7 @@
     template<> const std::string orm::ManyToMany<klass,T_linked>::_owner = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_linked = linked_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_related = JOIN_ALIAS(table_name,linked_column);\
-    template<> orm::Bdd* orm::ManyToMany<klass,T_linked>::bdd_used = &orm::Bdd::Default;
+    template<> orm::Bdd* orm::ManyToMany<klass,T_linked>::default_connection = &orm::Bdd::Default;
 
 
 #endif //guard

@@ -42,7 +42,7 @@ namespace orm
              * \param obj the object to add.
              * Note : the object must have be save in database.
              **/
-            void add(const RELATED& obj);
+            void add(const RELATED& obj,Bdd& bdd);
 
             /**
              * \brief add a object in the relation
@@ -50,7 +50,7 @@ namespace orm
              * \param obj the object to add.
              * Note : the object must have be save in database.
              **/
-            void add(const typename Cache<RELATED>::type_ptr& obj);
+            void add(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd);
 
             /**
              * \brief remove a object in the relation
@@ -58,7 +58,7 @@ namespace orm
              * \param obj the object to remove.
              * Note : the object must have be save in database.
              **/
-            void remove(const RELATED& obj);
+            void remove(const RELATED& obj,Bdd& bdd);
 
             /**
              * \brief remove a object in the relation
@@ -66,11 +66,11 @@ namespace orm
              * \param obj the object to remove.
              * Note : the object must have be save in database.
              **/
-            void remove(const typename Cache<RELATED>::type_ptr& obj);
+            void remove(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd);
 
 
 
-            static  Bdd* bdd_used;///< database use to store the object
+            static  Bdd* default_connection;///< database use to store the object
             const static std::string table; ///< table of the object
 
         protected:
@@ -94,7 +94,7 @@ namespace orm
              * \param q_str string query to add the alias
              * \param max_depth maximun depth of constrution
              **/
-            static void nameTables(std::string& q_str,int max_depth);
+            static void nameTables(std::string& q_str,int max_depth,Bdd& bdd);
 
             /**
              * \brief make the table alias of fk with join
@@ -102,7 +102,7 @@ namespace orm
              * \param q_str string query to add the alias
              * \param max_depth maximun depth of constrution
              **/
-            static void makeJoin(std::string& q_str,int max_depth);
+            static void makeJoin(std::string& q_str,int max_depth,Bdd& bdd);
 
     };
 }

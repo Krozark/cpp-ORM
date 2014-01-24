@@ -127,7 +127,7 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::save(bool recursive)
+    bool FKBase<T>::save(bool recursive,Bdd& bdd)
     {
         bool res = true;
 
@@ -138,7 +138,7 @@ namespace orm
         if(modify)
         {
             modify = false;
-            res = value_ptr->save(recursive);
+            res = value_ptr->save(recursive,bdd);
             if(fk<=0)
             {
                 value_ptr = T::cache.add(value_ptr);
@@ -149,21 +149,21 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::del(bool recursive)
+    bool FKBase<T>::del(bool recursive,Bdd& bdd)
     {
         bool res = false;
         if(loaded)
         {
-            res = value_ptr->del(recursive);
+            res = value_ptr->del(recursive,bdd);
             fk = value_ptr->pk;
         }
         return res;
     }
 
     template<typename T>
-    std::string FKBase<T>::makeName(const Bdd* bdd, const std::string& prefix,int max_depth) const
+    std::string FKBase<T>::makeName(const Bdd& bdd, const std::string& prefix,int max_depth) const
     {
-        std::string q_str(",\n "+bdd->escapeColumn(prefix)+"."+bdd->escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column));
+        std::string q_str(",\n "+bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column));
 
         if(--max_depth <0)
             return q_str;

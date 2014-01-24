@@ -39,6 +39,12 @@ namespace orm
         if(dbConn)
             delete dbConn;
     };
+
+    Bdd* MySQLBdd::clone()const
+    {
+        MySQLBdd* copy = new MySQLBdd(this->s_username,this->s_password,this->s_bdd_name,this->s_serveur,this->s_port);
+        return copy;
+    }
     
     bool MySQLBdd::connect()
     {
@@ -74,7 +80,7 @@ namespace orm
 
     Query* MySQLBdd::query(const std::string& str)
     {
-        auto q = new MySQLQuery(this,str);
+        auto q = new MySQLQuery(*this,str);
         q->statement = dbConn->createStatement();
         q->prepared = false;
         return q;
@@ -82,7 +88,7 @@ namespace orm
 
     Query* MySQLBdd::query(std::string&& str)
     {
-        auto q = new MySQLQuery(this,str);
+        auto q = new MySQLQuery(*this,str);
         q->statement = dbConn->createStatement();
         q->prepared = false;
         return q;
@@ -91,7 +97,7 @@ namespace orm
 
     Query* MySQLBdd::prepareQuery(const std::string& str)
     {
-        auto q = new MySQLQuery(this,str);
+        auto q = new MySQLQuery(*this,str);
         q->prepared_statement = dbConn->prepareStatement(str);
         q->prepared = true;
         return q;
@@ -99,13 +105,37 @@ namespace orm
 
     Query* MySQLBdd::prepareQuery(std::string&& str)
     {
-        auto q = new MySQLQuery(this,str);
+        auto q = new MySQLQuery(*this,str);
         q->prepared_statement = dbConn->prepareStatement(str);
         q->prepared = true;
         return q;
     }
 
     /************** PROTECTED **********************/
+    
+    void MySQLBdd::beginTransaction()
+    {
+        Query* q = this->query("START TRANSACTION");
+        q->execute();
+        q->next();
+        delete q;
+    };
+
+    void MySQLBdd::endTransaction()
+    {
+        Query* q = this->query("COMMIT");
+        q->execute();
+        q->next();
+        delete q;
+    };
+
+    void MySQLBdd::rollback()
+    {
+        Query* q = this->query("ROLLBACK");
+        q->execute();
+        q->next();
+        delete q;
+    };
 
     int MySQLBdd::getLastInsertPk()
     {

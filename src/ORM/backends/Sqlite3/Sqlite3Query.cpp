@@ -4,9 +4,9 @@
 
 namespace orm
 {
-    Sqlite3Query::Sqlite3Query(Bdd* bdd,const std::string& query) : Query(bdd,query), statement(0)
+    Sqlite3Query::Sqlite3Query(Bdd& bdd,const std::string& query) : Query(bdd,query), statement(0)
     {
-        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd&>(bdd).dbConn,query.c_str(),query.size()+1, &statement, NULL);
 
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
@@ -17,9 +17,9 @@ namespace orm
         #endif
     };
 
-    Sqlite3Query::Sqlite3Query(Bdd* bdd,std::string&& query) : Query(bdd,query), statement(0)
+    Sqlite3Query::Sqlite3Query(Bdd& bdd,std::string&& query) : Query(bdd,query), statement(0)
     {
-        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd*>(bdd)->dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd&>(bdd).dbConn,query.c_str(),query.size()+1, &statement, NULL);
 
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)

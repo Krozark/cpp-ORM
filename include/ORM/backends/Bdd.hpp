@@ -27,13 +27,13 @@ namespace orm
     {
         public:
             /**
-            * \brief Create  a Database connextion
+            * \brief Create  a Database connection
             *
             * \param username Username to use
             * \param pass Password of the user
             * \param bdd Database name to use
             * \param serveur IP adresse of the serveur to connect
-            * \param port Port to use for the connextion
+            * \param port Port to use for the connection
             **/
             Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
 
@@ -45,16 +45,22 @@ namespace orm
 
             Bdd(const Bdd&) = delete;
             Bdd& operator=(const Bdd&) = delete;
+
+
+            /**
+             * \brief Mkae an explitit copy of the connection
+             */
+            virtual Bdd* clone()const = 0;
                 
             /**
-            * \brief Create the connextion with the database
+            * \brief Create the connection with the database
             *
-            * \return false if the connextion fail
+            * \return false if the connection fail
             **/
             virtual bool connect() = 0;
 
             /**
-            * \brief Close the connextion with the database
+            * \brief Close the connection with the database
             *
             * \return false if fail
             **/
@@ -135,6 +141,21 @@ namespace orm
             * Ordering : "?","+","-"
             **/
             std::unordered_map<std::string,std::string> operators;
+
+            /**
+             * \brief Begin transaction
+             */
+            virtual void beginTransaction() = 0;
+
+            /**
+             * \brief END transaction
+             */
+            virtual void endTransaction() = 0;
+
+            /**
+             * \brief rollback
+             */
+            virtual void rollback() = 0;
 
             /**
             * \brief Get the pk of the last object created in the database

@@ -35,6 +35,7 @@ namespace orm
         const unsigned int size = attrs.size();
         if(size > 0)
         {
+            beginTransaction();
             std::string str_q = "INSERT INTO "+escapeColumn(table)+"("+attrs[0]->column;
 
             for(unsigned int i=1;i<size;++i)
@@ -72,6 +73,7 @@ namespace orm
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<" new PK: "<<pk<<BLANC<<std::endl;
             #endif
+            endTransaction();
 
             return true;
 

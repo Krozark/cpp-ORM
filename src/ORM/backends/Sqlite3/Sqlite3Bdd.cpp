@@ -35,6 +35,12 @@ namespace orm
         if(dbConn)
             sqlite3_close(dbConn);
     };
+
+    Bdd* Sqlite3Bdd::clone()const
+    {
+        Sqlite3Bdd* copy = new Sqlite3Bdd(this->s_bdd_name);
+        return copy;
+    }
     
     bool Sqlite3Bdd::connect()
     {
@@ -63,30 +69,54 @@ namespace orm
 
     Query* Sqlite3Bdd::query(const std::string& str)
     {
-        return new Sqlite3Query(this,str);
+        return new Sqlite3Query(*this,str);
     };
 
     Query* Sqlite3Bdd::query(std::string&& str)
     {
-        return new Sqlite3Query(this,str);
+        return new Sqlite3Query(*this,str);
     };
 
 
     Query* Sqlite3Bdd::prepareQuery(const std::string& str)
     {
-        Sqlite3Query* q = new Sqlite3Query(this,str);
+        Sqlite3Query* q = new Sqlite3Query(*this,str);
         q->prepared = true;
         return q;
     };
 
     Query* Sqlite3Bdd::prepareQuery(std::string&& str)
     {
-        Sqlite3Query* q = new Sqlite3Query(this,str);
+        Sqlite3Query* q = new Sqlite3Query(*this,str);
         q->prepared = true;
         return q;
     }
 
     /************** PROTECTED **********************/
+
+    void Sqlite3Bdd::beginTransaction()
+    {
+        Query* q = this->query("BEGIN TRANSACTION");
+        q->execute();
+        q->next();
+        delete q;
+    };
+
+    void Sqlite3Bdd::endTransaction()
+    {
+        Query* q = this->query("END TRANSACTION");
+        q->execute();
+        q->next();
+        delete q;
+    };
+
+    void Sqlite3Bdd::rollback()
+    {
+        Query* q = this->query("ROLLBACK");
+        q->execute();
+        q->next();
+        delete q;
+    };
 
 
     int Sqlite3Bdd::getLastInsertPk()

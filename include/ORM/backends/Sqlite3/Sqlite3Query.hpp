@@ -22,7 +22,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            Sqlite3Query(Bdd* bdd,const std::string& query);
+            Sqlite3Query(Bdd& bdd,const std::string& query);
 
             /**
              * \brief Create a query
@@ -30,7 +30,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            Sqlite3Query(Bdd* bdd,std::string&& query);
+            Sqlite3Query(Bdd& bdd,std::string&& query);
 
             Sqlite3Query(const Sqlite3Query&) = delete;
             Sqlite3Query& operator=(const Sqlite3Query&) = delete;

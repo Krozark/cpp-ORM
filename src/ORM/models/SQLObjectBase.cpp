@@ -16,7 +16,7 @@ namespace orm
 
     bool SQLObjectBase::loadFromBdd(const Query& query,int max_depth)
     {
-        int prefix=getBdd()->getInitialGetcolumnNumber() -1;
+        int prefix=query.bdd.getInitialGetcolumnNumber() -1;
         return loadFromBdd(query,prefix,max_depth);
     };
 

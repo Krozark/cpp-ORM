@@ -129,10 +129,6 @@ namespace orm
              **/
             virtual const std::string& getTable() const = 0;
 
-            /**
-             * \return the bdd use to store the object
-             **/
-            virtual const Bdd* getBdd() const = 0;
     };
 };
 

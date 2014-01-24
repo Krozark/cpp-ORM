@@ -136,7 +136,7 @@ namespace orm
              * \return the complet alias
              **/
             template<typename ... Args>
-            static std::string makecolumname(const std::string& prefix,const std::string& column,Args&& ... args);
+            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ... args);
 
             /**
              * \brief Do nothing
@@ -145,7 +145,7 @@ namespace orm
              *
              * \return column
              **/
-            static std::string makecolumname(const std::string& prefix,const std::string& column);
+            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column);
 
             /**
              * \brief Construct the query with all constraints
@@ -154,7 +154,7 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            Query* makeQuery(int max_depth);
+            Query* makeQuery(int max_depth,Bdd& bdd);
 
 
             M2MQuerySet(const M2MQuerySet&) = delete;

@@ -124,7 +124,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(bool recursive=false);
+            virtual bool save(bool recursive/*=false*/,Bdd& bdd/*=*this->default_connection*/);
 
             /**
             * \brief delete the object from de data base
@@ -132,9 +132,9 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(bool recursive=false);
+            virtual bool del(bool recursive/*=false*/,Bdd& bdd/*=*this->default_connection*/);
 
-            static  Bdd* bdd_used; ///< bdd use to stor the object
+            static  Bdd* default_connection; ///< bdd use to stor the object
 
 
         protected:
@@ -145,11 +145,6 @@ namespace orm
             * \return the table name
             **/
             virtual const std::string& getTable()const {return table;};
-            
-            /**
-             * \return the bdd use to store the object
-             **/
-            virtual const Bdd* getBdd()const{return bdd_used;};
             
             /**
              * \brief make the attrs columns alias
@@ -198,7 +193,7 @@ namespace orm
             * \param prefix prefix column name
             * \param max_depth maximun depth of constrution
             **/
-            static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth);
+            static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd);
 
             /**
              * \brief make the table alias
@@ -207,7 +202,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            static void nameTables(std::string& q_str,const std::string& prefix,int max_depth);
+            static void nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd);
 
             /**
              * \brief make the table alias of fk with join
@@ -216,7 +211,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth);
+            static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd);
 
             /**
             * \brief Create a abject of pk id
@@ -226,7 +221,7 @@ namespace orm
             *
             * \return the objet (delete it by hand)
             **/
-            static T* _get_ptr(const unsigned int id,int max_depth);
+            static T* _get_ptr(const unsigned int id,int max_depth,Bdd& bdd);
 
             /**
             * \brief use by the cache to increment depth

@@ -22,7 +22,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            MySQLQuery(Bdd* bdd,const std::string& query);
+            MySQLQuery(Bdd& bdd,const std::string& query);
 
             /**
              * \brief Create a query
@@ -30,7 +30,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            MySQLQuery(Bdd* bdd,std::string&& query);
+            MySQLQuery(Bdd& bdd,std::string&& query);
 
             MySQLQuery(const MySQLQuery&) = delete;
             MySQLQuery& operator=(const MySQLQuery&) = delete;

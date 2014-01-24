@@ -17,13 +17,13 @@ namespace orm
     {
         public:
             /**
-            * \brief Create  a Database connextion
+            * \brief Create  a Database connection
             *
             * \param username Username to use
             * \param pass Password of the user
             * \param bdd Database name to use
             * \param serveur IP adresse of the serveur to connect (default value is 127.0.0.1 as the default for mytsql)
-            * \param port Port to use for the connextion (the default is 3306 as the default of mysql)
+            * \param port Port to use for the connection (the default is 3306 as the default of mysql)
             **/
             MySQLBdd(std::string username,std::string pass,std::string bdd,std::string serveur="tcp://127.0.0.1",std::string port="3306");
 
@@ -34,15 +34,20 @@ namespace orm
             
             MySQLBdd(const MySQLBdd&) = delete;
             MySQLBdd& operator=(const MySQLBdd&) = delete;
+            
+            /**
+             * \brief Mkae an explitit copy of the connection
+             */
+            virtual Bdd* clone()const;
 
             /**
-            * \brief Create the connextion with the database
+            * \brief Create the connection with the database
             *
-            * \return false if the connextion fail
+            * \return false if the connection fail
             **/
             virtual bool connect();
             /**
-            * \brief Close the connextion with the database
+            * \brief Close the connection with the database
             *
             * \return false if fail
             **/
@@ -88,6 +93,21 @@ namespace orm
         
         protected:
             friend class MySQLQuery;
+
+            /**
+             * \brief Begin transaction
+             */
+            virtual void beginTransaction();
+
+            /**
+             * \brief END transaction
+             */
+            virtual void endTransaction();
+
+            /**
+             * \brief rollback
+             */
+            virtual void rollback();
 
             /**
             * \brief Get the pk of the last object created in the database

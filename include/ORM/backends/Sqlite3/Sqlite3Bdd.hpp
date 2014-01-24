@@ -16,7 +16,7 @@ namespace orm
     {
         public:
             /**
-            * \brief Create  a Database connextion from filename
+            * \brief Create  a Database connection from filename
             *
             * \param bdd Database name to use
             **/
@@ -30,14 +30,20 @@ namespace orm
             Sqlite3Bdd(const Sqlite3Bdd&) = delete;
             Sqlite3Bdd& operator=(const Sqlite3Bdd&) = delete;
 
+
             /**
-            * \brief Create the connextion with the database
+             * \brief Mkae an explitit copy of the connection
+             */
+            virtual Bdd* clone()const;
+
+            /**
+            * \brief Create the connection with the database
             *
-            * \return false if the connextion fail
+            * \return false if the connection fail
             **/
             virtual bool connect();
             /**
-            * \brief Close the connextion with the database
+            * \brief Close the connection with the database
             *
             * \return false if fail
             **/
@@ -80,9 +86,25 @@ namespace orm
             **/
             virtual Query* prepareQuery(std::string&&);
 
-        
+
         protected:
             friend class Sqlite3Query;
+
+
+            /**
+             * \brief Begin transaction
+             */
+            virtual void beginTransaction();
+
+            /**
+             * \brief END transaction
+             */
+            virtual void endTransaction();
+
+            /**
+             * \brief rollback
+             */
+            virtual void rollback();
 
 
             /**

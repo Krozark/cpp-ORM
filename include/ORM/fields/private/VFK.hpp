@@ -36,7 +36,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive=false) = 0; 
+            virtual bool save(bool recursive/*=false*/,Bdd& bdd) = 0; 
 
             /**
              * \brief Delete the object from the bdd and cache
@@ -46,7 +46,7 @@ namespace orm
              *
              * \return fale if fail
              **/      
-            virtual bool del(bool recursive=false) = 0;
+            virtual bool del(bool recursive/*=false*/,Bdd& bdd) = 0;
 
             /**
              * \brief Print the object

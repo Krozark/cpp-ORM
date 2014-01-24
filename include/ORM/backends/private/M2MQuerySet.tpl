@@ -6,7 +6,7 @@ namespace orm
     template <typename M2M,typename OWNER, typename RELATED>
     M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m): limit_skip(0), limit_count(-1)
     {
-        filters.emplace_back(new Filter<int>(makecolumname(m2m.table,m2m._owner),"exact",m2m.owner.pk));
+        filters.emplace_back(new Filter<int>(makecolumname(*M2M::default_connection,m2m.table,m2m._owner),"exact",m2m.owner.pk));
     }
 
     template <typename M2M,typename OWNER, typename RELATED>
@@ -33,7 +33,7 @@ namespace orm
     template<typename U,typename ... Args>
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        filters.emplace_back(new Filter<U>(makecolumname(M2M::_related,column,args ...),operande,value));
+        filters.emplace_back(new Filter<U>(makecolumname(*M2M::default_connection,M2M::_related,column,args ...),operande,value));
         return *this;
     };
 
@@ -41,9 +41,9 @@ namespace orm
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::orderBy(const std::string& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makecolumname(M2M::_related,column)+" DESC");
+            order_by.push_back(makecolumname(*M2M::default_connection,M2M::_related,column)+" DESC");
         else
-            order_by.push_back(makecolumname(M2M::_related,column)+" ASC");
+            order_by.push_back(makecolumname(*M2M::default_connection,M2M::_related,column)+" ASC");
         return *this;
     }
 
@@ -51,9 +51,9 @@ namespace orm
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::orderBy(std::string&& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(makecolumname(M2M::table,column)+" DESC");
+            order_by.push_back(makecolumname(*M2M::default_connection,M2M::table,column)+" DESC");
         else
-            order_by.push_back(makecolumname(M2M::table,column)+" ASC");
+            order_by.push_back(makecolumname(*M2M::default_connection,M2M::table,column)+" ASC");
         return *this;
     }
 
@@ -61,7 +61,7 @@ namespace orm
     template<typename U,typename ... Args>
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        excludes.emplace_back(new Filter<U>(makecolumname(M2M::_related,column,args ...),operande,value));
+        excludes.emplace_back(new Filter<U>(makecolumname(*M2M::default_connection,M2M::_related,column,args ...),operande,value));
         return *this;
     };
 
@@ -105,20 +105,20 @@ namespace orm
 
     template <typename M2M,typename OWNER, typename RELATED>
     template<typename ... Args>
-    std::string M2MQuerySet<M2M,OWNER,RELATED>::makecolumname(const std::string& prefix,const std::string& column,Args&& ...args)
+    std::string M2MQuerySet<M2M,OWNER,RELATED>::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ...args)
     {
-        return makecolumname(JOIN_ALIAS(prefix,column),args...);
+        return makecolumname(bdd,JOIN_ALIAS(prefix,column),args...);
     }
 
     template <typename M2M,typename OWNER, typename RELATED>
-    std::string M2MQuerySet<M2M,OWNER,RELATED>::makecolumname(const std::string& prefix,const std::string& column)
+    std::string M2MQuerySet<M2M,OWNER,RELATED>::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column)
     {
-        return M2M::bdd_used->escapeColumn(prefix)
-            +"."+M2M::bdd_used->escapeColumn(column);
+        return bdd.escapeColumn(prefix)
+            +"."+bdd.escapeColumn(column);
     }
 
     template <typename M2M,typename OWNER, typename RELATED>
-    Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth)
+    Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth,Bdd& bdd)
     {
         std::string q_str ="SELECT ";
         M2M::nameAttrs(q_str,max_depth);
@@ -138,13 +138,13 @@ namespace orm
                 const auto& end = filters.end();
 
                 q_str+= (*begin)->column
-                    +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
+                    +bdd.formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +(*begin)->column
-                        +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
+                        +bdd.formatPreparedValue((*begin)->ope);
                 }
             }
 
@@ -159,13 +159,13 @@ namespace orm
                 const auto& end = excludes.end();
 
                 q_str+= (*begin)->column
-                    +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
+                    +bdd.formatPreparedValue((*begin)->ope);
 
                 while(++begin != end)
                 {
                     q_str+=" AND "
                         +(*begin)->column
-                        +RELATED::bdd_used->formatPreparedValue((*begin)->ope);
+                        +bdd.formatPreparedValue((*begin)->ope);
                 }
 
                 q_str+=") ";
@@ -191,9 +191,9 @@ namespace orm
         }
 
         if(limit_count > 0)
-            q_str+= M2M::bdd_used->limit(limit_skip,limit_count);
+            q_str+= bdd.limit(limit_skip,limit_count);
 
-        Query* q = M2M::bdd_used->prepareQuery(q_str);
+        Query* q = bdd.prepareQuery(q_str);
 
         {//bind values
             unsigned int index = 1;

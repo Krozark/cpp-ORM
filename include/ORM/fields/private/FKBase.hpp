@@ -30,7 +30,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive=false);            
+            virtual bool save(bool recursive/*=false*/,Bdd& bdd);            
 
             /**
              * \brief Delete the object from the bdd and cache
@@ -40,7 +40,7 @@ namespace orm
              *
              * \return fale if fail
              **/
-            virtual bool del(bool recursive=false);
+            virtual bool del(bool recursive/*=false*/,Bdd& bdd);
 
             typedef T type; ///< Type of stored object
 
@@ -121,7 +121,7 @@ namespace orm
              *
              * \return the columns alias
              **/
-            virtual std::string makeName(const Bdd* bdd,const std::string& prefix,int max_depth) const;
+            virtual std::string makeName(const Bdd& bdd,const std::string& prefix,int max_depth) const;
 
             /**
              * \brief Use for increment the column number without construction.

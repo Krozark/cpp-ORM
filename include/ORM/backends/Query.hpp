@@ -48,7 +48,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            Query(Bdd* bdd,const std::string& query);
+            Query(Bdd& bdd,const std::string& query);
 
             /**
              * \brief Create a query
@@ -56,7 +56,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            Query(Bdd* bdd,std::string&& query);
+            Query(Bdd& bdd,std::string&& query);
 
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
@@ -310,7 +310,7 @@ namespace orm
 
             bool prepared; ///< is the query is a prepared one?
             std::string query; ///<query as string
-            Bdd* bdd; ///< database where the query will be executed
+            Bdd& bdd; ///< database where the query will be executed
     
 
         private:
