@@ -48,7 +48,7 @@ namespace orm
 
 
             /**
-             * \brief Mkae an explitit copy of the connection
+             * \brief Make an explicit copy of the connection
              */
             virtual Bdd* clone()const = 0;
                 

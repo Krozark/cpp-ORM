@@ -24,6 +24,7 @@ namespace orm
 
             /**
              * \brief create a queryset for the objet. Use it to make your query
+             * \param bdd the bdd to fetch
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
@@ -31,6 +32,7 @@ namespace orm
 
             /**
             * \brief shortcut for T::query().get(list)
+             * \param bdd the bdd to fetch
             *
             * \return all the objects T
             **/
@@ -40,6 +42,7 @@ namespace orm
              * \brief add a object in the relation
              *
              * \param obj the object to add.
+             * \param bdd the bdd to fetch
              * Note : the object must have be save in database.
              **/
             void add(const RELATED& obj,Bdd& bdd=*default_connection);
@@ -48,6 +51,7 @@ namespace orm
              * \brief add a object in the relation
              *
              * \param obj the object to add.
+             * \param bdd the bdd to fetch
              * Note : the object must have be save in database.
              **/
             void add(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd=*default_connection);
@@ -56,6 +60,7 @@ namespace orm
              * \brief remove a object in the relation
              *
              * \param obj the object to remove.
+             * \param bdd the bdd to fetch
              * Note : the object must have be save in database.
              **/
             void remove(const RELATED& obj,Bdd& bdd=*default_connection);
@@ -64,6 +69,7 @@ namespace orm
              * \brief remove a object in the relation
              *
              * \param obj the object to remove.
+             * \param bdd the bdd to fetch
              * Note : the object must have be save in database.
              **/
             void remove(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd=*default_connection);
@@ -84,6 +90,7 @@ namespace orm
             * \brief make the attrs columns alias
             *
             * \param q_str string query to add the alias
+             * \param bdd the bdd to fetch
             * \param max_depth maximun depth of constrution
             **/
             static void nameAttrs(std::string& q_str,int max_depth,Bdd& bdd);
@@ -92,6 +99,7 @@ namespace orm
              * \brief make the table alias
              *
              * \param q_str string query to add the alias
+             * \param bdd the bdd to fetch
              * \param max_depth maximun depth of constrution
              **/
             static void nameTables(std::string& q_str,int max_depth,Bdd& bdd);
@@ -100,6 +108,7 @@ namespace orm
              * \brief make the table alias of fk with join
              *
              * \param q_str string query to add the alias
+             * \param bdd the bdd to fetch
              * \param max_depth maximun depth of constrution
              **/
             static void makeJoin(std::string& q_str,int max_depth,Bdd& bdd);

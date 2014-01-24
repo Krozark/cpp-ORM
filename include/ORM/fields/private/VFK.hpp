@@ -32,6 +32,7 @@ namespace orm
              /**
              * \brief Save or update the object on the fk
              *
+             * \param bdd the bdd to fetch
              * \param recursive save recursively
              *
              * \return false if fail
@@ -43,6 +44,8 @@ namespace orm
              *  
              *  Note : whe use on object linked in other object with fks can cause trouble because of the remove of the cache
              *  Set the pk to -1
+             *
+             * \param bdd the bdd to fetch
              *
              * \return fale if fail
              **/      
@@ -79,6 +82,7 @@ namespace orm
             /**
              * \brief get the stored object
              *
+             * \param bdd the bdd to fetch
              * \param max_depth maximun depth of construction if object not existe
              *
              * \return the stored object

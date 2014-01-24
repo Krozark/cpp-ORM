@@ -97,6 +97,7 @@ namespace orm
 
             /**
             * \brief shortcut for T::query().filter(id,"exact","id").get(obj)
+             * \param bdd the bdd to fetch
             * \return the object of pk id
             *
             * Note : if the return obj as a pk of -1 : fail
@@ -105,6 +106,7 @@ namespace orm
 
             /**
             * \brief shortcut for T::query().get(list)
+             * \param bdd the bdd to fetch
             *
             * \return all the objects T
             **/
@@ -112,6 +114,7 @@ namespace orm
 
             /**
             * \brief create a queryset for the objet. Use it to make your query
+             * \param bdd the bdd to fetch
             *
             * \return The tempory queryset. use chaine function, or copy it
             **/
@@ -120,6 +123,7 @@ namespace orm
             /**
             * \brief save/update the object in data base
             *
+             * \param bdd the bdd to fetch
             * \param recursive recursive?
             *
             * \return false if fail
@@ -129,6 +133,7 @@ namespace orm
             /**
             * \brief delete the object from de data base
             *
+             * \param bdd the bdd to fetch
             * \param recursive recursive?
             * \return false if fail
             **/
@@ -149,6 +154,7 @@ namespace orm
             /**
              * \brief make the attrs columns alias
              *
+             * \param bdd the bdd to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
@@ -158,6 +164,7 @@ namespace orm
             /**
              * \brief make the table alias
              *
+             * \param bdd the bdd to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
@@ -167,6 +174,7 @@ namespace orm
             /**
              * \brief make the table alias of fk with join
              *
+             * \param bdd the bdd to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
@@ -189,6 +197,7 @@ namespace orm
             /**
             * \brief make the attrs columns alias
             *
+             * \param bdd the bdd to fetch
             * \param q_str string query to add the alias
             * \param prefix prefix column name
             * \param max_depth maximun depth of constrution
@@ -198,6 +207,7 @@ namespace orm
             /**
              * \brief make the table alias
              *
+             * \param bdd the bdd to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
@@ -207,6 +217,7 @@ namespace orm
             /**
              * \brief make the table alias of fk with join
              *
+             * \param bdd the bdd to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
@@ -216,6 +227,7 @@ namespace orm
             /**
             * \brief Create a abject of pk id
             *
+             * \param bdd the bdd to fetch
             * \param id the pk of the object
             * \param max_depth maximun depth of construction
             *
