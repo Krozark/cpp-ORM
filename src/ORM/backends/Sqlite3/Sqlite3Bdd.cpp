@@ -96,7 +96,7 @@ namespace orm
 
     void Sqlite3Bdd::beginTransaction()
     {
-        Query* q = this->query("BEGIN TRANSACTION");
+        Query* q = this->query("BEGIN TRANSACTION;");
         q->execute();
         q->next();
         delete q;
@@ -104,7 +104,7 @@ namespace orm
 
     void Sqlite3Bdd::endTransaction()
     {
-        Query* q = this->query("END TRANSACTION");
+        Query* q = this->query("END TRANSACTION;");
         q->execute();
         q->next();
         delete q;
@@ -112,7 +112,7 @@ namespace orm
 
     void Sqlite3Bdd::rollback()
     {
-        Query* q = this->query("ROLLBACK");
+        Query* q = this->query("ROLLBACK;");
         q->execute();
         q->next();
         delete q;

@@ -115,7 +115,7 @@ namespace orm
     
     void MySQLBdd::beginTransaction()
     {
-        Query* q = this->query("START TRANSACTION");
+        Query* q = this->query("START TRANSACTION;");
         q->execute();
         q->next();
         delete q;
@@ -123,7 +123,7 @@ namespace orm
 
     void MySQLBdd::endTransaction()
     {
-        Query* q = this->query("COMMIT");
+        Query* q = this->query("COMMIT;");
         q->execute();
         q->next();
         delete q;
@@ -131,7 +131,7 @@ namespace orm
 
     void MySQLBdd::rollback()
     {
-        Query* q = this->query("ROLLBACK");
+        Query* q = this->query("ROLLBACK;");
         q->execute();
         q->next();
         delete q;
@@ -139,7 +139,7 @@ namespace orm
 
     int MySQLBdd::getLastInsertPk()
     {
-        Query& q = *query("SELECT LAST_INSERT_ID()");
+        Query& q = *query("SELECT LAST_INSERT_ID();");
 
         q.execute();
         q.next();
