@@ -67,6 +67,16 @@ namespace orm
             virtual bool disconnect() = 0;
 
             /**
+             * \brief Must be call in a thread
+             */
+            virtual void threadInit() = 0;
+
+            /**
+             * \brief Must be call after a end of thread
+             */
+            virtual void threadEnd() = 0;
+
+            /**
              * \brief Begin transaction
              */
             virtual void beginTransaction() = 0;

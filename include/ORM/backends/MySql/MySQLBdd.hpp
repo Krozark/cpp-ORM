@@ -54,6 +54,32 @@ namespace orm
             virtual bool disconnect();
 
             /**
+             * \brief Must be call in a thread
+             */
+            virtual void threadInit();
+
+            /**
+             * \brief Must be call after a end of thread
+             */
+            virtual void threadEnd();
+
+
+            /**
+             * \brief Begin transaction
+             */
+            virtual void beginTransaction();
+
+            /**
+             * \brief END transaction
+             */
+            virtual void endTransaction();
+
+            /**
+             * \brief rollback
+             */
+            virtual void rollback();
+
+            /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
             *
             * \param query The query to execute
@@ -93,21 +119,6 @@ namespace orm
         
         protected:
             friend class MySQLQuery;
-
-            /**
-             * \brief Begin transaction
-             */
-            virtual void beginTransaction();
-
-            /**
-             * \brief END transaction
-             */
-            virtual void endTransaction();
-
-            /**
-             * \brief rollback
-             */
-            virtual void rollback();
 
             /**
             * \brief Get the pk of the last object created in the database

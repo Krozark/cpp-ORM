@@ -78,6 +78,16 @@ namespace orm
         return true;
     };
 
+    void MySQLBdd::threadInit()
+    {
+        driver->threadInit();
+    }
+
+    void MySQLBdd::threadEnd()
+    {
+        driver->threadEnd();
+    }
+
     Query* MySQLBdd::query(const std::string& str)
     {
         auto q = new MySQLQuery(*this,str);

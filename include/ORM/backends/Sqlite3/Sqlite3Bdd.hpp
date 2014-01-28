@@ -48,6 +48,31 @@ namespace orm
             * \return false if fail
             **/
             virtual bool disconnect();
+            
+            /**
+             * \brief Must be call in a thread
+             */
+            virtual void threadInit();
+
+            /**
+             * \brief Must be call after a end of thread
+             */
+            virtual void threadEnd();
+
+            /**
+             * \brief Begin transaction
+             */
+            virtual void beginTransaction();
+
+            /**
+             * \brief END transaction
+             */
+            virtual void endTransaction();
+
+            /**
+             * \brief rollback
+             */
+            virtual void rollback();
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -91,20 +116,6 @@ namespace orm
             friend class Sqlite3Query;
 
 
-            /**
-             * \brief Begin transaction
-             */
-            virtual void beginTransaction();
-
-            /**
-             * \brief END transaction
-             */
-            virtual void endTransaction();
-
-            /**
-             * \brief rollback
-             */
-            virtual void rollback();
 
 
             /**

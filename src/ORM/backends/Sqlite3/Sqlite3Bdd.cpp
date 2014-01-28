@@ -67,6 +67,14 @@ namespace orm
         return true;
     };
 
+    void Sqlite3Bdd::threadInit()
+    {
+    };
+
+    void Sqlite3Bdd::threadEnd()
+    {
+    };
+
     Query* Sqlite3Bdd::query(const std::string& str)
     {
         return new Sqlite3Query(*this,str);
