@@ -58,6 +58,27 @@ namespace orm
         return true;
     };
 
+    bool MySQLQuery::getPk(int& value, const int& colum)const
+    {
+        #if ORM_ALLOW_EXCEPTION
+        try{
+        #endif
+            if(bdd_res->isNull((uint32_t)colum))
+            {
+                value = -1;
+                return false;
+            }
+            value = bdd_res->getUInt((uint32_t)colum);
+        #if ORM_ALLOW_EXCEPTION
+        }
+        catch(sql::InvalidArgumentException& e){
+            value = -1;
+            return false;
+        }
+        #endif
+        return true;
+    }
+
     bool MySQLQuery::get(unsigned int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION

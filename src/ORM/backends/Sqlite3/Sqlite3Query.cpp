@@ -64,6 +64,17 @@ namespace orm
         return true;
     };
 
+    bool Sqlite3Query::getPk(int& value, const int& colum)const
+    {
+        if(sqlite3_column_type(statement,colum) == SQLITE_NULL)
+        {
+            value = -1;
+            return false;
+        }
+        value = sqlite3_column_int(statement,colum);
+        return true;
+    }
+
     bool Sqlite3Query::get(unsigned int& value,const int& column)const
     {
         value = (unsigned int)sqlite3_column_int(statement,column);

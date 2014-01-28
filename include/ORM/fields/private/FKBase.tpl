@@ -57,14 +57,25 @@ namespace orm
     template<typename T>
     bool FKBase<T>::get(const Query& query,int& prefix,int max_depth)
     {
-        bool res = query.get(fk,prefix);
-        
-        if(res and --max_depth>=0)
+        bool res = query.getPk(fk,prefix);
+        std::cout<<res<<" "<<fk<<" "<<T::table<<std::endl;
+
+        if(--max_depth>=0)
         {
-            const unsigned int id = fk;
-            value_ptr = T::cache.getOrCreate(id,query,prefix,max_depth);
-            loaded = true;
+            if(res)
+            {
+                const unsigned int id = fk;
+                value_ptr = T::cache.getOrCreate(id,query,prefix,max_depth);
+                loaded = true;
+            }
+            else
+            {
+                T::incDepth(prefix,max_depth);
+                if(nullable)
+                    res = true;
+            }
         }
+        
         return res;
     }
     

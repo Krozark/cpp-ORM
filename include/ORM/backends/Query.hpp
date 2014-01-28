@@ -93,6 +93,17 @@ namespace orm
              **/
             virtual bool get(int& value,const int& column)const = 0;
 
+
+            /**
+             * \brief Get a value of a PK/FK collumn, and stor it
+             *
+             * \param value : where the value is stored (<=0 if null)
+             * \param colun The column to extract
+             *
+             * \return false if fail or colum is null
+             */
+            virtual bool getPk(int& value, const int& colum)const=0;
+
             /**
              * \brief Get a value of a column, and store it 
              *
