@@ -58,7 +58,6 @@ namespace orm
     bool FKBase<T>::get(const Query& query,int& prefix,int max_depth)
     {
         bool res = query.getPk(fk,prefix);
-        std::cout<<res<<" "<<fk<<" "<<T::table<<std::endl;
 
         if(--max_depth>=0)
         {

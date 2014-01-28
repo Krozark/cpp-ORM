@@ -115,26 +115,23 @@ namespace orm
     
     void MySQLBdd::beginTransaction()
     {
-        Query* q = this->query("START TRANSACTION;");
-        q->execute();
-        q->next();
-        delete q;
+        sql::Statement* statement = dbConn->createStatement();
+        statement->execute("START TRANSACTION;");
+        delete statement;
     };
 
     void MySQLBdd::endTransaction()
     {
-        Query* q = this->query("COMMIT;");
-        q->execute();
-        q->next();
-        delete q;
+        sql::Statement* statement = dbConn->createStatement();
+        statement->execute("COMMIT;");
+        delete statement;
     };
 
     void MySQLBdd::rollback()
     {
-        Query* q = this->query("ROLLBACK;");
-        q->execute();
-        q->next();
-        delete q;
+        sql::Statement* statement = dbConn->createStatement();
+        statement->execute("ROLLBACK;");
+        delete statement;
     };
 
     int MySQLBdd::getLastInsertPk()
@@ -145,7 +142,7 @@ namespace orm
         q.next();
 
         int pk = -1;
-        q.get(pk,0);
+        q.get(pk,getInitialGetcolumnNumber());
 
         delete &q;
 
