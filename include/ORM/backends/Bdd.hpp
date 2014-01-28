@@ -66,6 +66,21 @@ namespace orm
             **/
             virtual bool disconnect() = 0;
 
+            /**
+             * \brief Begin transaction
+             */
+            virtual void beginTransaction() = 0;
+
+            /**
+             * \brief END transaction
+             */
+            virtual void endTransaction() = 0;
+
+            /**
+             * \brief rollback
+             */
+            virtual void rollback() = 0;
+
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -142,20 +157,6 @@ namespace orm
             **/
             std::unordered_map<std::string,std::string> operators;
 
-            /**
-             * \brief Begin transaction
-             */
-            virtual void beginTransaction() = 0;
-
-            /**
-             * \brief END transaction
-             */
-            virtual void endTransaction() = 0;
-
-            /**
-             * \brief rollback
-             */
-            virtual void rollback() = 0;
 
             /**
             * \brief Get the pk of the last object created in the database
