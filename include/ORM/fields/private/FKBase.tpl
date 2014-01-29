@@ -74,6 +74,8 @@ namespace orm
                     res = true;
             }
         }
+        else if(nullable)
+            res = true;
         
         return res;
     }
