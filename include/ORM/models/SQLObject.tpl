@@ -130,6 +130,7 @@ namespace orm
         q_str+= bdd.escapeColumn(prefix)+"."+bdd.escapeColumn("id")+" AS "+JOIN_ALIAS(prefix,"id");
         
         const int size = column_attrs.size();
+
         for(int i=0;i<size;++i)
         {
             q_str+= column_attrs[i]->makeName(bdd,prefix,max_depth);

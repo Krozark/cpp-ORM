@@ -23,8 +23,9 @@ namespace orm
         object.attrs.emplace_back(this);
     }
 
-    std::string VAttr::makeName(const Bdd& bdd, const std::string& prefix,int max_depth) const
+    std::string VAttr::makeName(Bdd& bdd, const std::string& prefix,int max_depth) const
     {
         return ", "+bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
     }
+
 };
