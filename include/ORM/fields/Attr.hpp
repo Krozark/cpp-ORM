@@ -450,6 +450,31 @@ namespace orm
     /*template<bool auto_increment>
     using AutoField = Attr<int>;*/
 
+  /*      TINYINT[(length)] [UNSIGNED] [ZEROFILL]
+  | SMALLINT[(length)] [UNSIGNED] [ZEROFILL]
+  | MEDIUMINT[(length)] [UNSIGNED] [ZEROFILL]
+  | INT[(length)] [UNSIGNED] [ZEROFILL]
+  | INTEGER[(length)] [UNSIGNED] [ZEROFILL]
+  | BIGINT[(length)] [UNSIGNED] [ZEROFILL]
+  | REAL[(length,decimals)] [UNSIGNED] [ZEROFILL]
+  | DOUBLE[(length,decimals)] [UNSIGNED] [ZEROFILL]
+  | FLOAT[(length,decimals)] [UNSIGNED] [ZEROFILL]
+  | DECIMAL(length,decimals) [UNSIGNED] [ZEROFILL]
+  | NUMERIC(length,decimals) [UNSIGNED] [ZEROFILL]
+  | DATE
+  | TIME
+  | TIMESTAMP
+  | DATETIME
+  | CHAR(length) [BINARY | ASCII | UNICODE]
+  | VARCHAR(length) [BINARY]
+  | TINYBLOB
+  | BLOB
+  | MEDIUMBLOB
+  | LONGBLOB
+  | TINYTEXT
+  | TEXT
+  | spatial_type*/
+
 };
 #include <ORM/fields/Attr.tpl>
 
