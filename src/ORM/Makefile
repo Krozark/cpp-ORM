@@ -1,7 +1,7 @@
 SRC = $(wildcard *.c*)
 OBJ = $(SRC:.cpp=.o) $(SRC:*.cpp=.o)
 
-SUBDIRS = backends fields models
+SUBDIRS = backends core fields models
 
 CLEANDIRS = $(SUBDIRS:%=clean-%)
 

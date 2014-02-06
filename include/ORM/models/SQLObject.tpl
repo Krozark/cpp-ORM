@@ -127,6 +127,9 @@ namespace orm
     template<typename T>
     bool SQLObject<T>::create(Bdd& bdd)
     {
+        #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
+        std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
+        #endif
         //TODO
         return false;
     }
@@ -134,6 +137,9 @@ namespace orm
     template<typename T>
     bool SQLObject<T>::drop(Bdd& bdd)
     {
+        #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
+        std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
+        #endif
         //TODO
         return false;
     }
@@ -141,6 +147,9 @@ namespace orm
     template<typename T>
     bool SQLObject<T>::truncate(Bdd& bdd)
     {
+        #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
+        std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
+        #endif
         //TODO
         return false;
     }

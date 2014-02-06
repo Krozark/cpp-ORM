@@ -12,10 +12,17 @@
 #define ORM_DEBUG_REGISTER 1<<2 ///< print regiter of class
 #define ORM_DEBUG_GET_OBJ 1<<3 ///< print object construction
 #define ORM_DEBUG_GET_ATTR 1<<4 ///< print attr construction (verbose)
+#define ORM_DEBUG_CREATE_TABLE 1<<5 //< print a msg when a table is create
+#define ORM_DEBUG_DROP_TABLE 1<<6 //< print a msg when a table is drop
+#define ORM_DEBUG_TRUNCATE_TABLE 1<<7 //< print a msg when a table is truncate
 
 #define ORM_DEBUG_FULL (0xFFFF) ///< all debug mods
 
-#define ORM_DEBUG (ORM_DEBUG_REGISTER)
+#define ORM_DEBUG (ORM_DEBUG_REGISTER \
+                   | ORM_DEBUG_CREATE_TABLE \
+                   | ORM_DEBUG_DROP_TABLE \
+                   | ORM_DEBUG_TRUNCATE_TABLE \
+                   )
 //#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_ATTR)
 //#define ORM_DEBUG (ORM_DEBUG_FULL) ///<current debug mod
 
