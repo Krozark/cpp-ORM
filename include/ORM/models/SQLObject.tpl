@@ -125,6 +125,27 @@ namespace orm
     };
 
     template<typename T>
+    bool SQLObject<T>::create(Bdd& bdd)
+    {
+        //TODO
+        return false;
+    }
+
+    template<typename T>
+    bool SQLObject<T>::drop(Bdd& bdd)
+    {
+        //TODO
+        return false;
+    }
+
+    template<typename T>
+    bool SQLObject<T>::truncate(Bdd& bdd)
+    {
+        //TODO
+        return false;
+    }
+
+    template<typename T>
     void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
     {
         q_str+= bdd.escapeColumn(prefix)+"."+bdd.escapeColumn("id")+" AS "+JOIN_ALIAS(prefix,"id");

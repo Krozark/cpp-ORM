@@ -1,6 +1,9 @@
 #ifndef ORM_REGISTER_HPP
 #define ORM_REGISTER_HPP
 
+#include <ORM/debug.hpp>
+#include <ORM/core/Tables.hpp>
+
 namespace orm
 {
     /**

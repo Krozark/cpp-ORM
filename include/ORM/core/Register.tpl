@@ -1,5 +1,3 @@
-#include <ORM/debug.hpp>
-
 namespace orm
 {
     
@@ -25,6 +23,25 @@ namespace orm
             #endif
             SQLObject<T>::column_fks.emplace_back(fk);
         }
+
+        Tables::_create.push_back(
+                                 []()->bool{
+                                    return SQLObject<T>::create();
+                                 }
+                                );
+
+        Tables::_drop.push_back(
+                               []()->bool{
+                                return SQLObject<T>::drop();
+                                }
+                            );
+
+        Tables::_truncate.push_back(
+                                   []()->bool{
+                                    return SQLObject<T>::truncate();
+                                    }
+                                );
+
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
         std::cerr<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
         #endif

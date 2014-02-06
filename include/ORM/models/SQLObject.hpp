@@ -6,6 +6,7 @@
 #include <ORM/fields/private/VFK.hpp>
 #include <ORM/core/Cache.hpp>
 #include <ORM/core/macros.hpp>
+#include <ORM/core/Register.hpp>
 //std::
 #include <memory>
 
@@ -21,43 +22,6 @@ namespace orm
     template<typename T> class SQLObject;
     template<typename T> class QuerySet;
 
-    /**
-    * \brief class to register column name as static (Hack)
-    **/
-    template<typename T>
-    class Register
-    {
-        public:
-            /**
-            * \brief constructor. Create a default object, and use it to get attrs, and fk of the class.
-            * Note : default constructor have to be anable (without params)
-            */
-            Register()
-            {
-                #if ORM_DEBUG & ORM_DEBUG_REGISTER
-                std::cerr<<MAGENTA<<"[Register] Table "<<T::table<<BLANC<<std::endl;
-                #endif
-
-                static T tmp;
-                for(VAttr* attr: tmp.attrs)
-                {
-                    #if ORM_DEBUG & ORM_DEBUG_REGISTER
-                    //std::cerr<<MAGENTA<<"[Register] Attr "<<attr->column<<BLANC<<std::endl;
-                    #endif
-                    SQLObject<T>::column_attrs.emplace_back(attr);
-                }
-                for(VFK* fk: tmp.fks)
-                {
-                    #if ORM_DEBUG & ORM_DEBUG_REGISTER
-                    //std::cerr<<MAGENTA<<"[Register] Fk "<<fk->column<<BLANC<<std::endl;
-                    #endif
-                    SQLObject<T>::column_fks.emplace_back(fk);
-                }
-                #if ORM_DEBUG & ORM_DEBUG_REGISTER
-                std::cerr<<MAGENTA<<"[Register] END Table "<<T::table<<BLANC<<std::endl;
-                #endif
-            }
-    };
 
     /**
     * \brief a class to manage customs sql objects
@@ -68,6 +32,7 @@ namespace orm
     * class A : SQLObject<A>
     * { 
     * ...
+    * MAKE_STATIC_COLUMN(A,"table_name",...)
     * };
     * \endcode
     **/
@@ -139,8 +104,14 @@ namespace orm
             **/
             virtual bool del(Bdd& bdd = *default_connection,bool recursive=false);
 
-            static  Bdd* default_connection; ///< bdd use to stor the object
 
+            static bool create(Bdd& bdd = *default_connection);
+
+            static bool drop(Bdd& bdd = *default_connection);
+
+            static bool truncate(Bdd& bdd = *default_connection);
+
+            static  Bdd* default_connection; ///< bdd use to stor the object
 
         protected:
             const static std::string table; ///< the table name
