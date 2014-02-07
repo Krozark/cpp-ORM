@@ -24,7 +24,7 @@ namespace orm
              * \brief drop all the tables
              * \return true if success
              */
-            static bool del();
+            static bool drop();
 
             /**
              * \brief truncate all the tables
@@ -36,7 +36,7 @@ namespace orm
             template<typename T> friend class Register;
 
             static std::vector<bool(*)()> _create; ///< fuinction ptr on SQLObject<T>::create
-            static std::vector<bool(*)()> _del; ///< function ptr on SQLObject<T>::del
+            static std::vector<bool(*)()> _drop; ///< function ptr on SQLObject<T>::del
             static std::vector<bool(*)()> _clear; ///<function ptr on SQLObject<T>::clear
 
             Tables() = delete;

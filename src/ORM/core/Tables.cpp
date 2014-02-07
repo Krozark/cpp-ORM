@@ -4,7 +4,7 @@ namespace orm
 {
     std::vector<bool(*)()> Tables::_create;
     std::vector<bool(*)()> Tables::_drop;
-    std::vector<bool(*)()> Tables::_truncate;
+    std::vector<bool(*)()> Tables::_clear;
 
     bool Tables::create()
     {
@@ -21,11 +21,11 @@ namespace orm
         return res;
     }
     
-    bool Tables::del()
+    bool Tables::drop()
     {
         bool res = false;
         //TODO beginTransaction
-        for(bool(*f)() : _del)
+        for(bool(*f)() : _drop)
         {
             res = f();
             if(not res)

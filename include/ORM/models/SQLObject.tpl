@@ -135,7 +135,7 @@ namespace orm
     }
 
     template<typename T>
-    bool SQLObject<T>::del(Bdd& bdd)
+    bool SQLObject<T>::drop(Bdd& bdd)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
         std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;

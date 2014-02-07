@@ -117,7 +117,7 @@ namespace orm
              * \todo
              * \return true if success
              */
-            static bool del(Bdd& bdd = *default_connection);
+            static bool drop(Bdd& bdd = *default_connection);
 
             /**
              * \brief truncate the table
