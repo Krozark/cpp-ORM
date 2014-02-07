@@ -431,6 +431,12 @@ namespace orm
              * \return false if fail
              **/
             virtual bool get(const Query& query,int& prefix,int max_depth);
+
+            /**
+             * \brief create the attr column
+             * \todo
+             */
+            virtual void create()const {};
     };
 
     // define more common type
@@ -476,6 +482,6 @@ namespace orm
   | spatial_type*/
 
 };
-#include <ORM/fields/Attr.tpl>
+#include <ORM/fields/private/Attr.tpl>
 
 #endif

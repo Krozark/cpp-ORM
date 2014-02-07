@@ -162,4 +162,31 @@ namespace orm
     };
 };
 
+/**
+ * \todo data_types = {
+  'AutoField':         'integer AUTO_INCREMENT',
+  'BooleanField':      'bool',
+  'CharField':         'varchar(%(max_length)s)',
+  'CommaSeparatedIntegerField': 'varchar(%(max_length)s)',
+  'DateField':         'date',
+  'DateTimeField':     'datetime',
+  'DecimalField':      'numeric(%(max_digits)s, %(decimal_places)s)',
+  'EmailField' : 
+  'FileField':         'varchar(%(max_length)s)',
+  'FilePathField':     'varchar(%(max_length)s)',
+  'FloatField':        'double precision',
+  'IntegerField':      'integer',
+  'BigIntegerField':   'bigint',
+  'IPAddressField':    'char(15)',
+  'GenericIPAddressField': 'char(39)',
+  'NullBooleanField':  'bool',
+  'OneToOneField':     'integer',
+  'PositiveIntegerField': 'integer UNSIGNED',
+  'PositiveSmallIntegerField': 'smallint UNSIGNED',
+  'SlugField':         'varchar(%(max_length)s)',
+  'SmallIntegerField': 'smallint',
+  'TextField':         'longtext',
+  'TimeField':         'time',
+  BinaryField
+  }*/
 #endif

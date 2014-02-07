@@ -30,15 +30,15 @@ namespace orm
                                  }
                                 );
 
-        Tables::_drop.push_back(
+        Tables::_del.push_back(
                                []()->bool{
-                                return SQLObject<T>::drop();
+                                return SQLObject<T>::del();
                                 }
                             );
 
-        Tables::_truncate.push_back(
+        Tables::_clear.push_back(
                                    []()->bool{
-                                    return SQLObject<T>::truncate();
+                                    return SQLObject<T>::clear();
                                     }
                                 );
 

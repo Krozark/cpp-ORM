@@ -105,11 +105,26 @@ namespace orm
             virtual bool del(Bdd& bdd = *default_connection,bool recursive=false);
 
 
+            /**
+             * \brief create the table
+             * \todo
+             * \return true if success
+             */
             static bool create(Bdd& bdd = *default_connection);
 
-            static bool drop(Bdd& bdd = *default_connection);
+            /**
+             * \brief drop the table
+             * \todo
+             * \return true if success
+             */
+            static bool del(Bdd& bdd = *default_connection);
 
-            static bool truncate(Bdd& bdd = *default_connection);
+            /**
+             * \brief truncate the table
+             * \todo
+             * \return true if success
+             */
+            static bool clear(Bdd& bdd = *default_connection);
 
             static  Bdd* default_connection; ///< bdd use to stor the object
 

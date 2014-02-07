@@ -7,20 +7,37 @@ namespace orm
 {
     template<typename T> class Register;
 
+    /**
+     * \brief class that manage all the referencies tables (class)
+     */
     class Tables
     {
         public:
 
+            /**
+             * \brief create all the tables
+             * \return true is success
+             */
             static bool create();
-            static bool drop();
-            static bool truncate();
+
+            /**
+             * \brief drop all the tables
+             * \return true if success
+             */
+            static bool del();
+
+            /**
+             * \brief truncate all the tables
+             * \return true if success
+             */
+            static bool clear();
 
         private:
             template<typename T> friend class Register;
 
-            static std::vector<bool(*)()> _create;
-            static std::vector<bool(*)()> _drop;
-            static std::vector<bool(*)()> _truncate;
+            static std::vector<bool(*)()> _create; ///< fuinction ptr on SQLObject<T>::create
+            static std::vector<bool(*)()> _del; ///< function ptr on SQLObject<T>::del
+            static std::vector<bool(*)()> _clear; ///<function ptr on SQLObject<T>::clear
 
             Tables() = delete;
             Tables(const Tables&) = delete;

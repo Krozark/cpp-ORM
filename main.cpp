@@ -87,6 +87,7 @@ int main(int argc,char* argv[])
     con2->connect();
 
 
+
     { 
         auto& p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;

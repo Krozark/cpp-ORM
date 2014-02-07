@@ -21,11 +21,11 @@ namespace orm
         return res;
     }
     
-    bool Tables::drop()
+    bool Tables::del()
     {
         bool res = false;
         //TODO beginTransaction
-        for(bool(*f)() : _drop)
+        for(bool(*f)() : _del)
         {
             res = f();
             if(not res)
@@ -36,11 +36,11 @@ namespace orm
         return res;
     }
 
-    bool Tables::truncate()
+    bool Tables::clear()
     {
         bool res = false;
         //TODO beginTransaction
-        for(bool(*f)() : _truncate)
+        for(bool(*f)() : _clear)
         {
             res = f();
             if(not res)

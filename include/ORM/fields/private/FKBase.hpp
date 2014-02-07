@@ -145,6 +145,13 @@ namespace orm
              **/
             virtual const SQLObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
+
+            /**
+             * \brief create the attr column
+             * \todo
+             */
+            virtual void create()const{};
+
     };
 }
 

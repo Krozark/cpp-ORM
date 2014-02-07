@@ -158,4 +158,34 @@ namespace orm
     };
 };
 
+/*
+    data_types = {
+        'AutoField':                    'integer NOT NULL PRIMARY KEY',
+        'BooleanField':                 'bool',
+        'CharField':                    'varchar(%(max_length)s)',
+        'CommaSeparatedIntegerField':   'varchar(%(max_length)s)',
+        'DateField':                    'date',
+        'DateTimeField':                'datetime',
+        'DecimalField':                 'decimal',
+        'FileField':                    'varchar(%(max_length)s)',
+        'FilePathField':                'varchar(%(max_length)s)',
+        'FloatField':                   'real',
+        'IntegerField':                 'integer',
+        'BigIntegerField':              'bigint',
+        'IPAddressField':               'char(15)',
+        'GenericIPAddressField':        'char(39)',
+        'NullBooleanField':             'bool',
+        'OneToOneField':                'integer',
+        'PositiveIntegerField':         'integer unsigned',
+        'PositiveSmallIntegerField':    'smallint unsigned',
+        'SlugField':                    'varchar(%(max_length)s)',
+        'SmallIntegerField':            'smallint',
+        'TextField':                    'text',
+        'TimeField':                    'time',
+        BinaryField
+        integer NOT NULL REFERENCES "website_aamodification" ("id")
+        UNIQUE ("analysemgf_id", "aamodification_id")
+    }
+*/
+
 #endif
