@@ -20,8 +20,8 @@ namespace orm
 
     void Query::execute()
     {
-        #if (ORM_DEBUG & ORM_DEBUG_SQL)
-        std::cerr<<VERT<<"[SQL] Query::execute()"<<query<<BLANC<<std::endl;
+        #if (ORM_DEBUG & ORM_DEBUG_Sql)
+        std::cerr<<VERT<<"[Sql] Query::execute()"<<query<<BLANC<<std::endl;
         #endif
         
         executed = true;

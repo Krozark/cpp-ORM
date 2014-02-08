@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T> class QuerySet;
     template<typename T,typename U,typename V> class M2MQuerySet;
     class Query;
@@ -47,7 +47,7 @@ namespace orm
 
 
         protected:
-            template<typename T> friend class SQLObject;
+            template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
 

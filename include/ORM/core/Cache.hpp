@@ -8,7 +8,7 @@
 
 namespace orm
 {
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T> class FKBase;
 
     /**
@@ -22,7 +22,7 @@ namespace orm
             /***
              * \brief Construct a Cache for T
              *
-             * Note: T have to be a SQLObject
+             * Note: T have to be a SqlObject
              **/
             Cache();
 
@@ -74,7 +74,7 @@ namespace orm
             void __print__();
 
         private:
-            friend class SQLObject<T>;
+            friend class SqlObject<T>;
             friend class FKBase<T>;
 
             /**

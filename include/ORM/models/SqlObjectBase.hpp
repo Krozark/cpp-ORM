@@ -1,5 +1,5 @@
-#ifndef ORM_SQLOBJECTBASE_HPP
-#define ORM_SQLOBJECTBASE_HPP
+#ifndef ORM_SqlOBJECTBASE_HPP
+#define ORM_SqlOBJECTBASE_HPP
 
 #include <vector>
 #include <ostream>
@@ -14,24 +14,24 @@ namespace orm
     class VFK;
     template<typename T> class Register;
     template<typename T> class FKBase;
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T,typename U,typename V> class M2MQuerySet;
 
     /**
-     * \brief Base classe to manage SQLObjects. Usfull to store them in containers
+     * \brief Base classe to manage SqlObjects. Usfull to store them in containers
      **/
-    class SQLObjectBase
+    class SqlObjectBase
     {
         public:
             /**
-             * \brief Make a SQLObjectBase
+             * \brief Make a SqlObjectBase
              **/
-            SQLObjectBase();
+            SqlObjectBase();
 
-            virtual ~SQLObjectBase(){};
+            virtual ~SqlObjectBase(){};
 
-            SQLObjectBase(const SQLObjectBase&)=delete;
-            SQLObjectBase& operator=(const SQLObjectBase&)=delete;
+            SqlObjectBase(const SqlObjectBase&)=delete;
+            SqlObjectBase& operator=(const SqlObjectBase&)=delete;
 
 
             /**
@@ -62,7 +62,7 @@ namespace orm
             /**
              * \brief Display the object in json
              **/
-            friend std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self);
+            friend std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self);
 
 
         protected:
@@ -71,7 +71,7 @@ namespace orm
             friend class VAttr;
             template<typename T> friend class FKBase;
             template<typename T> friend class Register;
-            template<typename T> friend class SQLObject;
+            template<typename T> friend class SqlObject;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
 
             int pk; ///< the object pf

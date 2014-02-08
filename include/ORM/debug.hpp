@@ -8,7 +8,7 @@
  ******* DEBUG MOD ****************
  *********************************/
 #define ORM_DEGUG_NO 0 ///< no debug print
-#define ORM_DEBUG_SQL 1<<1 ///< print sql
+#define ORM_DEBUG_Sql 1<<1 ///< print sql
 #define ORM_DEBUG_REGISTER 1<<2 ///< print regiter of class
 #define ORM_DEBUG_GET_OBJ 1<<3 ///< print object construction
 #define ORM_DEBUG_GET_ATTR 1<<4 ///< print attr construction (verbose)
@@ -23,7 +23,7 @@
                    | ORM_DEBUG_DROP_TABLE \
                    | ORM_DEBUG_TRUNCATE_TABLE \
                    )
-//#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_ATTR)
+//#define ORM_DEBUG (ORM_DEBUG_Sql | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_ATTR)
 //#define ORM_DEBUG (ORM_DEBUG_FULL) ///<current debug mod
 
 #if ORM_DEBUG > 0

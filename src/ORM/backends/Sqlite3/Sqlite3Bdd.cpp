@@ -1,9 +1,13 @@
 #include  <ORM/backends/Sqlite3/Sqlite3Bdd.hpp>
 #include  <ORM/backends/Sqlite3/Sqlite3Query.hpp>
 
+#include <ORM/fields/private/VAttr.hpp>
+
 
 namespace orm
 {
+    Sqlite3TableCreator Sqlite3Bdd::my_creator;
+
     Sqlite3Bdd::Sqlite3Bdd(std::string bdd) : Bdd("","",bdd,"",""), dbConn(0)
 
     {
@@ -100,6 +104,30 @@ namespace orm
         return q;
     }
 
+    bool Sqlite3Bdd::create(const std::string& table,const std::vector<VAttr*>& attrs)
+    {
+        std::string sql = "CREATE TABLE \""+table+"\"(";
+        unsigned int size = attrs.size();
+
+        if(size>0)
+        {
+            Bdd& bdd=*this;
+            sql+=attrs[0]->create(bdd);
+            for(unsigned int i=1;i<size;++i)
+            {
+                sql+=","+attrs[i]->create(bdd);
+            }
+        }
+        sql+=");";
+
+        Query* q = this->query(sql);
+        q->execute();
+        q->next();
+        delete q;
+
+        return true;
+    };
+
     /************** PROTECTED **********************/
 
     void Sqlite3Bdd::beginTransaction()
@@ -156,4 +184,9 @@ namespace orm
         #endif
         return query;
     };
+
+    const TableCreator& Sqlite3Bdd::creator()const
+    {
+        return my_creator;
+    }
 };

@@ -11,13 +11,13 @@
 namespace orm
 {
     class Bdd;
-    class MySQLBdd;
+    class MySqlBdd;
     class Sqlite3Bdd;
-    class SQLObjectBase;
+    class SqlObjectBase;
     template<typename T> class FKBase;
     template<typename T> class Attr;
     template<typename T> class QuerySet;
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T> class Cache;
     template<typename T> class Filter;
     template<typename T,typename U> class ManyToMany;
@@ -30,13 +30,13 @@ namespace orm
     {
         protected:
             friend class Bdd;
-            friend class MySQLBdd;
+            friend class MySqlBdd;
             friend class Sqlite3Bdd;
-            friend class SQLObjectBase;
+            friend class SqlObjectBase;
             template<typename T> friend class Attr;
             template<typename T> friend class FKBase;
             template<typename T> friend class QuerySet;
-            template<typename T> friend class SQLObject;
+            template<typename T> friend class SqlObject;
             template<typename T> friend class Cache;
             template<typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;
@@ -176,7 +176,7 @@ namespace orm
 
 
             /**
-             * \brief Construct objects from the query. T must be a SQLObject
+             * \brief Construct objects from the query. T must be a SqlObject
              *
              * \param obj Where the object will be stored
              * \param max_depth The maximum recursion depth of object construction (for FK)
@@ -187,7 +187,7 @@ namespace orm
             int getObj(T& obj,int max_depth);
 
             /**
-             * \brief Construct objects from the query. T must be a SQLObject
+             * \brief Construct objects from the query. T must be a SqlObject
              *
              * \param objs Where the objects will be stored
              * \param max_depth The maximum recursion depth of object construction (for FK)

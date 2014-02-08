@@ -5,12 +5,12 @@
 namespace orm
 {
     template<typename T>
-    SQLObject<T>::SQLObject()
+    SqlObject<T>::SqlObject()
     {
     };
 
     template<typename T>
-    T* SQLObject<T>::createFromBdd(const Query& query,int& prefix, int max_depth)
+    T* SqlObject<T>::createFromBdd(const Query& query,int& prefix, int max_depth)
     {
         T* res = new T();
         if(not res->loadFromBdd(query,prefix,max_depth))
@@ -22,13 +22,13 @@ namespace orm
     };
 
     template<typename T>
-    typename Cache<T>::type_ptr& SQLObject<T>::get(const unsigned int& id,Bdd& bdd,int max_depth)
+    typename Cache<T>::type_ptr& SqlObject<T>::get(const unsigned int& id,Bdd& bdd,int max_depth)
     {
         return cache.getOrCreate(id,bdd,max_depth);
     }
     
     template<typename T>
-    T* SQLObject<T>::_get_ptr(const unsigned int id,Bdd& bdd,int max_depth)
+    T* SqlObject<T>::_get_ptr(const unsigned int id,Bdd& bdd,int max_depth)
     {
         if(max_depth <0)
             return 0;
@@ -51,7 +51,7 @@ namespace orm
         if(not q->getObj(*res,max_depth))
         {
             #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
-            std::cerr<<ROUGE<<"[GET OBJ] SQLObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<BLANC<<std::endl;
+            std::cerr<<ROUGE<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<BLANC<<std::endl;
             #endif
             delete res;
             res = 0;
@@ -61,7 +61,7 @@ namespace orm
     };
 
     template<typename T>
-    std::list<typename Cache<T>::type_ptr> SQLObject<T>::all(Bdd& bdd,int max_depth)
+    std::list<typename Cache<T>::type_ptr> SqlObject<T>::all(Bdd& bdd,int max_depth)
     {
         std::list<typename Cache<T>::type_ptr> results;
         query(bdd).get(results,max_depth);
@@ -69,14 +69,14 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T> SQLObject<T>::query(Bdd& bdd)
+    QuerySet<T> SqlObject<T>::query(Bdd& bdd)
     {
         return QuerySet<T>(bdd);
     }
 
 
     template<typename T>
-    bool SQLObject<T>::save(Bdd& bdd,bool recursive)
+    bool SqlObject<T>::save(Bdd& bdd,bool recursive)
     {
         if(recursive)//save all FK
         {
@@ -104,7 +104,7 @@ namespace orm
     }
 
     template<typename T>
-    bool SQLObject<T>::del(Bdd& bdd,bool recursive)
+    bool SqlObject<T>::del(Bdd& bdd,bool recursive)
     {
         bool res =true;
         if(bdd.del(table,pk))
@@ -125,7 +125,7 @@ namespace orm
     };
 
     template<typename T>
-    bool SQLObject<T>::create(Bdd& bdd)
+    bool SqlObject<T>::create(Bdd& bdd)
     {
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
         std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
@@ -135,7 +135,7 @@ namespace orm
     }
 
     template<typename T>
-    bool SQLObject<T>::drop(Bdd& bdd)
+    bool SqlObject<T>::drop(Bdd& bdd)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
         std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
@@ -145,7 +145,7 @@ namespace orm
     }
 
     template<typename T>
-    bool SQLObject<T>::clear(Bdd& bdd)
+    bool SqlObject<T>::clear(Bdd& bdd)
     {
         #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
         std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
@@ -155,7 +155,7 @@ namespace orm
     }
 
     template<typename T>
-    void SQLObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
+    void SqlObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
     {
         q_str+= bdd.escapeColumn(prefix)+"."+bdd.escapeColumn("id")+" AS "+JOIN_ALIAS(prefix,"id");
         
@@ -168,7 +168,7 @@ namespace orm
     }
 
     template<typename T>
-    void SQLObject<T>::nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
+    void SqlObject<T>::nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
     {
         const std::string table_alias = MAKE_PREFIX(prefix,table);
         const std::string escaped_table_alias = bdd.escapeColumn(table_alias);
@@ -180,14 +180,14 @@ namespace orm
     }
 
     template<typename T>
-    void SQLObject<T>::makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
+    void SqlObject<T>::makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)
     {
         const int size = column_fks.size();
         --max_depth;
         for(int i=0;i<size;++i)
         {
 
-            const SQLObjectBase& object = column_fks[i]->getObject(bdd);
+            const SqlObjectBase& object = column_fks[i]->getObject(bdd);
             /*if (&object == NULL)
                 continue;*/
             const std::string& col = column_fks[i]->getcolumn();
@@ -205,25 +205,25 @@ namespace orm
     }
 
     template<typename T>
-    void SQLObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
+    void SqlObject<T>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
     {
-        SQLObject<T>::nameAttrs(q_str,prefix,max_depth,bdd);
+        SqlObject<T>::nameAttrs(q_str,prefix,max_depth,bdd);
     }
 
     template<typename T>
-    void SQLObject<T>::_nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
+    void SqlObject<T>::_nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
     {
-        SQLObject<T>::nameTables(q_str,prefix,max_depth,bdd);
+        SqlObject<T>::nameTables(q_str,prefix,max_depth,bdd);
     }
 
     template<typename T>
-    void SQLObject<T>::_makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
+    void SqlObject<T>::_makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const
     {
-        SQLObject<T>::makeJoin(q_str,prefix,max_depth,bdd);
+        SqlObject<T>::makeJoin(q_str,prefix,max_depth,bdd);
     }
 
     template<typename T>
-    void SQLObject<T>::incDepth(int& depth,int max_depth)
+    void SqlObject<T>::incDepth(int& depth,int max_depth)
     {
         depth+= (1 + column_attrs.size()); //id + attrs
 

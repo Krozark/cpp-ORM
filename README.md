@@ -82,7 +82,7 @@ To build the exemple (the database is include)
  
     //#include <ORM/backends/MySql.hpp>
     //create your default database
-    orm::MySQLBdd def("root","root","test");
+    orm::MySqlBdd def("root","root","test");
 
     //#include <ORM/backends/Sqlite3.hpp>
     //orm::Sqlite3Bdd def("./datas/test.db"); //if you want to use sqlite3
@@ -92,9 +92,9 @@ To build the exemple (the database is include)
 
     
     #include <ORM/fields.hpp>
-    #include <ORM/models/SQLObject.hpp>
+    #include <ORM/models/SqlObject.hpp>
     //create you class
-    class Perso : public orm::SQLObject<Perso>
+    class Perso : public orm::SqlObject<Perso>
     {
         public:
             Perso();
@@ -160,7 +160,7 @@ Class
 All class are uder the orm namsspace
 
 
-orm::SQLObject<T>
+orm::SqlObject<T>
 -----------------
 
 Base class for persistent T class. It add all static methode / attribute to your class.
@@ -204,7 +204,7 @@ accesor:
 orm::Bdd
 ---------
 
-Base classe to deal with your database. Use specialize database (MySQLBdd, ...)
+Base classe to deal with your database. Use specialize database (MySqlBdd, ...)
 
 Constructor:
 Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
@@ -222,7 +222,7 @@ You can use some fonction:
 
 You can custom the default database:
 
-    orm::MySQLBdd def("root","root","test");
+    orm::MySqlBdd def("root","root","test");
     orm::Bdd& orm::Bdd::Default = def;
 
 Macros
@@ -249,9 +249,9 @@ REGISTER_TABLE(klass,colum)
 If you use REGISTER_AND_CONSTRUCT, you don't need to use it.
 
     template<>
-    const std::string orm::SQLObject<klass>::table =colum;
+    const std::string orm::SqlObject<klass>::table =colum;
     template<>
-    orm::Bdd* orm::SQLObject<klass>::bdd_used = &orm::Bdd::Default;
+    orm::Bdd* orm::SqlObject<klass>::bdd_used = &orm::Bdd::Default;
 
 
 MAKE_CONSTRUCTOR(klass[,attr,colum]+)

@@ -1,5 +1,5 @@
 #include <ORM/fields/private/VFK.hpp>
-#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
 
 namespace orm
 {
@@ -7,7 +7,7 @@ namespace orm
     {
     }
 
-    void VFK::registerAttr(SQLObjectBase& object)
+    void VFK::registerAttr(SqlObjectBase& object)
     {
         object.attrs.emplace_back(this);
         object.fks.emplace_back(this);

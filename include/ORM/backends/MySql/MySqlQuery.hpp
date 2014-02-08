@@ -1,5 +1,5 @@
-#ifndef ORM_MYSQLQUERY_HPP
-#define ORM_MYSQLQUERY_HPP
+#ifndef ORM_MYSqlQUERY_HPP
+#define ORM_MYSqlQUERY_HPP
 
 #include <cppconn/resultset.h>
 #include <cppconn/prepared_statement.h>
@@ -8,12 +8,12 @@
 
 namespace orm
 {
-    class MySQLBdd;
+    class MySqlBdd;
 
     /**
      * \brief Abstract class to manage query with Mysql only
      **/
-    class MySQLQuery : public Query
+    class MySqlQuery : public Query
     {
         protected:
             /**
@@ -22,7 +22,7 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            MySQLQuery(Bdd& bdd,const std::string& query);
+            MySqlQuery(Bdd& bdd,const std::string& query);
 
             /**
              * \brief Create a query
@@ -30,15 +30,15 @@ namespace orm
              * \param bdd database where the query will be execute
              * \param query Query string to execute
              **/
-            MySQLQuery(Bdd& bdd,std::string&& query);
+            MySqlQuery(Bdd& bdd,std::string&& query);
 
-            MySQLQuery(const MySQLQuery&) = delete;
-            MySQLQuery& operator=(const MySQLQuery&) = delete;
+            MySqlQuery(const MySqlQuery&) = delete;
+            MySqlQuery& operator=(const MySqlQuery&) = delete;
             
             /**
              * \brief Destructor
              **/
-            ~MySQLQuery();
+            ~MySqlQuery();
 
             /**
              * \brief Count the number of object returned by the batabase
@@ -266,11 +266,11 @@ namespace orm
 
 
         private:
-            friend class MySQLBdd;
+            friend class MySqlBdd;
 
             sql::ResultSet  *bdd_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
             sql::PreparedStatement *prepared_statement; ///< Hold the statement
-            sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our SQL commands
+            sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our Sql commands
     };
 };
 /* sql::DataType (mysql)
@@ -299,7 +299,7 @@ namespace orm
 		GEOMETRY,
 		ENUM,
 		SET,
-		SQLNULL
+		SqlNULL
 	};*/
 
 #endif

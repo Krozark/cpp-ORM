@@ -1,7 +1,7 @@
 #ifndef ORM_MANYTOMANY_HPP
 #define ORM_MANYTOMANY_HPP
 
-#include <ORM/models/SQLObject.hpp>
+#include <ORM/models/SqlObject.hpp>
 #include <ORM/backends/Query.hpp>
 #include <ORM/backends/private/M2MQuerySet.hpp>
 #include <string>
@@ -20,7 +20,7 @@ namespace orm
     {
         public:
             ManyToMany(OWNER& owner);
-            //void registerAttr(SQLObjectBase&);
+            //void registerAttr(SqlObjectBase&);
 
             /**
              * \brief create a queryset for the objet. Use it to make your query

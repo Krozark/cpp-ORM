@@ -7,15 +7,15 @@
 
 namespace orm
 {
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T,typename U> class ManyToMany;
 
     /**
      * \brief A class that allow you to make query on the type T
      *
-     * Note : T must be a SQLObject
+     * Note : T must be a SqlObject
      *
-     * \see SQLObject
+     * \see SqlObject
      **/
     template <typename T>
     class QuerySet
@@ -126,7 +126,7 @@ namespace orm
 
 
         private:
-            friend class SQLObject<T>;
+            friend class SqlObject<T>;
             template<typename U,typename V> friend class ManyToMany;
 
             /**

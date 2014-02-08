@@ -9,7 +9,7 @@ all: main.exe
 	@cp $@ "$(OBJ_DIR)"
 
 
-main.exe: VFilter.o
+main.exe: VFilter.o TableCreator.o
 #	$(CC) $^ $(FLAGS) -o $@
 
 

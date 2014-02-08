@@ -11,9 +11,9 @@ namespace orm
     /**
      * \brief A class that allow you to make query on the type T
      *
-     * Note : T must be a SQLObject
+     * Note : T must be a SqlObject
      *
-     * \see SQLObject
+     * \see SqlObject
      **/
     template <typename M2M,typename OWNER, typename RELATED>
     class M2MQuerySet

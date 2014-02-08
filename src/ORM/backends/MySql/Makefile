@@ -9,7 +9,7 @@ all: main.exe
 	@cp $@ "$(OBJ_DIR)"
 
 
-main.exe: MySQLBdd.o MySQLQuery.o
+main.exe: MySqlBdd.o MySqlQuery.o
 
 
 clean:

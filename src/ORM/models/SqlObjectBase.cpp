@@ -1,26 +1,26 @@
-#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
 #include <ORM/fields/private/VAttr.hpp>
 #include <ORM/fields/private/VFK.hpp>
 #include <ORM/backends/Query.hpp>
 
 namespace orm
 {
-    SQLObjectBase::SQLObjectBase() : pk(-1)
+    SqlObjectBase::SqlObjectBase() : pk(-1)
     {
     }; 
 
-    int SQLObjectBase::getPk()const
+    int SqlObjectBase::getPk()const
     {
         return pk;
     }
 
-    bool SQLObjectBase::loadFromBdd(const Query& query,int max_depth)
+    bool SqlObjectBase::loadFromBdd(const Query& query,int max_depth)
     {
         int prefix=query.bdd.getInitialGetcolumnNumber() -1;
         return loadFromBdd(query,prefix,max_depth);
     };
 
-    bool SQLObjectBase::loadFromBdd(const Query& query,int& prefix,int max_depth)
+    bool SqlObjectBase::loadFromBdd(const Query& query,int& prefix,int max_depth)
     {
         ++prefix;
 
@@ -53,14 +53,14 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
         if(not res)
         {
-            std::cerr<<ROUGE<<"[GET OBJ] SQLObjectBase::loadFromBdd(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
+            std::cerr<<ROUGE<<"[GET OBJ] SqlObjectBase::loadFromBdd(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
         }
         #endif
         return res;
     };
 
 
-    std::ostream& operator<<(std::ostream& output,const SQLObjectBase& self)
+    std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self)
     {
         output<<"{ \"pk\":"<<self.pk;
         for(VAttr* attr: self.attrs)

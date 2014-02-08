@@ -2,6 +2,7 @@
 #define ORM_SQLITE3BDD_HPP
 
 #include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/Sqlite3/Sqlite3TableCreator.hpp>
 
 #include <sqlite3.h>
 
@@ -111,12 +112,15 @@ namespace orm
             **/
             virtual Query* prepareQuery(std::string&&);
 
+            /**
+             * \brief create a table
+             * \param table the table name
+             * \param attrs the attrubuts list
+             */
+            virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs);
 
         protected:
             friend class Sqlite3Query;
-
-
-
 
             /**
             * \brief Get the pk of the last object created in the database
@@ -153,39 +157,15 @@ namespace orm
              **/
             virtual std::string limit(const int& skip,const int& count) const;
 
+            /**
+             * \return the creator object
+             */
+            virtual const TableCreator& creator()const;
+
         private:
             sqlite3 * dbConn; ///< Create a pointer to a database connection object
+
+            static Sqlite3TableCreator my_creator;
     };
 };
-
-/*
-    data_types = {
-        'AutoField':                    'integer NOT NULL PRIMARY KEY',
-        'BooleanField':                 'bool',
-        'CharField':                    'varchar(%(max_length)s)',
-        'CommaSeparatedIntegerField':   'varchar(%(max_length)s)',
-        'DateField':                    'date',
-        'DateTimeField':                'datetime',
-        'DecimalField':                 'decimal',
-        'FileField':                    'varchar(%(max_length)s)',
-        'FilePathField':                'varchar(%(max_length)s)',
-        'FloatField':                   'real',
-        'IntegerField':                 'integer',
-        'BigIntegerField':              'bigint',
-        'IPAddressField':               'char(15)',
-        'GenericIPAddressField':        'char(39)',
-        'NullBooleanField':             'bool',
-        'OneToOneField':                'integer',
-        'PositiveIntegerField':         'integer unsigned',
-        'PositiveSmallIntegerField':    'smallint unsigned',
-        'SlugField':                    'varchar(%(max_length)s)',
-        'SmallIntegerField':            'smallint',
-        'TextField':                    'text',
-        'TimeField':                    'time',
-        BinaryField
-        integer NOT NULL REFERENCES "website_aamodification" ("id")
-        UNIQUE ("analysemgf_id", "aamodification_id")
-    }
-*/
-
 #endif

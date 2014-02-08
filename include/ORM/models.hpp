@@ -1,2 +1,2 @@
-#include <ORM/models/SQLObjectBase.hpp>
-#include <ORM/models/SQLObject.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
+#include <ORM/models/SqlObject.hpp>

@@ -1,11 +1,13 @@
-#include  <ORM/backends/MySql/MySQLBdd.hpp>
-#include  <ORM/backends/MySql/MySQLQuery.hpp>
+#include  <ORM/backends/MySql/MySqlBdd.hpp>
+#include  <ORM/backends/MySql/MySqlQuery.hpp>
+
+#include <ORM/fields/private/VAttr.hpp>
 
 #include <cppconn/exception.h>
 
 namespace orm
 {
-    MySQLBdd::MySQLBdd(std::string username,std::string pass,std::string bdd,std::string serveur,std::string port) :
+    MySqlBdd::MySqlBdd(std::string username,std::string pass,std::string bdd,std::string serveur,std::string port) :
         Bdd(username,pass,bdd,serveur,port),
         driver(0),
         dbConn(0)
@@ -34,19 +36,19 @@ namespace orm
         //escape_char = "";
     };
 
-    MySQLBdd::~MySQLBdd()
+    MySqlBdd::~MySqlBdd()
     {
         if(dbConn)
             delete dbConn;
     };
 
-    Bdd* MySQLBdd::clone()const
+    Bdd* MySqlBdd::clone()const
     {
-        MySQLBdd* copy = new MySQLBdd(this->s_username,this->s_password,this->s_bdd_name,this->s_serveur,this->s_port);
+        MySqlBdd* copy = new MySqlBdd(this->s_username,this->s_password,this->s_bdd_name,this->s_serveur,this->s_port);
         return copy;
     }
     
-    bool MySQLBdd::connect()
+    bool MySqlBdd::connect()
     {
         try{
             driver = get_driver_instance();
@@ -66,85 +68,109 @@ namespace orm
         sql::Statement* statement = dbConn->createStatement();
         statement->execute("USE "+s_bdd_name);
 
-        std::cerr<<"MySQLBdd::Connect to "<<s_serveur<<" using database: "<<s_bdd_name<<std::endl;
+        std::cerr<<"MySqlBdd::Connect to "<<s_serveur<<" using database: "<<s_bdd_name<<std::endl;
 
         delete statement;
 
         return true;
     };
 
-    bool MySQLBdd::disconnect()
+    bool MySqlBdd::disconnect()
     {
         return true;
     };
 
-    void MySQLBdd::threadInit()
+    void MySqlBdd::threadInit()
     {
         driver->threadInit();
     }
 
-    void MySQLBdd::threadEnd()
+    void MySqlBdd::threadEnd()
     {
         driver->threadEnd();
     }
 
-    Query* MySQLBdd::query(const std::string& str)
+    Query* MySqlBdd::query(const std::string& str)
     {
-        auto q = new MySQLQuery(*this,str);
+        auto q = new MySqlQuery(*this,str);
         q->statement = dbConn->createStatement();
         q->prepared = false;
         return q;
     };
 
-    Query* MySQLBdd::query(std::string&& str)
+    Query* MySqlBdd::query(std::string&& str)
     {
-        auto q = new MySQLQuery(*this,str);
+        auto q = new MySqlQuery(*this,str);
         q->statement = dbConn->createStatement();
         q->prepared = false;
         return q;
     };
 
 
-    Query* MySQLBdd::prepareQuery(const std::string& str)
+    Query* MySqlBdd::prepareQuery(const std::string& str)
     {
-        auto q = new MySQLQuery(*this,str);
+        auto q = new MySqlQuery(*this,str);
         q->prepared_statement = dbConn->prepareStatement(str);
         q->prepared = true;
         return q;
     };
 
-    Query* MySQLBdd::prepareQuery(std::string&& str)
+    Query* MySqlBdd::prepareQuery(std::string&& str)
     {
-        auto q = new MySQLQuery(*this,str);
+        auto q = new MySqlQuery(*this,str);
         q->prepared_statement = dbConn->prepareStatement(str);
         q->prepared = true;
         return q;
     }
 
+    bool MySqlBdd::create(const std::string& table,const std::vector<VAttr*>& attrs)
+    {
+        std::string sql = "CREATE TABLE \""+table+"\"(";
+        unsigned int size = attrs.size();
+
+        if(size>0)
+        {
+            Bdd& bdd=*this;
+            sql+=attrs[0]->create(bdd);
+            for(unsigned int i=1;i<size;++i)
+            {
+                sql+=","+attrs[i]->create(bdd);
+            }
+        }
+        sql+=");";
+
+        Query* q = this->query(sql);
+        q->execute();
+        q->next();
+        delete q;
+
+        return true;
+    }
+
     /************** PROTECTED **********************/
     
-    void MySQLBdd::beginTransaction()
+    void MySqlBdd::beginTransaction()
     {
         sql::Statement* statement = dbConn->createStatement();
         statement->execute("START TRANSACTION;");
         delete statement;
     };
 
-    void MySQLBdd::endTransaction()
+    void MySqlBdd::endTransaction()
     {
         sql::Statement* statement = dbConn->createStatement();
         statement->execute("COMMIT;");
         delete statement;
     };
 
-    void MySQLBdd::rollback()
+    void MySqlBdd::rollback()
     {
         sql::Statement* statement = dbConn->createStatement();
         statement->execute("ROLLBACK;");
         delete statement;
     };
 
-    int MySQLBdd::getLastInsertPk()
+    int MySqlBdd::getLastInsertPk()
     {
         Query& q = *query("SELECT LAST_INSERT_ID();");
 
@@ -159,17 +185,17 @@ namespace orm
         return pk;
     }
 
-    std::string MySQLBdd::escapeColumn(const std::string& str) const
+    std::string MySqlBdd::escapeColumn(const std::string& str) const
     {
         return "`"+str+"`";
     }
 
-    int MySQLBdd::getInitialGetcolumnNumber() const
+    int MySqlBdd::getInitialGetcolumnNumber() const
     {
         return 1;
     }
 
-    std::string MySQLBdd::limit(const int& skip,const int& count)const
+    std::string MySqlBdd::limit(const int& skip,const int& count)const
     {
         std::string query;
         if(skip > 0 and count > 0)
@@ -180,5 +206,9 @@ namespace orm
             std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
         return query;
     };
+    
+    const TableCreator& MySqlBdd::creator() const
+    {
+    }
     
 };

@@ -5,8 +5,8 @@
 
 namespace orm
 {
-    class SQLObjectBase;
-    template<typename T> class SQLObject;
+    class SqlObjectBase;
+    template<typename T> class SqlObject;
 
     /**
      * \brief base classe of all FK stored in database
@@ -27,7 +27,7 @@ namespace orm
              *
              * \param obj The owner of the attr
              **/
-            virtual void registerAttr(SQLObjectBase&);
+            virtual void registerAttr(SqlObjectBase&);
 
              /**
              * \brief Save or update the object on the fk
@@ -64,7 +64,7 @@ namespace orm
 
 
         protected:
-            template<typename T> friend class SQLObject;
+            template<typename T> friend class SqlObject;
 
             int fk; ///< the fk value (if fk <=0 => null)
             bool loaded; ///< as a loaded object
@@ -87,7 +87,7 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SQLObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
+            virtual const SqlObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
 
 
 

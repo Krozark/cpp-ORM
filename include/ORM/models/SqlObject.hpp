@@ -1,8 +1,8 @@
-#ifndef ORM_SQLOBJECT_HPP
-#define ORM_SQLOBJECT_HPP
+#ifndef ORM_SqlOBJECT_HPP
+#define ORM_SqlOBJECT_HPP
 
 //orm::
-#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
 #include <ORM/fields/private/VFK.hpp>
 #include <ORM/core/Cache.hpp>
 #include <ORM/core/macros.hpp>
@@ -19,7 +19,7 @@ namespace orm
     class VAttr;
     class VFK;
     template<typename T> class FKBase;
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T> class QuerySet;
 
 
@@ -29,7 +29,7 @@ namespace orm
     *
     * Usage : 
     * \code
-    * class A : SQLObject<A>
+    * class A : SqlObject<A>
     * { 
     * ...
     * MAKE_STATIC_COLUMN(A,"table_name",...)
@@ -37,17 +37,17 @@ namespace orm
     * \endcode
     **/
     template<typename T>
-    class SQLObject : public SQLObjectBase
+    class SqlObject : public SqlObjectBase
     {
         public:
             /**
-            * \brief make a SQLObject
+            * \brief make a SqlObject
             **/
-            SQLObject();
+            SqlObject();
 
 
-            SQLObject(const SQLObject&) = delete;
-            SQLObject& operator=(const SQLObject&) = delete;
+            SqlObject(const SqlObject&) = delete;
+            SqlObject& operator=(const SqlObject&) = delete;
 
             /**
             * \brief create a new object from query
@@ -228,5 +228,5 @@ namespace orm
     };
 };
 
-#include <ORM/models/SQLObject.tpl>
+#include <ORM/models/SqlObject.tpl>
 #endif

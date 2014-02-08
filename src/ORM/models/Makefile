@@ -9,7 +9,7 @@ all: main.exe
 	@cp $@ "$(OBJ_DIR)"
 
 
-main.exe: SQLObjectBase.o
+main.exe: SqlObjectBase.o
 
 
 clean:

@@ -1,6 +1,6 @@
 //#include <ORM/backends/MySql.hpp>
-//orm::MySQLBdd def("root","toor","test");
-//orm::MySQLBdd def("root","root","test");
+//orm::MySqlBdd def("root","toor","test");
+//orm::MySqlBdd def("root","root","test");
 
 #include <ORM/backends/Sqlite3.hpp>
 orm::Sqlite3Bdd def("./datas/test.db");
@@ -13,12 +13,12 @@ orm::Bdd& orm::Bdd::Default = def;
 
 #include <ORM/fields.hpp>
 #include <ORM/fields/ManyToMany.hpp>
-#include <ORM/models/SQLObject.hpp>
+#include <ORM/models/SqlObject.hpp>
 
 #include <iostream>
 
 
-class Spell : public orm::SQLObject<Spell>
+class Spell : public orm::SqlObject<Spell>
 {
     public:
         Spell();
@@ -30,7 +30,7 @@ class Spell : public orm::SQLObject<Spell>
 };
 REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
 
-class Stats : public orm::SQLObject<Stats>
+class Stats : public orm::SqlObject<Stats>
 {
     public:
         Stats();
@@ -49,7 +49,7 @@ class Stats : public orm::SQLObject<Stats>
 };
 REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
 
-class Perso : public orm::SQLObject<Perso>
+class Perso : public orm::SqlObject<Perso>
 {
     public:
         Perso();
@@ -74,6 +74,25 @@ Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stat
     stats2.registerAttr(*this);
     maitre.registerAttr(*this);
 }
+
+
+class TestTypes : public orm::SqlObject<TestTypes>
+{
+    public:
+    TestTypes();
+
+    orm::AutoField autoField;
+    orm::IntegerField integerField;
+
+    MAKE_STATIC_COLUMN(\
+                       autoField,\
+                       integerField\
+                      )
+}
+REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
+                       autoField,"autoField",\
+                       integerField,"integerField"\
+                      )
 
 using namespace orm;
 using namespace std;

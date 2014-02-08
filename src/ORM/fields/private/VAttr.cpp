@@ -1,5 +1,5 @@
 #include <ORM/fields/private/VAttr.hpp>
-#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
 #include <ORM/backends/Bdd.hpp>
 
 namespace orm 
@@ -18,7 +18,7 @@ namespace orm
         return column;
     }
     
-    void VAttr::registerAttr(SQLObjectBase& object)
+    void VAttr::registerAttr(SqlObjectBase& object)
     {
         object.attrs.emplace_back(this);
     }

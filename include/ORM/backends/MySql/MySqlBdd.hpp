@@ -1,5 +1,5 @@
-#ifndef ORM_MYSQLBDD_HPP
-#define ORM_MYSQLBDD_HPP
+#ifndef ORM_MYSqlBDD_HPP
+#define ORM_MYSqlBDD_HPP
 
 #include <ORM/backends/Bdd.hpp>
 
@@ -8,12 +8,12 @@
 
 namespace orm
 {
-    class MySQLQuery;
+    class MySqlQuery;
 
     /**
      * \brief Class to deal with Mysql database
      **/
-    class MySQLBdd : public Bdd
+    class MySqlBdd : public Bdd
     {
         public:
             /**
@@ -25,15 +25,15 @@ namespace orm
             * \param serveur IP adresse of the serveur to connect (default value is 127.0.0.1 as the default for mytsql)
             * \param port Port to use for the connection (the default is 3306 as the default of mysql)
             **/
-            MySQLBdd(std::string username,std::string pass,std::string bdd,std::string serveur="tcp://127.0.0.1",std::string port="3306");
+            MySqlBdd(std::string username,std::string pass,std::string bdd,std::string serveur="tcp://127.0.0.1",std::string port="3306");
 
             /**
              * \brief Destructor
              **/
-            ~MySQLBdd();
+            ~MySqlBdd();
             
-            MySQLBdd(const MySQLBdd&) = delete;
-            MySQLBdd& operator=(const MySQLBdd&) = delete;
+            MySqlBdd(const MySqlBdd&) = delete;
+            MySqlBdd& operator=(const MySqlBdd&) = delete;
             
             /**
              * \brief Mkae an explitit copy of the connection
@@ -86,7 +86,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*MySQL*/Query* query(const std::string&);
+            virtual /*MySql*/Query* query(const std::string&);
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -95,7 +95,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*MySQL*/Query* query(std::string&&);
+            virtual /*MySql*/Query* query(std::string&&);
 
             /* manualy create  a query */
             /**
@@ -116,9 +116,16 @@ namespace orm
             **/
             virtual Query* prepareQuery(std::string&&);
 
+            /**
+             * \brief create a table
+             * \param table the table name
+             * \param attrs the attrubuts list
+             */
+            virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs);
+
         
         protected:
-            friend class MySQLQuery;
+            friend class MySqlQuery;
 
             /**
             * \brief Get the pk of the last object created in the database
@@ -155,9 +162,15 @@ namespace orm
              **/
             virtual std::string limit(const int& skip,const int& count)const;
 
+            /**
+             * \return the creator object
+             * TODO
+             */
+            virtual const TableCreator& creator() const;
+
 
         private:
-            sql::Driver     *driver; ///< Create a pointer to a MySQL driver object
+            sql::Driver     *driver; ///< Create a pointer to a MySql driver object
             sql::Connection *dbConn; ///< Create a pointer to a database connection object
     };
 };

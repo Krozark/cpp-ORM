@@ -295,10 +295,10 @@ int sqlite3_column_type(sqlite3_stmt*, int iCol); // returned value is one of [S
 //2 index : 1-> x
 //3 value
 //4 length in byte of value
-//5 SQLITE_STATIC|SQLITE_TRANSIENT. the special value [SQLITE_STATIC], then SQLite assumes that the
+//5 SQLITE_STATIC|SQLITE_TRANSIENT. the special value [SQLITE_STATIC], then Sqlite assumes that the
 ** information is in static, unmanaged space and does not need to be freed.
 ** ^If the fifth argument has the value [SQLITE_TRANSIENT], then
-** SQLite makes its own private copy of the data immediately, before
+** Sqlite makes its own private copy of the data immediately, before
 ** the sqlite3_bind_*() routine returns.
 
 ** ^The sqlite3_bind_zeroblob() routine binds a BLOB of length N that

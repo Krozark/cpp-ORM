@@ -8,7 +8,9 @@ namespace orm
 {
     class Query;
     class Bdd;
-    class SQLObjectBase;
+    class Sqlite3Bdd;
+    class MySqlBdd;
+    class SqlObjectBase;
     template<typename T> class Register;
 
     /**
@@ -47,13 +49,16 @@ namespace orm
              *
              * \param obj The owner of the attr
              **/
-            virtual void registerAttr(SQLObjectBase& obj);
+            virtual void registerAttr(SqlObjectBase& obj);
 
         protected:
             friend class Bdd;
-            friend class SQLObjectBase;
+            friend class Sqlite3Bdd;
+            friend class MySqlBdd;
+
+            friend class SqlObjectBase;
             template<typename T> friend class Register;
-            template<typename T> friend class SQLObject;
+            template<typename T> friend class SqlObject;
 
             bool modify; ///< if the attr as been modify
             const std::string& column; ///< the column name
@@ -98,7 +103,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual void create() const = 0;
+            virtual std::string create(const Bdd& bdd) const = 0;
     };
 };
 

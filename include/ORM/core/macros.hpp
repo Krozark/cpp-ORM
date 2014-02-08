@@ -107,7 +107,7 @@
 
 
 /********************************
- ******* FOR SQLObject **********
+ ******* FOR SqlObject **********
  *******************************/
 
 /**
@@ -196,15 +196,15 @@
 
 
 #define REGISTER_TABLE(klass,column) \
-    template<> const std::string orm::SQLObject<klass>::table = column;\
-    template<> orm::Bdd* orm::SQLObject<klass>::default_connection = &orm::Bdd::Default;\
-    template<> std::vector<const orm::VAttr*> orm::SQLObject<klass>::column_attrs = std::vector<const orm::VAttr*>();\
-    template<> std::vector<orm::VFK*> orm::SQLObject<klass>::column_fks = std::vector<orm::VFK*>();\
-    template<> orm::Register<klass> orm::SQLObject<klass>::_register = orm::Register<klass>();\
-    template<> orm::Cache<klass> orm::SQLObject<klass>::cache = orm::Cache<klass>();
+    template<> const std::string orm::SqlObject<klass>::table = column;\
+    template<> orm::Bdd* orm::SqlObject<klass>::default_connection = &orm::Bdd::Default;\
+    template<> std::vector<const orm::VAttr*> orm::SqlObject<klass>::column_attrs = std::vector<const orm::VAttr*>();\
+    template<> std::vector<orm::VFK*> orm::SqlObject<klass>::column_fks = std::vector<orm::VFK*>();\
+    template<> orm::Register<klass> orm::SqlObject<klass>::_register = orm::Register<klass>();\
+    template<> orm::Cache<klass> orm::SqlObject<klass>::cache = orm::Cache<klass>();
 
 #define REGISTER_BDD(klass,bdd) \
-    orm::SQLObject<klass>::default_connection = bdd;
+    orm::SqlObject<klass>::default_connection = bdd;
 
 #define REGISTER(klass,column,...)\
     REGISTER_TABLE(klass,column)\

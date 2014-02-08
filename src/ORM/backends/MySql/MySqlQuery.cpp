@@ -1,18 +1,18 @@
-#include <ORM/backends/MySql/MySQLQuery.hpp>
+#include <ORM/backends/MySql/MySqlQuery.hpp>
 
 #include <cppconn/exception.h>
 
 namespace orm
 {
-    MySQLQuery::MySQLQuery(Bdd& bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
+    MySqlQuery::MySqlQuery(Bdd& bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
     {
     };
 
-    MySQLQuery::MySQLQuery(Bdd& bdd,std::string&& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
+    MySqlQuery::MySqlQuery(Bdd& bdd,std::string&& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
     {
     };
 
-    MySQLQuery::~MySQLQuery()
+    MySqlQuery::~MySqlQuery()
     {
         if(prepared and prepared_statement)
             delete prepared_statement;
@@ -23,12 +23,12 @@ namespace orm
     };
 
 
-    int MySQLQuery::count()const
+    int MySqlQuery::count()const
     {
         return bdd_res->rowsCount();
     };
 
-    bool MySQLQuery::get(bool& value,const int& column)const
+    bool MySqlQuery::get(bool& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -43,7 +43,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(int& value,const int& column)const
+    bool MySqlQuery::get(int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -58,7 +58,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::getPk(int& value, const int& colum)const
+    bool MySqlQuery::getPk(int& value, const int& colum)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -79,7 +79,7 @@ namespace orm
         return true;
     }
 
-    bool MySQLQuery::get(unsigned int& value,const int& column)const
+    bool MySqlQuery::get(unsigned int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -94,7 +94,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long long int& value,const int& column)const
+    bool MySqlQuery::get(long long int& value,const int& column)const
     {    
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -109,7 +109,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long long unsigned int& value,const int& column)const
+    bool MySqlQuery::get(long long unsigned int& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -124,7 +124,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(float& value,const int& column)const
+    bool MySqlQuery::get(float& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -139,7 +139,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(double& value,const int& column)const
+    bool MySqlQuery::get(double& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -154,7 +154,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(long double& value,const int& column)const
+    bool MySqlQuery::get(long double& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -169,7 +169,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::get(std::string& value,const int& column)const
+    bool MySqlQuery::get(std::string& value,const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
@@ -184,12 +184,12 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::next()
+    bool MySqlQuery::next()
     {
         return bdd_res->next();
     }
 
-    bool MySQLQuery::set(const bool& value,const unsigned int& column)
+    bool MySqlQuery::set(const bool& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -197,7 +197,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const int& value,const unsigned int& column)
+    bool MySqlQuery::set(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -205,7 +205,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const unsigned int& value,const unsigned int& column)
+    bool MySqlQuery::set(const unsigned int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -213,7 +213,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const long long int& value,const unsigned int& column)
+    bool MySqlQuery::set(const long long int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -221,7 +221,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const long long unsigned int& value,const unsigned int& column)
+    bool MySqlQuery::set(const long long unsigned int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -229,7 +229,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const float& value,const unsigned int& column)
+    bool MySqlQuery::set(const float& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -237,7 +237,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const double& value,const unsigned int& column)
+    bool MySqlQuery::set(const double& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -245,7 +245,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const long double& value,const unsigned int& column)
+    bool MySqlQuery::set(const long double& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -253,7 +253,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::set(const std::string& value,const unsigned int& column)
+    bool MySqlQuery::set(const std::string& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -261,7 +261,7 @@ namespace orm
         return true;
     };
 
-    bool MySQLQuery::setNull(const int& value,const unsigned int& column)
+    bool MySqlQuery::setNull(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
@@ -269,7 +269,7 @@ namespace orm
         return true;
     };
 
-    void MySQLQuery::executeQuery()
+    void MySqlQuery::executeQuery()
     {
         if(prepared)
             bdd_res = prepared_statement->executeQuery();

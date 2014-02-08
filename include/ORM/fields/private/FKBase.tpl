@@ -1,6 +1,6 @@
 #include <ORM/backends/Bdd.hpp>
 #include <ORM/backends/Query.hpp>
-#include <ORM/models/SQLObjectBase.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
 
 namespace orm
 {
@@ -29,7 +29,7 @@ namespace orm
 
 
     template<typename T>
-    const SQLObjectBase& FKBase<T>::getObject(Bdd& bdd,int max_depth)
+    const SqlObjectBase& FKBase<T>::getObject(Bdd& bdd,int max_depth)
     {
         return *getObjectT_ptr(bdd,max_depth);
     };
@@ -194,5 +194,11 @@ namespace orm
         {
             T::incDepth(depth,max_depth);
         }
+    }
+
+    template<typename T>
+    std::string FKBase<T>::create(const Bdd& bdd) const
+    {
+        return bdd.creator().fk(column,T::table,nullable);
     }
 }

@@ -35,9 +35,9 @@ namespace orm
         private:
             template<typename T> friend class Register;
 
-            static std::vector<bool(*)()> _create; ///< fuinction ptr on SQLObject<T>::create
-            static std::vector<bool(*)()> _drop; ///< function ptr on SQLObject<T>::del
-            static std::vector<bool(*)()> _clear; ///<function ptr on SQLObject<T>::clear
+            static std::vector<bool(*)()> _create; ///< fuinction ptr on SqlObject<T>::create
+            static std::vector<bool(*)()> _drop; ///< function ptr on SqlObject<T>::del
+            static std::vector<bool(*)()> _clear; ///<function ptr on SqlObject<T>::clear
 
             Tables() = delete;
             Tables(const Tables&) = delete;

@@ -143,14 +143,13 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SQLObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            virtual const SqlObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
 
             /**
              * \brief create the attr column
-             * \todo
              */
-            virtual void create()const{};
+            virtual std::string create(const Bdd& bdd) const;
 
     };
 }

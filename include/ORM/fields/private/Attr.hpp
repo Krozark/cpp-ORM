@@ -422,7 +422,7 @@ namespace orm
             virtual bool set(Query& query,const unsigned int& column);
 
             /**
-             * \brief Extracte the value from the query row
+             * \brief Extract the value from the query row
              *
              * \param query executed query
              * \param prefix column number to get
@@ -432,15 +432,9 @@ namespace orm
              **/
             virtual bool get(const Query& query,int& prefix,int max_depth);
 
-            /**
-             * \brief create the attr column
-             * \todo
-             */
-            virtual void create()const {};
     };
 
     // define more common type
-    using IntegerField = Attr<int>;
     using BooleanField = Attr<bool>;
     using PositiveIntegerField = Attr<unsigned int>;
     using BigIntegerField = Attr<long long int>;
@@ -456,30 +450,28 @@ namespace orm
     /*template<bool auto_increment>
     using AutoField = Attr<int>;*/
 
-  /*      TINYINT[(length)] [UNSIGNED] [ZEROFILL]
-  | SMALLINT[(length)] [UNSIGNED] [ZEROFILL]
-  | MEDIUMINT[(length)] [UNSIGNED] [ZEROFILL]
-  | INT[(length)] [UNSIGNED] [ZEROFILL]
-  | INTEGER[(length)] [UNSIGNED] [ZEROFILL]
-  | BIGINT[(length)] [UNSIGNED] [ZEROFILL]
-  | REAL[(length,decimals)] [UNSIGNED] [ZEROFILL]
-  | DOUBLE[(length,decimals)] [UNSIGNED] [ZEROFILL]
-  | FLOAT[(length,decimals)] [UNSIGNED] [ZEROFILL]
-  | DECIMAL(length,decimals) [UNSIGNED] [ZEROFILL]
-  | NUMERIC(length,decimals) [UNSIGNED] [ZEROFILL]
-  | DATE
-  | TIME
-  | TIMESTAMP
-  | DATETIME
-  | CHAR(length) [BINARY | ASCII | UNICODE]
-  | VARCHAR(length) [BINARY]
-  | TINYBLOB
-  | BLOB
-  | MEDIUMBLOB
-  | LONGBLOB
-  | TINYTEXT
-  | TEXT
-  | spatial_type*/
+    /*
+      'BooleanField':                 
+      'CharField':                    
+      'CommaSeparatedIntegerField':   
+      'DateField':                    
+      'DateTimeField':                
+      'DecimalField':                 
+      'FileField':                    
+      'FilePathField':                
+      'FloatField':                   
+      'IntegerField':                 
+      'BigIntegerField':              
+      'IPAddressField':               
+      'GenericIPAddressField':        
+      'NullBooleanField':             
+      'OneToOneField':                
+      'PositiveIntegerField':         
+      'PositiveSmallIntegerField':    
+      'SlugField':                    
+      'SmallIntegerField':            
+      'TextField':                    
+      'TimeField':                    */
 
 };
 #include <ORM/fields/private/Attr.tpl>

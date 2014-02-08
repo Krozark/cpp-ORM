@@ -10,15 +10,17 @@
 namespace orm
 {
     class Query;
-    class SQLObjectBase;
+    class SqlObjectBase;
     class VAttr;
-    template<typename T> class SQLObject;
+    template<typename T> class SqlObject;
     template<typename T> class QuerySet;
     template<typename T> class FKBase;
     template<typename T> class Cache;
     template<typename T> class Filter;
     template<typename T,typename U> class ManyToMany;
     template<typename T,typename U,typename V> class M2MQuerySet;
+
+    class TableCreator;
 
     /**
      * \brief Abstract class to deal with any database 
@@ -129,10 +131,18 @@ namespace orm
             virtual Query* prepareQuery(std::string&&) = 0;
 
             /**
+             * \brief create a table
+             * \param table the table name
+             * \param attrs the attrubuts list
+             */
+            virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs) = 0;
+
+
+
+            /**
             * \brief The user defined default bdd to use
             **/
             static Bdd& Default;
-
 
             /**
              * \brief Compare 2 Bdd
@@ -142,9 +152,12 @@ namespace orm
 
         protected:
             friend class Query;
-            friend class SQLObjectBase;
+            friend class SqlObjectBase;
             friend class VAttr;
-            template<typename T> friend class SQLObject;
+            friend class IntegerField;
+            friend class AutoField;
+
+            template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
             template<typename T> friend class Cache;
             template<typename T> friend class FKBase;
@@ -262,6 +275,12 @@ namespace orm
              * \return *this
              **/
             virtual std::string limit(const int& skip,const int& count) const = 0;
+
+
+            /**
+             * \return the creator object
+             */
+            virtual const TableCreator& creator() const = 0;
     };
 };
 

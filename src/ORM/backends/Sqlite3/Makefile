@@ -9,7 +9,7 @@ all: main.exe
 	@cp $@ "$(OBJ_DIR)"
 
 
-main.exe: Sqlite3Bdd.o Sqlite3Query.o
+main.exe: Sqlite3Bdd.o Sqlite3Query.o Sqlite3TableCreator.o
 
 
 clean:
