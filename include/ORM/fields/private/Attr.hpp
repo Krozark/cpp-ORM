@@ -450,7 +450,6 @@ namespace orm
       'FileField':                    
       'FilePathField':                
       'FloatField':                   
-      'IntegerField':                 
       'BigIntegerField':              
       'IPAddressField':               
       'GenericIPAddressField':        
