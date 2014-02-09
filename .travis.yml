@@ -3,7 +3,7 @@ install:
 
 language: cpp
 
-compiler: gcc
+compiler: gcc-4.8
 
 script : ./build.sh 
         && sudo make install 
