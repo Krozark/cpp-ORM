@@ -82,15 +82,18 @@ class TestTypes : public orm::SqlObject<TestTypes>
     TestTypes();
 
     orm::AutoField autoField;
+    orm::BooleanField booleanField;
     orm::IntegerField integerField;
 
     MAKE_STATIC_COLUMN(\
                        autoField,\
+                       booleanField,
                        integerField\
                       )
 }
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        autoField,"autoField",\
+                       booleanField,"booleanField",\
                        integerField,"integerField"\
                       )
 

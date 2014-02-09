@@ -435,7 +435,6 @@ namespace orm
     };
 
     // define more common type
-    using BooleanField = Attr<bool>;
     using PositiveIntegerField = Attr<unsigned int>;
     using BigIntegerField = Attr<long long int>;
     using FloatField = Attr<float>;
@@ -451,7 +450,6 @@ namespace orm
     using AutoField = Attr<int>;*/
 
     /*
-      'BooleanField':                 
       'CharField':                    
       'CommaSeparatedIntegerField':   
       'DateField':                    

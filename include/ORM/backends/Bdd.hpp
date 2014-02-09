@@ -137,7 +137,11 @@ namespace orm
              */
             virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs) = 0;
 
-
+            /**
+             * \return the creator object
+             * Use it to create column in the database
+             */
+            virtual const TableCreator& creator() const = 0;
 
             /**
             * \brief The user defined default bdd to use
@@ -154,8 +158,6 @@ namespace orm
             friend class Query;
             friend class SqlObjectBase;
             friend class VAttr;
-            friend class IntegerField;
-            friend class AutoField;
 
             template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
@@ -277,10 +279,6 @@ namespace orm
             virtual std::string limit(const int& skip,const int& count) const = 0;
 
 
-            /**
-             * \return the creator object
-             */
-            virtual const TableCreator& creator() const = 0;
     };
 };
 

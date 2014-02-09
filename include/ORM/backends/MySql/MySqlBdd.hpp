@@ -123,6 +123,12 @@ namespace orm
              */
             virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs);
 
+            /**
+             * \return the creator object
+             * Use it to create column in the database
+             */
+            virtual const TableCreator& creator() const ;
+
         
         protected:
             friend class MySqlQuery;
@@ -161,13 +167,6 @@ namespace orm
              * \return *this
              **/
             virtual std::string limit(const int& skip,const int& count)const;
-
-            /**
-             * \return the creator object
-             * TODO
-             */
-            virtual const TableCreator& creator() const;
-
 
         private:
             sql::Driver     *driver; ///< Create a pointer to a MySql driver object

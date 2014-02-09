@@ -119,6 +119,12 @@ namespace orm
              */
             virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs);
 
+            /**
+             * \return the creator object
+             * Use it to create column in the database
+             */
+            virtual const TableCreator& creator()const;
+
         protected:
             friend class Sqlite3Query;
 
@@ -157,10 +163,6 @@ namespace orm
              **/
             virtual std::string limit(const int& skip,const int& count) const;
 
-            /**
-             * \return the creator object
-             */
-            virtual const TableCreator& creator()const;
 
         private:
             sqlite3 * dbConn; ///< Create a pointer to a database connection object
