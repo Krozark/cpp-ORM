@@ -8,7 +8,22 @@ namespace orm
     class AutoField : public Attr<int>
     {
         public:
+            /**
+             * \brief Make a Attr
+             *
+             * \param value value to store
+             * \param column Column in bdd
+             **/
             AutoField(const int& value,const std::string& column);
+
+            /**
+             * \brief Make a Attr
+             *  default value is -1.
+             * \param column Column in bdd
+             * 
+             **/
+            AutoField(const std::string& column);
+
             AutoField(const AutoField&) = delete;
             AutoField& operator=(const AutoField&) = delete;
             

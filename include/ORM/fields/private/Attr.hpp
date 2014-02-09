@@ -442,13 +442,6 @@ namespace orm
     using BigDoubleField = Attr<long double>;
     using TextField = Attr<std::string>;
 
-    template<size_t max_length>
-    using CharField = Attr<std::string>;
-
-
-    /*template<bool auto_increment>
-    using AutoField = Attr<int>;*/
-
     /*
       'CharField':                    
       'CommaSeparatedIntegerField':   

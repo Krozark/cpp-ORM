@@ -9,6 +9,10 @@ namespace orm
     BooleanField::BooleanField(const bool& value,const std::string& column) : Attr(value,column)
     {
     }
+
+    BooleanField::BooleanField(const std::string& column) : Attr(false,column)
+    {
+    }
     
     std::string BooleanField::create(const Bdd& bdd) const
     {
