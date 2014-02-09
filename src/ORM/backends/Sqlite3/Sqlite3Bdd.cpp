@@ -111,7 +111,7 @@ namespace orm
 
         if(size>0)
         {
-            Bdd& bdd=*this;
+            const Bdd& bdd=*this;
             sql+=attrs[0]->create(bdd);
             for(unsigned int i=1;i<size;++i)
             {
@@ -131,6 +131,19 @@ namespace orm
     bool Sqlite3Bdd::drop(const std::string& table)
     {
         std::string sql = "DROP TABLE \""+table+"\";";
+
+        Query* q = this->query(sql);
+        q->execute();
+        q->next();
+        delete q;
+
+        return true;
+    }
+
+    bool Sqlite3Bdd::clear(const std::string& table)
+    {
+
+        std::string sql = "DELETE FROM \""+table+"\";";
 
         Query* q = this->query(sql);
         q->execute();

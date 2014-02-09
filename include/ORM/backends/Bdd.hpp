@@ -143,6 +143,11 @@ namespace orm
             virtual bool drop(const std::string& table) = 0;
 
             /**
+             * \brief drop a table
+             */
+            virtual bool clear(const std::string& table) = 0;
+
+            /**
              * \return the creator object
              * Use it to create column in the database
              */

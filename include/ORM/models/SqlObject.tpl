@@ -150,7 +150,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
         #endif
         //TODO
-        return false;
+        return bdd.clear(table);
     }
 
     template<typename T>

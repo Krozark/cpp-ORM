@@ -127,6 +127,11 @@ namespace orm
              * \brief drop a table
              */
             virtual bool drop(const std::string& table);
+            
+            /**
+             * \brief drop a table
+             */
+            virtual bool clear(const std::string& table);
 
             /**
              * \return the creator object
