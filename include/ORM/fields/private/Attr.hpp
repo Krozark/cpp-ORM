@@ -443,7 +443,6 @@ namespace orm
     using TextField = Attr<std::string>;
 
     /*
-      'CharField':                    
       'CommaSeparatedIntegerField':   
       'DateField':                    
       'DateTimeField':                

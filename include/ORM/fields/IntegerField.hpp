@@ -8,7 +8,21 @@ namespace orm
     class IntegerField : public Attr<int>
     {
         public:
+            /**
+             * \brief Make a Attr
+             *
+             * \param value value to store
+             * \param column Column in bdd
+             **/
             IntegerField(const int& value,const std::string& column);
+            
+            /**
+             * \brief Make a Attr
+             * default value is 0.
+             * \param column Column in bdd
+             **/
+            IntegerField(const std::string& column);
+
             IntegerField(const IntegerField&) = delete;
             IntegerField& operator=(const IntegerField&) = delete;
 
