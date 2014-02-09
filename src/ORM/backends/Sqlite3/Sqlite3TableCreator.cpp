@@ -62,7 +62,15 @@ namespace orm
 
     std::string Sqlite3TableCreator::floatField(const std::string& colunm_name,bool nullable)const
     {
-        std::string res=escape(colunm_name)+" REAL";
+        std::string res=escape(colunm_name)+" FLOAT";
+        if(nullable)
+            res+= " NOT NULL";
+        return res;
+    }
+
+    std::string Sqlite3TableCreator::doubleField(const std::string& colunm_name,bool nullable)const
+    {
+        std::string res=escape(colunm_name)+" DOUBLE";
         if(nullable)
             res+= " NOT NULL";
         return res;

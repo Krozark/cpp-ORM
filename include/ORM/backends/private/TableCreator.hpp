@@ -63,6 +63,12 @@ namespace orm
             virtual std::string floatField(const std::string& colunm_name,bool nullable) const = 0;
 
             /**
+             * \brief create a doubleField culumn
+             * \param colunm_name the column name
+             */
+            virtual std::string doubleField(const std::string& colunm_name,bool nullable) const = 0;
+
+            /**
              * \brief create a integerField culumn
              * \param colunm_name the column name
              */

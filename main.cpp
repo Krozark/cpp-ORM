@@ -81,26 +81,37 @@ class TestTypes : public orm::SqlObject<TestTypes>
     public:
     TestTypes();
 
-    orm::AutoField autoField;
-    orm::BooleanField booleanField;
+    orm::FK<TestTypes,true> fk;
+
+    orm::AutoField      autoField;
+    orm::BooleanField   booleanField;
     orm::CharField<255> charField;
-    orm::IntegerField integerField;
-    orm::FloatField floatField;
+    orm::IntegerField   integerField;
+    orm::FloatField     floatField;
+    orm::DoubleField    doubleField;
+    orm::TextField      textField;
+
 
     MAKE_STATIC_COLUMN(\
+                       fk,
                        autoField,\
                        booleanField,
                        charField,
                        integerField,\
-                       floatField\
+                       floatField,\
+                       doubleField,\
+                       textField\
                       )
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
+                       fk,"fk",
                        autoField,"autoField",\
                        booleanField,"booleanField",\
                        charField,"charField",\
                        integerField,"integerField",\
-                       floatField,"floatField"\
+                       floatField,"floatField",\
+                       doubleField,"doubleField",\
+                       textField,"textField"\
                       )
 
 using namespace orm;

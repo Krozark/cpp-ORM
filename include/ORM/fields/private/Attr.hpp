@@ -437,9 +437,7 @@ namespace orm
     // define more common type
     using PositiveIntegerField = Attr<unsigned int>;
     using BigIntegerField = Attr<long long int>;
-    using DoubleField = Attr<double>;
     using BigDoubleField = Attr<long double>;
-    using TextField = Attr<std::string>;
 
     /*
       'CommaSeparatedIntegerField':   

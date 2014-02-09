@@ -5,5 +5,7 @@
 #include <ORM/fields/CharField.hpp>
 #include <ORM/fields/IntegerField.hpp>
 #include <ORM/fields/FloatField.hpp>
+#include <ORM/fields/DoubleField.hpp>
+#include <ORM/fields/TextField.hpp>
 
 #include <ORM/fields/FK.hpp>
