@@ -127,6 +127,18 @@ namespace orm
 
         return true;
     };
+    
+    bool Sqlite3Bdd::drop(const std::string& table)
+    {
+        std::string sql = "DROP TABLE \""+table+"\";";
+
+        Query* q = this->query(sql);
+        q->execute();
+        q->next();
+        delete q;
+
+        return true;
+    }
 
     /************** PROTECTED **********************/
 

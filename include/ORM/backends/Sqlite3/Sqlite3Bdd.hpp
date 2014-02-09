@@ -118,6 +118,11 @@ namespace orm
              * \param attrs the attrubuts list
              */
             virtual bool create(const std::string& table,const std::vector<const VAttr*>& attrs);
+            
+            /**
+             * \brief drop a table
+             */
+            virtual bool drop(const std::string& table);
 
             /**
              * \return the creator object

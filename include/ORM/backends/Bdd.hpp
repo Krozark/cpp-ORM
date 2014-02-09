@@ -138,6 +138,11 @@ namespace orm
             virtual bool create(const std::string& table,const std::vector<const VAttr*>& attrs) = 0;
 
             /**
+             * \brief drop a table
+             */
+            virtual bool drop(const std::string& table) = 0;
+
+            /**
              * \return the creator object
              * Use it to create column in the database
              */

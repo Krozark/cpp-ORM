@@ -140,7 +140,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
         #endif
         //TODO
-        return false;
+        return bdd.drop(table);
     }
 
     template<typename T>

@@ -1,2 +1,2 @@
-#include <ORM/backends/MySql/MysqlBdd.hpp>
+#include <ORM/backends/MySql/MySqlBdd.hpp>
 #include <ORM/backends/MySql/MySqlQuery.hpp>
