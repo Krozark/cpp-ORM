@@ -446,16 +446,13 @@ namespace orm
       'DecimalField':                 
       'FileField':                    
       'FilePathField':                
-      'BigIntegerField':              
       'IPAddressField':               
       'GenericIPAddressField':        
       'NullBooleanField':             
       'OneToOneField':                
-      'PositiveIntegerField':         
       'PositiveSmallIntegerField':    
       'SlugField':                    
       'SmallIntegerField':            
-      'TextField':                    
       'TimeField':                    */
 
 };

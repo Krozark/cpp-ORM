@@ -7,6 +7,8 @@
 
 namespace orm
 {
+    MySqlTableCreator MySqlBdd::my_creator;
+
     MySqlBdd::MySqlBdd(std::string username,std::string pass,std::string bdd,std::string serveur,std::string port) :
         Bdd(username,pass,bdd,serveur,port),
         driver(0),
@@ -234,6 +236,7 @@ namespace orm
     
     const TableCreator& MySqlBdd::creator() const
     {
+        return my_creator;
     }
     
 };
