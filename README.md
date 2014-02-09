@@ -52,6 +52,8 @@ Requirement
 * lib Sqlite3
 * doxygen (for user doc only)
 
+* Gcc 4.8+
+
 
 
 TODO
