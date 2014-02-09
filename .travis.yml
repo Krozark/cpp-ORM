@@ -8,6 +8,8 @@ language: cpp
 
 compiler: g++
 
-script : ./build.sh 
+script : 
+	g++ -v
+	&& ./build.sh 
         && sudo make install 
         && sudo make uninstall
