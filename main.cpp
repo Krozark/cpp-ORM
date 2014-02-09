@@ -90,7 +90,7 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        booleanField,
                        integerField\
                       )
-}
+};
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        autoField,"autoField",\
                        booleanField,"booleanField",\
