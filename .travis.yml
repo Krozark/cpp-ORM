@@ -9,8 +9,7 @@ language: cpp
 
 compiler: g++
 
-script : 
-	g++ -v
-	&& ./build.sh 
-        && sudo make install 
-        && sudo make uninstall
+script : g++ -v
+    && ./build.sh 
+    && sudo make install 
+    && sudo make uninstall
