@@ -130,8 +130,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
         std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
         #endif
-        //TODO
-        return false;
+        return bdd.create(table,column_attrs);
     }
 
     template<typename T>

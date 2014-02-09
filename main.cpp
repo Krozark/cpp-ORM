@@ -111,6 +111,8 @@ int main(int argc,char* argv[])
     Bdd* con2 = orm::Bdd::Default.clone();
     con2->connect();
 
+    TestTypes::create();
+
 
 
     { 

@@ -70,7 +70,7 @@ namespace orm
         q.set(owner.pk,1);
         q.set(obj.pk,2);
 
-        #if ORM_DEBUG & ORM_DEBUG_Sql
+        #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<BLEU<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;
         #endif
         
@@ -103,7 +103,7 @@ namespace orm
         q.set(owner.pk,1);
         q.set(obj.pk,2);
 
-        #if ORM_DEBUG & ORM_DEBUG_Sql
+        #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;
         #endif
         

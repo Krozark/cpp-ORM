@@ -121,7 +121,7 @@ namespace orm
              * \param table the table name
              * \param attrs the attrubuts list
              */
-            virtual bool create(const std::string& table,const std::vector<VAttr*>& attrs);
+            virtual bool create(const std::string& table,const std::vector<const VAttr*>& attrs);
 
             /**
              * \return the creator object

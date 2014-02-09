@@ -46,7 +46,7 @@ namespace orm
                 str_q+=",(?)";
             str_q+=");";
             
-            #if ORM_DEBUG & ORM_DEBUG_Sql
+            #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<BLEU<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
             #endif
 
@@ -54,13 +54,13 @@ namespace orm
 
             for(unsigned int i=0;i<size;++i)
             {
-                #if ORM_DEBUG & ORM_DEBUG_Sql
+                #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
                 attrs[i]->set(q,i+1);
                 attrs[i]->modify = false;
             }
-            #if ORM_DEBUG & ORM_DEBUG_Sql
+            #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")"<<std::endl;
             #endif
 
@@ -69,7 +69,7 @@ namespace orm
             delete &q;
 
             pk = getLastInsertPk();
-            #if ORM_DEBUG & ORM_DEBUG_Sql
+            #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<" new PK: "<<pk<<BLANC<<std::endl;
             #endif
 
@@ -103,14 +103,14 @@ namespace orm
 
             if(first) //NO MAJ NEDEED
             {
-                #if ORM_DEBUG & ORM_DEBUG_Sql
+                #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<BLEU2<<"[Sql:update] "<<str_q<<"\nNo Update needed, exit"<<BLANC<<std::endl;
                 #endif
 
                 return true;
             }
 
-            #if ORM_DEBUG & ORM_DEBUG_Sql
+            #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<BLEU2<<"[Sql:update] "<<str_q<<"\nVALUES = (";
             #endif
 
@@ -121,7 +121,7 @@ namespace orm
             {
                 if(attrs[i]->modify)
                 {
-                    #if ORM_DEBUG & ORM_DEBUG_Sql
+                    #if ORM_DEBUG & ORM_DEBUG_SQL
                     attrs[i]->print_value(std::cerr)<<",";
                     #endif
                     attrs[i]->set(q,index++);
@@ -129,7 +129,7 @@ namespace orm
                 }
             }
 
-            #if ORM_DEBUG & ORM_DEBUG_Sql
+            #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")"<<BLANC<<std::endl;
             #endif
             q.execute();
@@ -144,7 +144,7 @@ namespace orm
     {
         std::string str_q = "DELETE FROM "+escapeColumn(table)+" WHERE ("+escapeColumn(table)+"."+escapeColumn("id")+" = "+std::to_string(pk)+");";
 
-        #if ORM_DEBUG & ORM_DEBUG_Sql
+        #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<"[Sql:delete]"<<str_q<<BLANC<<std::endl;
         #endif
 

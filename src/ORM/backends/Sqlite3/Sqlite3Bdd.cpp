@@ -104,9 +104,9 @@ namespace orm
         return q;
     }
 
-    bool Sqlite3Bdd::create(const std::string& table,const std::vector<VAttr*>& attrs)
+    bool Sqlite3Bdd::create(const std::string& table,const std::vector<const VAttr*>& attrs)
     {
-        std::string sql = "CREATE TABLE \""+table+"\"(";
+        std::string sql = "CREATE TABLE \""+table+"\"(\n";
         unsigned int size = attrs.size();
 
         if(size>0)
@@ -115,10 +115,10 @@ namespace orm
             sql+=attrs[0]->create(bdd);
             for(unsigned int i=1;i<size;++i)
             {
-                sql+=","+attrs[i]->create(bdd);
+                sql+=",\n"+attrs[i]->create(bdd);
             }
         }
-        sql+=");";
+        sql+="\n);";
 
         Query* q = this->query(sql);
         q->execute();
