@@ -112,7 +112,8 @@ int main(int argc,char* argv[])
     con2->connect();
 
     TestTypes::create();
-    //TestTypes::drop();
+    TestTypes::clear();
+    TestTypes::drop();
 
 
 

@@ -118,5 +118,17 @@ namespace orm
         return obj;
     }
 
+    template<typename T>
+    void Cache<T>::clear(bool reset_pk)
+    {
+        if(reset_pk)
+        {
+            for(auto& i : map)
+                i.second->pk = -1;
+                
+        }
+        map.clear();
+    }
+
 
 }

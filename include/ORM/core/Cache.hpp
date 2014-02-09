@@ -108,6 +108,12 @@ namespace orm
              * \brief delete object of specified pk
              **/
             void del(const unsigned int& pk);
+
+            /**
+             * \brief delete all the objects from the cache
+             * \param reset_pk if true, all the pk are set to default (-1)
+             */
+            void clear(bool reset_pk);
     };
 }
 #include <ORM/core/Cache.tpl>

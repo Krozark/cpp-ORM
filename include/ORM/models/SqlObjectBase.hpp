@@ -73,6 +73,7 @@ namespace orm
             template<typename T> friend class Register;
             template<typename T> friend class SqlObject;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
+            template<typename U> friend class Cache;
 
             int pk; ///< the object pf
             std::vector<VAttr*> attrs; ///< the object attrs
