@@ -2,6 +2,7 @@
 #define ORM_CHARFIELD_HPP
 
 #include <ORM/fields/private/Attr.hpp>
+#include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
 {
