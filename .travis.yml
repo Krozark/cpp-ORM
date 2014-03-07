@@ -10,6 +10,7 @@ language: cpp
 compiler: g++
 
 script : g++ -v
-    && ./build.sh 
-    && sudo make install 
+    && cmake .
+    && make
+    && sudo make install
     && sudo make uninstall
