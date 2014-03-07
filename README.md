@@ -66,8 +66,11 @@ TODO
 Instalation
 ===========
 
-    ./build.sh
-    sudo make install
+You just have to use cmake:
+
+    cmake.
+    make
+    make install
 
 
 Exemple
@@ -77,7 +80,7 @@ You can see complet exemple in main.cpp
 
 To build the exemple (the database is include)
 
-    make all
+    set the BUILD_EXAMPLES to True with cmake
 
 
 ```C++
