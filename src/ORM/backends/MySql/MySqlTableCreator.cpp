@@ -104,7 +104,7 @@ namespace orm
     std::string MySqlTableCreator::fk(const std::string& colunm_name,const std::string& table,bool nullable)const
     {
         std::string res = mysql_escape(colunm_name)+" INTEGER";
-        if(nullable)
+        if(not nullable)
             res+= " NOT NULL";
         res+= " REFERENCES " + mysql_escape(table) + "(`id`)";
         return res;

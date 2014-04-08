@@ -8,7 +8,7 @@ namespace orm
     /**
      * \brief exactly like FKBase, but make nullable as template param
      **/
-    template<typename T,bool NULLABLE>
+    template<typename T,bool NULLABLE=true>
     class FK : public FKBase<T>
     {
         public:
