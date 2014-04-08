@@ -5,6 +5,9 @@
 
 namespace orm
 {
+    /**
+    * \todo this DateTimeField class
+    */
     class DateTimeField : public Attr<std::string>
     {
         public:
