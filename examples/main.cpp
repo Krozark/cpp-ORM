@@ -81,11 +81,12 @@ class TestTypes : public orm::SqlObject<TestTypes>
     public:
     TestTypes();
 
-    orm::FK<TestTypes,true> fk;
+    orm::FK<TestTypes> fk;
 
-    orm::AutoField      autoField;
+    //orm::AutoField      autoField;
     orm::BooleanField   booleanField;
     orm::CharField<255> charField;
+    orm::DateTimeField  datetimeField;
     orm::IntegerField   integerField;
     orm::FloatField     floatField;
     orm::DoubleField    doubleField;
@@ -93,10 +94,11 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
 
     MAKE_STATIC_COLUMN(\
-                       fk,
-                       autoField,\
-                       booleanField,
-                       charField,
+                       fk,\
+                       /*autoField,\*/
+                       booleanField,\
+                       charField,\
+                       datetimeField,\
                        integerField,\
                        floatField,\
                        doubleField,\
@@ -104,10 +106,11 @@ class TestTypes : public orm::SqlObject<TestTypes>
                       )
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
-                       fk,"fk",
-                       autoField,"autoField",\
+                       fk,"fk",\
+                       /*autoField,"autoField",\*/
                        booleanField,"booleanField",\
                        charField,"charField",\
+                       datetimeField, "datetimeField",\
                        integerField,"integerField",\
                        floatField,"floatField",\
                        doubleField,"doubleField",\
@@ -125,9 +128,26 @@ int main(int argc,char* argv[])
     Bdd* con2 = orm::Bdd::Default.clone();
     con2->connect();
 
-    TestTypes::create();
-    TestTypes::clear();
-    TestTypes::drop();
+    //TestTypes::drop();
+    //TestTypes::create();
+    //TestTypes::clear();
+
+
+    {
+        TestTypes test;
+        //test.autoField = 0;
+        test.booleanField = false;
+        test.charField = "test";
+        //test.datetimeField = "";
+        test.integerField = 42;
+        test.floatField = 4.2;
+        test.doubleField = 4.2;
+        test.textField = "this is a long text for testing";
+
+        test.save();
+    }
+
+    return 0;
 
 
 
