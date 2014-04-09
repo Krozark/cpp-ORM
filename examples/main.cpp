@@ -143,12 +143,10 @@ int main(int argc,char* argv[])
         test.doubleField = 4.2;
         test.textField = "this is a long text for testing";
 
+        cout<<"Current test"<<test<<endl;
         test.save();
+        cout<<"Save current"<<endl;
     }
-
-    return 0;
-
-
 
     { 
         auto& p1 = Perso::get(1,*con2);
