@@ -1,5 +1,6 @@
 #ifndef ORM_MACROS_HPP
 #define ORM_MACROS_HPP
+/** \file */
 
 /**********************************
  ******* for General objects ******
