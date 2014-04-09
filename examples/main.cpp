@@ -83,7 +83,6 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
     orm::FK<TestTypes> fk;
 
-    //orm::AutoField      autoField;
     orm::BooleanField   booleanField;
     orm::CharField<255> charField;
     orm::DateTimeField  datetimeField;
@@ -95,7 +94,6 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
     MAKE_STATIC_COLUMN(\
                        fk,\
-                       /*autoField,\*/
                        booleanField,\
                        charField,\
                        datetimeField,\
@@ -107,7 +105,6 @@ class TestTypes : public orm::SqlObject<TestTypes>
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        fk,"fk",\
-                       /*autoField,"autoField",\*/
                        booleanField,"booleanField",\
                        charField,"charField",\
                        datetimeField, "datetimeField",\
@@ -132,10 +129,12 @@ int main(int argc,char* argv[])
     //TestTypes::create();
     //TestTypes::clear();
 
+    orm::Tables::drop();
+    orm::Tables::create();
+
 
     {
         TestTypes test;
-        //test.autoField = 0;
         test.booleanField = false;
         test.charField = "test";
         //test.datetimeField = "";

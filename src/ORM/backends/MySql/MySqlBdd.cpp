@@ -129,15 +129,13 @@ namespace orm
     {
         std::string sql = "CREATE TABLE \""+table+"\"(\n";
         unsigned int size = attrs.size();
+        sql+= creator().autoField("id");
 
-        if(size>0)
+        const Bdd& bdd=*this;
+        sql+=attrs[0]->create(bdd);
+        for(unsigned int i=0;i<size;++i)
         {
-            const Bdd& bdd=*this;
-            sql+=attrs[0]->create(bdd);
-            for(unsigned int i=1;i<size;++i)
-            {
-                sql+=",\n"+attrs[i]->create(bdd);
-            }
+            sql+=",\n"+attrs[i]->create(bdd);
         }
         sql+="\n);";
 

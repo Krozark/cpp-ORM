@@ -5,6 +5,10 @@
 
 namespace orm
 {
+    /**
+     * \brief This class hade to be use only internaly
+     * \todo make it as not internaly
+     */
     class AutoField : public Attr<int>
     {
         public:
