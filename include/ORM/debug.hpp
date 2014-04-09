@@ -18,13 +18,13 @@
 
 #define ORM_DEBUG_FULL (0xFFFF) ///< all debug mods
 
-//#define ORM_DEBUG (ORM_DEBUG_REGISTER)
-#define ORM_DEBUG (ORM_DEBUG_REGISTER \
+#define ORM_DEBUG (ORM_DEBUG_REGISTER)
+/*#define ORM_DEBUG (ORM_DEBUG_REGISTER \
                    | ORM_DEBUG_SQL \
                    | ORM_DEBUG_CREATE_TABLE \
                    | ORM_DEBUG_DROP_TABLE \
                    | ORM_DEBUG_TRUNCATE_TABLE \
-                   )
+                   )*/
 //#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER | ORM_DEBUG_GET_ATTR)
 //#define ORM_DEBUG (ORM_DEBUG_FULL) ///<current debug mod
 
