@@ -139,7 +139,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
         std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
         #endif
-        //cache.clear(true);
+        cache.clear(true);
         return bdd.drop(table);
     }
 
