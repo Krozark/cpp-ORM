@@ -6,6 +6,7 @@ list(APPEND FILES_HEADER
     ${INCROOT}/BooleanField.hpp
     ${INCROOT}/CharField.hpp
     ${INCROOT}/CharField.tpl
+    ${INCROOT}/DateTimeField.hpp
     ${INCROOT}/DoubleField.hpp
     ${INCROOT}/FK.hpp
     ${INCROOT}/FK.tpl
@@ -22,6 +23,7 @@ list(APPEND FILES_SRC
     ${SRCROOT}/AutoField.cpp
     ${SRCROOT}/BooleanField.cpp
     ${SRCROOT}/DoubleField.cpp
+    ${SRCROOT}/DateTimeField.cpp
     ${SRCROOT}/FloatField.cpp
     ${SRCROOT}/IntegerField.cpp
     ${SRCROOT}/TextField.cpp

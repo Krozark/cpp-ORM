@@ -31,6 +31,10 @@ set_option(BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to
 
 
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")
+find_library(MYSQL_LIB mysqlcppconn)
+find_library(SQLITE_LIB sqlite3)
+set(LIBS ${MYSQL_LIB} ${SQLITE_LIB})
+
 set(DEFINES "")
 
 find_library(MYSQL_LIB mysqlcppconn)
@@ -44,6 +48,7 @@ set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(LIB_INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples)
 
 # add the subdirectories
 add_subdirectory(src/ORM)

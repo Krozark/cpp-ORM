@@ -81,11 +81,11 @@ class TestTypes : public orm::SqlObject<TestTypes>
     public:
     TestTypes();
 
-    orm::FK<TestTypes,true> fk;
+    orm::FK<TestTypes> fk;
 
-    orm::AutoField      autoField;
     orm::BooleanField   booleanField;
     orm::CharField<255> charField;
+    orm::DateTimeField  datetimeField;
     orm::IntegerField   integerField;
     orm::FloatField     floatField;
     orm::DoubleField    doubleField;
@@ -93,10 +93,10 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
 
     MAKE_STATIC_COLUMN(\
-                       fk,
-                       autoField,\
-                       booleanField,
-                       charField,
+                       fk,\
+                       booleanField,\
+                       charField,\
+                       datetimeField,\
                        integerField,\
                        floatField,\
                        doubleField,\
@@ -104,10 +104,10 @@ class TestTypes : public orm::SqlObject<TestTypes>
                       )
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
-                       fk,"fk",
-                       autoField,"autoField",\
+                       fk,"fk",\
                        booleanField,"booleanField",\
                        charField,"charField",\
+                       datetimeField, "datetimeField",\
                        integerField,"integerField",\
                        floatField,"floatField",\
                        doubleField,"doubleField",\
@@ -125,11 +125,28 @@ int main(int argc,char* argv[])
     Bdd* con2 = orm::Bdd::Default.clone();
     con2->connect();
 
-    TestTypes::create();
-    TestTypes::clear();
-    TestTypes::drop();
+    //TestTypes::drop();
+    //TestTypes::create();
+    //TestTypes::clear();
+
+    orm::Tables::drop();
+    orm::Tables::create();
 
 
+    {
+        TestTypes test;
+        test.booleanField = false;
+        test.charField = "test";
+        //test.datetimeField = "";
+        test.integerField = 42;
+        test.floatField = 4.2;
+        test.doubleField = 4.2;
+        test.textField = "this is a long text for testing";
+
+        cout<<"Current test"<<test<<endl;
+        test.save();
+        cout<<"Save current"<<endl;
+    }
 
     { 
         auto& p1 = Perso::get(1,*con2);

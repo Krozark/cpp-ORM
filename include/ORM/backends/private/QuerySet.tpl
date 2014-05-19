@@ -30,7 +30,9 @@ namespace orm
     template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& column,const char order)
     {
-        if( order == '-')
+        if(column == "?")
+            order_by.push_back(T::default_connection->operators["?"]);
+        else if( order == '-')
             order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
             order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" ASC");
@@ -40,7 +42,9 @@ namespace orm
     template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(std::string&& column,const char order)
     {
-        if( order == '-')
+        if(column == "?")
+            order_by.push_back(T::default_connection->operators["?"]);
+        else if( order == '-')
             order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
             order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" ASC");

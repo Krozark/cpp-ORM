@@ -1,5 +1,6 @@
 #ifndef ORM_MACROS_HPP
 #define ORM_MACROS_HPP
+/** \file */
 
 /**********************************
  ******* for General objects ******
@@ -195,6 +196,16 @@
 #define _MAKE_REGISTER_ATTRS(N,...) _MAKE_REGISTER_ATTRS_N1(N,__VA_ARGS__)
 
 
+/**
+ * \def REGISTER_TABLE(klass,column)
+ * Register a table in the orm
+ */
+
+/**
+ * \brief Register a table in the orm
+ * \param klass the class name
+ * \param column the column name in the db
+ */
 #define REGISTER_TABLE(klass,column) \
     template<> const std::string orm::SqlObject<klass>::table = column;\
     template<> orm::Bdd* orm::SqlObject<klass>::default_connection = &orm::Bdd::Default;\
@@ -203,19 +214,61 @@
     template<> orm::Register<klass> orm::SqlObject<klass>::_register = orm::Register<klass>();\
     template<> orm::Cache<klass> orm::SqlObject<klass>::cache = orm::Cache<klass>();
 
+/**
+ * \def REGISTER_BDD(klass,bdd)
+ * set the default db to use for this class
+ */
+
+/**
+ * \brief set the default db to use for this class
+ * \param klass the class name
+ * \param bdd the db to use by defaulf
+ */
 #define REGISTER_BDD(klass,bdd) \
     orm::SqlObject<klass>::default_connection = bdd;
 
+/**
+ * \def REGISTER(klass,column,...)
+ * register all the attrs of the tables
+ */
+
+/**
+ * \brief register all the attrs of the tables
+ * \param klass the class name
+ * \param colum the table name in the db
+ * \param ... is like this (attr name,attr colum name)
+ */
 #define REGISTER(klass,column,...)\
     REGISTER_TABLE(klass,column)\
     _MAKE_STRING_N(klass,NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
 
+/**
+ * \def MAKE_CONSTRUCTOR(klass,...)
+ * make the default constructor
+ */
+
+/**
+ * \brief make the default constructor
+ * \param klass the class name
+ * \param ... is like this (attr name,attr colum name)
+ */
 #define MAKE_CONSTRUCTOR(klass,...) \
         klass::klass(): _MAKE_ATTRS_N(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         {\
          _MAKE_REGISTER_ATTRS(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         }
 
+/**
+ * \def REGISTER_AND_CONSTRUCT(klass,colum,...)
+ * construct and register the class
+ */
+
+/**
+ * \brief construct and register the class
+ * \param klass the class name
+ * \param colum the table name in the db
+ * \param ... is like this (attr name,attr colum name)
+ */
 #define REGISTER_AND_CONSTRUCT(klass,column,...) \
         REGISTER(klass,column,__VA_ARGS__)\
         MAKE_CONSTRUCTOR(klass,__VA_ARGS__)

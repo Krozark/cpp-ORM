@@ -11,8 +11,8 @@ namespace orm
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(bdd,string&) Failed to make the statment")
-            /// \todo <<sqlite3_errstr(result)<<std::endl;
+            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(bdd,string&) Failed to make the statment");
+            //\todo: "<<sqlite3_errstr(result));
         }
         #endif
     };

@@ -16,21 +16,21 @@ namespace orm
 
             /**
              * \brief create all the tables
-             * \return true is success
+             * \return the number of tables created
              */
-            static bool create();
+            static int create();
 
             /**
              * \brief drop all the tables
-             * \return true if success
+             * \return the number of success
              */
-            static bool drop();
+            static int drop();
 
             /**
              * \brief truncate all the tables
-             * \return true if success
+             * \return the number of success
              */
-            static bool clear();
+            static int clear();
 
         private:
             template<typename T> friend class Register;

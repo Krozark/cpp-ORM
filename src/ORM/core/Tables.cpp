@@ -6,46 +6,37 @@ namespace orm
     std::vector<bool(*)()> Tables::_drop;
     std::vector<bool(*)()> Tables::_clear;
 
-    bool Tables::create()
+    int Tables::create()
     {
-        bool res = false;
+        int res = 0;
         //TODO beginTransaction
         for(bool(*f)() : _create)
         {
-            res = f();
-            if(not res)
-                //TODO rollback
-                return res;
+            res += f();
         }
         //TODO commit
         return res;
     }
     
-    bool Tables::drop()
+    int Tables::drop()
     {
-        bool res = false;
+        int res = 0;
         //TODO beginTransaction
         for(bool(*f)() : _drop)
         {
-            res = f();
-            if(not res)
-                //TODO rollback
-                return res;
+            res += f();
         }
         //TODO commit
         return res;
     }
 
-    bool Tables::clear()
+    int Tables::clear()
     {
-        bool res = false;
+        int res = 0;
         //TODO beginTransaction
         for(bool(*f)() : _clear)
         {
-            res = f();
-            if(not res)
-                //TODO rollback
-                return res;
+            res += f();
         }
         //TODO commit
         return res;

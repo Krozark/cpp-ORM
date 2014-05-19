@@ -103,7 +103,7 @@ namespace orm
     std::string Sqlite3TableCreator::fk(const std::string& colunm_name,const std::string& table,bool nullable)const
     {
         std::string res = sqlite3_escape(colunm_name)+" INTEGER";
-        if(nullable)
+        if(not nullable)
             res+= " NOT NULL";
         res+= " REFERENCES " + sqlite3_escape(table) + "(\"id\")";
         return res;
