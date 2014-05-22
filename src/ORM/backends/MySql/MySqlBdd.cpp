@@ -68,7 +68,7 @@ namespace orm
         }
 
         sql::Statement* statement = dbConn->createStatement();
-        statement->execute("USE "+s_bdd_name);
+        statement->execute("USE "+escapeColumn(s_bdd_name));
 
         std::cerr<<"MySqlBdd::Connect to "<<s_serveur<<" using database: "<<s_bdd_name<<std::endl;
 

@@ -164,6 +164,17 @@ namespace orm
             bool operator==(const Bdd& other) const;
 
 
+            void setUser(const std::string&);
+
+            void setPassword(const std::string&);
+
+            void setDb(const std::string&);
+
+            void setServer(const std::string&);
+
+            void setPort(unsigned int);
+
+
         protected:
             friend class Query;
             friend class SqlObjectBase;
@@ -178,11 +189,11 @@ namespace orm
             template<typename T,typename U,typename V> friend class M2MQuerySet;
 
             /* Info for connection */
-            const std::string s_username; ///< Username use for the connection
-            const std::string s_password; ///< Username password use for the connection
-            const std::string s_bdd_name; ///< Database  name use for the connection
-            const std::string s_serveur; ///< Ip of tfe serveur to make the connection
-            const std::string s_port; ///< Port to use for the connection
+            std::string s_username; ///< Username use for the connection
+            std::string s_password; ///< Username password use for the connection
+            std::string s_bdd_name; ///< Database  name use for the connection
+            std::string s_serveur; ///< Ip of tfe serveur to make the connection
+            std::string s_port; ///< Port to use for the connection
 
             /**
             * \brief Map the operators that can be use

@@ -29,6 +29,30 @@ namespace orm
                 //and (s_password === other.s_password)
                 );
     }
+    void Bdd::setUser(const std::string& user)
+    {
+        s_username = user;
+    }
+
+    void Bdd::setPassword(const std::string& pass)
+    {
+        s_password = pass;
+    }
+
+    void Bdd::setDb(const std::string& db)
+    {
+        s_bdd_name = db;
+    }
+
+    void Bdd::setServer(const std::string& server)
+    {
+        s_serveur = server;
+    }
+
+    void Bdd::setPort(unsigned int port)
+    {
+        s_port = std::to_string(port);
+    }
 
     bool Bdd::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
     {
