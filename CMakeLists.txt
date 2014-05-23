@@ -24,7 +24,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 #set_option(BUILD_SHARED_LIBS FALSE BOOL "TRUE to build as shared libraries, FALSE to build it as static libraries")
 
 # add an option for building the examples
-set_option(BUILD_EXAMPLES FALSE BOOL "TRUE to build the examples, FALSE to ignore them")
+set_option(BUILD_EXAMPLES TRUE BOOL "TRUE to build the examples, FALSE to ignore them")
 
 # add an option for building the API documentation
 set_option(BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
@@ -42,7 +42,7 @@ find_library(SQLITE_LIB sqlite3)
 set(LIBS ${MYSQL_LIB} ${SQLITE_LIB})
 
 set(WARNING "")
-set(FLAGS "-o3 -std=c++0x")
+set(FLAGS "-g -std=c++0x")
 set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)

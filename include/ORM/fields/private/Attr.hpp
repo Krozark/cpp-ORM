@@ -17,6 +17,9 @@ namespace orm
     template<typename T>
     class Attr : public VAttr
     {
+        private:
+            T _value; ///< value stored
+
         public:
             /**
              * \brief Make a Attr
@@ -36,7 +39,6 @@ namespace orm
             Attr(const Attr&) = delete;
 
             typedef T type; ///< type of stored object
-            T value; ///< value stored
             
             /**
              * \brief assignement operator
@@ -45,7 +47,7 @@ namespace orm
              *
              * \return value
              **/
-            template<typename U> T& operator=(const U& v){value=v;modify=true;return value;};
+            template<typename U> T& operator=(const U& v);
 
             /**
              * \brief assignement operator
@@ -54,7 +56,7 @@ namespace orm
              *
              * \return *this
              **/
-            Attr<T>& operator=(const Attr<T>& v) {value=v.value;modify=true;return*this;};
+            Attr<T>& operator=(const Attr<T>& v);
             
             /**
              * \brief addition operator
@@ -63,7 +65,7 @@ namespace orm
              *
              * \return value+v
              **/
-            template<typename U> auto operator+(const U& v) -> decltype(value+v) const {return value+v;};
+            template<typename U> auto operator+(const U& v) -> decltype(_value+v);
 
             /**
              * \brief sub operator
@@ -72,7 +74,7 @@ namespace orm
              *
              * \return value-v
              **/
-            template<typename U> auto operator-(const U& v) -> decltype(value-v) const {return value-v;};
+            template<typename U> auto operator-(const U& v) -> decltype(_value-v);
 
             /**
              * \brief  multiply operator
@@ -81,7 +83,7 @@ namespace orm
              *
              * \return value*v
              **/
-            template<typename U> auto operator*(const U& v) -> decltype(value*v) const {return value*v;};
+            template<typename U> auto operator*(const U& v) -> decltype(_value*v);
 
             /**
              * \brief div operator
@@ -90,7 +92,7 @@ namespace orm
              *
              * \return value/v
              **/
-            template<typename U> auto operator/(const U& v) -> decltype(value/v) const {return value/v;};
+            template<typename U> auto operator/(const U& v) -> decltype(_value/v);
 
             /**
              * \brief mod operator
@@ -99,35 +101,35 @@ namespace orm
              *
              * \return v%value
              **/
-            template<typename U> auto operator%(const U& v) -> decltype(value%v) const {return value%v;};
+            template<typename U> auto operator%(const U& v) -> decltype(_value%v);
 
             /**
              * \brief post increment operator
              *
              * \return *this
              **/
-            Attr<T>& operator++(){++value;modify=true;return *this;};
+            Attr<T>& operator++();
 
             /**
              * \brief pre increment operator
              *
              * \return *this
              **/
-            Attr<T>& operator++(int){value++;modify=true;return*this;};
+            Attr<T>& operator++(int);
 
             /**
              * \brief post deincrement operator
              *
              * \return *this
              **/
-            Attr<T>& operator--(){--value;modify=true;return*this;};
+            Attr<T>& operator--();
 
             /**
              * \brief pre deincrement operator
              *
              * \return *this
              **/
-            Attr<T>& operator--(int){value--;modify=true;return*this;};
+            Attr<T>& operator--(int);
             
             /**
              * \brief Comparaison operator
@@ -136,7 +138,7 @@ namespace orm
              *
              * \return value == v
              **/
-            template<typename U> auto operator==(const U& v) -> decltype(value==v) const {return value==v;};
+            template<typename U> bool operator==(const U& v);
 
             /**
              * \brief Comparaison operator
@@ -145,7 +147,7 @@ namespace orm
              *
              * \return value != v
              **/
-            template<typename U> auto operator!=(const U& v) -> decltype(value!=v)  const {return value!=v;};
+            template<typename U> bool operator!=(const U& v);
 
             /**
              * \brief Comparaison operator
@@ -154,7 +156,7 @@ namespace orm
              *
              * \return value > v
              **/
-            template<typename U> auto operator>(const U& v) -> decltype(value>v) const {return value>v;};
+            template<typename U> bool operator>(const U& v);
 
             /**
              * \brief Comparaison operator
@@ -163,7 +165,7 @@ namespace orm
              *
              * \return value < v
              **/
-            template<typename U> auto operator<(const U& v) -> decltype(value<v) const {return value<v;};
+            template<typename U> bool operator<(const U& v);
 
             /**
              * \brief Comparaison operator
@@ -172,7 +174,7 @@ namespace orm
              *
              * \return value >= v
              **/
-            template<typename U> auto operator>=(const U& v) -> decltype(value>=v)  const {return value>=v;};
+            template<typename U> bool operator>=(const U& v);
             
             /**
              * \brief Comparaison operator
@@ -181,14 +183,14 @@ namespace orm
              *
              * \return value <= v
              **/
-            template<typename U> auto operator<=(const U& v) -> decltype(value<=v)  const {return value<=v;};
+            template<typename U> bool operator<=(const U& v);
 
             /**
              * \brief negation operator
              *
              * \return !value
              **/
-            bool operator!()const {return !value;};
+            bool operator!();
 
 
             /**
@@ -198,7 +200,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator+=(const U& v) {value+=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator+=(const U& v);
 
             /**
              * \brief sub operator
@@ -207,7 +209,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator-=(const U& v) {value-=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator-=(const U& v);
 
             /**
              * \brief multiply operator
@@ -216,7 +218,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator*=(const U& v) {value*=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator*=(const U& v);
 
             /**
              * \brief div operator
@@ -225,7 +227,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator/=(const U& v) {value/=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator/=(const U& v);
             
             /**
              * \brief mod operator
@@ -234,22 +236,15 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator%=(const U& v) {value%=v;modify=true;return*this;};
+            template<typename U> Attr<T>& operator%=(const U& v);
 
             /**
              * \brief cast operator
              *
              * \cast this in value
              **/
-            //operator T() {return value;};
+            operator T();
 
-            /**
-             * \brief cast operator
-             *
-             * \cast this in value
-             **/
-            operator T()const {return value;};
-            
             /**
              * \brief addition operator
              *
@@ -257,7 +252,7 @@ namespace orm
              *
              * \return value+v.value
              **/
-            T operator+(const Attr<T>& v) const {return value+v.value;};
+            T operator+(Attr<T>& v);
 
             /**
              * \brief sub operator
@@ -266,7 +261,7 @@ namespace orm
              *
              * \return value-v.value
              **/
-            T operator-(const Attr<T>& v) const {return value-v.value;};
+            T operator-(Attr<T>& v);
 
             /**
              * \brief multiply operator
@@ -275,7 +270,7 @@ namespace orm
              *
              * \return value*v.value
              **/
-            T operator*(const Attr<T>& v) const {return value*v.value;};
+            T operator*(Attr<T>& v);
 
             /**
              * \brief div operator
@@ -284,7 +279,7 @@ namespace orm
              *
              * \return value/v.value
              **/
-            T operator/(const Attr<T>& v) const {return value/v.value;};
+            T operator/(Attr<T>& v);
 
             /**
              * \brief mod operator
@@ -293,7 +288,7 @@ namespace orm
              *
              * \return value%v.value
              **/
-            T operator%(const Attr<T>& v) const {return value%v.value;};
+            T operator%(Attr<T>& v);
 
             /**
              * \brief Comparaison operator
@@ -302,7 +297,7 @@ namespace orm
              *
              * \return value == v.value
              **/
-            template<typename U> bool operator==(const Attr<U>& v)const {return value==v.value;};
+            template<typename U> bool operator==(Attr<U>& v);
 
             /**
              * \brief Comparaison operator
@@ -311,7 +306,7 @@ namespace orm
              *
              * \return value != v.value
              **/
-            template<typename U> bool operator!=(const Attr<U>& v)const {return value!=v.value;};
+            template<typename U> bool operator!=(Attr<U>& v);
 
             /**
              * \brief Comparaison operator
@@ -320,7 +315,7 @@ namespace orm
              *
              * \return value > v.value
              **/
-            template<typename U> bool operator>(const Attr<U>& v)const {return value>v.value;};
+            template<typename U> bool operator>(Attr<U>& v);
 
             /**
              * \brief Comparaison operator
@@ -329,7 +324,7 @@ namespace orm
              *
              * \return value < v.value
              **/
-            template<typename U> bool operator<(const Attr<U>& v)const {return value<v.value;};
+            template<typename U> bool operator<(Attr<U>& v);
 
             /**
              * \brief Comparaison operator
@@ -338,7 +333,7 @@ namespace orm
              *
              * \return value >= v.value
              **/
-            template<typename U> bool operator>=(const Attr<U>& v)const {return value>=v.value;};
+            template<typename U> bool operator>=(Attr<U>& v);
 
             /**
              * \brief Comparaison operator
@@ -347,7 +342,7 @@ namespace orm
              *
              * \return value <= v.value
              **/
-            template<typename U> bool operator<=(const Attr<U>& v)const {return value<=v.value;};
+            template<typename U> bool operator<=(Attr<U>& v);
 
             /**
              * \brief addition operator
@@ -356,7 +351,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator+=(const Attr<U>& v) {value+=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator+=(Attr<U>& v);
 
             /**
              * \brief sub operator
@@ -365,7 +360,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator-=(const Attr<U>& v) {value-=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator-=(Attr<U>& v);
 
             /**
              * \brief multiply operator
@@ -374,7 +369,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator*=(const Attr<U>& v) {value*=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator*=(Attr<U>& v);
 
             /**
              * \brief div operator
@@ -383,7 +378,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator/=(const Attr<U>& v) {value/=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator/=(Attr<U>& v);
 
             /**
              * \brief mod operator
@@ -392,7 +387,7 @@ namespace orm
              *
              * \return *this
              **/
-            template<typename U> Attr<T>& operator%=(const Attr<U>& v) {value%=v.value;modify=true;return*this;};
+            template<typename U> Attr<T>& operator%=(Attr<U>& v);
 
             /**
              * \brief print the stored value
@@ -409,7 +404,7 @@ namespace orm
              *
              * \param output print in this stream
              **/
-            virtual void print(std::ostream& output) const;
+            virtual void print(std::ostream& output) const final;
 
             /**
              * \brief Set the value in the query (use for dispatch
@@ -419,7 +414,9 @@ namespace orm
              *
              * \return false if fail
              */
-            virtual bool set(Query& query,const unsigned int& column);
+            virtual bool set(Query& query,const unsigned int& column) final;
+
+            virtual T prepare_to_db(const T& value);
 
             /**
              * \brief Extract the value from the query row
@@ -430,7 +427,16 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(const Query& query,int& prefix,int max_depth);
+            virtual bool get(const Query& query,int& prefix,int max_depth) final;
+
+            virtual T prepare_from_db(const T& value);
+
+        private:
+            inline T& getValue();
+            inline void setValue(const T& v);
+
+            bool prepared;
+
 
     };
 

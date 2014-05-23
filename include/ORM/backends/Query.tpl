@@ -21,8 +21,13 @@ namespace orm
         int res = 0;
         while(next())
         {
-            objs.emplace_back(T::cache.getOrCreate(*this,max_depth));
-            ++res;
+            auto tmp = T::cache.getOrCreate(*this,max_depth);
+            //TODO
+            //if(tmp)
+            {
+                objs.emplace_back(tmp);
+                ++res;
+            }
         }   
         return res;     
     };

@@ -147,8 +147,8 @@ int main(int argc,char* argv[])
         test.save();
         cout<<"Save current"<<endl;
     }
-
-    { 
+    std::cout<<"=============="<<std::endl;
+    /*{ 
         auto& p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
@@ -169,14 +169,20 @@ int main(int argc,char* argv[])
         p1->maitre->maitre.del(*Perso::default_connection,true);
 
         cout<<"Current perso1 "<<*p1<<endl;
-    }
+    }*/
+    std::cout<<"=============="<<std::endl;
 
    {
        cout<<"All persos"<<endl;
        std::list<Cache<Perso>::type_ptr> lis= Perso::all();
+       cout<<"Number: "<<lis.size()<<std::endl;
        for(auto u : lis)
-           cout<<*u<<endl;
+       {
+           cout<<u.get()<<endl;
+            cout<<*u<<endl;
+       }
    }
+    std::cout<<"=============="<<std::endl;
 
    {
        cout<<"Create Perso"<<endl;
@@ -191,14 +197,19 @@ int main(int argc,char* argv[])
        cout<<p2<<endl;
 
        cout<<"save it"<<endl;
-       //p2.save();
+       p2.save();
 
        cout<<"All persos (current="<<p2<<")"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
+       cout<<"Number: "<<lis.size()<<std::endl;
        for(auto u : lis)
-           cout<<*u<<endl;
+       {
+           cout<<u.get()<<endl;
+            cout<<*u<<endl;
+       }
 
-    }
+   }
+    std::cout<<"=============="<<std::endl;
    {
        Perso p2;
 
@@ -226,6 +237,7 @@ int main(int argc,char* argv[])
 
 
    }
+    std::cout<<"=============="<<std::endl;
    {
 
        std::list<std::shared_ptr<Perso>> lis;
@@ -234,6 +246,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
    }
 
+    std::cout<<"=============="<<std::endl;
 
 
    { 
@@ -243,6 +256,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
    }
        
+    std::cout<<"=============="<<std::endl;
 
     {
        std::list<std::shared_ptr<Spell>> list;
@@ -251,6 +265,7 @@ int main(int argc,char* argv[])
            cout<<*u<<endl;
     }
 
+    std::cout<<"=============="<<std::endl;
     {
         auto& p1 = Perso::get(1);
         std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
@@ -279,6 +294,7 @@ int main(int argc,char* argv[])
 
     }
 
+    std::cout<<"=============="<<std::endl;
 
 
     Bdd::Default.disconnect();

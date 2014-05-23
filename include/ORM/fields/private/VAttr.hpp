@@ -89,6 +89,13 @@ namespace orm
              **/
             virtual bool get(const Query& query,int& prefix,int max_depth) = 0;
 
+
+            /**
+             * \brief create the attr column
+             */
+            virtual std::string create(const Bdd& bdd) const = 0;
+
+        private:
             /**
              * \brief make the colum alias
              *
@@ -98,12 +105,7 @@ namespace orm
              *
              * \return the culumn alias
              **/
-            virtual std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
-
-            /**
-             * \brief create the attr column
-             */
-            virtual std::string create(const Bdd& bdd) const = 0;
+            std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
     };
 };
 
