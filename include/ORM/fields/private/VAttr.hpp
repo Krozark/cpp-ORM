@@ -105,7 +105,7 @@ namespace orm
              *
              * \return the culumn alias
              **/
-            std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
+            virtual std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
     };
 };
 

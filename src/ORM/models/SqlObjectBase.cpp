@@ -30,6 +30,7 @@ namespace orm
 
         bool res = query.get(pk,prefix); //id
 
+
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         if(not res)
             std::cerr<<ROUGE<<"[ATTR] get attr("<<prefix<<") : id"<<" fail"<<BLANC<<std::endl;

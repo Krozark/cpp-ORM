@@ -16,7 +16,7 @@ namespace orm
         if(not res->loadFromBdd(query,prefix,max_depth))
         {
             delete res;
-            res = 0;
+            res = nullptr;
         }
         return res;
     };
@@ -54,7 +54,7 @@ namespace orm
             std::cerr<<ROUGE<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<BLANC<<std::endl;
             #endif
             delete res;
-            res = 0;
+            res = nullptr;
         }
         delete q;
         return res;

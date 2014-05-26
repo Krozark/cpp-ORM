@@ -59,12 +59,12 @@ class Perso : public orm::SqlObject<Perso>
         orm::FK<Stats,false> stats2;
         orm::FK<Perso,true> maitre;
 
-        orm::ManyToMany<Perso,Spell> spells;
+        //orm::ManyToMany<Perso,Spell> spells;
 
         MAKE_STATIC_COLUMN(name,lvl,stats,stats2,maitre)
 };
 //REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
-M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
+/*M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2), maitre(_maitre), spells(*this)
 {
@@ -73,7 +73,8 @@ Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stat
     stats.registerAttr(*this);
     stats2.registerAttr(*this);
     maitre.registerAttr(*this);
-}
+}*/
+REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 
 
 class TestTypes : public orm::SqlObject<TestTypes>
@@ -148,8 +149,8 @@ int main(int argc,char* argv[])
         cout<<"Save current"<<endl;
     }
     std::cout<<"=============="<<std::endl;
-    /*{ 
-        auto& p1 = Perso::get(1,*con2);
+    { 
+        auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
         p1->lvl = p1->lvl + 1;
@@ -169,16 +170,14 @@ int main(int argc,char* argv[])
         p1->maitre->maitre.del(*Perso::default_connection,true);
 
         cout<<"Current perso1 "<<*p1<<endl;
-    }*/
+    }
     std::cout<<"=============="<<std::endl;
 
    {
        cout<<"All persos"<<endl;
        std::list<Cache<Perso>::type_ptr> lis= Perso::all();
-       cout<<"Number: "<<lis.size()<<std::endl;
        for(auto u : lis)
        {
-           cout<<u.get()<<endl;
             cout<<*u<<endl;
        }
    }
@@ -201,10 +200,8 @@ int main(int argc,char* argv[])
 
        cout<<"All persos (current="<<p2<<")"<<endl;
        std::list<std::shared_ptr<Perso> > lis= Perso::all();
-       cout<<"Number: "<<lis.size()<<std::endl;
        for(auto u : lis)
        {
-           cout<<u.get()<<endl;
             cout<<*u<<endl;
        }
 
@@ -249,7 +246,7 @@ int main(int argc,char* argv[])
     std::cout<<"=============="<<std::endl;
 
 
-   { 
+   /*{ 
        auto& p1 = Perso::get(1);
        const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
        for(auto u : spells)
@@ -292,7 +289,7 @@ int main(int argc,char* argv[])
         p1->spells.add(sort);
         p1->spells.remove(sort);
 
-    }
+    }*/
 
     std::cout<<"=============="<<std::endl;
 

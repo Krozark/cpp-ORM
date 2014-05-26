@@ -93,7 +93,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(Bdd& bdd = *default_connection,bool recursive=false);
+            virtual bool save(Bdd& bdd = *default_connection,bool recursive=false) final;
 
             /**
             * \brief delete the object from de data base

@@ -94,7 +94,7 @@ namespace orm
 
             pk = getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<" new PK: "<<pk<<BLANC<<std::endl;
+            std::cerr<<"new PK: "<<pk<<BLANC<<std::endl;
             #endif
 
             return true;

@@ -26,9 +26,9 @@ namespace orm
         if(res != map.end())
             return res->second;
         T* ptr = T::_get_ptr(pk,bdd,max_depth);
-        //if(ptr == 0)
+        if(ptr == nullptr)
+            ptr = new T();
             
-
         map[pk].reset(ptr);
         return map[pk];
     }
