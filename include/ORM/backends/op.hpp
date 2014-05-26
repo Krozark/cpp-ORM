@@ -1,4 +1,4 @@
-#ifndef ORM__OP_HPP
+#ifndef ORM_OP_HPP
 #define ORM_OP_HPP
 
 #include <string>
