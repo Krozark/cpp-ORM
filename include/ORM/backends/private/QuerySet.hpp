@@ -3,12 +3,14 @@
 
 #include <ORM/backends/private/VFilter.hpp>
 #include <ORM/core/Cache.hpp>
+#include <ORM/backends/op.hpp>
 #include <memory>
 
 namespace orm
 {
     template<typename T> class SqlObject;
     template<typename T,typename U> class ManyToMany;
+
 
     /**
      * \brief A class that allow you to make query on the type T
@@ -34,7 +36,7 @@ namespace orm
              * \brief Construct a filter to apply in the query
              *
              * \param value The value to compare with
-             * \param The operator to use see Bdd::Operators for detail
+             * \param The operator to use see orm::op for detail
              * \param column The column to apply the comparasion
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
@@ -46,21 +48,21 @@ namespace orm
              * \brief Add a order by constrait to the query
              *
              * \param column The column to use for ordering
-             * \param oder The column ordering ( +=ASC or -=DESC)
+             * \param oder The column ordering (op::random,asc,desc)
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(const std::string& column,const char order='+');
+            QuerySet<T>& orderBy(const std::string& column,const char order=op::asc);
 
             /**
              * \brief Add a order by constrait to the query
              *
              * \param column The column to use for ordering
-             * \param oder The column ordering ( +=ASC or -=DESC)
+             * \param oder The column ordering (op::random,asc,desc)
              *
              * \return *this;
              **/
-            QuerySet<T>& orderBy(std::string&& column,const char order='+');
+            QuerySet<T>& orderBy(std::string&& column,const char order=op::asc);
             //QuerySet& orderBy(int,const std::string& column);
 
             /**
@@ -124,6 +126,9 @@ namespace orm
              **/
             void __print__() const;
 
+            /***
+            * \brief Store the filter and ordering params for operators values
+            */
 
         private:
             friend class SqlObject<T>;

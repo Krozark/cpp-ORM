@@ -4,6 +4,7 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends)
 list(APPEND FILES_HEADER
     ${INCROOT}/Bdd.hpp
     ${INCROOT}/MySql.hpp
+    ${INCROOT}/op.hpp
     ${INCROOT}/Query.hpp
     ${INCROOT}/Query.tpl
     ${INCROOT}/Sqlite3.hpp
@@ -13,6 +14,7 @@ set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
     ${SRCROOT}/Bdd.cpp
+    ${SRCROOT}/op.cpp
     ${SRCROOT}/Query.cpp
 )
 

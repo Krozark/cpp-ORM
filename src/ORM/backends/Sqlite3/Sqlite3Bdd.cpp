@@ -2,6 +2,7 @@
 #include  <ORM/backends/Sqlite3/Sqlite3Query.hpp>
 
 #include <ORM/fields/private/VAttr.hpp>
+#include <ORM/backends/op.hpp>
 
 
 namespace orm
@@ -12,20 +13,20 @@ namespace orm
 
     {
         //operators
-        operators["exact"]= " = %s";
-        operators["iexact"]= " LIKE %s ESCAPE '\\'";
-        operators["contains"]= " LIKE %s ESCAPE '\\'";
-        operators["icontains"]= " LIKE %s ESCAPE '\\'";
-        operators["regex"]= " REGEXP %s";
-        operators["iregex"]= " REGEXP '(?i)' || %s";
-        operators["gt"]= " > %s";
-        operators["gte"]= " >= %s";
-        operators["lt"]= " < %s";
-        operators["lte"]= " <= %s";
-        operators["startswith"]= " LIKE %s ESCAPE '\\'";
-        operators["endswith"]= " LIKE %s ESCAPE '\\'";
-        operators["istartswith"]= " LIKE %s ESCAPE '\\'";
-        operators["iendswith"]= " LIKE %s ESCAPE '\\'";
+        operators[op::exact]= " = %s";
+        operators[op::iexact]= " LIKE %s ESCAPE '\\'";
+        operators[op::contains]= " LIKE %s ESCAPE '\\'";
+        operators[op::icontains]= " LIKE %s ESCAPE '\\'";
+        operators[op::regex]= " REGEXP %s";
+        operators[op::iregex]= " REGEXP '(?i)' || %s";
+        operators[op::gt]= " > %s";
+        operators[op::gte]= " >= %s";
+        operators[op::lt]= " < %s";
+        operators[op::lte]= " <= %s";
+        operators[op::startswith]= " LIKE %s ESCAPE '\\'";
+        operators[op::endswith]= " LIKE %s ESCAPE '\\'";
+        operators[op::istartswith]= " LIKE %s ESCAPE '\\'";
+        operators[op::iendswith]= " LIKE %s ESCAPE '\\'";
         
         //ordering
         operators["?"] = "RANDOM() ";

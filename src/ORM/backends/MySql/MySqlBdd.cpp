@@ -2,6 +2,7 @@
 #include  <ORM/backends/MySql/MySqlQuery.hpp>
 
 #include <ORM/fields/private/VAttr.hpp>
+#include <ORM/backends/op.hpp>
 
 #include <cppconn/exception.h>
 
@@ -15,20 +16,20 @@ namespace orm
         dbConn(0)
     {
         //Operators
-        operators["exact"]= " = %s";
-        operators["iexact"]= " LIKE %s";
-        operators["contains"]= " LIKE BINARY %s";
-        operators["icontains"]= " LIKE %s";
-        operators["regex"]= " REGEXP BINARY %s";
-        operators["iregex"]= " REGEXP %s";
-        operators["gt"]= " > %s";
-        operators["gte"]= " >= %s";
-        operators["lt"]= " < %s";
-        operators["lte"]= " <= %s";
-        operators["startswith"]= " LIKE BINARY %s";
-        operators["endswith"]= " LIKE BINARY %s";
-        operators["istartswith"]= " LIKE %s";
-        operators["iendswith"]= " LIKE %s";
+        operators[op::exact]= " = %s";
+        operators[op::iexact]= " LIKE %s";
+        operators[op::contains]= " LIKE BINARY %s";
+        operators[op::icontains]= " LIKE %s";
+        operators[op::regex]= " REGEXP BINARY %s";
+        operators[op::iregex]= " REGEXP %s";
+        operators[op::gt]= " > %s";
+        operators[op::gte]= " >= %s";
+        operators[op::lt]= " < %s";
+        operators[op::lte]= " <= %s";
+        operators[op::startswith]= " LIKE BINARY %s";
+        operators[op::endswith]= " LIKE BINARY %s";
+        operators[op::istartswith]= " LIKE %s";
+        operators[op::iendswith]= " LIKE %s";
 
         //ordering
         operators["?"] = " RAND() ";

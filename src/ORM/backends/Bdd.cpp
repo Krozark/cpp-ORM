@@ -7,6 +7,7 @@
 
 namespace orm
 {
+
     Bdd::Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port) : s_username(username),
         s_password(pass),
         s_bdd_name(bdd),

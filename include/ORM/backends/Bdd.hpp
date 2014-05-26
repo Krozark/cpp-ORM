@@ -173,6 +173,7 @@ namespace orm
             void setServer(const std::string&);
 
             void setPort(unsigned int);
+            
 
 
         protected:
@@ -198,8 +199,7 @@ namespace orm
             /**
             * \brief Map the operators that can be use
             *
-            * Operators : "exact", "iexact", "contains", "icontains","regex", "iregex", "gt", "gte", "lt", "lte", "startswith", "endswith", "istartswith", "iendswith"
-            * Ordering : "?","+","-"
+            * Operators : \see op
             **/
             std::unordered_map<std::string,std::string> operators;
 
