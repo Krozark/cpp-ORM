@@ -2,6 +2,7 @@
 #define ORM_QUERYSET_HPP
 
 #include <ORM/backends/private/VFilter.hpp>
+#include <ORM/backends/private/FilterSet.hpp>
 #include <ORM/core/Cache.hpp>
 #include <ORM/backends/op.hpp>
 #include <memory>
@@ -44,6 +45,8 @@ namespace orm
             template<typename U,typename ... Args>
             QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
+            QuerySet<T>& filter(const FilterSet& f);
+            QuerySet<T>& filter(FilterSet&&);
             /**
              * \brief Add a order by constrait to the query
              *
@@ -174,7 +177,8 @@ namespace orm
             QuerySet& operator=(const QuerySet&) = delete;
 
 
-            std::list<VFilter*> filters; ///< Store all the filters
+            //std::list<VFilter*> filters; ///< Store all the filters
+            std::list<FilterSet> filters; ///< Store all the filters
             std::list<VFilter*> excludes;///< Store all the negative filters
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)

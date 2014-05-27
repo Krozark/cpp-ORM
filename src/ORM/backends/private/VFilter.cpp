@@ -2,4 +2,7 @@
 
 namespace orm
 {
+    VFilter::~VFilter()
+    {
+    }
 };

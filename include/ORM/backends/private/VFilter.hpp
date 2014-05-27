@@ -10,6 +10,7 @@ namespace orm
     template<typename T,typename U,typename V> class M2MQuerySet;
     class Query;
     class Bdd;
+    class FilterSet;
 
     /**
      * \brief A class representing filter in query
@@ -22,11 +23,14 @@ namespace orm
              **/
             virtual void __print__() const = 0;
 
+            virtual ~VFilter();
+
 
         protected:
             //template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
+            friend class FilterSet;
 
 
            /**

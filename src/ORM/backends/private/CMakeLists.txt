@@ -4,6 +4,8 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends/private)
 list(APPEND FILES_HEADER
     ${INCROOT}/Filter.hpp
     ${INCROOT}/Filter.tpl
+    ${INCROOT}/FilterSet.hpp
+    ${INCROOT}/FilterSet.tpl
     ${INCROOT}/M2MQuerySet.hpp
     ${INCROOT}/M2MQuerySet.tpl
     ${INCROOT}/QuerySet.hpp
@@ -16,6 +18,7 @@ set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
     ${SRCROOT}/Filter.cpp
+    ${SRCROOT}/FilterSet.cpp
     ${SRCROOT}/TableCreator.cpp
     ${SRCROOT}/VFilter.cpp
 )

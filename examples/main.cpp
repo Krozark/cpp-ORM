@@ -3,7 +3,7 @@
 //orm::MySqlBdd def("root","root","test");
 
 #include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3Bdd def("./datas/test.db");
+orm::Sqlite3Bdd def("./test.db");
 
 orm::Bdd& orm::Bdd::Default = def;
 
@@ -14,6 +14,7 @@ orm::Bdd& orm::Bdd::Default = def;
 #include <ORM/fields.hpp>
 #include <ORM/fields/ManyToMany.hpp>
 #include <ORM/models/SqlObject.hpp>
+#include <ORM/backends/op.hpp>
 
 #include <iostream>
 
@@ -211,14 +212,17 @@ int main(int argc,char* argv[])
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
-       Perso::query()\
-           .filter(4,"gt",Perso::_lvl)\
-           .filter(42,"gte",Perso::_lvl)\
-           .exclude(4,"lt",Perso::_lvl)\
-           .orderBy(Perso::_name)\
+       Perso::query()
+           .filter(4,orm::op::gt,Perso::_lvl)
+           .filter(42,orm::op::gte,Perso::_lvl)
+           .exclude(4,orm::op::lt,Perso::_lvl)
+           .orderBy(Perso::_name)
            .get(p2);
 
        std::cout<<p2<<std::endl;
+
+       //Perso::query().filter(Filter<int>(Perso::_lvl,orm::op::gt,4) and Filter<int>(Perso::_lvl,orm::op::gte,42) and not Filter<int>(Perso::_lvl,orm::op::lt,4)).__print__();
+
 
        cout<<"All perso"<<endl;
        Perso::query().get(results);
@@ -228,7 +232,7 @@ int main(int argc,char* argv[])
        results.clear();
 
        cout<<"All perso where lvl < 200"<<endl;
-       Perso::query().filter(200,"lt",Perso::_lvl).get(results);
+       Perso::query().filter(200,orm::op::lt,Perso::_lvl).get(results);
        for(auto& perso : results)
            cout<<*perso<<endl;
 
@@ -238,7 +242,7 @@ int main(int argc,char* argv[])
    {
 
        std::list<std::shared_ptr<Perso>> lis;
-       Perso::query().filter(string("test"),"startswith",Perso::_name).get(lis);
+       Perso::query().filter(string("test"),orm::op::startswith,Perso::_name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
    }

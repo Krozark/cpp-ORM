@@ -12,8 +12,8 @@ namespace orm
     template<typename T>
     QuerySet<T>::~QuerySet()
     {
-        for(auto* it : filters)
-            delete it;
+        //for(auto* it : filters)
+            //delete it;
         for(auto* it: excludes)
             delete it;
     }
@@ -23,9 +23,24 @@ namespace orm
     template<typename U,typename ... Args>
     QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        filters.emplace_back(new Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
+        //filters.emplace_back(new Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
+        filters.emplace_back(Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::filter(const FilterSet& f)
+    {
+        filters.emplace_back(f);
+        return *this;
+    }
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::filter(FilterSet&& f)
+    {
+        filters.push_back(std::move(f));
+        return *this;
+    }
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& column,const char order)
@@ -98,11 +113,19 @@ namespace orm
     void QuerySet<T>::__print__() const
     {
         std::cout<<"Filter: ";
-        for (auto* u :  filters)
-            u->__print__();
+        /*for (auto* u :  filters)
+            u->__print__();*/
+        for (auto& u :  filters)
+        {
+            u.__print__();
+            std::cout<<",";
+        }
         std::cout<<"exclude: ";
         for (auto* u :  excludes)
+        {
             u->__print__();
+            std::cout<<",";
+        }
         std::cout<<"order_by: ";
         for (auto& u :  order_by)
             std::cout<<u<<" ";
@@ -142,12 +165,12 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                (*begin)->toQuery(q_str,bdd);
+                begin->toQuery(q_str,bdd);
 
                 while(++begin != end)
                 {
                     q_str+=" AND ";
-                    (*begin)->toQuery(q_str,bdd);
+                    begin->toQuery(q_str,bdd);
                 }
             }
 
@@ -197,7 +220,7 @@ namespace orm
         Query* q = bdd.prepareQuery(q_str);
 
         {//bind values
-            unsigned int index = 1;
+            unsigned int index = bdd.getInitialGetcolumnNumber();
             if(filters_size > 0)
             {
                 auto begin = filters.begin();
@@ -205,7 +228,7 @@ namespace orm
                 while(begin != end)
                 {
 
-                    (*begin)->set(q,index);
+                    begin->set(q,index);
                     ++begin;
                     ++index;
                 }
