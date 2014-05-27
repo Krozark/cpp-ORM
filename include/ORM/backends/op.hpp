@@ -27,7 +27,7 @@ namespace orm
             static const std::string istartswith;
             static const std::string iendswith;
             //ordering
-            static const char        random;
+            static const std::string random;
             static const char        asc;
             static const char        desc;
     };

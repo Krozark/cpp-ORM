@@ -17,7 +17,7 @@ namespace orm
     const std::string op::istartswith= "istartswith";
     const std::string op::iendswith  = "iendswith";
 
-    const char        op::random     = '?';
+    const std::string op::random     = "?";
     const char        op::asc        = '+';
     const char        op::desc       = '-';
 }
