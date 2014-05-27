@@ -127,14 +127,12 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                q_str+= (*begin)->column
-                    +bdd.formatPreparedValue((*begin)->ope);
+                (*begin)->toQuery(q_str,bdd);
 
                 while(++begin != end)
                 {
-                    q_str+=" AND "
-                        +(*begin)->column
-                        +bdd.formatPreparedValue((*begin)->ope);
+                    q_str+=" AND ";
+                    (*begin)->toQuery(q_str,bdd);
                 }
             }
 
@@ -148,14 +146,12 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                q_str+= (*begin)->column
-                    +bdd.formatPreparedValue((*begin)->ope);
+                (*begin)->toQuery(q_str,bdd);
 
                 while(++begin != end)
                 {
-                    q_str+=" AND "
-                        +(*begin)->column
-                        +bdd.formatPreparedValue((*begin)->ope);
+                    q_str+=" AND ";
+                    (*begin)->toQuery(q_str,bdd);
                 }
 
                 q_str+=") ";

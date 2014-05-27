@@ -9,6 +9,7 @@ namespace orm
     template<typename T> class QuerySet;
     template<typename T,typename U,typename V> class M2MQuerySet;
     class Query;
+    class Bdd;
 
     /**
      * \brief A class representing filter in query
@@ -17,42 +18,16 @@ namespace orm
     {
         public:
             /**
-             * \brief Create a filter
-             *
-             * \param column column where the filter will be apply
-             * \param ope Operator to apply
-             * \param value Value to compare
-             **/
-            VFilter(const std::string& column,const std::string& ope);
-
-            /**
-             * \brief Create a filter
-             *
-             * \param column column where the filter will be apply
-             * \param ope Operator to apply
-             * \param value Value to compare
-             **/
-            VFilter(std::string&& column,const std::string& ope);
-
-            /**
-             * \brief Destructor
-             **/
-            virtual ~VFilter();
-            
-            /**
              * \brief Print the content of the filter for debug help
              **/
             virtual void __print__() const = 0;
 
 
-
         protected:
-            template<typename T> friend class SqlObject;
+            //template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
 
-            const std::string column; ///< Colum to apply filter
-            const std::string ope; ///< operator to use. \see Bdd::operators
 
            /**
             * \brief set the value in the filter in the query
@@ -63,6 +38,8 @@ namespace orm
             * \return false if fail
             **/
             virtual bool set(Query* query,unsigned int& column) const = 0;
+
+            virtual void toQuery(std::string& query,orm::Bdd& bdd) const = 0;
     };
 };
 

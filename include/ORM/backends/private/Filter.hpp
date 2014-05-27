@@ -6,8 +6,6 @@
 
 namespace orm
 {
-    class Query;
-
     /**
      * \brief A class to build filters
      * T have to be a primitiv type (char, bool,int, float, double, unsigned, long, long long)
@@ -39,10 +37,12 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__() const;
+            virtual void __print__() const final;
             
 
         protected:
+            const std::string column; ///< Colum to apply filter
+            const std::string ope; ///< operator to use. \see Bdd::operators
             const T value; ///< Store the value of the filter to compare with
 
            /**
@@ -53,7 +53,14 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool set(Query* query,unsigned int& column) const;
+            virtual bool set(Query* query,unsigned int& column) const final;
+
+            /**
+             * \brief add the sql code to the query
+             * \param query sql to append to
+             * \param bdd data base to use
+             */
+            virtual void toQuery(std::string& query,Bdd& bdd) const final;
     };
 }
 #include <ORM/backends/private/Filter.tpl>
