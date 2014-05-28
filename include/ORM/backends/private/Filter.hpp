@@ -14,14 +14,6 @@ namespace orm
     class Filter : public VFilter
     {
         public:
-            /**
-             * \brief Create a filter
-             *
-             * \param column column where the filter will be apply
-             * \param ope Operator to apply
-             * \param value Value to compare
-             **/
-            Filter(const std::string& column,const std::string& ope,const T& value);
 
             /**
              * \brief Create a filter
@@ -30,19 +22,23 @@ namespace orm
              * \param ope Operator to apply
              * \param value Value to compare
              **/
-            Filter(std::string&& column,const std::string& ope,const T& value);
+            template<typename ... Args>
+            Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args);
 
             virtual ~Filter();
 
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__() const final;
+            virtual void __print__(const Bdd& bdd) const final;
 
         protected:
             const std::string column; ///< Colum to apply filter
             const std::string ope; ///< operator to use. \see Bdd::operators
             const T value; ///< Store the value of the filter to compare with
+
+
+            virtual VFilter* clone() const;
 
            /**
             * \brief set the value in the filter in the query
@@ -61,6 +57,9 @@ namespace orm
              */
             virtual void toQuery(std::string& query,Bdd& bdd) const final;
     };
+
+    template <typename T, typename ... Args>
+    Filter<T> Q(T&& value,Args&& ... args);
 }
 #include <ORM/backends/private/Filter.tpl>
 #endif

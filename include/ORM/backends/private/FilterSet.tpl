@@ -1,7 +1,7 @@
 namespace orm
 {
     template<typename T>
-    FilterSet::FilterSet(const Filter<T>& f) : left((FilterSet*)(new Filter<T>(f))), op(), right(nullptr), type(LEAF)
+    FilterSet::FilterSet(Filter<T>&& f): left(new Filter<T>(std::forward<Filter<T>>(f))), ope(), right(nullptr), type(LEAF)
     {
-    }
+    };
 }

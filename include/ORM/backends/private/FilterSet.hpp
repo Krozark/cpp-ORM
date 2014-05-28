@@ -9,33 +9,34 @@ namespace orm
     class FilterSet
     {
         public:
+
+            FilterSet(FilterSet&& a);
+            FilterSet(const FilterSet& a);
+
             template<typename T>
-            FilterSet(const Filter<T>& f);
-            FilterSet(const std::string& op,const FilterSet* f);
-            FilterSet(const FilterSet* left,const std::string& op,const FilterSet* right);
+            FilterSet(Filter<T>&& f);
 
-            virtual ~FilterSet();
+            FilterSet(FilterSet&& l, const std::string& o);
+            FilterSet(const FilterSet& l, const std::string& o);
 
+            FilterSet(FilterSet&& l, const std::string o,FilterSet&& r);
 
-            FilterSet(const FilterSet&) = delete;
-            FilterSet& operator=(const FilterSet&) = delete;
+            ~FilterSet();
 
-            FilterSet(FilterSet&&) = default;
-            FilterSet& operator=(FilterSet&&) = default;
+            void __print__(const Bdd& bdd)const;
 
-            void __print__() const;
 
         private:
-            const FilterSet* left;
-            const std::string op;
-            const FilterSet* right;
+            void* left;
+            std::string ope;
+            FilterSet* right;
 
 
             enum Type {
                 LEAF,
                 UNARY,
                 BINARY,
-            } const type;
+            } type;
             
         protected:
             template<typename T> friend class QuerySet;
@@ -57,10 +58,8 @@ namespace orm
             void toQuery(std::string& query,Bdd& bdd) const;
     };
 
+    FilterSet operator!(FilterSet&& a);
     FilterSet operator!(const FilterSet& a);
-
-    FilterSet operator&&(const FilterSet& a, const FilterSet& b);
-    FilterSet operator||(const FilterSet& a,const FilterSet& b);
 
     FilterSet operator&&(FilterSet&& a, FilterSet&& b);
     FilterSet operator||(FilterSet&& a, FilterSet&& b);

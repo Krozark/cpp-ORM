@@ -21,7 +21,7 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__() const = 0;
+            virtual void __print__(const Bdd& bdd) const = 0;
 
             virtual ~VFilter();
 
@@ -31,6 +31,11 @@ namespace orm
             template<typename T> friend class QuerySet;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
             friend class FilterSet;
+
+            /**
+             * \brief Make a copy of the object
+             */
+            virtual VFilter* clone()const = 0;
 
 
            /**

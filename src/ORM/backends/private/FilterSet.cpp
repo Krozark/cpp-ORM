@@ -2,50 +2,95 @@
 
 namespace orm
 {
+
+    FilterSet::FilterSet(FilterSet&& a) : left(nullptr), ope(), right(nullptr), type(a.type)
+    {
+        std::swap(left,a.left);
+        std::swap(ope,a.ope);
+        std::swap(right,a.right);
+    }
+
+    FilterSet::FilterSet(const FilterSet& a) :ope(a.ope), type(a.type)
+    {
+        switch(type)
+        {
+            case LEAF:
+                left = reinterpret_cast<VFilter*>(a.left)->clone();
+                right = nullptr;
+                break;
+            case UNARY:
+                left = new FilterSet(*reinterpret_cast<FilterSet*>(a.left));
+                right = nullptr;
+                break;
+            case BINARY:
+                left = new FilterSet(*reinterpret_cast<FilterSet*>(a.left));
+                right = new FilterSet(*a.right);
+                break;
+        }
+    }
+
+    FilterSet::FilterSet(FilterSet&& l, const std::string& o) : left(new FilterSet(std::forward<FilterSet>(l))), ope(o), right(nullptr), type(UNARY)
+    {
+    }
+
+    FilterSet::FilterSet(const FilterSet& l, const std::string& o) : left(new FilterSet(l)), ope(o), right(nullptr), type(UNARY)
+    {
+    }
+
+    FilterSet::FilterSet(FilterSet&& l, const std::string o,FilterSet&& r) : left(new FilterSet(std::forward<FilterSet>(l))), ope(o), right(new FilterSet(std::forward<FilterSet>(r))), type(BINARY)
+    {
+    }
+
     FilterSet::~FilterSet()
     {
         if(type == LEAF)
-        {
-            delete (VFilter*)right;
-        }
+            delete reinterpret_cast<VFilter*>(left);
         else
         {
+            delete reinterpret_cast<FilterSet*>(left);
             delete right;
-            delete left;
         }
     }
 
-
-
-    FilterSet::FilterSet(const std::string& op,const FilterSet* f) : left(f), op(op), right(nullptr), type(UNARY)
+    void FilterSet::__print__(const Bdd& bdd)const
     {
-    }
-    
-    FilterSet::FilterSet(const FilterSet* left,const std::string& op,const FilterSet* right) : left(left), op(op), right(right), type(BINARY)
-    {
-    }
-
-    void FilterSet::__print__() const
-    {
-        switch (type)
+        switch(type)
         {
-            case LEAF :
-                ((VFilter*)left)->__print__();
-                break;
+            case LEAF:
+            {
+                reinterpret_cast<VFilter*>(left)->__print__(bdd);
+            }break;
             case UNARY:
-                std::cout<<op<<" ";
-                left->__print__();
-                break;
-            case BINARY:
-                std::cout<<"(";
-                left->__print__();
-                std::cout<<" "<<op<<" ";
-                right->__print__(); 
+            {
+                std::cout<<"("<<ope<<" ";
+                reinterpret_cast<FilterSet*>(left)->__print__(bdd);
                 std::cout<<")";
-                break;
-            default:
-                break;
+            }break;
+            case BINARY:
+            {
+                std::cout<<"(";
+                reinterpret_cast<const FilterSet*>(left)->__print__(bdd);
+                std::cout<<" "<<ope<<" ";
+                right->__print__(bdd);
+                std::cout<<")";
+            }break;
         }
+    }
+
+    FilterSet operator!(FilterSet&& f){
+        return FilterSet(std::forward<FilterSet>(f),"NOT");
+    }
+
+    FilterSet operator!(const FilterSet& f){
+        return FilterSet(f,"NOT");
+    }
+
+    FilterSet operator&&(FilterSet&& a,FilterSet&& b){
+        return FilterSet(std::forward<FilterSet>(a),"AND",std::forward<FilterSet>(b));
+    }
+
+    FilterSet operator||(FilterSet&& a,FilterSet&& b){
+        return FilterSet(std::forward<FilterSet>(a),"OR",std::forward<FilterSet>(b));
     }
 
     bool FilterSet::set(Query* query,unsigned int& column) const
@@ -54,13 +99,13 @@ namespace orm
         switch (type)
         {
             case LEAF :
-                res = ((VFilter*)left)->set(query,column);
+                res = reinterpret_cast<VFilter*>(left)->set(query,column);
                 break;
             case UNARY:
-                res = left->set(query,column);
+                res = reinterpret_cast<FilterSet*>(left)->set(query,column);
                 break;
             case BINARY:
-                res = left->set(query,column);
+                res = reinterpret_cast<FilterSet*>(left)->set(query,column);
                 ++column;
                 res= res and right->set(query,column);
                 break;
@@ -75,45 +120,22 @@ namespace orm
         switch (type)
         {
             case LEAF :
-                ((VFilter*)left)->toQuery(query,bdd);
+                reinterpret_cast<VFilter*>(left)->toQuery(query,bdd);
                 break;
             case UNARY:
-                query+=op;
-                left->toQuery(query,bdd); 
+                query+="("+ope+" ";
+                reinterpret_cast<FilterSet*>(left)->toQuery(query,bdd); 
+                query+=")";
                 break;
             case BINARY:
-                left->toQuery(query,bdd);
-                query+=op;
+                query+="(";
+                reinterpret_cast<FilterSet*>(left)->toQuery(query,bdd);
+                query+=" "+ope+" ";
                 right->toQuery(query,bdd); 
+                query+=")";
                 break;
             default:
                 break;
         }
     }
-
-    FilterSet operator!(const FilterSet& a)
-    {
-        return FilterSet("NOT",&a);
-    }
-
-    FilterSet operator&&(const FilterSet& a, const FilterSet& b)
-    {
-        return FilterSet(&a,"AND",&b);
-    }
-
-    FilterSet operator||(const FilterSet& a,const FilterSet& b)
-    {
-        return FilterSet(&a,"OR",&b);
-    }
-
-    FilterSet operator&&(FilterSet&& a, FilterSet&& b)
-    {
-        return FilterSet(new FilterSet(std::move(a)),"AND",new FilterSet(std::move(b)));
-    }
-
-    FilterSet operator||(FilterSet&& a, FilterSet&& b)
-    {
-        return FilterSet(new FilterSet(std::move(a)),"OR",new FilterSet(std::move(b)));
-    }
-
 }

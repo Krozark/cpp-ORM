@@ -42,11 +42,28 @@ namespace orm
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
              **/
-            template<typename U,typename ... Args>
-            QuerySet<T>& filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
+            template<typename ... Args>
+            QuerySet<T>& filter(Args&& ... args);
 
             QuerySet<T>& filter(const FilterSet& f);
             QuerySet<T>& filter(FilterSet&&);
+
+            /**
+             * \brief Add a negatide filter to the query
+             *
+             * \param value The value to compare with
+             * \param The operator to use see Bdd::Operators for detail
+             * \param column The column to apply the comparasion
+             * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
+             *
+             * \return *this
+             **/
+            template<typename ... Args>
+            QuerySet<T>& exclude(Args&& ... args);
+
+            QuerySet<T>& exclude(const FilterSet& f);
+            QuerySet<T>& exclude(FilterSet&&);
+
             /**
              * \brief Add a order by constrait to the query
              *
@@ -68,18 +85,6 @@ namespace orm
             QuerySet<T>& orderBy(std::string&& column,const char order=op::asc);
             //QuerySet& orderBy(int,const std::string& column);
 
-            /**
-             * \brief Add a negatide filter to the query
-             *
-             * \param value The value to compare with
-             * \param The operator to use see Bdd::Operators for detail
-             * \param column The column to apply the comparasion
-             * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
-             *
-             * \return *this
-             **/
-            template<typename U,typename ... Args>
-            QuerySet<T>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase
@@ -177,9 +182,7 @@ namespace orm
             QuerySet& operator=(const QuerySet&) = delete;
 
 
-            //std::list<VFilter*> filters; ///< Store all the filters
             std::list<FilterSet> filters; ///< Store all the filters
-            std::list<VFilter*> excludes;///< Store all the negative filters
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)

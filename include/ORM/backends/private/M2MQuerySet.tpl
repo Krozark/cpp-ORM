@@ -83,10 +83,10 @@ namespace orm
     {
         std::cout<<"Filter: ";
         for (auto* u :  filters)
-            u->__print__();
+            u->__print__(*OWNER::default_connection);
         std::cout<<"exclude: ";
         for (auto* u :  excludes)
-            u->__print__();
+            u->__print__(*OWNER::default_connection);
         std::cout<<"order_by: ";
         for (auto& u :  order_by)
             std::cout<<u<<" ";

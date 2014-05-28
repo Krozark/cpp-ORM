@@ -217,7 +217,8 @@ int main(int argc,char* argv[])
            .filter(42,orm::op::gte,Perso::_lvl)
            .exclude(4,orm::op::lt,Perso::_lvl)
            .orderBy(Perso::_name)
-           .get(p2);
+           .__print__();
+           //.get(p2);
 
        std::cout<<p2<<std::endl;
 

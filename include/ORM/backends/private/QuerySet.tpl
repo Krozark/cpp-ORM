@@ -12,19 +12,15 @@ namespace orm
     template<typename T>
     QuerySet<T>::~QuerySet()
     {
-        //for(auto* it : filters)
-            //delete it;
-        for(auto* it: excludes)
-            delete it;
     }
 
 
     template<typename T>
-    template<typename U,typename ... Args>
-    QuerySet<T>& QuerySet<T>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
+    template<typename ... Args>
+    QuerySet<T>& QuerySet<T>::filter(Args&& ... args)
     {
-        //filters.emplace_back(new Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
-        filters.emplace_back(Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
+        filters.emplace_back(Q(std::forward<Args>(args)...));
+        //columname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
 
@@ -43,10 +39,32 @@ namespace orm
     }
 
     template<typename T>
+    template<typename ... Args>
+    QuerySet<T>& QuerySet<T>::exclude(Args&& ... args)
+    {
+        filters.push_back(not Q(std::forward<Args>(args)...));
+        return *this;
+    };
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::exclude(const FilterSet& f)
+    {
+        filters.emplace_back(not f);
+        return *this;
+    }
+
+    template<typename T>
+    QuerySet<T>& QuerySet<T>::exclude(FilterSet&& f)
+    {
+        filters.push_back(std::move(operator!(std::forward<FilterSet>(f))));
+        return *this;
+    }
+
+    template<typename T>
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& column,const char order)
     {
         if(column == "?")
-            order_by.push_back(T::default_connection->operators["?"]);
+            order_by.push_back(T::default_connection->operators.at("?"));
         else if( order == '-')
             order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
@@ -58,7 +76,7 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(std::string&& column,const char order)
     {
         if(column == "?")
-            order_by.push_back(T::default_connection->operators["?"]);
+            order_by.push_back(T::default_connection->operators.at("?"));
         else if( order == '-')
             order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
@@ -66,13 +84,6 @@ namespace orm
         return *this;
     }
 
-    template<typename T>
-    template<typename U,typename ... Args>
-    QuerySet<T>& QuerySet<T>::exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
-    {
-        excludes.emplace_back(new Filter<U>(makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
-        return *this;
-    };
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::limit(const unsigned int& count)
@@ -112,24 +123,49 @@ namespace orm
     template<typename T>
     void QuerySet<T>::__print__() const
     {
-        std::cout<<"Filter: ";
-        /*for (auto* u :  filters)
-            u->__print__();*/
-        for (auto& u :  filters)
+        std::string q_str ="SELECT ";
+        T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,bdd);
+
+        q_str+="\nFROM ";
+        T::nameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,bdd);
+
+        const int filters_size = filters.size();
+
+        if(filters_size > 0)
         {
-            u.__print__();
-            std::cout<<",";
+            q_str+=" \nWHERE (";
+
+            auto begin = filters.begin();
+            const auto& end = filters.end();
+
+            std::cout<<q_str;
+            q_str.clear();
+            begin->__print__(*T::default_connection);
+
+            while(++begin != end)
+            {
+                std::cout<<" AND ";
+                begin->__print__(*T::default_connection);
+            }
+
+            std::cout<<") ";
         }
-        std::cout<<"exclude: ";
-        for (auto* u :  excludes)
+        
+        int _size = order_by.size();
+        if(_size >0)
         {
-            u->__print__();
-            std::cout<<",";
+            std::cout<<" ORDER BY ";
+            auto begin = order_by.begin();
+            const auto& end = order_by.end();
+            std::cout<<(*begin);
+
+            while(++begin != end)
+            {
+                std::cout<<" ,"+(*begin);
+            }
+
         }
-        std::cout<<"order_by: ";
-        for (auto& u :  order_by)
-            std::cout<<u<<" ";
-        std::cout<<std::endl<<"limit:<"<<limit_skip<<","<<limit_count<<">"<<std::endl;
+        std::cout<<std::endl<<"LIMIT "<<limit_skip<<","<<limit_count<<std::endl;
     };
 
     template<typename T>
@@ -155,48 +191,23 @@ namespace orm
         T::nameTables(q_str,"",max_depth,bdd);
 
         const int filters_size = filters.size();
-        const int excludes_size = excludes.size();
 
-        {//filters and excludes
-            if(filters_size > 0 or excludes_size >0)
-                q_str+=" \nWHERE (";
-            if(filters_size > 0)
+        if(filters_size > 0)
+        {
+            q_str+=" \nWHERE (";
+
+            auto begin = filters.begin();
+            const auto& end = filters.end();
+
+            begin->toQuery(q_str,bdd);
+
+            while(++begin != end)
             {
-                auto begin = filters.begin();
-                const auto& end = filters.end();
-
+                q_str+=" AND ";
                 begin->toQuery(q_str,bdd);
-
-                while(++begin != end)
-                {
-                    q_str+=" AND ";
-                    begin->toQuery(q_str,bdd);
-                }
             }
 
-            if(excludes_size >0)
-            {
-                if(filters_size >0)
-                    q_str+=" AND NOT (";
-                else
-                    q_str+="NOT (";
-
-                auto begin = excludes.begin();
-                const auto& end = excludes.end();
-
-                (*begin)->toQuery(q_str,bdd);
-
-                while(++begin != end)
-                {
-                    q_str+=" AND ";
-                    (*begin)->toQuery(q_str,bdd);
-                }
-
-                q_str+=") ";
-            }
-
-            if(filters_size > 0 or excludes_size > 0)
-                q_str+=") ";
+            q_str+=") ";
         }
         
         int _size = order_by.size();
@@ -219,30 +230,17 @@ namespace orm
 
         Query* q = bdd.prepareQuery(q_str);
 
-        {//bind values
-            unsigned int index = bdd.getInitialGetcolumnNumber();
-            if(filters_size > 0)
+        unsigned int index = bdd.getInitialGetcolumnNumber();
+        if(filters_size > 0)
+        {
+            auto begin = filters.begin();
+            const auto& end = filters.end();
+            while(begin != end)
             {
-                auto begin = filters.begin();
-                const auto& end = filters.end();
-                while(begin != end)
-                {
 
-                    begin->set(q,index);
-                    ++begin;
-                    ++index;
-                }
-            }
-            if(excludes_size >0)
-            {
-                auto begin = excludes.begin();
-                const auto& end = excludes.end();
-                while(begin != end)
-                {
-                    (*begin)->set(q,index);
-                    ++begin;
-                    ++index;
-                }
+                begin->set(q,index);
+                ++begin;
+                ++index;
             }
         }
         
