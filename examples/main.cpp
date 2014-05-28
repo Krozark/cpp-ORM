@@ -115,18 +115,18 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        doubleField,"doubleField",\
                        textField,"textField"\
                       )
-
-class TestHeritage : public TestTypes
+//merge all colums
+class TestMergeHeritage : public TestTypes
 {
     public:
-        //TestHeritage();
+        //TestMergeHeritage();
 
         //orm::BooleanField   b;
 
         //MAKE_STATIC_COLUMN(b)
 };
-//REGISTER_AND_CONSTRUCT(TestHeritage,"TestHeritage",b,"b")
-REGISTER_TABLE(TestHeritage,"TestHeritage")
+//REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
+REGISTER_TABLE(TestMergeHeritage,"TestMergeHeritage")
 
 using namespace orm;
 using namespace std;
