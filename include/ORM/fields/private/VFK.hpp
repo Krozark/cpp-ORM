@@ -27,7 +27,7 @@ namespace orm
              *
              * \param obj The owner of the attr
              **/
-            virtual void registerAttr(SqlObjectBase&);
+            virtual void registerAttr(SqlObjectBase&) final;
 
              /**
              * \brief Save or update the object on the fk

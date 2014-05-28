@@ -116,6 +116,18 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        textField,"textField"\
                       )
 
+class TestHeritage : public TestTypes
+{
+    public:
+        //TestHeritage();
+
+        //orm::BooleanField   b;
+
+        //MAKE_STATIC_COLUMN(b)
+};
+//REGISTER_AND_CONSTRUCT(TestHeritage,"TestHeritage",b,"b")
+REGISTER_TABLE(TestHeritage,"TestHeritage")
+
 using namespace orm;
 using namespace std;
 
