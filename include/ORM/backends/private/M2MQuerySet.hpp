@@ -122,27 +122,6 @@ namespace orm
             explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,Bdd& bdd);
 
             /**
-             * \brief Merge column name to build the alias
-             *
-             * \param prefix The prefix column alias
-             * \param column  The column alias to merge
-             * \param args Some optional column alias
-             *
-             * \return the complet alias
-             **/
-            template<typename ... Args>
-            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ... args);
-
-            /**
-             * \brief Do nothing
-             *
-             * \param column  The column alias to merge
-             *
-             * \return column
-             **/
-            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column);
-
-            /**
              * \brief Construct the query with all constraints
              *
              * \param max_depth Maximun depth of recursion in join (if object have FK only)

@@ -22,6 +22,7 @@ namespace orm
         return prefix+TABLE_ALIAS_SEPARATOR+column;
     };
 
+
     /**
      * \brief Like JOIN_ALIAS but, make no change if prefix is empty
      *

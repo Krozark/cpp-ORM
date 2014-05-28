@@ -10,15 +10,7 @@
 namespace orm
 {
     class Query;
-    class SqlObjectBase;
     class VAttr;
-    template<typename T> class SqlObject;
-    template<typename T> class QuerySet;
-    template<typename T> class FKBase;
-    template<typename T> class Cache;
-    template<typename T> class Filter;
-    template<typename T,typename U> class ManyToMany;
-    template<typename T,typename U,typename V> class M2MQuerySet;
 
     class TableCreator;
 
@@ -185,7 +177,7 @@ namespace orm
             template<typename T> friend class QuerySet;
             template<typename T> friend class Cache;
             template<typename T> friend class FKBase;
-            template<typename T> friend class Filter;
+            template<typename RELATED,typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
 
@@ -269,7 +261,8 @@ namespace orm
             *
             * \see operators
             **/
-            std::string formatValue(const std::string& ope,std::string value) const;
+            template<typename T>
+            T formatValue(const std::string& ope,T value) const;
 
             /**
             * \brief format the operation for the database
@@ -299,8 +292,29 @@ namespace orm
              **/
             virtual std::string limit(const int& skip,const int& count) const = 0;
 
+            /**
+             * \brief Merge column name to build the alias
+             *
+             * \param prefix The prefix column alias
+             * \param column  The column alias to merge
+             * \param args Some optional column alias
+             *
+             * \return the complet alias
+             **/
+            template<typename ... Args>
+            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ... args);
+
+            /**
+             * \brief Do nothing
+             *
+             * \param column  The column alias to merge
+             *
+             * \return column
+             **/
+            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column);
+
 
     };
 };
-
+#include <ORM/backends/Bdd.tpl>
 #endif

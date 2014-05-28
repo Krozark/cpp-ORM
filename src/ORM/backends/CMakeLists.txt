@@ -3,6 +3,7 @@ set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends)
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/Bdd.hpp
+    ${INCROOT}/Bdd.tpl
     ${INCROOT}/MySql.hpp
     ${INCROOT}/op.hpp
     ${INCROOT}/Query.hpp

@@ -13,8 +13,8 @@ namespace orm
             FilterSet(FilterSet&& a);
             FilterSet(const FilterSet& a);
 
-            template<typename T>
-            FilterSet(Filter<T>&& f);
+            template<typename RELATED,typename T>
+            FilterSet(Filter<RELATED,T>&& f);
 
             FilterSet(FilterSet&& l, const std::string& o);
             FilterSet(const FilterSet& l, const std::string& o);

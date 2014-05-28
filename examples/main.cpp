@@ -212,17 +212,27 @@ int main(int argc,char* argv[])
        Perso p2;
 
        std::list<Cache<Perso>::type_ptr> results;
+
        Perso::query()
-           .filter(4,orm::op::gt,Perso::_lvl)
-           .filter(42,orm::op::gte,Perso::_lvl)
-           .exclude(4,orm::op::lt,Perso::_lvl)
+           .filter(Q<Perso>(4,orm::op::gt,Perso::_lvl)
+                   and Q<Perso>(42,orm::op::gte,Perso::_lvl)
+                   and not Q<Perso>(4,orm::op::lt,Perso::_lvl)
+                  )
            .orderBy(Perso::_name)
-           .__print__();
-           //.get(p2);
+           .get(p2);
+
+       
+      // Chained way for same result
+      // Perso::query()
+      //  .filter(4,orm::op::gt,Perso::_lvl)
+      //  .filter(42,orm::op::gte,Perso::_lvl)
+      //  .exclude(4,orm::op::lt,Perso::_lvl)
+      //  .orderBy(Perso::_name)
+      //  .get(p2);
+      // 
 
        std::cout<<p2<<std::endl;
 
-       //Perso::query().filter(Filter<int>(Perso::_lvl,orm::op::gt,4) and Filter<int>(Perso::_lvl,orm::op::gte,42) and not Filter<int>(Perso::_lvl,orm::op::lt,4)).__print__();
 
 
        cout<<"All perso"<<endl;

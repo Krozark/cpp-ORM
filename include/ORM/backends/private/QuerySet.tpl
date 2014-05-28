@@ -19,8 +19,8 @@ namespace orm
     template<typename ... Args>
     QuerySet<T>& QuerySet<T>::filter(Args&& ... args)
     {
-        filters.emplace_back(Q(std::forward<Args>(args)...));
-        //columname(*T::default_connection,T::table,column,args ...),operande,value));
+        filters.emplace_back(Q<T>(std::forward<Args>(args)...));
+        //Bdd::makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
 
@@ -42,7 +42,7 @@ namespace orm
     template<typename ... Args>
     QuerySet<T>& QuerySet<T>::exclude(Args&& ... args)
     {
-        filters.push_back(not Q(std::forward<Args>(args)...));
+        filters.push_back(not Q<T>(std::forward<Args>(args)...));
         return *this;
     };
 
@@ -66,9 +66,9 @@ namespace orm
         if(column == "?")
             order_by.push_back(T::default_connection->operators.at("?"));
         else if( order == '-')
-            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
+            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
-            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" ASC");
+            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" ASC");
         return *this;
     }
 
@@ -78,9 +78,9 @@ namespace orm
         if(column == "?")
             order_by.push_back(T::default_connection->operators.at("?"));
         else if( order == '-')
-            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" DESC");
+            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
-            order_by.push_back(makecolumname(*T::default_connection,T::table,column)+" ASC");
+            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" ASC");
         return *this;
     }
 
@@ -165,21 +165,11 @@ namespace orm
             }
 
         }
-        std::cout<<std::endl<<"LIMIT "<<limit_skip<<","<<limit_count<<std::endl;
+        if(limit_count > 0)
+            std::cout<<bdd.limit(limit_skip,limit_count);
+        std::cout<<std::endl;
     };
 
-    template<typename T>
-    template<typename ... Args>
-    std::string QuerySet<T>::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ...args)
-    {
-        return makecolumname(bdd,JOIN_ALIAS(prefix,column),args...);
-    }
-
-    template<typename T>
-    std::string QuerySet<T>::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column)
-    {
-        return bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column);
-    }
 
     template<typename T>
     Query* QuerySet<T>::makeQuery(int max_depth)

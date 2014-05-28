@@ -10,18 +10,6 @@
 
 namespace orm
 {
-    class Bdd;
-    class MySqlBdd;
-    class Sqlite3Bdd;
-    class SqlObjectBase;
-    template<typename T> class FKBase;
-    template<typename T> class Attr;
-    template<typename T> class QuerySet;
-    template<typename T> class SqlObject;
-    template<typename T> class Cache;
-    template<typename T> class Filter;
-    template<typename T,typename U> class ManyToMany;
-    template<typename T,typename U,typename V> class M2MQuerySet;
 
     /**
      * \brief Abstract class to manage query
@@ -38,7 +26,7 @@ namespace orm
             template<typename T> friend class QuerySet;
             template<typename T> friend class SqlObject;
             template<typename T> friend class Cache;
-            template<typename T> friend class Filter;
+            template<typename RELATED,typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
 

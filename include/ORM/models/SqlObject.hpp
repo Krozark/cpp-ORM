@@ -13,16 +13,9 @@
 
 namespace orm
 {
+
     class Bdd;
-    class Query;
-    //class Filter;
-    class VAttr;
-    class VFK;
-    template<typename T> class FKBase;
-    template<typename T> class SqlObject;
     template<typename T> class QuerySet;
-
-
     /**
     * \brief a class to manage customs sql objects
     * Note : T is your model
@@ -172,6 +165,7 @@ namespace orm
             template<typename U> friend class Cache;
             template<typename U> friend class Register;
             template<typename U,typename V> friend class ManyToMany;
+            template<typename RELATED,typename U> friend class Filter;
             friend class FKBase<T>;
             friend class Query;
             friend class QuerySet<T>;
@@ -209,6 +203,7 @@ namespace orm
              * \param max_depth maximun depth of constrution
              **/
             static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd);
+
 
             /**
             * \brief Create a abject of pk id

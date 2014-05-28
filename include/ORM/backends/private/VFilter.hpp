@@ -5,12 +5,8 @@
 
 namespace orm
 {
-    template<typename T> class SqlObject;
-    template<typename T> class QuerySet;
-    template<typename T,typename U,typename V> class M2MQuerySet;
     class Query;
     class Bdd;
-    class FilterSet;
 
     /**
      * \brief A class representing filter in query

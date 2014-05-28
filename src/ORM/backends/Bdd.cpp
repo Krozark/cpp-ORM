@@ -196,6 +196,7 @@ namespace orm
         }
     }
 
+    template<>
     std::string Bdd::formatValue(const std::string& filter,std::string value) const
     {
 
@@ -234,6 +235,17 @@ namespace orm
         sprintf(buffer,op.c_str(),"(?)");
 
         return std::string(buffer);
+    }
+
+    template<typename ... Args>
+    std::string Bdd::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ...args)
+    {
+        return makecolumname(bdd,JOIN_ALIAS(prefix,column),args...);
+    }
+
+    std::string Bdd::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column)
+    {
+        return bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column);
     }
 };
 //orm::Bdd* orm::Bdd::Default = 0;

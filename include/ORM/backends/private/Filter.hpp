@@ -10,7 +10,7 @@ namespace orm
      * \brief A class to build filters
      * T have to be a primitiv type (char, bool,int, float, double, unsigned, long, long long)
      **/
-    template<typename T>
+    template<typename RELATED,typename T>
     class Filter : public VFilter
     {
         public:
@@ -58,8 +58,8 @@ namespace orm
             virtual void toQuery(std::string& query,Bdd& bdd) const final;
     };
 
-    template <typename T, typename ... Args>
-    Filter<T> Q(T&& value,Args&& ... args);
+    template <typename RELATED,typename T, typename ... Args>
+    Filter<RELATED,T> Q(T&& value,Args&& ... args);
 }
 #include <ORM/backends/private/Filter.tpl>
 #endif

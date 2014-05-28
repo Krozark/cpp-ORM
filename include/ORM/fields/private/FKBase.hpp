@@ -7,6 +7,7 @@
 namespace orm
 {
     class Query;
+    template<typename T> class Cache;
 
     /**
      * \brief Store a FK to a object

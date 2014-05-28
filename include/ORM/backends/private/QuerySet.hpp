@@ -9,9 +9,6 @@
 
 namespace orm
 {
-    template<typename T> class SqlObject;
-    template<typename T,typename U> class ManyToMany;
-
 
     /**
      * \brief A class that allow you to make query on the type T
@@ -147,26 +144,6 @@ namespace orm
              **/
             explicit QuerySet(Bdd& bdd);
 
-            /**
-             * \brief Merge column name to build the alias
-             *
-             * \param prefix The prefix column alias
-             * \param column  The column alias to merge
-             * \param args Some optional column alias
-             *
-             * \return the complet alias
-             **/
-            template<typename ... Args>
-            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ... args);
-
-            /**
-             * \brief Do nothing
-             *
-             * \param column  The column alias to merge
-             *
-             * \return column
-             **/
-            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column);
 
             /**
              * \brief Construct the query with all constraints
