@@ -7,7 +7,7 @@
 
 namespace orm
 {
-    class Sqlite3Bdd;
+    class Sqlite3DB;
 
     /**
      * \brief Abstract class to manage query with sqlite3 only
@@ -19,18 +19,18 @@ namespace orm
             /**
              * \brief Create a query
              *
-             * \param bdd database where the query will be execute
+             * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Sqlite3Query(Bdd& bdd,const std::string& query);
+            Sqlite3Query(DB& db,const std::string& query);
 
             /**
              * \brief Create a query
              *
-             * \param bdd database where the query will be execute
+             * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Sqlite3Query(Bdd& bdd,std::string&& query);
+            Sqlite3Query(DB& db,std::string&& query);
 
             Sqlite3Query(const Sqlite3Query&) = delete;
             Sqlite3Query& operator=(const Sqlite3Query&) = delete;
@@ -266,7 +266,7 @@ namespace orm
 
 
         private:
-            friend class Sqlite3Bdd;
+            friend class Sqlite3DB;
 
             sqlite3_stmt *statement; ///< Hold the  statement
     };

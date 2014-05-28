@@ -33,7 +33,7 @@ namespace orm
              * \brief Construct a filter to apply in the query
              *
              * \param value The value to compare with
-             * \param The operator to use see Bdd::Operators for detail
+             * \param The operator to use see DB::Operators for detail
              * \param column The column to apply the comparasion
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
@@ -66,7 +66,7 @@ namespace orm
              * \brief Add a negatide filter to the query
              *
              * \param value The value to compare with
-             * \param The operator to use see Bdd::Operators for detail
+             * \param The operator to use see DB::Operators for detail
              * \param column The column to apply the comparasion
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              *
@@ -119,7 +119,7 @@ namespace orm
             /**
              * \brief Construct a empty M2MQuerySet
              **/
-            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,Bdd& bdd);
+            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db);
 
             /**
              * \brief Construct the query with all constraints
@@ -139,7 +139,7 @@ namespace orm
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
-            Bdd& bdd;
+            DB& db;
     };
 }
 /***

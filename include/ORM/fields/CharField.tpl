@@ -13,8 +13,8 @@ namespace orm
     }
     
     template<size_t max_length>
-    std::string CharField<max_length>::create(const Bdd& bdd) const
+    std::string CharField<max_length>::create(const DB& db) const
     {
-        return bdd.creator().charField(column,max_length,false);
+        return db.creator().charField(column,max_length,false);
     }
 }

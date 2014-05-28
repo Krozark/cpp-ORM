@@ -1,7 +1,7 @@
-#ifndef ORM_MYSqlBDD_HPP
-#define ORM_MYSqlBDD_HPP
+#ifndef ORM_MYSqlDB_HPP
+#define ORM_MYSqlDB_HPP
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/MySql/MySqlTableCreator.hpp>
 
 #include <cppconn/driver.h>
@@ -14,7 +14,7 @@ namespace orm
     /**
      * \brief Class to deal with Mysql database
      **/
-    class MySqlBdd : public Bdd
+    class MySqlDB : public DB
     {
         public:
             /**
@@ -22,24 +22,24 @@ namespace orm
             *
             * \param username Username to use
             * \param pass Password of the user
-            * \param bdd Database name to use
+            * \param db Database name to use
             * \param serveur IP adresse of the serveur to connect (default value is 127.0.0.1 as the default for mytsql)
             * \param port Port to use for the connection (the default is 3306 as the default of mysql)
             **/
-            MySqlBdd(std::string username,std::string pass,std::string bdd,std::string serveur="tcp://127.0.0.1",std::string port="3306");
+            MySqlDB(std::string username,std::string pass,std::string db,std::string serveur="tcp://127.0.0.1",std::string port="3306");
 
             /**
              * \brief Destructor
              **/
-            ~MySqlBdd();
+            ~MySqlDB();
             
-            MySqlBdd(const MySqlBdd&) = delete;
-            MySqlBdd& operator=(const MySqlBdd&) = delete;
+            MySqlDB(const MySqlDB&) = delete;
+            MySqlDB& operator=(const MySqlDB&) = delete;
             
             /**
              * \brief Mkae an explitit copy of the connection
              */
-            virtual Bdd* clone()const;
+            virtual DB* clone()const;
 
             /**
             * \brief Create the connection with the database

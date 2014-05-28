@@ -7,7 +7,7 @@ namespace orm
             execute();
         
         if (next())
-            return obj.loadFromBdd(*this,max_depth);
+            return obj.loadFromDB(*this,max_depth);
 
         ORM_PRINT_WARNING("Query::getObj(T& obj,int max_depth) failed : No raw return")
         return 0;

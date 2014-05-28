@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/Query.hpp>
 #include <ORM/models/SqlObjectBase.hpp>
 #include <ORM/fields/private/VAttr.hpp>
@@ -8,54 +8,54 @@
 namespace orm
 {
 
-    Bdd::Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port) : s_username(username),
+    DB::DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,const std::string& port) : s_username(username),
         s_password(pass),
-        s_bdd_name(bdd),
+        s_db_name(db),
         s_serveur(serveur),
         s_port(port)
     {
     };
 
-    Bdd::~Bdd()
+    DB::~DB()
     {
     }
 
-    bool Bdd::operator==(const Bdd& other) const
+    bool DB::operator==(const DB& other) const
     {
         return (
-                (s_bdd_name == s_bdd_name)
+                (s_db_name == s_db_name)
                 and (s_serveur ==s_serveur)
                 and (s_port == s_port)
                 //and (s_username == other.s_username)
                 //and (s_password === other.s_password)
                 );
     }
-    void Bdd::setUser(const std::string& user)
+    void DB::setUser(const std::string& user)
     {
         s_username = user;
     }
 
-    void Bdd::setPassword(const std::string& pass)
+    void DB::setPassword(const std::string& pass)
     {
         s_password = pass;
     }
 
-    void Bdd::setDb(const std::string& db)
+    void DB::setDb(const std::string& db)
     {
-        s_bdd_name = db;
+        s_db_name = db;
     }
 
-    void Bdd::setServer(const std::string& server)
+    void DB::setServer(const std::string& server)
     {
         s_serveur = server;
     }
 
-    void Bdd::setPort(unsigned int port)
+    void DB::setPort(unsigned int port)
     {
         s_port = std::to_string(port);
     }
 
-    bool Bdd::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
+    bool DB::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
     {
         const unsigned int size = attrs.size();
         if(size > 0)
@@ -104,7 +104,7 @@ namespace orm
         return -1;
     };
 
-    bool Bdd::update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs)
+    bool DB::update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs)
     {
         const unsigned int size = attrs.size();
         if(size > 0)
@@ -165,7 +165,7 @@ namespace orm
         return true;
     };
 
-    bool Bdd::del(const std::string& table,const int& pk)
+    bool DB::del(const std::string& table,const int& pk)
     {
         std::string str_q = "DELETE FROM "+escapeColumn(table)+" WHERE ("+escapeColumn(table)+"."+escapeColumn("id")+" = "+std::to_string(pk)+");";
 
@@ -181,7 +181,7 @@ namespace orm
         return true;
     };
 
-    std::string Bdd::escapeColumn(const std::string& str) const
+    std::string DB::escapeColumn(const std::string& str) const
     {
         return "'"+str+"'";
     }
@@ -197,7 +197,7 @@ namespace orm
     }
 
     template<>
-    std::string Bdd::formatValue(const std::string& filter,std::string value) const
+    std::string DB::formatValue(const std::string& filter,std::string value) const
     {
 
         if(filter == "contains")
@@ -228,7 +228,7 @@ namespace orm
         return value;
     }
 
-    std::string Bdd::formatPreparedValue(const std::string& filter) const
+    std::string DB::formatPreparedValue(const std::string& filter) const
     {
         const std::string& op = operators.at(filter);
         char buffer[op.size() + 3];
@@ -238,15 +238,15 @@ namespace orm
     }
 
     template<typename ... Args>
-    std::string Bdd::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ...args)
+    std::string DB::makecolumname(DB& db,const std::string& prefix,const std::string& column,Args&& ...args)
     {
-        return makecolumname(bdd,JOIN_ALIAS(prefix,column),args...);
+        return makecolumname(db,JOIN_ALIAS(prefix,column),args...);
     }
 
-    std::string Bdd::makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column)
+    std::string DB::makecolumname(DB& db,const std::string& prefix,const std::string& column)
     {
-        return bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column);
+        return db.escapeColumn(prefix)+"."+db.escapeColumn(column);
     }
 };
-//orm::Bdd* orm::Bdd::Default = 0;
+//orm::DB* orm::DB::Default = 0;
 

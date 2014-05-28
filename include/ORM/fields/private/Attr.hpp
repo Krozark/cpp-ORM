@@ -25,14 +25,14 @@ namespace orm
              * \brief Make a Attr
              *
              * \param value value to store
-             * \param column Column in bdd
+             * \param column Column in db
              **/
             Attr(const T& value,const std::string& column);
 
             /**
              * \brief Make a Attr
              *
-             * \param column Column in bdd
+             * \param column Column in db
              **/
             Attr(const std::string& column);
 

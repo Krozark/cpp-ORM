@@ -52,26 +52,26 @@ namespace orm
         }
     }
 
-    void FilterSet::__print__(const Bdd& bdd)const
+    void FilterSet::__print__(const DB& db)const
     {
         switch(type)
         {
             case LEAF:
             {
-                reinterpret_cast<VFilter*>(left)->__print__(bdd);
+                reinterpret_cast<VFilter*>(left)->__print__(db);
             }break;
             case UNARY:
             {
                 std::cout<<"("<<ope<<" ";
-                reinterpret_cast<FilterSet*>(left)->__print__(bdd);
+                reinterpret_cast<FilterSet*>(left)->__print__(db);
                 std::cout<<")";
             }break;
             case BINARY:
             {
                 std::cout<<"(";
-                reinterpret_cast<const FilterSet*>(left)->__print__(bdd);
+                reinterpret_cast<const FilterSet*>(left)->__print__(db);
                 std::cout<<" "<<ope<<" ";
-                right->__print__(bdd);
+                right->__print__(db);
                 std::cout<<")";
             }break;
         }
@@ -115,23 +115,23 @@ namespace orm
         return res;
     }
 
-    void FilterSet::toQuery(std::string& query,Bdd& bdd) const
+    void FilterSet::toQuery(std::string& query,DB& db) const
     {
         switch (type)
         {
             case LEAF :
-                reinterpret_cast<VFilter*>(left)->toQuery(query,bdd);
+                reinterpret_cast<VFilter*>(left)->toQuery(query,db);
                 break;
             case UNARY:
                 query+="("+ope+" ";
-                reinterpret_cast<FilterSet*>(left)->toQuery(query,bdd); 
+                reinterpret_cast<FilterSet*>(left)->toQuery(query,db); 
                 query+=")";
                 break;
             case BINARY:
                 query+="(";
-                reinterpret_cast<FilterSet*>(left)->toQuery(query,bdd);
+                reinterpret_cast<FilterSet*>(left)->toQuery(query,db);
                 query+=" "+ope+" ";
-                right->toQuery(query,bdd); 
+                right->toQuery(query,db); 
                 query+=")";
                 break;
             default:

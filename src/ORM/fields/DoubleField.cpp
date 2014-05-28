@@ -1,6 +1,6 @@
 #include <ORM/fields/DoubleField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -14,8 +14,8 @@ namespace orm
     {
     }
     
-    std::string DoubleField::create(const Bdd& bdd) const
+    std::string DoubleField::create(const DB& db) const
     {
-        return bdd.creator().doubleField(column,false);
+        return db.creator().doubleField(column,false);
     }
 }

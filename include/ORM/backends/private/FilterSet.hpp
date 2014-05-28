@@ -23,7 +23,7 @@ namespace orm
 
             ~FilterSet();
 
-            void __print__(const Bdd& bdd)const;
+            void __print__(const DB& db)const;
 
 
         private:
@@ -53,9 +53,9 @@ namespace orm
             /**
              * \brief add the sql code to the query
              * \param query sql to append to
-             * \param bdd data base to use
+             * \param db data base to use
              */
-            void toQuery(std::string& query,Bdd& bdd) const;
+            void toQuery(std::string& query,DB& db) const;
     };
 
     FilterSet operator!(FilterSet&& a);

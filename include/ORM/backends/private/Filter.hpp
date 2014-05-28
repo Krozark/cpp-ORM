@@ -30,11 +30,11 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__(const Bdd& bdd) const final;
+            virtual void __print__(const DB& db) const final;
 
         protected:
             const std::string column; ///< Colum to apply filter
-            const std::string ope; ///< operator to use. \see Bdd::operators
+            const std::string ope; ///< operator to use. \see DB::operators
             const T value; ///< Store the value of the filter to compare with
 
 
@@ -53,9 +53,9 @@ namespace orm
             /**
              * \brief add the sql code to the query
              * \param query sql to append to
-             * \param bdd data base to use
+             * \param db data base to use
              */
-            virtual void toQuery(std::string& query,Bdd& bdd) const final;
+            virtual void toQuery(std::string& query,DB& db) const final;
     };
 
     template <typename RELATED,typename T, typename ... Args>

@@ -2,7 +2,7 @@ set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/backends/MySql)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends/MySql)
 # append in local scope
 list(APPEND FILES_HEADER
-    ${INCROOT}/MySqlBdd.hpp
+    ${INCROOT}/MySqlDB.hpp
     ${INCROOT}/MySqlQuery.hpp
     ${INCROOT}/MySqlTableCreator.hpp
 )
@@ -10,7 +10,7 @@ list(APPEND FILES_HEADER
 set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
-    ${SRCROOT}/MySqlBdd.cpp
+    ${SRCROOT}/MySqlDB.cpp
     ${SRCROOT}/MySqlQuery.cpp
     ${SRCROOT}/MySqlTableCreator.cpp
 )

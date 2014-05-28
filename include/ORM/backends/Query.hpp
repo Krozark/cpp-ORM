@@ -1,7 +1,7 @@
 #ifndef ORM_QUERY_HPP
 #define ORM_QUERY_HPP
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 
 #include <string>
 #include <list>
@@ -17,9 +17,9 @@ namespace orm
     class Query
     {
         protected:
-            friend class Bdd;
-            friend class MySqlBdd;
-            friend class Sqlite3Bdd;
+            friend class DB;
+            friend class MySqlDB;
+            friend class Sqlite3DB;
             friend class SqlObjectBase;
             template<typename T> friend class Attr;
             template<typename T> friend class FKBase;
@@ -33,18 +33,18 @@ namespace orm
             /**
              * \brief Create a query
              *
-             * \param bdd database where the query will be execute
+             * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Query(Bdd& bdd,const std::string& query);
+            Query(DB& db,const std::string& query);
 
             /**
              * \brief Create a query
              *
-             * \param bdd database where the query will be execute
+             * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Query(Bdd& bdd,std::string&& query);
+            Query(DB& db,std::string&& query);
 
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
@@ -309,7 +309,7 @@ namespace orm
 
             bool prepared; ///< is the query is a prepared one?
             std::string query; ///<query as string
-            Bdd& bdd; ///< database where the query will be executed
+            DB& db; ///< database where the query will be executed
     
 
         private:

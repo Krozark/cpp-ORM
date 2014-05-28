@@ -1,7 +1,7 @@
-#ifndef ORM_SQLITE3BDD_HPP
-#define ORM_SQLITE3BDD_HPP
+#ifndef ORM_SQLITE3DB_HPP
+#define ORM_SQLITE3DB_HPP
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/Sqlite3/Sqlite3TableCreator.hpp>
 
 #include <sqlite3.h>
@@ -13,29 +13,29 @@ namespace orm
     /**
      * \brief Class to deal with Sqlite3 databas
      **/
-    class Sqlite3Bdd : public Bdd
+    class Sqlite3DB : public DB
     {
         public:
             /**
             * \brief Create  a Database connection from filename
             *
-            * \param bdd Database name to use
+            * \param db Database name to use
             **/
-            Sqlite3Bdd(std::string bdd);
+            Sqlite3DB(std::string db);
 
             /**
              * \brief Destructor
              **/
-            ~Sqlite3Bdd();
+            ~Sqlite3DB();
             
-            Sqlite3Bdd(const Sqlite3Bdd&) = delete;
-            Sqlite3Bdd& operator=(const Sqlite3Bdd&) = delete;
+            Sqlite3DB(const Sqlite3DB&) = delete;
+            Sqlite3DB& operator=(const Sqlite3DB&) = delete;
 
 
             /**
              * \brief Mkae an explitit copy of the connection
              */
-            virtual Bdd* clone()const;
+            virtual DB* clone()const;
 
             /**
             * \brief Create the connection with the database

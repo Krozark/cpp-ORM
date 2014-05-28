@@ -27,23 +27,23 @@ namespace orm
             /**
              * \brief Save or update the object on the fk
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param recursive save recursively
              *
              * \return false if fail
              **/
-            virtual bool save(Bdd& bdd,bool recursive=false);            
+            virtual bool save(DB& db,bool recursive=false);            
 
             /**
-             * \brief Delete the object from the bdd and cache
+             * \brief Delete the object from the db and cache
              *  
              *  Note : whe use on object linked in other object with fks can cause trouble because of the remove of the cache
              *  Set the pk to -1
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              *
              * \return fale if fail
              **/
-            virtual bool del(Bdd& bdd,bool recursive=false);
+            virtual bool del(DB& db,bool recursive=false);
 
             typedef T type; ///< Type of stored object
 
@@ -107,25 +107,25 @@ namespace orm
             virtual bool get(const Query& query,int& prefix,int max_depth);
 
             /**
-             * \brief Construct a new object from the bdd
+             * \brief Construct a new object from the db
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param max_depth maximun depth of construction
              *
              * \return The new object
              **/
-            T* getObjectT_ptr(Bdd& bdd,int max_depth = ORM_DEFAULT_MAX_DEPTH);
+            T* getObjectT_ptr(DB& db,int max_depth = ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief make the attrs colum name
              *
-             * \param bdd bdd use for the query
+             * \param db db use for the query
              * \param prefix prefix table alias for linked object
              * \param max_depth maximun depth of construction
              *
              * \return the columns alias
              **/
-            virtual std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
+            virtual std::string makeName(DB& db,const std::string& prefix,int max_depth) const;
 
             /**
              * \brief Use for increment the column number without construction.
@@ -139,18 +139,18 @@ namespace orm
             /**
              * \brief get the stored object
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param max_depth maximun depth of construction if object not existe
              *
              * \return the stored object
              **/
-            virtual const SqlObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            virtual const SqlObjectBase& getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
 
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const Bdd& bdd) const;
+            virtual std::string create(const DB& db) const;
 
     };
 }

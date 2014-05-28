@@ -1,6 +1,6 @@
 #include <ORM/fields/TextField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -14,8 +14,8 @@ namespace orm
     {
     }
     
-    std::string TextField::create(const Bdd& bdd) const
+    std::string TextField::create(const DB& db) const
     {
-        return bdd.creator().textField(column,false);
+        return db.creator().textField(column,false);
     }
 }

@@ -20,12 +20,12 @@ namespace orm
     * \todo tester le retour de _get_ptr qui peut être 0
     **/
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,Bdd& bdd,int max_depth)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,DB& db,int max_depth)
     {
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
-        T* ptr = T::_get_ptr(pk,bdd,max_depth);
+        T* ptr = T::_get_ptr(pk,db,max_depth);
         if(ptr == nullptr)
             ptr = new T();
             
@@ -34,7 +34,7 @@ namespace orm
     }
     
     /*
-    * \todo add to creatoFromBdd depth
+    * \todo add to creatoFromDB depth
     **/
     template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth)
@@ -46,7 +46,7 @@ namespace orm
             return res->second;
         }
         type_ptr& r= map[pk];
-        r.reset(T::createFromBdd(query,prefix,max_depth));
+        r.reset(T::createFromDB(query,prefix,max_depth));
         return r;
     }
 
@@ -54,14 +54,14 @@ namespace orm
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
-        int index = query.bdd.getInitialGetcolumnNumber();
+        int index = query.db.getInitialGetcolumnNumber();
         query.get(pk,index);
         
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
         type_ptr& r= map[pk];
-        r.reset(T::createFromBdd(query,--index,max_depth));
+        r.reset(T::createFromDB(query,--index,max_depth));
         return r;
     }
 

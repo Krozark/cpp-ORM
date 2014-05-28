@@ -6,7 +6,7 @@
 namespace orm
 {
     class Query;
-    class Bdd;
+    class DB;
 
     /**
      * \brief A class representing filter in query
@@ -17,7 +17,7 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__(const Bdd& bdd) const = 0;
+            virtual void __print__(const DB& db) const = 0;
 
             virtual ~VFilter();
 
@@ -44,7 +44,7 @@ namespace orm
             **/
             virtual bool set(Query* query,unsigned int& column) const = 0;
 
-            virtual void toQuery(std::string& query,orm::Bdd& bdd) const = 0;
+            virtual void toQuery(std::string& query,orm::DB& db) const = 0;
     };
 };
 
@@ -63,7 +63,7 @@ namespace orm
  * orm::Filter(42,"lt",Player::_lvl)
  * \endcode
  *
- * Note : ope is a operator define in Bdd class.
- * \see Bdd::operators
+ * Note : ope is a operator define in DB class.
+ * \see DB::operators
  **/
 

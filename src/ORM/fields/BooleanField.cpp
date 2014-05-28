@@ -1,6 +1,6 @@
 #include <ORM/fields/BooleanField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -14,8 +14,8 @@ namespace orm
     {
     }
     
-    std::string BooleanField::create(const Bdd& bdd) const
+    std::string BooleanField::create(const DB& db) const
     {
-        return bdd.creator().booleanField(column,false);
+        return db.creator().booleanField(column,false);
     }
 }

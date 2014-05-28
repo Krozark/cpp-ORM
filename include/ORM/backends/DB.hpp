@@ -1,5 +1,5 @@
-#ifndef ORM_BDD_HPP
-#define ORM_BDD_HPP
+#ifndef ORM_DB_HPP
+#define ORM_DB_HPP
 
 #include <ORM/externals.hpp>
 
@@ -17,7 +17,7 @@ namespace orm
     /**
      * \brief Abstract class to deal with any database 
      **/
-    class Bdd
+    class DB
     {
         public:
             /**
@@ -25,26 +25,26 @@ namespace orm
             *
             * \param username Username to use
             * \param pass Password of the user
-            * \param bdd Database name to use
+            * \param db Database name to use
             * \param serveur IP adresse of the serveur to connect
             * \param port Port to use for the connection
             **/
-            Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
+            DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,const std::string& port);
 
 
             /***
              * \brief Destructor
              **/
-            virtual ~Bdd();
+            virtual ~DB();
 
-            Bdd(const Bdd&) = delete;
-            Bdd& operator=(const Bdd&) = delete;
+            DB(const DB&) = delete;
+            DB& operator=(const DB&) = delete;
 
 
             /**
              * \brief Make an explicit copy of the connection
              */
-            virtual Bdd* clone()const = 0;
+            virtual DB* clone()const = 0;
                 
             /**
             * \brief Create the connection with the database
@@ -146,14 +146,14 @@ namespace orm
             virtual const TableCreator& creator() const = 0;
 
             /**
-            * \brief The user defined default bdd to use
+            * \brief The user defined default db to use
             **/
-            static Bdd& Default;
+            static DB& Default;
 
             /**
-             * \brief Compare 2 Bdd
+             * \brief Compare 2 DB
              **/
-            bool operator==(const Bdd& other) const;
+            bool operator==(const DB& other) const;
 
 
             void setUser(const std::string&);
@@ -184,7 +184,7 @@ namespace orm
             /* Info for connection */
             std::string s_username; ///< Username use for the connection
             std::string s_password; ///< Username password use for the connection
-            std::string s_bdd_name; ///< Database  name use for the connection
+            std::string s_db_name; ///< Database  name use for the connection
             std::string s_serveur; ///< Ip of tfe serveur to make the connection
             std::string s_port; ///< Port to use for the connection
 
@@ -302,7 +302,7 @@ namespace orm
              * \return the complet alias
              **/
             template<typename ... Args>
-            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column,Args&& ... args);
+            static std::string makecolumname(DB& db,const std::string& prefix,const std::string& column,Args&& ... args);
 
             /**
              * \brief Do nothing
@@ -311,10 +311,10 @@ namespace orm
              *
              * \return column
              **/
-            static std::string makecolumname(Bdd& bdd,const std::string& prefix,const std::string& column);
+            static std::string makecolumname(DB& db,const std::string& prefix,const std::string& column);
 
 
     };
 };
-#include <ORM/backends/Bdd.tpl>
+#include <ORM/backends/DB.tpl>
 #endif

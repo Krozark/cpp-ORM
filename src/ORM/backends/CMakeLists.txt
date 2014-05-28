@@ -2,8 +2,8 @@ set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/backends)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends)
 # append in local scope
 list(APPEND FILES_HEADER
-    ${INCROOT}/Bdd.hpp
-    ${INCROOT}/Bdd.tpl
+    ${INCROOT}/DB.hpp
+    ${INCROOT}/DB.tpl
     ${INCROOT}/MySql.hpp
     ${INCROOT}/op.hpp
     ${INCROOT}/Query.hpp
@@ -14,7 +14,7 @@ list(APPEND FILES_HEADER
 set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
-    ${SRCROOT}/Bdd.cpp
+    ${SRCROOT}/DB.cpp
     ${SRCROOT}/op.cpp
     ${SRCROOT}/Query.cpp
 )

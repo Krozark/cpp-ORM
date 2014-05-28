@@ -32,24 +32,24 @@ namespace orm
              /**
              * \brief Save or update the object on the fk
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param recursive save recursively
              *
              * \return false if fail
              **/
-            virtual bool save(Bdd& bdd,bool recursive=false) = 0; 
+            virtual bool save(DB& db,bool recursive=false) = 0; 
 
             /**
-             * \brief Delete the object from the bdd and cache
+             * \brief Delete the object from the db and cache
              *  
              *  Note : whe use on object linked in other object with fks can cause trouble because of the remove of the cache
              *  Set the pk to -1
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              *
              * \return fale if fail
              **/      
-            virtual bool del(Bdd& bdd,bool recursive=false) = 0;
+            virtual bool del(DB& db,bool recursive=false) = 0;
 
             /**
              * \brief Print the object
@@ -82,12 +82,12 @@ namespace orm
             /**
              * \brief get the stored object
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param max_depth maximun depth of construction if object not existe
              *
              * \return the stored object
              **/
-            virtual const SqlObjectBase& getObject(Bdd& bdd,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
+            virtual const SqlObjectBase& getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
 
 
 

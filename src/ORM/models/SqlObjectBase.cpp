@@ -14,13 +14,13 @@ namespace orm
         return pk;
     }
 
-    bool SqlObjectBase::loadFromBdd(const Query& query,int max_depth)
+    bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
     {
-        int prefix=query.bdd.getInitialGetcolumnNumber() -1;
-        return loadFromBdd(query,prefix,max_depth);
+        int prefix=query.db.getInitialGetcolumnNumber() -1;
+        return loadFromDB(query,prefix,max_depth);
     };
 
-    bool SqlObjectBase::loadFromBdd(const Query& query,int& prefix,int max_depth)
+    bool SqlObjectBase::loadFromDB(const Query& query,int& prefix,int max_depth)
     {
         ++prefix;
 
@@ -54,7 +54,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
         if(not res)
         {
-            std::cerr<<ROUGE<<"[GET OBJ] SqlObjectBase::loadFromBdd(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
+            std::cerr<<ROUGE<<"[GET OBJ] SqlObjectBase::loadFromDB(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<BLANC<<std::endl;
         }
         #endif
         return res;

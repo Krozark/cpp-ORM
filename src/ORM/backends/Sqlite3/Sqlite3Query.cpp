@@ -1,30 +1,30 @@
 #include <ORM/backends/Sqlite3/Sqlite3Query.hpp>
-#include <ORM/backends/Sqlite3/Sqlite3Bdd.hpp>
+#include <ORM/backends/Sqlite3/Sqlite3DB.hpp>
 
 
 namespace orm
 {
-    Sqlite3Query::Sqlite3Query(Bdd& bdd,const std::string& query) : Query(bdd,query), statement(0)
+    Sqlite3Query::Sqlite3Query(DB& db,const std::string& query) : Query(db,query), statement(0)
     {
-        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd&>(bdd).dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3DB&>(db).dbConn,query.c_str(),query.size()+1, &statement, NULL);
 
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(bdd,string&) Failed to make the statment");
+            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(db,string&) Failed to make the statment");
             //\todo: "<<sqlite3_errstr(result));
         }
         #endif
     };
 
-    Sqlite3Query::Sqlite3Query(Bdd& bdd,std::string&& query) : Query(bdd,query), statement(0)
+    Sqlite3Query::Sqlite3Query(DB& db,std::string&& query) : Query(db,query), statement(0)
     {
-        int result = sqlite3_prepare_v2(static_cast<Sqlite3Bdd&>(bdd).dbConn,query.c_str(),query.size()+1, &statement, NULL);
+        int result = sqlite3_prepare_v2(static_cast<Sqlite3DB&>(db).dbConn,query.c_str(),query.size()+1, &statement, NULL);
 
         #if ORM_VERBOSITY & ORM_ERROR
         if (result != SQLITE_OK)
         {
-            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(bdd,string&&) Failed to make the statment")
+            ORM_PRINT_ERROR("Sqlite3Query::Sqlite3Query(db,string&&) Failed to make the statment")
             /// \todo <<sqlite3_errstr(result)<<std::endl;
         }
         #endif

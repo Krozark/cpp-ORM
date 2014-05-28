@@ -4,11 +4,11 @@
 
 namespace orm
 {
-    MySqlQuery::MySqlQuery(Bdd& bdd,const std::string& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
+    MySqlQuery::MySqlQuery(DB& db,const std::string& query) : Query(db,query), db_res(0), prepared_statement(0), statement(0)
     {
     };
 
-    MySqlQuery::MySqlQuery(Bdd& bdd,std::string&& query) : Query(bdd,query), bdd_res(0), prepared_statement(0), statement(0)
+    MySqlQuery::MySqlQuery(DB& db,std::string&& query) : Query(db,query), db_res(0), prepared_statement(0), statement(0)
     {
     };
 
@@ -18,14 +18,14 @@ namespace orm
             delete prepared_statement;
         if(not prepared and statement)
             delete statement;
-        if(bdd_res)
-            delete bdd_res;
+        if(db_res)
+            delete db_res;
     };
 
 
     int MySqlQuery::count()const
     {
-        return bdd_res->rowsCount();
+        return db_res->rowsCount();
     };
 
     bool MySqlQuery::get(bool& value,const int& column)const
@@ -33,7 +33,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getBoolean((uint32_t)column);
+            value = db_res->getBoolean((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -48,7 +48,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getInt((uint32_t)column);
+            value = db_res->getInt((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -63,12 +63,12 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            if(bdd_res->isNull((uint32_t)colum))
+            if(db_res->isNull((uint32_t)colum))
             {
                 value = -1;
                 return false;
             }
-            value = bdd_res->getUInt((uint32_t)colum);
+            value = db_res->getUInt((uint32_t)colum);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -84,7 +84,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getUInt((uint32_t)column);
+            value = db_res->getUInt((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -99,7 +99,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getInt64((uint32_t)column);
+            value = db_res->getInt64((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -114,7 +114,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getUInt64((uint32_t)column);
+            value = db_res->getUInt64((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -129,7 +129,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = static_cast<float>(bdd_res->getDouble((uint32_t)column));
+            value = static_cast<float>(db_res->getDouble((uint32_t)column));
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -144,7 +144,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getDouble((uint32_t)column);
+            value = db_res->getDouble((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -159,7 +159,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getDouble((uint32_t)column);
+            value = db_res->getDouble((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -174,7 +174,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            value = bdd_res->getString((uint32_t)column);
+            value = db_res->getString((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -186,7 +186,7 @@ namespace orm
 
     bool MySqlQuery::next()
     {
-        return bdd_res->next();
+        return db_res->next();
     }
 
     bool MySqlQuery::set(const bool& value,const unsigned int& column)
@@ -272,9 +272,9 @@ namespace orm
     void MySqlQuery::executeQuery()
     {
         if(prepared)
-            bdd_res = prepared_statement->executeQuery();
+            db_res = prepared_statement->executeQuery();
         else
-            bdd_res = statement->executeQuery(query);
+            db_res = statement->executeQuery(query);
     };
 
 };

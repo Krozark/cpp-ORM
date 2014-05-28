@@ -4,7 +4,7 @@
 namespace orm
 {
     template<typename T>
-    QuerySet<T>::QuerySet(Bdd& db): limit_skip(0), limit_count(-1), bdd(db)
+    QuerySet<T>::QuerySet(DB& db): limit_skip(0), limit_count(-1), db(db)
     {
         
     }
@@ -20,7 +20,7 @@ namespace orm
     QuerySet<T>& QuerySet<T>::filter(Args&& ... args)
     {
         filters.emplace_back(Q<T>(std::forward<Args>(args)...));
-        //Bdd::makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
+        //DB::makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
 
@@ -66,9 +66,9 @@ namespace orm
         if(column == "?")
             order_by.push_back(T::default_connection->operators.at("?"));
         else if( order == '-')
-            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" DESC");
+            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
-            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" ASC");
+            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
         return *this;
     }
 
@@ -78,9 +78,9 @@ namespace orm
         if(column == "?")
             order_by.push_back(T::default_connection->operators.at("?"));
         else if( order == '-')
-            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" DESC");
+            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
         else
-            order_by.push_back(Bdd::makecolumname(*T::default_connection,T::table,column)+" ASC");
+            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
         return *this;
     }
 
@@ -124,10 +124,10 @@ namespace orm
     void QuerySet<T>::__print__() const
     {
         std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,bdd);
+        T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,db);
 
         q_str+="\nFROM ";
-        T::nameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,bdd);
+        T::nameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,db);
 
         const int filters_size = filters.size();
 
@@ -166,7 +166,7 @@ namespace orm
 
         }
         if(limit_count > 0)
-            std::cout<<bdd.limit(limit_skip,limit_count);
+            std::cout<<db.limit(limit_skip,limit_count);
         std::cout<<std::endl;
     };
 
@@ -175,10 +175,10 @@ namespace orm
     Query* QuerySet<T>::makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,max_depth,bdd);
+        T::nameAttrs(q_str,T::table,max_depth,db);
 
         q_str+="\nFROM ";
-        T::nameTables(q_str,"",max_depth,bdd);
+        T::nameTables(q_str,"",max_depth,db);
 
         const int filters_size = filters.size();
 
@@ -189,12 +189,12 @@ namespace orm
             auto begin = filters.begin();
             const auto& end = filters.end();
 
-            begin->toQuery(q_str,bdd);
+            begin->toQuery(q_str,db);
 
             while(++begin != end)
             {
                 q_str+=" AND ";
-                begin->toQuery(q_str,bdd);
+                begin->toQuery(q_str,db);
             }
 
             q_str+=") ";
@@ -216,11 +216,11 @@ namespace orm
         }
 
         if(limit_count > 0)
-            q_str+= bdd.limit(limit_skip,limit_count);
+            q_str+= db.limit(limit_skip,limit_count);
 
-        Query* q = bdd.prepareQuery(q_str);
+        Query* q = db.prepareQuery(q_str);
 
-        unsigned int index = bdd.getInitialGetcolumnNumber();
+        unsigned int index = db.getInitialGetcolumnNumber();
         if(filters_size > 0)
         {
             auto begin = filters.begin();

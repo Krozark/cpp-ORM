@@ -1,11 +1,11 @@
 //#include <ORM/backends/MySql.hpp>
-//orm::MySqlBdd def("root","toor","test");
-//orm::MySqlBdd def("root","root","test");
+//orm::MySqlDB def("root","toor","test");
+//orm::MySqlDB def("root","root","test");
 
 #include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3Bdd def("./test.db");
+orm::Sqlite3DB def("./test.db");
 
-orm::Bdd& orm::Bdd::Default = def;
+orm::DB& orm::DB::Default = def;
 
 /**
  * \todo ADD transaction (start transaction / commit)
@@ -121,10 +121,10 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    orm::Bdd::Default.connect();
-    //REGISTER_BDD(Perso,orm::Bdd::Default)
+    orm::DB::Default.connect();
+    //REGISTER_DB(Perso,orm::DB::Default)
     
-    Bdd* con2 = orm::Bdd::Default.clone();
+    DB* con2 = orm::DB::Default.clone();
     con2->connect();
 
     //TestTypes::drop();
@@ -309,6 +309,6 @@ int main(int argc,char* argv[])
     std::cout<<"=============="<<std::endl;
 
 
-    Bdd::Default.disconnect();
+    DB::Default.disconnect();
     return 0;
 };

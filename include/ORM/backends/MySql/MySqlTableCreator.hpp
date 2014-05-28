@@ -129,7 +129,7 @@ namespace orm
             //virtual std::string binaryField(const std::string& colunm_name,bool nullable)const;
 
         protected:
-            friend class MySqlBdd;
+            friend class MySqlDB;
 
             MySqlTableCreator();
             MySqlTableCreator(const MySqlTableCreator&) = delete;

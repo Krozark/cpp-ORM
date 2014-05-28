@@ -49,7 +49,7 @@ namespace orm
              * \brief Add a negatide filter to the query
              *
              * \param value The value to compare with
-             * \param The operator to use see Bdd::Operators for detail
+             * \param The operator to use see DB::Operators for detail
              * \param column The column to apply the comparasion
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              *
@@ -142,7 +142,7 @@ namespace orm
             /**
              * \brief Construct a empty QuerySet
              **/
-            explicit QuerySet(Bdd& bdd);
+            explicit QuerySet(DB& db);
 
 
             /**
@@ -164,7 +164,7 @@ namespace orm
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
 
-            Bdd& bdd;
+            DB& db;
     };
 }
 /***

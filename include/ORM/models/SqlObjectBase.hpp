@@ -10,7 +10,7 @@ namespace orm
 {
     class Query;
     class VAttr;
-    class Bdd;
+    class DB;
     class VFK;
     template<typename T> class Register;
     template<typename T> class FKBase;
@@ -37,21 +37,21 @@ namespace orm
             /**
              * \brief save/update the object in data base
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param recursive recursive?
              *
              * \return false if fail
              **/
-            virtual bool save(Bdd& bdd,bool recursive=false) = 0;
+            virtual bool save(DB& db,bool recursive=false) = 0;
 
             /**
              * \brief delete the object from de data base
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param recursive recursive?
              * \return false if fail
              **/
-            virtual bool del(Bdd& bdd,bool recursive=false) = 0;
+            virtual bool del(DB& db,bool recursive=false) = 0;
 
 
             /**
@@ -66,7 +66,7 @@ namespace orm
 
 
         protected:
-            friend class Bdd;
+            friend class DB;
             friend class VFK;
             friend class VAttr;
             template<typename T> friend class FKBase;
@@ -87,7 +87,7 @@ namespace orm
              *
              * \return false if fail 
              **/
-            bool loadFromBdd(const Query& query,int max_depth);
+            bool loadFromDB(const Query& query,int max_depth);
 
             /**
              * \brief create the object using the query
@@ -98,37 +98,37 @@ namespace orm
              *
              * \return false if fail 
              **/
-            bool loadFromBdd(const Query& query,int& prefix,int max_depth);
+            bool loadFromDB(const Query& query,int& prefix,int max_depth);
 
             /**
              * \brief make the attrs columns alias
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const =0;
+            virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
 
             /**
              * \brief make the table alias
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const =0;
+            virtual void _nameTables(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
 
             /**
              * \brief make the table alias of fk with join
              *
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param q_str string query to add the alias
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
-            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,Bdd& bdd)const =0;
+            virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
 
             /**
              * \return the table name

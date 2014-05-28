@@ -208,24 +208,24 @@
  */
 #define REGISTER_TABLE(klass,column) \
     template<> const std::string orm::SqlObject<klass>::table = column;\
-    template<> orm::Bdd* orm::SqlObject<klass>::default_connection = &orm::Bdd::Default;\
+    template<> orm::DB* orm::SqlObject<klass>::default_connection = &orm::DB::Default;\
     template<> std::vector<const orm::VAttr*> orm::SqlObject<klass>::column_attrs = std::vector<const orm::VAttr*>();\
     template<> std::vector<orm::VFK*> orm::SqlObject<klass>::column_fks = std::vector<orm::VFK*>();\
     template<> orm::Register<klass> orm::SqlObject<klass>::_register = orm::Register<klass>();\
     template<> orm::Cache<klass> orm::SqlObject<klass>::cache = orm::Cache<klass>();
 
 /**
- * \def REGISTER_BDD(klass,bdd)
+ * \def REGISTER_DB(klass,db)
  * set the default db to use for this class
  */
 
 /**
  * \brief set the default db to use for this class
  * \param klass the class name
- * \param bdd the db to use by defaulf
+ * \param db the db to use by defaulf
  */
-#define REGISTER_BDD(klass,bdd) \
-    orm::SqlObject<klass>::default_connection = bdd;
+#define REGISTER_DB(klass,db) \
+    orm::SqlObject<klass>::default_connection = db;
 
 /**
  * \def REGISTER(klass,column,...)
@@ -282,7 +282,7 @@
     template<> const std::string orm::ManyToMany<klass,T_linked>::_owner = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_linked = linked_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_related = JOIN_ALIAS(table_name,linked_column);\
-    template<> orm::Bdd* orm::ManyToMany<klass,T_linked>::default_connection = &orm::Bdd::Default;
+    template<> orm::DB* orm::ManyToMany<klass,T_linked>::default_connection = &orm::DB::Default;
 
 
 #endif //guard

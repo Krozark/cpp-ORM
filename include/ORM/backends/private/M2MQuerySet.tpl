@@ -4,9 +4,9 @@
 namespace orm
 {
     template <typename M2M,typename OWNER, typename RELATED>
-    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,Bdd& db): limit_skip(0), limit_count(-1), bdd(db)
+    M2MQuerySet<M2M,OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db): limit_skip(0), limit_count(-1), db(db)
     {
-        filters.emplace_back(new Filter<M2M,int>(Bdd::makecolumname(*M2M::default_connection,m2m.table,m2m._owner),"exact",m2m.owner.pk));
+        filters.emplace_back(new Filter<M2M,int>(DB::makecolumname(*M2M::default_connection,m2m.table,m2m._owner),"exact",m2m.owner.pk));
     }
 
     template <typename M2M,typename OWNER, typename RELATED>
@@ -23,7 +23,7 @@ namespace orm
     template<typename U,typename ... Args>
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        filters.emplace_back(new Filter<M2M,U>(Bdd::makecolumname(*M2M::default_connection,M2M::_related,column,args ...),operande,value));
+        filters.emplace_back(new Filter<M2M,U>(DB::makecolumname(*M2M::default_connection,M2M::_related,column,args ...),operande,value));
         return *this;
     };
 
@@ -31,9 +31,9 @@ namespace orm
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::orderBy(const std::string& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(Bdd::makecolumname(*M2M::default_connection,M2M::_related,column)+" DESC");
+            order_by.push_back(DB::makecolumname(*M2M::default_connection,M2M::_related,column)+" DESC");
         else
-            order_by.push_back(Bdd::makecolumname(*M2M::default_connection,M2M::_related,column)+" ASC");
+            order_by.push_back(DB::makecolumname(*M2M::default_connection,M2M::_related,column)+" ASC");
         return *this;
     }
 
@@ -41,9 +41,9 @@ namespace orm
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::orderBy(std::string&& column,const char order)
     {
         if( order == '-')
-            order_by.push_back(Bdd::makecolumname(*M2M::default_connection,M2M::table,column)+" DESC");
+            order_by.push_back(DB::makecolumname(*M2M::default_connection,M2M::table,column)+" DESC");
         else
-            order_by.push_back(Bdd::makecolumname(*M2M::default_connection,M2M::table,column)+" ASC");
+            order_by.push_back(DB::makecolumname(*M2M::default_connection,M2M::table,column)+" ASC");
         return *this;
     }
 
@@ -51,7 +51,7 @@ namespace orm
     template<typename U,typename ... Args>
     M2MQuerySet<M2M,OWNER,RELATED>& M2MQuerySet<M2M,OWNER,RELATED>::exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args)
     {
-        excludes.emplace_back(new Filter<M2M,U>(Bdd::makecolumname(*M2M::default_connection,M2M::_related,column,args ...),operande,value));
+        excludes.emplace_back(new Filter<M2M,U>(DB::makecolumname(*M2M::default_connection,M2M::_related,column,args ...),operande,value));
         return *this;
     };
 
@@ -97,10 +97,10 @@ namespace orm
     Query* M2MQuerySet<M2M,OWNER,RELATED>::makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        M2M::nameAttrs(q_str,max_depth,bdd);
+        M2M::nameAttrs(q_str,max_depth,db);
 
         q_str+="\nFROM ";
-        M2M::nameTables(q_str,max_depth,bdd);
+        M2M::nameTables(q_str,max_depth,db);
 
         const int filters_size = filters.size();
         const int excludes_size = excludes.size();
@@ -113,12 +113,12 @@ namespace orm
                 auto begin = filters.begin();
                 const auto& end = filters.end();
 
-                (*begin)->toQuery(q_str,bdd);
+                (*begin)->toQuery(q_str,db);
 
                 while(++begin != end)
                 {
                     q_str+=" AND ";
-                    (*begin)->toQuery(q_str,bdd);
+                    (*begin)->toQuery(q_str,db);
                 }
             }
 
@@ -132,12 +132,12 @@ namespace orm
                 auto begin = excludes.begin();
                 const auto& end = excludes.end();
 
-                (*begin)->toQuery(q_str,bdd);
+                (*begin)->toQuery(q_str,db);
 
                 while(++begin != end)
                 {
                     q_str+=" AND ";
-                    (*begin)->toQuery(q_str,bdd);
+                    (*begin)->toQuery(q_str,db);
                 }
 
                 q_str+=") ";
@@ -163,9 +163,9 @@ namespace orm
         }
 
         if(limit_count > 0)
-            q_str+= bdd.limit(limit_skip,limit_count);
+            q_str+= db.limit(limit_skip,limit_count);
 
-        Query* q = bdd.prepareQuery(q_str);
+        Query* q = db.prepareQuery(q_str);
 
         {//bind values
             unsigned int index = 1;

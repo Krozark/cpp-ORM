@@ -1,6 +1,6 @@
 #include <ORM/fields/FloatField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -14,8 +14,8 @@ namespace orm
     {
     }
     
-    std::string FloatField::create(const Bdd& bdd) const
+    std::string FloatField::create(const DB& db) const
     {
-        return bdd.creator().floatField(column,false);
+        return db.creator().floatField(column,false);
     }
 }

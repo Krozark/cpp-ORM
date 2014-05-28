@@ -7,9 +7,9 @@
 namespace orm
 {
     class Query;
-    class Bdd;
-    class Sqlite3Bdd;
-    class MySqlBdd;
+    class DB;
+    class Sqlite3DB;
+    class MySqlDB;
     class SqlObjectBase;
     template<typename T> class Register;
 
@@ -52,9 +52,9 @@ namespace orm
             virtual void registerAttr(SqlObjectBase& obj);
 
         protected:
-            friend class Bdd;
-            friend class Sqlite3Bdd;
-            friend class MySqlBdd;
+            friend class DB;
+            friend class Sqlite3DB;
+            friend class MySqlDB;
 
             friend class SqlObjectBase;
             template<typename T> friend class Register;
@@ -93,19 +93,19 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const Bdd& bdd) const = 0;
+            virtual std::string create(const DB& db) const = 0;
 
         private:
             /**
              * \brief make the colum alias
              *
-             * \param bdd Bdd use for the query
+             * \param db DB use for the query
              * \param prefix the prefix alias of the object
              * \param max_depth maximun depth construction
              *
              * \return the culumn alias
              **/
-            virtual std::string makeName(Bdd& bdd,const std::string& prefix,int max_depth) const;
+            virtual std::string makeName(DB& db,const std::string& prefix,int max_depth) const;
     };
 };
 

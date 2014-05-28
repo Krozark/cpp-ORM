@@ -1,6 +1,6 @@
 #include <ORM/fields/private/VAttr.hpp>
 #include <ORM/models/SqlObjectBase.hpp>
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 
 namespace orm 
 {
@@ -23,9 +23,9 @@ namespace orm
         object.attrs.emplace_back(this);
     }
 
-    std::string VAttr::makeName(Bdd& bdd, const std::string& prefix,int max_depth) const
+    std::string VAttr::makeName(DB& db, const std::string& prefix,int max_depth) const
     {
-        return ", "+bdd.escapeColumn(prefix)+"."+bdd.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
+        return ", "+db.escapeColumn(prefix)+"."+db.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
     }
 
 };

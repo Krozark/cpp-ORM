@@ -59,7 +59,7 @@ Requirement
 TODO
 ====
 
-* MAJ le cache pour fetch 2 BDD différente avec les même classe d'objets et pk identique, mais objets différents
+* MAJ le cache pour fetch 2 DB différente avec les même classe d'objets et pk identique, mais objets différents
 * Clean le cache sur les objets qui ne sont plus liés en mémoires (free)
 
 
@@ -87,13 +87,13 @@ To build the exemple (the database is include)
  
     //#include <ORM/backends/MySql.hpp>
     //create your default database
-    orm::MySqlBdd def("root","root","test");
+    orm::MySqlDB def("root","root","test");
 
     //#include <ORM/backends/Sqlite3.hpp>
-    //orm::Sqlite3Bdd def("./datas/test.db"); //if you want to use sqlite3
+    //orm::Sqlite3DB def("./datas/test.db"); //if you want to use sqlite3
 
     //make it as default
-    orm::Bdd& orm::Bdd::Default = def;
+    orm::DB& orm::DB::Default = def;
 
     
     #include <ORM/fields.hpp>
@@ -114,7 +114,7 @@ To build the exemple (the database is include)
     int main(int argc,char* argv[])
     {
         //connect to database
-        orm::Bdd::Default.connect();
+        orm::DB::Default.connect();
     
         //get perso with pk=1
         auto& p1 = Perso::get(1);
@@ -153,7 +153,7 @@ To build the exemple (the database is include)
             cout<<*u<<endl;
 
 
-        orm::Bdd::Default.disconnect();
+        orm::DB::Default.disconnect();
         return 0;
     }
 
@@ -176,7 +176,7 @@ make some static method:
 * orm::QuerySet\<T\> T::query()  construct a queryset to make custom query
 
 static member:
-* Bdd* bdd_used : database where the object is contain
+* DB* db_used : database where the object is contain
 * std::string table : table name on the database
 
 make member fonction:
@@ -206,13 +206,13 @@ accesor:
 * std::list\<std::shared_ptr\<U\>\> .all()
 
 
-orm::Bdd
+orm::DB
 ---------
 
-Base classe to deal with your database. Use specialize database (MySqlBdd, ...)
+Base classe to deal with your database. Use specialize database (MySqlDB, ...)
 
 Constructor:
-Bdd(const std::string& username,const std::string& pass,const std::string& bdd,const std::string& serveur,const std::string& port);
+DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,const std::string& port);
 
 
 You can use some fonction:
@@ -227,8 +227,8 @@ You can use some fonction:
 
 You can custom the default database:
 
-    orm::MySqlBdd def("root","root","test");
-    orm::Bdd& orm::Bdd::Default = def;
+    orm::MySqlDB def("root","root","test");
+    orm::DB& orm::DB::Default = def;
 
 Macros
 ======
@@ -256,7 +256,7 @@ If you use REGISTER_AND_CONSTRUCT, you don't need to use it.
     template<>
     const std::string orm::SqlObject<klass>::table =colum;
     template<>
-    orm::Bdd* orm::SqlObject<klass>::bdd_used = &orm::Bdd::Default;
+    orm::DB* orm::SqlObject<klass>::db_used = &orm::DB::Default;
 
 
 MAKE_CONSTRUCTOR(klass[,attr,colum]+)

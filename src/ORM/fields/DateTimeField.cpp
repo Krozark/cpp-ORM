@@ -1,6 +1,6 @@
 #include <ORM/fields/DateTimeField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -19,8 +19,8 @@ namespace orm
         return DateTimeField(0);
     }
     
-    std::string DateTimeField::create(const Bdd& bdd) const
+    std::string DateTimeField::create(const DB& db) const
     {
-        return bdd.creator().dateTimeField(column,false);
+        return db.creator().dateTimeField(column,false);
     }
 }

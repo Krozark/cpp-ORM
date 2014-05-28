@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    class Sqlite3Bdd;
+    class Sqlite3DB;
 
     class Sqlite3TableCreator : public TableCreator
     {
@@ -132,7 +132,7 @@ namespace orm
             //virtual std::string binaryField(const std::string& colunm_name,bool nullable)const;
 
         protected:
-            friend class Sqlite3Bdd;
+            friend class Sqlite3DB;
 
             Sqlite3TableCreator();
             Sqlite3TableCreator(const Sqlite3TableCreator&) = delete;

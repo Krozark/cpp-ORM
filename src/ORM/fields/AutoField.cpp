@@ -1,6 +1,6 @@
 #include <ORM/fields/AutoField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -14,8 +14,8 @@ namespace orm
     {
     }
     
-    std::string AutoField::create(const Bdd& bdd) const
+    std::string AutoField::create(const DB& db) const
     {
-        return bdd.creator().autoField(column);
+        return db.creator().autoField(column);
     }
 }

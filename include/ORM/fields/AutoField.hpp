@@ -16,14 +16,14 @@ namespace orm
              * \brief Make a Attr
              *
              * \param value value to store
-             * \param column Column in bdd
+             * \param column Column in db
              **/
             AutoField(const int& value,const std::string& column);
 
             /**
              * \brief Make a Attr
              *  default value is -1.
-             * \param column Column in bdd
+             * \param column Column in db
              * 
              **/
             AutoField(const std::string& column);
@@ -48,7 +48,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const Bdd& bdd) const;
+            virtual std::string create(const DB& db) const;
 
     };
 }

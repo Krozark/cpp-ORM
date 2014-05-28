@@ -8,7 +8,7 @@
 
 namespace orm
 {
-    class MySqlBdd;
+    class MySqlDB;
 
     /**
      * \brief Abstract class to manage query with Mysql only
@@ -19,18 +19,18 @@ namespace orm
             /**
              * \brief Create a query
              *
-             * \param bdd database where the query will be execute
+             * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            MySqlQuery(Bdd& bdd,const std::string& query);
+            MySqlQuery(DB& db,const std::string& query);
 
             /**
              * \brief Create a query
              *
-             * \param bdd database where the query will be execute
+             * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            MySqlQuery(Bdd& bdd,std::string&& query);
+            MySqlQuery(DB& db,std::string&& query);
 
             MySqlQuery(const MySqlQuery&) = delete;
             MySqlQuery& operator=(const MySqlQuery&) = delete;
@@ -266,9 +266,9 @@ namespace orm
 
 
         private:
-            friend class MySqlBdd;
+            friend class MySqlDB;
 
-            sql::ResultSet  *bdd_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
+            sql::ResultSet  *db_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
             sql::PreparedStatement *prepared_statement; ///< Hold the statement
             sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our Sql commands
     };

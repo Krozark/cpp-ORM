@@ -24,59 +24,59 @@ namespace orm
 
             /**
              * \brief create a queryset for the objet. Use it to make your query
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query(Bdd& bdd=*default_connection)const;
+            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query(DB& db=*default_connection)const;
 
             /**
             * \brief shortcut for T::query().get(list)
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
             *
             * \return all the objects T
             **/
-            std::list<typename Cache<RELATED>::type_ptr> all(Bdd& bdd=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
+            std::list<typename Cache<RELATED>::type_ptr> all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
             
             /**
              * \brief add a object in the relation
              *
              * \param obj the object to add.
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void add(const RELATED& obj,Bdd& bdd=*default_connection);
+            void add(const RELATED& obj,DB& db=*default_connection);
 
             /**
              * \brief add a object in the relation
              *
              * \param obj the object to add.
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void add(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd=*default_connection);
+            void add(const typename Cache<RELATED>::type_ptr& obj,DB& db=*default_connection);
 
             /**
              * \brief remove a object in the relation
              *
              * \param obj the object to remove.
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const RELATED& obj,Bdd& bdd=*default_connection);
+            void remove(const RELATED& obj,DB& db=*default_connection);
 
             /**
              * \brief remove a object in the relation
              *
              * \param obj the object to remove.
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const typename Cache<RELATED>::type_ptr& obj,Bdd& bdd=*default_connection);
+            void remove(const typename Cache<RELATED>::type_ptr& obj,DB& db=*default_connection);
 
 
 
-            static  Bdd* default_connection;///< database use to store the object
+            static  DB* default_connection;///< database use to store the object
             const static std::string table; ///< table of the object
 
         protected:
@@ -90,28 +90,28 @@ namespace orm
             * \brief make the attrs columns alias
             *
             * \param q_str string query to add the alias
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
             * \param max_depth maximun depth of constrution
             **/
-            static void nameAttrs(std::string& q_str,int max_depth,Bdd& bdd);
+            static void nameAttrs(std::string& q_str,int max_depth,DB& db);
 
              /**
              * \brief make the table alias
              *
              * \param q_str string query to add the alias
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param max_depth maximun depth of constrution
              **/
-            static void nameTables(std::string& q_str,int max_depth,Bdd& bdd);
+            static void nameTables(std::string& q_str,int max_depth,DB& db);
 
             /**
              * \brief make the table alias of fk with join
              *
              * \param q_str string query to add the alias
-             * \param bdd the bdd to fetch
+             * \param db the db to fetch
              * \param max_depth maximun depth of constrution
              **/
-            static void makeJoin(std::string& q_str,int max_depth,Bdd& bdd);
+            static void makeJoin(std::string& q_str,int max_depth,DB& db);
 
     };
 }

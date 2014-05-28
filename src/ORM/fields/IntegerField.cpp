@@ -1,6 +1,6 @@
 #include <ORM/fields/IntegerField.hpp>
 
-#include <ORM/backends/Bdd.hpp>
+#include <ORM/backends/DB.hpp>
 #include <ORM/backends/private/TableCreator.hpp>
 
 namespace orm
@@ -14,8 +14,8 @@ namespace orm
     {
     }
     
-    std::string IntegerField::create(const Bdd& bdd) const
+    std::string IntegerField::create(const DB& db) const
     {
-        return bdd.creator().integerField(column,false);
+        return db.creator().integerField(column,false);
     }
 }
