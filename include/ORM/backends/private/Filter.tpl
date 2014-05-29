@@ -43,7 +43,17 @@ namespace orm
     bool Filter<RELATED,T>::set(Query* query,unsigned int& column) const
     {
         T v(query->db.formatValue<T>(ope,value));
-        return query->set(v,column);
+        #if ORM_DEBUG & ORM_DEBUG_SQL
+        std::cerr<<","<<v;
+        #endif
+
+        bool res = query->set(v,column);
+        #if ORM_DEBUG & ORM_DEBUG_SQL
+        if (not res)
+            std::cerr<<ROUGE<<"[ERROR][Sql:makeQuery] Impossible to bind values <"<<v<<"> on colum "<<column<<BLANC;
+        #endif
+        return res;
+
     }
 
     template<typename RELATED,typename T>

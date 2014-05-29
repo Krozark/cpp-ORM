@@ -220,11 +220,16 @@ namespace orm
 
         Query* q = db.prepareQuery(q_str);
 
-        unsigned int index = db.getInitialGetcolumnNumber();
+
+        #if ORM_DEBUG & ORM_DEBUG_SQL
+        std::cerr<<BLEU<<"[Sql:makeQuery] "<<q_str<<"\nVALUES = (";
+        #endif
+        
         if(filters_size > 0)
         {
             auto begin = filters.begin();
             const auto& end = filters.end();
+            unsigned int index = 1;
             while(begin != end)
             {
 
@@ -233,6 +238,10 @@ namespace orm
                 ++index;
             }
         }
+
+        #if ORM_DEBUG & ORM_DEBUG_SQL
+        std::cerr<<")"<<std::endl;
+        #endif
         
         return q;
     }
