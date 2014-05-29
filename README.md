@@ -29,7 +29,7 @@ functions
  * save / update / load
 * ManyToMany
  * save / update / load / add / remove
-* fiters
+* fiters (and, or, not)
  * WHERE statement
  * exclude
  * order by
