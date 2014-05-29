@@ -37,7 +37,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(DB& db,bool recursive=false) = 0; 
+            virtual bool save(bool recursive, DB&) = 0; 
 
             /**
              * \brief Delete the object from the db and cache
@@ -49,7 +49,7 @@ namespace orm
              *
              * \return fale if fail
              **/      
-            virtual bool del(DB& db,bool recursive=false) = 0;
+            virtual bool del(bool recursive, DB&) = 0;
 
             /**
              * \brief Print the object

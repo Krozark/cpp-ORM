@@ -86,7 +86,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(DB& db = *default_connection,bool recursive=false) final;
+            virtual bool save(bool recursive=false,DB& db = *default_connection) final;
 
             /**
             * \brief delete the object from de data base
@@ -95,7 +95,7 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(DB& db = *default_connection,bool recursive=false);
+            virtual bool del(bool recursive=false,DB& db = *default_connection) final;
 
 
             /**

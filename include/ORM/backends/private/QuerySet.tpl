@@ -20,7 +20,6 @@ namespace orm
     QuerySet<T>& QuerySet<T>::filter(Args&& ... args)
     {
         filters.emplace_back(Q<T>(std::forward<Args>(args)...));
-        //DB::makecolumname(*T::default_connection,T::table,column,args ...),operande,value));
         return *this;
     };
 

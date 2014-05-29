@@ -76,12 +76,12 @@ namespace orm
 
 
     template<typename T>
-    bool SqlObject<T>::save(DB& db,bool recursive)
+    bool SqlObject<T>::save(bool recursive,DB& db)
     {
         if(recursive)//save all FK
         {
             for(VFK* fk : fks)
-                fk->save(db,recursive);
+                fk->save(recursive,db);
         }
         else//save or create all FK needed (not null)
         {
@@ -89,7 +89,7 @@ namespace orm
             {
                 VFK& fk_tmp = *fk;
                 if(fk_tmp.nullable == false and (fk_tmp.fk <=0 or fk_tmp.modify == true))
-                    fk_tmp.save(db,recursive);
+                    fk_tmp.save(recursive,db);
             }
         }
 
@@ -104,7 +104,7 @@ namespace orm
     }
 
     template<typename T>
-    bool SqlObject<T>::del(DB& db,bool recursive)
+    bool SqlObject<T>::del(bool recursive,DB& db)
     {
         bool res =true;
         if(db.del(table,pk))
@@ -115,7 +115,7 @@ namespace orm
             {
                 for(VFK* fk : fks)
                 {
-                    bool tmp = fk->del(db,recursive);
+                    bool tmp = fk->del(recursive,db);
                     res = res && tmp;
                 }
             }

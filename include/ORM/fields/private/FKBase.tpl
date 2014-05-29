@@ -139,7 +139,7 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::save(DB& db,bool recursive)
+    bool FKBase<T>::save(bool recursive,DB& db)
     {
         bool res = true;
 
@@ -150,7 +150,7 @@ namespace orm
         if(modify)
         {
             modify = false;
-            res = value_ptr->save(db,recursive);
+            res = value_ptr->save(recursive,db);
             if(fk<=0)
             {
                 value_ptr = T::cache.add(value_ptr);
@@ -161,12 +161,12 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::del(DB& db,bool recursive)
+    bool FKBase<T>::del(bool recursive,DB& db)
     {
         bool res = false;
         if(loaded)
         {
-            res = value_ptr->del(db,recursive);
+            res = value_ptr->del(recursive,db);
             fk = value_ptr->pk;
         }
         return res;

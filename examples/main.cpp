@@ -176,11 +176,11 @@ int main(int argc,char* argv[])
         cout<<" add 2 to stats.pv"<<endl;
         p1->stats->pv += 2;
         cout<<"Current perso1 "<<*p1<<endl;
-        p1->save(*Perso::default_connection,true);
+        p1->save();
         cout<<"Current perso1 "<<*p1<<endl;
 
         cout<<"delete p1->master->master"<<endl;
-        p1->maitre->maitre.del(*Perso::default_connection,true);
+        p1->maitre->maitre.del(true);
 
         cout<<"Current perso1 "<<*p1<<endl;
     }
@@ -223,7 +223,6 @@ int main(int argc,char* argv[])
    {
        Perso p2;
 
-       std::list<Cache<Perso>::type_ptr> results;
 
        Perso::query()
            .filter(Q<Perso>(4,orm::op::gt,Perso::_lvl)
@@ -232,6 +231,7 @@ int main(int argc,char* argv[])
                   )
            .orderBy(Perso::_name)
            .get(p2);
+       std::cout<<p2<<std::endl;
 
        
       // Chained way for same result
@@ -243,21 +243,43 @@ int main(int argc,char* argv[])
       //  .get(p2);
       // 
 
-       std::cout<<p2<<std::endl;
+
+       std::list<Cache<Perso>::type_ptr> results;
+       /*Perso p;// = new Perso;
+       p.name="test";
+       p.maitre->name="test master";
+       p.maitre->lvl = 5;
+       p.save();
+
+       std::cout<<p<<std::endl;
+    
+       Perso::query()
+           .filter(4,orm::op::gt,Perso::_maitre,Perso::_lvl)
+           .orderBy(Perso::_name)
+           .get(results);
+       for(auto& perso : results)
+           cout<<*perso<<endl;
 
 
+       results.clear();*/
 
        cout<<"All perso"<<endl;
        Perso::query().get(results);
        for(auto& perso : results)
-           cout<<*perso<<endl;
+       {
+           cout<<perso.get()<<std::endl;
+           std::cout<<*perso<<endl;
+       }
 
        results.clear();
 
        cout<<"All perso where lvl < 200"<<endl;
        Perso::query().filter(200,orm::op::lt,Perso::_lvl).get(results);
        for(auto& perso : results)
-           cout<<*perso<<endl;
+       {
+           cout<<perso.get()<<std::endl;
+           std::cout<<*perso<<endl;
+       }
 
 
    }

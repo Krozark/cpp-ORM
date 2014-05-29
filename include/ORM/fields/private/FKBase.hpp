@@ -32,7 +32,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(DB& db,bool recursive=false);            
+            virtual bool save(bool recursive=false,DB& db=*T::default_connection);
 
             /**
              * \brief Delete the object from the db and cache
@@ -43,7 +43,7 @@ namespace orm
              *
              * \return fale if fail
              **/
-            virtual bool del(DB& db,bool recursive=false);
+            virtual bool del(bool recursive=false,DB& db=*T::default_connection);
 
             typedef T type; ///< Type of stored object
 
