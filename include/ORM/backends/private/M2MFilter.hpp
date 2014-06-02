@@ -1,45 +1,32 @@
-#ifndef ORM_FILTER_HPP
-#define ORM_FILTER_HPP
+#ifndef ORM_M2MFILTER_HPP
+#define ORM_M2MFILTER_HPP
 
 #include <ORM/backends/private/VFilter.hpp>
-#include <ORM/backends/Query.hpp>
 
 namespace orm
 {
-    /**
-     * \brief A class to build filters
-     * T have to be a primitiv type (char, bool,int, float, double, unsigned, long, long long)
-     **/
-    template<typename RELATED,typename T>
-    class Filter : public VFilter
+    template<typename RELATED,typename OWNER,typename T>
+    class M2MFilter : public VFilter
     {
         public:
 
-            /**
-             * \brief Create a filter
-             *
-             * \param column column where the filter will be apply
-             * \param ope Operator to apply
-             * \param value Value to compare
-             **/
             template<typename ... Args>
-            Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args);
+            M2MFilter(const T& value,const std::string& ope,const std::string& column,Args&& ... args);
 
-            virtual ~Filter();
+            virtual ~M2MFilter();
 
             /**
              * \brief Print the content of the filter for debug help
              **/
             virtual void __print__(const DB& db) const final;
 
-        protected:
+        private:
             const std::string column; ///< Colum to apply filter
             const std::string ope; ///< operator to use. \see DB::operators
             const T value; ///< Store the value of the filter to compare with
-
-
-            virtual VFilter* clone() const final;
-
+            
+            virtual VFilter* clone() const;
+            
            /**
             * \brief set the value in the filter in the query
             *
@@ -58,5 +45,5 @@ namespace orm
             virtual void toQuery(std::string& query,DB& db) const final;
     };
 }
-#include <ORM/backends/private/Filter.tpl>
+#include <ORM/backends/private/M2MFilter.tpl>
 #endif

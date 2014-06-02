@@ -34,6 +34,7 @@ namespace orm
 
         private:
             template<typename T> friend class Register;
+            template<typename T,typename U> friend class M2MRegister;
 
             static std::vector<bool(*)()> _create; ///< fuinction ptr on SqlObject<T>::create
             static std::vector<bool(*)()> _drop; ///< function ptr on SqlObject<T>::del

@@ -112,4 +112,40 @@ namespace orm
         delete &q;
 
     };
+
+    template<typename T,typename U>
+    bool ManyToMany<T,U>::create(DB& db)
+    {
+        #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
+        std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
+        #endif
+        
+        static std::vector<const VAttr*> column_attrs = {
+            new FK<T,false>(_owner),
+            new FK<U,false>(_linked)
+        }; ///< attr of the class
+        bool res = db.create(table,column_attrs);
+        delete column_attrs[0];
+        delete column_attrs[1];
+
+        return res;
+    }
+
+    template<typename T,typename U>
+    bool ManyToMany<T,U>::drop(DB& db)
+    {
+        #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
+        std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
+        #endif
+        return db.drop(table);
+    }
+
+    template<typename T,typename U>
+    bool ManyToMany<T,U>::clear(DB& db)
+    {
+        #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
+        std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
+        #endif
+        return db.clear(table);
+    }
 }

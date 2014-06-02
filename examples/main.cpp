@@ -60,12 +60,11 @@ class Perso : public orm::SqlObject<Perso>
         orm::FK<Stats,false> stats2;
         orm::FK<Perso,true> maitre;
 
-        //orm::ManyToMany<Perso,Spell> spells;
+        orm::ManyToMany<Perso,Spell> spells;
 
         MAKE_STATIC_COLUMN(name,lvl,stats,stats2,maitre)
 };
-//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
-/*M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
+M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2), maitre(_maitre), spells(*this)
 {
@@ -74,8 +73,8 @@ Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stat
     stats.registerAttr(*this);
     stats2.registerAttr(*this);
     maitre.registerAttr(*this);
-}*/
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
+}
+//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 
 
 class TestTypes : public orm::SqlObject<TestTypes>
