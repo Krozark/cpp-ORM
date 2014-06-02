@@ -26,7 +26,7 @@ namespace orm
             //template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
             template<typename T,typename U,typename V> friend class M2MQuerySet;
-            friend class FilterSet;
+            template<typename T> friend class FilterSet;
 
             /**
              * \brief Make a copy of the object

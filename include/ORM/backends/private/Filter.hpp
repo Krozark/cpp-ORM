@@ -57,9 +57,6 @@ namespace orm
              */
             virtual void toQuery(std::string& query,DB& db) const final;
     };
-
-    template <typename RELATED,typename T, typename ... Args>
-    Filter<RELATED,T> Q(T&& value,Args&& ... args);
 }
 #include <ORM/backends/private/Filter.tpl>
 #endif

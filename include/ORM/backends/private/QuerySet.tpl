@@ -25,14 +25,14 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::filter(const FilterSet& f)
+    QuerySet<T>& QuerySet<T>::filter(const FilterSet<T>& f)
     {
         filters.emplace_back(f);
         return *this;
     }
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::filter(FilterSet&& f)
+    QuerySet<T>& QuerySet<T>::filter(FilterSet<T>&& f)
     {
         filters.push_back(std::move(f));
         return *this;
@@ -47,16 +47,16 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::exclude(const FilterSet& f)
+    QuerySet<T>& QuerySet<T>::exclude(const FilterSet<T>& f)
     {
         filters.emplace_back(not f);
         return *this;
     }
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::exclude(FilterSet&& f)
+    QuerySet<T>& QuerySet<T>::exclude(FilterSet<T>&& f)
     {
-        filters.push_back(std::move(operator!(std::forward<FilterSet>(f))));
+        filters.push_back(std::move(operator!(std::forward<FilterSet<T>>(f))));
         return *this;
     }
 

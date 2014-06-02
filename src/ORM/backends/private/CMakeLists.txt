@@ -18,7 +18,6 @@ set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
     ${SRCROOT}/Filter.cpp
-    ${SRCROOT}/FilterSet.cpp
     ${SRCROOT}/TableCreator.cpp
     ${SRCROOT}/VFilter.cpp
 )

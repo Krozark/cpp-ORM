@@ -6,20 +6,21 @@
 
 namespace orm
 {
+    template<typename RELATED>
     class FilterSet
     {
         public:
 
-            FilterSet(FilterSet&& a);
-            FilterSet(const FilterSet& a);
+            FilterSet(FilterSet<RELATED>&& a);
+            FilterSet(const FilterSet<RELATED>& a);
 
-            template<typename RELATED,typename T>
+            template<typename T>
             FilterSet(Filter<RELATED,T>&& f);
 
-            FilterSet(FilterSet&& l, const std::string& o);
-            FilterSet(const FilterSet& l, const std::string& o);
+            FilterSet(FilterSet<RELATED>&& l, const std::string& o);
+            FilterSet(const FilterSet<RELATED>& l, const std::string& o);
 
-            FilterSet(FilterSet&& l, const std::string o,FilterSet&& r);
+            FilterSet(FilterSet<RELATED>&& l, const std::string o,FilterSet<RELATED>&& r);
 
             ~FilterSet();
 
@@ -29,7 +30,7 @@ namespace orm
         private:
             void* left;
             std::string ope;
-            FilterSet* right;
+            FilterSet<RELATED>* right;
 
 
             enum Type {
@@ -58,11 +59,21 @@ namespace orm
             void toQuery(std::string& query,DB& db) const;
     };
 
-    FilterSet operator!(FilterSet&& a);
-    FilterSet operator!(const FilterSet& a);
+    template<typename RELATED>
+    FilterSet<RELATED> operator!(FilterSet<RELATED>&& a);
 
-    FilterSet operator&&(FilterSet&& a, FilterSet&& b);
-    FilterSet operator||(FilterSet&& a, FilterSet&& b);
+    template<typename RELATED>
+    FilterSet<RELATED> operator!(const FilterSet<RELATED>& a);
+
+    template<typename RELATED>
+    FilterSet<RELATED> operator&&(FilterSet<RELATED>&& a, FilterSet<RELATED>&& b);
+
+    template<typename RELATED>
+    FilterSet<RELATED> operator||(FilterSet<RELATED>&& a, FilterSet<RELATED>&& b);
+    
+    template <typename RELATED,typename T, typename ... Args>
+    FilterSet<RELATED> Q(T&& value,Args&& ... args);
+
 }
 #include <ORM/backends/private/FilterSet.tpl>
 #endif

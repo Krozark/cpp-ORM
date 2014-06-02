@@ -22,8 +22,8 @@ namespace orm
     {
         public:
             
-            QuerySet(QuerySet&&) = default;
-            QuerySet& operator=(QuerySet&&) = default;
+            QuerySet(QuerySet<T>&&) = default;
+            QuerySet& operator=(QuerySet<T>&&) = default;
 
             /**
              * \brief Destructor
@@ -42,8 +42,8 @@ namespace orm
             template<typename ... Args>
             QuerySet<T>& filter(Args&& ... args);
 
-            QuerySet<T>& filter(const FilterSet& f);
-            QuerySet<T>& filter(FilterSet&&);
+            QuerySet<T>& filter(const FilterSet<T>& f);
+            QuerySet<T>& filter(FilterSet<T>&&);
 
             /**
              * \brief Add a negatide filter to the query
@@ -58,8 +58,8 @@ namespace orm
             template<typename ... Args>
             QuerySet<T>& exclude(Args&& ... args);
 
-            QuerySet<T>& exclude(const FilterSet& f);
-            QuerySet<T>& exclude(FilterSet&&);
+            QuerySet<T>& exclude(const FilterSet<T>& f);
+            QuerySet<T>& exclude(FilterSet<T>&&);
 
             /**
              * \brief Add a order by constrait to the query
@@ -159,7 +159,7 @@ namespace orm
             QuerySet& operator=(const QuerySet&) = delete;
 
 
-            std::list<FilterSet> filters; ///< Store all the filters
+            std::list<FilterSet<T>> filters; ///< Store all the filters
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)

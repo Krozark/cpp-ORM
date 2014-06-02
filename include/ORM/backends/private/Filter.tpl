@@ -61,10 +61,4 @@ namespace orm
     {
         query += column + db.formatPreparedValue(ope);
     }
-
-    template <typename RELATED,typename T, typename ... Args>
-    Filter<RELATED,T> Q(T&& value,Args&& ... args)
-    {
-        return Filter<RELATED,T>(std::forward<T>(value),std::forward<Args>(args)...);
-    }
 }
