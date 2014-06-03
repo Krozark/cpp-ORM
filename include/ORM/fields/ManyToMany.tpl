@@ -6,9 +6,9 @@ namespace orm
     }
 
     template<typename T,typename U>
-    M2MQuerySet<ManyToMany<T,U>,T,U> ManyToMany<T,U>::query(DB& db)const
+    M2MQuerySet<T,U> ManyToMany<T,U>::query(DB& db)const
     {
-        return M2MQuerySet<ManyToMany<T,U>,T,U>(*this,db);
+        return M2MQuerySet<T,U>(*this,db);
     }
 
     template<typename T,typename U>

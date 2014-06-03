@@ -181,6 +181,8 @@ int main(int argc,char* argv[])
         cout<<"delete p1->master->master"<<endl;
         p1->maitre->maitre.del(*Perso::default_connection,true);
 
+        //p1->spells.query().filter();
+
         cout<<"Current perso1 "<<*p1<<endl;
     }
     std::cout<<"=============="<<std::endl;

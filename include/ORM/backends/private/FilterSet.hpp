@@ -74,6 +74,7 @@ namespace orm
     template <typename RELATED,typename T, typename ... Args>
     FilterSet<RELATED> Q(T&& value,Args&& ... args);
 
+
 }
 #include <ORM/backends/private/FilterSet.tpl>
 #endif

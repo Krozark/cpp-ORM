@@ -218,13 +218,13 @@ namespace orm
         if(limit_count > 0)
             q_str+= db.limit(limit_skip,limit_count);
 
-        Query* q = db.prepareQuery(q_str);
 
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<BLEU<<"[Sql:makeQuery] "<<q_str<<"\nVALUES = (";
         #endif
         
+        Query* q = db.prepareQuery(q_str);
         if(filters_size > 0)
         {
             auto begin = filters.begin();

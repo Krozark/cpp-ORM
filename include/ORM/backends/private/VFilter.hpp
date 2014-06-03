@@ -25,7 +25,7 @@ namespace orm
         protected:
             //template<typename T> friend class SqlObject;
             template<typename T> friend class QuerySet;
-            template<typename T,typename U,typename V> friend class M2MQuerySet;
+            template<typename T,typename U> friend class M2MQuerySet;
             template<typename T> friend class FilterSet;
 
             /**

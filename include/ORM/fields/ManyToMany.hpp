@@ -12,7 +12,6 @@
 namespace orm
 {
 
-    template<typename T,typename U,typename V> class M2MQuerySet;
     /**
      * \todo faire la classe
      **/
@@ -29,7 +28,7 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query(DB& db=*default_connection)const;
+            M2MQuerySet<OWNER,RELATED> query(DB& db=*default_connection)const;
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -102,7 +101,7 @@ namespace orm
             const static std::string table; ///< table of the object
 
         protected:
-            friend class M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED>;
+            friend class M2MQuerySet<OWNER,RELATED>;
 
             const OWNER& owner; ///< owner of the m2m relation
 
@@ -139,6 +138,7 @@ namespace orm
             static M2MRegister<OWNER,RELATED> _register;
 
     };
+
 }
 #include <ORM/fields/ManyToMany.tpl>
 #endif
