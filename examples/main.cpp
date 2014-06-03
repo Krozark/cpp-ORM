@@ -118,14 +118,14 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
 class TestMergeHeritage : public TestTypes
 {
     public:
-        //TestMergeHeritage();
+        TestMergeHeritage();
 
-        //orm::BooleanField   b;
+        orm::BooleanField   b;
 
-        //MAKE_STATIC_COLUMN(b)
+        MAKE_STATIC_COLUMN(b)
 };
-//REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
-REGISTER_TABLE(TestMergeHeritage,"TestMergeHeritage")
+REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
+//REGISTER_TABLE(TestMergeHeritage,"TestMergeHeritage")
 
 using namespace orm;
 using namespace std;
@@ -180,10 +180,41 @@ int main(int argc,char* argv[])
 
         cout<<"delete p1->master->master"<<endl;
         p1->maitre->maitre.del(*Perso::default_connection,true);
-
-        //p1->spells.query().filter();
-
         cout<<"Current perso1 "<<*p1<<endl;
+
+        auto lis = p1->spells.all();
+        std::cout<<"All his spells"<<std::endl;
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+            //.filter("test",orm::op::exact,Spell::_name);
+            //.get(lis);
+        
+        std::cout<<"Add spell s1"<<std::endl;
+        Spell s1;
+        s1.name = "s1";
+        s1.element = 1;
+        s1.save();
+        p1->spells.add(s1);
+
+        std::cout<<"Add spell s2"<<std::endl;
+        Spell s2;
+        s2.name = "s2";
+        s2.element = 2;
+        s2.save();
+        p1->spells.add(s2);
+
+        std::cout<<"All his spells with name s2 ("<<p1->getPk()<<",s2"<<")"<<std::endl;
+        lis.clear();
+        p1->spells.query()
+            .filter("s2",orm::op::exact,Spell::_name)
+            .get(lis);
+        for(auto& u : lis)
+        {
+            cout<<*u<<endl;
+        }
+
     }
     std::cout<<"=============="<<std::endl;
 

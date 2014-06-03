@@ -38,8 +38,8 @@ namespace orm
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
              **/
-            template<typename ... Args>
-            M2MQuerySet<OWNER,RELATED>& filter(Args&& ... args);
+            template<typename T,typename ... Args>
+            M2MQuerySet<OWNER,RELATED>& filter(T&&,const std::string& op,Args&& ... args);
 
             M2MQuerySet<OWNER,RELATED>& filter(const FilterSet<ManyToMany<OWNER,RELATED>>& f);
             M2MQuerySet<OWNER,RELATED>& filter(FilterSet<ManyToMany<OWNER,RELATED>>&&);
@@ -137,11 +137,12 @@ namespace orm
             M2MQuerySet(const M2MQuerySet&) = delete;
             M2MQuerySet& operator=(const M2MQuerySet&) = delete;
 
-            std::list<FilterSet<OWNER>> filters; ///< Store all the filters
+            std::list<FilterSet<ManyToMany<OWNER,RELATED>>> filters; ///< Store all the filters
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
             DB& db;
+            const ManyToMany<OWNER,RELATED>& m2m;
     };
 }
 /***

@@ -139,6 +139,11 @@ namespace orm
 
     };
 
+    /*
+    template <typename OWNER,typename RELATED,typename T, typename ... Args>
+    FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args);
+    */
+
 }
 #include <ORM/fields/ManyToMany.tpl>
 #endif

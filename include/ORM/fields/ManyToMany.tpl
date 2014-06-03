@@ -60,8 +60,16 @@ namespace orm
     template<typename T,typename U>
     void ManyToMany<T,U>::add(const U& obj,DB& db)
     {
-        if(obj.pk<=0 or owner.pk <=0)
+        if(owner.pk <=0)
+        {
+            ORM_PRINT_ERROR("The M2M owner as not be saved")
             return;
+        }
+        if(obj.pk<=0)
+        {
+            ORM_PRINT_ERROR("The object must be save to be add in a M2M")
+            return;
+        }
         
         std::string q_str = "INSERT INTO "+db.escapeColumn(table)
             +"("+_owner+","+_linked+") VALUES ((?),(?));";
@@ -77,7 +85,6 @@ namespace orm
         q.execute();
         q.next();
         delete &q;
-
     };
 
     template<typename T,typename U>
@@ -148,4 +155,12 @@ namespace orm
         #endif
         return db.clear(table);
     }
+
+    /*
+    template <typename OWNER,typename RELATED,typename T, typename ... Args>
+    FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args)
+    {
+        return FilterSet<ManyToMany<OWNER,RELATED>>(Filter<ManyToMany<OWNER,RELATED>,T>(std::forward<T>(value),std::forward<Args>(args)...));
+    }
+    */
 }

@@ -41,6 +41,7 @@ namespace orm
             
         protected:
             template<typename T> friend class QuerySet;
+            template<typename T,typename U> friend class M2MQuerySet;
            /**
             * \brief set the value in the filter in the query
             *
@@ -73,7 +74,6 @@ namespace orm
     
     template <typename RELATED,typename T, typename ... Args>
     FilterSet<RELATED> Q(T&& value,Args&& ... args);
-
 
 }
 #include <ORM/backends/private/FilterSet.tpl>
