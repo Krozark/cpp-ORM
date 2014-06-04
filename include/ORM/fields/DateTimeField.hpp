@@ -46,7 +46,7 @@ namespace orm
             using Attr<std::string>::operator+=;*/
             using Attr<std::string>::operator std::string;
             
-            static DateTimeField now();
+            //static DateTimeField now();
 
         protected:
             /**

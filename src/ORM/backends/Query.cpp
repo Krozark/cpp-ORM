@@ -5,11 +5,11 @@
 
 namespace orm
 {
-    Query::Query(DB& b,const std::string& q) : db(b),query(q), executed(false), prepared(false)
+    Query::Query(DB& b,const std::string& q) :prepared(false), query(q), db(b), executed(false)
     {
     };
 
-    Query::Query(DB& b,std::string&& q) : db(b), executed(false), prepared(false)
+    Query::Query(DB& b,std::string&& q) : prepared(false), db(b), executed(false)
     {
         std::swap(q,query);
     };

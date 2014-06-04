@@ -40,7 +40,7 @@ namespace orm
     template <typename OWNER, typename RELATED>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::orderBy(const std::string& column,const char order)
     {
-        if( order == '-')
+        if( order == op::desc)
             order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         else
             order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
@@ -50,7 +50,7 @@ namespace orm
     template <typename OWNER, typename RELATED>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::orderBy(std::string&& column,const char order)
     {
-        if( order == '-')
+        if( order == op::desc)
             order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         else
             order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");

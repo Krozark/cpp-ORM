@@ -3,6 +3,7 @@
 
 #include <ORM/backends/private/VFilter.hpp>
 #include <ORM/core/Cache.hpp>
+#include <ORM/backends/op.hpp>
 #include <memory>
 
 namespace orm
@@ -52,7 +53,7 @@ namespace orm
              *
              * \return *this;
              **/
-            M2MQuerySet<OWNER,RELATED>& orderBy(const std::string& column,const char order='+');
+            M2MQuerySet<OWNER,RELATED>& orderBy(const std::string& column,const char order=op::asc);
 
             /**
              * \brief Add a order by constrait to the query
@@ -62,7 +63,7 @@ namespace orm
              *
              * \return *this;
              **/
-            M2MQuerySet<OWNER,RELATED>& orderBy(std::string&& column,const char order="+");
+            M2MQuerySet<OWNER,RELATED>& orderBy(std::string&& column,const char order=op::asc);
             //M2MQuerySet& orderBy(int,const std::string& column);
 
             /**

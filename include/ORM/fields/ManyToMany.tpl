@@ -132,8 +132,8 @@ namespace orm
             new FK<U,false>(_linked)
         }; ///< attr of the class
         bool res = db.create(table,column_attrs);
-        delete column_attrs[0];
-        delete column_attrs[1];
+        delete reinterpret_cast<const FK<T,false>*>(column_attrs[0]);
+        delete reinterpret_cast<const FK<U,false>*>(column_attrs[1]);
 
         return res;
     }
