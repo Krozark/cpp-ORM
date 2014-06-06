@@ -138,10 +138,6 @@ int main(int argc,char* argv[])
     DB* con2 = orm::DB::Default.clone();
     con2->connect();
 
-    //TestTypes::drop();
-    //TestTypes::create();
-    //TestTypes::clear();
-
     orm::Tables::drop();
     orm::Tables::create();
 
@@ -205,10 +201,18 @@ int main(int argc,char* argv[])
         s2.save();
         p1->spells.add(s2);
 
+        std::cout<<"All his spells"<<std::endl;
+        lis.clear();
+        lis = p1->spells.all();
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+
         std::cout<<"All his spells with name s2 ("<<p1->getPk()<<",s2"<<")"<<std::endl;
         lis.clear();
         p1->spells.query()
-            .filter("s2",orm::op::exact,Spell::_name)
+        .filter(std::string("s2"),orm::op::exact,Spell::_name)
             .get(lis);
         for(auto& u : lis)
         {
@@ -217,6 +221,7 @@ int main(int argc,char* argv[])
 
     }
     std::cout<<"=============="<<std::endl;
+    return 0;
 
    {
        cout<<"All persos"<<endl;

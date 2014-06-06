@@ -42,7 +42,8 @@ namespace orm
     template<typename RELATED,typename T>
     bool Filter<RELATED,T>::set(Query* query,unsigned int& column) const
     {
-        T v(query->db.formatValue<T>(ope,value));
+        T v = query->db.formatValue(ope,value);
+
         bool res = query->set(v,column);
         #if ORM_DEBUG & ORM_DEBUG_SQL
         if (not res)
