@@ -199,7 +199,6 @@ namespace orm
     template<>
     std::string DB::formatValue(const std::string& filter,std::string value) const
     {
-
         if(filter == "contains")
         {
             value = "%"+value+"%";

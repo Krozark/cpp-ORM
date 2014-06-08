@@ -4,9 +4,13 @@
 
 namespace orm 
 {
-    VAttr::VAttr(const std::string& col) : column(col), modify(false)
+    VAttr::VAttr(const std::string& col) : modify(false), column(col)
     {
     };
+
+    VAttr::~VAttr()
+    {
+    }
 
     std::ostream& operator<<(std::ostream& output,const VAttr& self)
     {

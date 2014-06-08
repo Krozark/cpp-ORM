@@ -24,14 +24,14 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::filter(const FilterSet& f)
+    QuerySet<T>& QuerySet<T>::filter(const FilterSet<T>& f)
     {
         filters.emplace_back(f);
         return *this;
     }
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::filter(FilterSet&& f)
+    QuerySet<T>& QuerySet<T>::filter(FilterSet<T>&& f)
     {
         filters.push_back(std::move(f));
         return *this;
@@ -46,16 +46,16 @@ namespace orm
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::exclude(const FilterSet& f)
+    QuerySet<T>& QuerySet<T>::exclude(const FilterSet<T>& f)
     {
         filters.emplace_back(not f);
         return *this;
     }
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::exclude(FilterSet&& f)
+    QuerySet<T>& QuerySet<T>::exclude(FilterSet<T>&& f)
     {
-        filters.push_back(std::move(operator!(std::forward<FilterSet>(f))));
+        filters.push_back(std::move(operator!(std::forward<FilterSet<T>>(f))));
         return *this;
     }
 
@@ -216,14 +216,8 @@ namespace orm
 
         if(limit_count > 0)
             q_str+= db.limit(limit_skip,limit_count);
-
-        Query* q = db.prepareQuery(q_str);
-
-
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<BLEU<<"[Sql:makeQuery] "<<q_str<<"\nVALUES = (";
-        #endif
         
+        Query* q = db.prepareQuery(q_str);
         if(filters_size > 0)
         {
             auto begin = filters.begin();
@@ -237,10 +231,6 @@ namespace orm
                 ++index;
             }
         }
-
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<")"<<std::endl;
-        #endif
         
         return q;
     }

@@ -4,7 +4,7 @@ namespace orm
 {
     template<typename RELATED,typename T>
     template<typename ... Args>
-    Filter<RELATED,T>::Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args) : column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,args ...)), ope(ope), value(value)
+    Filter<RELATED,T>::Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args) : column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)), ope(ope), value(value)
     {
     };
 
@@ -42,10 +42,7 @@ namespace orm
     template<typename RELATED,typename T>
     bool Filter<RELATED,T>::set(Query* query,unsigned int& column) const
     {
-        T v(query->db.formatValue<T>(ope,value));
-        #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<","<<v;
-        #endif
+        T v = query->db.formatValue(ope,value);
 
         bool res = query->set(v,column);
         #if ORM_DEBUG & ORM_DEBUG_SQL
@@ -60,11 +57,5 @@ namespace orm
     void Filter<RELATED,T>::toQuery(std::string& query,DB& db) const
     {
         query += column + db.formatPreparedValue(ope);
-    }
-
-    template <typename RELATED,typename T, typename ... Args>
-    Filter<RELATED,T> Q(T&& value,Args&& ... args)
-    {
-        return Filter<RELATED,T>(std::forward<T>(value),std::forward<Args>(args)...);
     }
 }

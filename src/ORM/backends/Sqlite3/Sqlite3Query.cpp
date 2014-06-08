@@ -129,9 +129,11 @@ namespace orm
         int result = sqlite3_step(statement);
         if(result == SQLITE_ROW)
             return true;
+        else if(result == SQLITE_DONE)
+            return false;
 
-        ORM_PRINT_WARNING("Sqlite3Query::next() imposible to get next row")
-        ///\ todo sqlite3_errstr(result)<<std::endl;
+        ORM_PRINT_ERROR("Sqlite3Query::next() imposible to get next row, error:"<<result)
+        ///\todo sqlite3_errstr(result)<<std::endl;
 
         return false;
 

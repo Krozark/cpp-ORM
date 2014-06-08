@@ -179,7 +179,7 @@ namespace orm
             template<typename T> friend class FKBase;
             template<typename RELATED,typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;
-            template<typename T,typename U,typename V> friend class M2MQuerySet;
+            template<typename T,typename U> friend class M2MQuerySet;
 
             /* Info for connection */
             std::string s_username; ///< Username use for the connection

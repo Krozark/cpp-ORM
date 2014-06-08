@@ -7,6 +7,8 @@ list(APPEND FILES_HEADER
     ${INCROOT}/macros.hpp
     ${INCROOT}/Register.hpp
     ${INCROOT}/Register.tpl
+    ${INCROOT}/M2MRegister.hpp
+    ${INCROOT}/M2MRegister.tpl
     ${INCROOT}/Tables.hpp
 )
 # set in parent scope

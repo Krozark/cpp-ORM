@@ -29,6 +29,8 @@ namespace orm
             VAttr(const VAttr&) = delete;
             VAttr& operator=(const VAttr&) = delete;
 
+            virtual ~VAttr();
+
             /**
              * \brief print the value
              **/

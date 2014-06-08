@@ -14,10 +14,11 @@ namespace orm
     {
     }
 
-    DateTimeField DateTimeField::now()
+    /*DateTimeField DateTimeField::now()
     {
-        return DateTimeField(0);
-    }
+        //\todo TODO
+        return DateTimeField("",column);
+    }*/
     
     std::string DateTimeField::create(const DB& db) const
     {

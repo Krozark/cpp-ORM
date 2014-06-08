@@ -282,7 +282,8 @@
     template<> const std::string orm::ManyToMany<klass,T_linked>::_owner = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_linked = linked_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::_related = JOIN_ALIAS(table_name,linked_column);\
-    template<> orm::DB* orm::ManyToMany<klass,T_linked>::default_connection = &orm::DB::Default;
+    template<> orm::DB* orm::ManyToMany<klass,T_linked>::default_connection = &orm::DB::Default;\
+    template<> orm::M2MRegister<klass,T_linked> orm::ManyToMany<klass,T_linked>::_register = orm::M2MRegister<klass,T_linked>();
 
 
 #endif //guard

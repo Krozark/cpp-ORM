@@ -3,6 +3,7 @@
 
 #include <ORM/backends/private/VFilter.hpp>
 #include <ORM/core/Cache.hpp>
+#include <ORM/backends/op.hpp>
 #include <memory>
 
 namespace orm
@@ -15,7 +16,7 @@ namespace orm
      *
      * \see SqlObject
      **/
-    template <typename M2M,typename OWNER, typename RELATED>
+    template <typename OWNER, typename RELATED>
     class M2MQuerySet
     {
         public:
@@ -38,8 +39,11 @@ namespace orm
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
              **/
-            template<typename U,typename ... Args>
-            M2MQuerySet<M2M,OWNER,RELATED>& filter(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
+            template<typename T,typename ... Args>
+            M2MQuerySet<OWNER,RELATED>& filter(T&&,const std::string& op,Args&& ... args);
+
+            M2MQuerySet<OWNER,RELATED>& filter(const FilterSet<ManyToMany<OWNER,RELATED>>& f);
+            M2MQuerySet<OWNER,RELATED>& filter(FilterSet<ManyToMany<OWNER,RELATED>>&&);
 
             /**
              * \brief Add a order by constrait to the query
@@ -49,7 +53,7 @@ namespace orm
              *
              * \return *this;
              **/
-            M2MQuerySet<M2M,OWNER,RELATED>& orderBy(const std::string& column,const char order='+');
+            M2MQuerySet<OWNER,RELATED>& orderBy(const std::string& column,const char order=op::asc);
 
             /**
              * \brief Add a order by constrait to the query
@@ -59,7 +63,7 @@ namespace orm
              *
              * \return *this;
              **/
-            M2MQuerySet<M2M,OWNER,RELATED>& orderBy(std::string&& column,const char order="+");
+            M2MQuerySet<OWNER,RELATED>& orderBy(std::string&& column,const char order=op::asc);
             //M2MQuerySet& orderBy(int,const std::string& column);
 
             /**
@@ -73,7 +77,7 @@ namespace orm
              * \return *this
              **/
             template<typename U,typename ... Args>
-            M2MQuerySet<M2M,OWNER,RELATED>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
+            M2MQuerySet<OWNER,RELATED>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase
@@ -82,7 +86,7 @@ namespace orm
              *
              * \return *this
              **/
-            M2MQuerySet<M2M,OWNER,RELATED>& limit(const unsigned int& count);
+            M2MQuerySet<OWNER,RELATED>& limit(const unsigned int& count);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase.
@@ -94,7 +98,7 @@ namespace orm
              *
              * \return *this
              **/
-            M2MQuerySet<M2M,OWNER,RELATED>& limit(const unsigned int& skip,const unsigned int& count);
+            M2MQuerySet<OWNER,RELATED>& limit(const unsigned int& skip,const unsigned int& count);
 
             //M2MQuerySet& aggregate();
 
@@ -134,12 +138,12 @@ namespace orm
             M2MQuerySet(const M2MQuerySet&) = delete;
             M2MQuerySet& operator=(const M2MQuerySet&) = delete;
 
-            std::list<VFilter*> filters; ///< Store all the filters
-            std::list<VFilter*> excludes;///< Store all the negative filters
+            std::list<FilterSet<ManyToMany<OWNER,RELATED>>> filters; ///< Store all the filters
             std::vector<std::string> order_by; ///< store the column name for ordering
             int limit_skip, ///< skip limit (default is 0)
                 limit_count; ///< skip limit (default is all)
             DB& db;
+            const ManyToMany<OWNER,RELATED>& m2m;
     };
 }
 /***

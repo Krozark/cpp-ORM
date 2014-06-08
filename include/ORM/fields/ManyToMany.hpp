@@ -4,6 +4,7 @@
 #include <ORM/models/SqlObject.hpp>
 #include <ORM/backends/Query.hpp>
 #include <ORM/backends/private/M2MQuerySet.hpp>
+#include <ORM/core/M2MRegister.hpp>
 #include <string>
 #include <list>
 #include <memory>
@@ -11,7 +12,6 @@
 namespace orm
 {
 
-    template<typename T,typename U,typename V> class M2MQuerySet;
     /**
      * \todo faire la classe
      **/
@@ -28,7 +28,7 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED> query(DB& db=*default_connection)const;
+            M2MQuerySet<OWNER,RELATED> query(DB& db=*default_connection)const;
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -74,13 +74,34 @@ namespace orm
              **/
             void remove(const typename Cache<RELATED>::type_ptr& obj,DB& db=*default_connection);
 
+            /**
+             * \brief create the table
+             * \todo
+             * \return true if success
+             */
+            static bool create(DB& db = *default_connection);
+
+            /**
+             * \brief drop the table
+             * \todo
+             * \return true if success
+             */
+            static bool drop(DB& db = *default_connection);
+
+            /**
+             * \brief truncate the table
+             * \todo
+             * \return true if success
+             */
+            static bool clear(DB& db = *default_connection);
+
 
 
             static  DB* default_connection;///< database use to store the object
             const static std::string table; ///< table of the object
 
         protected:
-            friend class M2MQuerySet<ManyToMany<OWNER,RELATED>,OWNER,RELATED>;
+            friend class M2MQuerySet<OWNER,RELATED>;
 
             const OWNER& owner; ///< owner of the m2m relation
 
@@ -113,7 +134,16 @@ namespace orm
              **/
             static void makeJoin(std::string& q_str,int max_depth,DB& db);
 
+        private:
+            static M2MRegister<OWNER,RELATED> _register;
+
     };
+
+    /*
+    template <typename OWNER,typename RELATED,typename T, typename ... Args>
+    FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args);
+    */
+
 }
 #include <ORM/fields/ManyToMany.tpl>
 #endif

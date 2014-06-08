@@ -14,7 +14,7 @@ project (ORM)
 # setup version numbers
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 3)
-set(VERSION_PATCH 3)
+set(VERSION_PATCH 4)
 
 
 # add the  header path
@@ -41,7 +41,7 @@ find_library(MYSQL_LIB mysqlcppconn)
 find_library(SQLITE_LIB sqlite3)
 set(LIBS ${MYSQL_LIB} ${SQLITE_LIB})
 
-set(WARNING "")
+set(WARNING "-Wall")
 set(FLAGS "-g -std=c++0x")
 set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 

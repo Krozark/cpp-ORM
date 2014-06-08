@@ -6,9 +6,9 @@ namespace orm
     }
 
     template<typename T,typename U>
-    M2MQuerySet<ManyToMany<T,U>,T,U> ManyToMany<T,U>::query(DB& db)const
+    M2MQuerySet<T,U> ManyToMany<T,U>::query(DB& db)const
     {
-        return M2MQuerySet<ManyToMany<T,U>,T,U>(*this,db);
+        return M2MQuerySet<T,U>(*this,db);
     }
 
     template<typename T,typename U>
@@ -60,8 +60,16 @@ namespace orm
     template<typename T,typename U>
     void ManyToMany<T,U>::add(const U& obj,DB& db)
     {
-        if(obj.pk<=0 or owner.pk <=0)
+        if(owner.pk <=0)
+        {
+            ORM_PRINT_ERROR("The M2M owner as not be saved")
             return;
+        }
+        if(obj.pk<=0)
+        {
+            ORM_PRINT_ERROR("The object must be save to be add in a M2M")
+            return;
+        }
         
         std::string q_str = "INSERT INTO "+db.escapeColumn(table)
             +"("+_owner+","+_linked+") VALUES ((?),(?));";
@@ -77,7 +85,6 @@ namespace orm
         q.execute();
         q.next();
         delete &q;
-
     };
 
     template<typename T,typename U>
@@ -112,4 +119,48 @@ namespace orm
         delete &q;
 
     };
+
+    template<typename T,typename U>
+    bool ManyToMany<T,U>::create(DB& db)
+    {
+        #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
+        std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
+        #endif
+        
+        static std::vector<const VAttr*> column_attrs = {
+            new FK<T,false>(_owner),
+            new FK<U,false>(_linked)
+        }; ///< attr of the class
+        bool res = db.create(table,column_attrs);
+        delete reinterpret_cast<const FK<T,false>*>(column_attrs[0]);
+        delete reinterpret_cast<const FK<U,false>*>(column_attrs[1]);
+
+        return res;
+    }
+
+    template<typename T,typename U>
+    bool ManyToMany<T,U>::drop(DB& db)
+    {
+        #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
+        std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
+        #endif
+        return db.drop(table);
+    }
+
+    template<typename T,typename U>
+    bool ManyToMany<T,U>::clear(DB& db)
+    {
+        #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
+        std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
+        #endif
+        return db.clear(table);
+    }
+
+    /*
+    template <typename OWNER,typename RELATED,typename T, typename ... Args>
+    FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args)
+    {
+        return FilterSet<ManyToMany<OWNER,RELATED>>(Filter<ManyToMany<OWNER,RELATED>,T>(std::forward<T>(value),std::forward<Args>(args)...));
+    }
+    */
 }

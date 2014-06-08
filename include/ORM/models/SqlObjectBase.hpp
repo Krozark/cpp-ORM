@@ -12,10 +12,6 @@ namespace orm
     class VAttr;
     class DB;
     class VFK;
-    template<typename T> class Register;
-    template<typename T> class FKBase;
-    template<typename T> class SqlObject;
-    template<typename T,typename U,typename V> class M2MQuerySet;
 
     /**
      * \brief Base classe to manage SqlObjects. Usfull to store them in containers
@@ -72,7 +68,7 @@ namespace orm
             template<typename T> friend class FKBase;
             template<typename T> friend class Register;
             template<typename T> friend class SqlObject;
-            template<typename T,typename U,typename V> friend class M2MQuerySet;
+            template<typename T,typename U> friend class M2MQuerySet;
             template<typename U> friend class Cache;
 
             int pk; ///< the object pf

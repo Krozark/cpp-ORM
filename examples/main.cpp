@@ -60,12 +60,11 @@ class Perso : public orm::SqlObject<Perso>
         orm::FK<Stats,false> stats2;
         orm::FK<Perso,true> maitre;
 
-        //orm::ManyToMany<Perso,Spell> spells;
+        orm::ManyToMany<Perso,Spell> spells;
 
         MAKE_STATIC_COLUMN(name,lvl,stats,stats2,maitre)
 };
-//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
-/*M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
+M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2), maitre(_maitre), spells(*this)
 {
@@ -74,8 +73,8 @@ Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stat
     stats.registerAttr(*this);
     stats2.registerAttr(*this);
     maitre.registerAttr(*this);
-}*/
-REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
+}
+//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 
 
 class TestTypes : public orm::SqlObject<TestTypes>
@@ -119,14 +118,14 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
 class TestMergeHeritage : public TestTypes
 {
     public:
-        //TestMergeHeritage();
+        TestMergeHeritage();
 
-        //orm::BooleanField   b;
+        orm::BooleanField   b;
 
-        //MAKE_STATIC_COLUMN(b)
+        MAKE_STATIC_COLUMN(b)
 };
-//REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
-REGISTER_TABLE(TestMergeHeritage,"TestMergeHeritage")
+REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
+//REGISTER_TABLE(TestMergeHeritage,"TestMergeHeritage")
 
 using namespace orm;
 using namespace std;
@@ -138,10 +137,6 @@ int main(int argc,char* argv[])
     
     DB* con2 = orm::DB::Default.clone();
     con2->connect();
-
-    //TestTypes::drop();
-    //TestTypes::create();
-    //TestTypes::clear();
 
     orm::Tables::drop();
     orm::Tables::create();
@@ -181,10 +176,52 @@ int main(int argc,char* argv[])
 
         cout<<"delete p1->master->master"<<endl;
         p1->maitre->maitre.del(true);
-
         cout<<"Current perso1 "<<*p1<<endl;
+
+        auto lis = p1->spells.all();
+        std::cout<<"All his spells"<<std::endl;
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+            //.filter("test",orm::op::exact,Spell::_name);
+            //.get(lis);
+        
+        std::cout<<"Add spell s1"<<std::endl;
+        Spell s1;
+        s1.name = "s1";
+        s1.element = 1;
+        s1.save();
+        p1->spells.add(s1);
+
+        std::cout<<"Add spell s2"<<std::endl;
+        Spell s2;
+        s2.name = "s2";
+        s2.element = 2;
+        s2.save();
+        p1->spells.add(s2);
+
+        std::cout<<"All his spells"<<std::endl;
+        lis.clear();
+        lis = p1->spells.all();
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+
+        std::cout<<"All his spells with name s2 ("<<p1->getPk()<<",s2"<<")"<<std::endl;
+        lis.clear();
+        p1->spells.query()
+        .filter(std::string("s2"),orm::op::exact,Spell::_name)
+            .get(lis);
+        for(auto& u : lis)
+        {
+            cout<<*u<<endl;
+        }
+
     }
     std::cout<<"=============="<<std::endl;
+    return 0;
 
    {
        cout<<"All persos"<<endl;
