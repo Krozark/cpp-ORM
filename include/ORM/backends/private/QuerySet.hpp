@@ -90,7 +90,7 @@ namespace orm
              *
              * \return *this
              **/
-            QuerySet<T>& limit(const unsigned int& count);
+            QuerySet<T>& limit(const int& count);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase.
@@ -102,7 +102,7 @@ namespace orm
              *
              * \return *this
              **/
-            QuerySet<T>& limit(const unsigned int& skip,const unsigned int& count);
+            QuerySet<T>& limit(const int& skip,const int& count);
 
             //QuerySet& aggregate();
 

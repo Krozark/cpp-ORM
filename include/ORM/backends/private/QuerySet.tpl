@@ -85,16 +85,16 @@ namespace orm
 
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::limit(const unsigned int& count)
+    QuerySet<T>& QuerySet<T>::limit(const int& count)
     {
-        limit_count = static_cast<int>(count);
+        limit_count = count;
     };
 
     template<typename T>
-    QuerySet<T>& QuerySet<T>::limit(const unsigned int& skip,const unsigned int& count)
+    QuerySet<T>& QuerySet<T>::limit(const int& skip,const int& count)
     {
-        limit_skip = static_cast<int>(skip);
-        limit_count = static_cast<int>(count);
+        limit_skip = skip;
+        limit_count = count;
     }
 
 
