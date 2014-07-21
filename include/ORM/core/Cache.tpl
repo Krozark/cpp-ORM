@@ -22,9 +22,12 @@ namespace orm
     template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,DB& db,int max_depth)
     {
+        //std::lock_guard<std::mutex> lock(_mutex);//lock
+        //already existe
         const auto& res= map.find(pk);
         if(res != map.end())
             return res->second;
+
         T* ptr = T::_get_ptr(pk,db,max_depth);
         if(ptr == nullptr)
             ptr = new T();
@@ -92,6 +95,7 @@ namespace orm
         for(auto& i : map)
             std::cerr<<*i.second<<std::endl;
     }
+
 
     template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::add(T& obj)

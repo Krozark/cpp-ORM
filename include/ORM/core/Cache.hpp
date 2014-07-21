@@ -6,6 +6,8 @@
 #include <string>
 #include <memory>
 
+//#include <mutex>
+
 namespace orm
 {
     template<typename T> class SqlObject;
@@ -24,7 +26,7 @@ namespace orm
              *
              * Note: T have to be a SqlObject
              **/
-            Cache();
+            explicit Cache();
 
             /**
              * \brief Destructor
@@ -73,9 +75,28 @@ namespace orm
              **/
             void __print__();
 
+            /**
+             * \brief clear the entire cash
+             * Delete all the objects from the cache
+             * All future references for the same PK of
+             * object will be errored
+             * \param reset_pk if true, all the pk are set to default (-1)
+             */
+            void clear(bool reset_pk=true);
+
         private:
             friend class SqlObject<T>;
             friend class FKBase<T>;
+
+            //std::recursive_mutex _mutex;
+            /*
+             * \brief stuct that hold an object
+             * and the date that hit was added to the cache.
+             */
+            /*class time_obj {
+                std::time_t added;
+                type_ptr obj;
+            };*/
 
             /**
              * \brief Add a object in the cache
@@ -109,11 +130,6 @@ namespace orm
              **/
             void del(const unsigned int& pk);
 
-            /**
-             * \brief delete all the objects from the cache
-             * \param reset_pk if true, all the pk are set to default (-1)
-             */
-            void clear(bool reset_pk);
     };
 }
 #include <ORM/core/Cache.tpl>
