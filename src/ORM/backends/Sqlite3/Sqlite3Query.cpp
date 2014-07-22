@@ -1,6 +1,8 @@
 #include <ORM/backends/Sqlite3/Sqlite3Query.hpp>
 #include <ORM/backends/Sqlite3/Sqlite3DB.hpp>
 
+#include <sstream>
+
 
 namespace orm
 {
@@ -64,14 +66,14 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::getPk(int& value, const int& colum)const
+    bool Sqlite3Query::getPk(int& value, const int& column)const
     {
-        if(sqlite3_column_type(statement,colum) == SQLITE_NULL)
+        if(sqlite3_column_type(statement,column) == SQLITE_NULL)
         {
             value = -1;
             return false;
         }
-        value = sqlite3_column_int(statement,colum);
+        value = sqlite3_column_int(statement,column);
         return true;
     }
 
@@ -123,6 +125,28 @@ namespace orm
 
         return true;
     };
+
+    bool Sqlite3Query::get(struct tm& value,const int& column)const
+    {
+        bool res = false;
+        const unsigned char* str = sqlite3_column_text(statement,column);
+        if (str)
+        {
+            int year,mon,day,hour,min,sec;
+            res = ::sscanf((const char*)str,"%d-%d-%d %d:%d:%d",&year,&mon,&day,&hour,&min,&sec) == 6;
+            if (res)
+            {
+                value.tm_year = year;
+                value.tm_mon = mon;
+                value.tm_mday = day;
+                value.tm_hour = hour;
+                value.tm_min = min;
+                value.tm_sec = sec;
+            }
+        }
+
+        return res;
+    }
 
     bool Sqlite3Query::next()
     {
@@ -202,12 +226,25 @@ namespace orm
         return (sqlite3_bind_text(statement,(int)column,value.c_str(),-1,SQLITE_TRANSIENT)== SQLITE_OK);
     };
 
+    bool Sqlite3Query::set(const struct tm& value, const unsigned int& column)
+    {
+        if(not prepared)
+            return false;
+
+        std::stringstream stream;
+        stream<<value.tm_year<<"-"<<value.tm_mon<<"-"<<value.tm_mday<<" "
+            <<value.tm_hour<<":"<<value.tm_min<<":"<<value.tm_sec;
+        return (sqlite3_bind_text(statement,(int)column,stream.str().c_str(),-1,SQLITE_TRANSIENT)== SQLITE_OK);
+        
+    }
+
     bool Sqlite3Query::setNull(const int& value,const unsigned int& column)
     {
         if(not prepared)
             return false;
         return (sqlite3_bind_null(statement,(int)column)== SQLITE_OK);
     };
+    
 
     void Sqlite3Query::executeQuery()
     {

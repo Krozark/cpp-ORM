@@ -1,6 +1,7 @@
 #include <ORM/backends/MySql/MySqlQuery.hpp>
 
 #include <cppconn/exception.h>
+#include <sstream>
 
 namespace orm
 {
@@ -58,17 +59,17 @@ namespace orm
         return true;
     };
 
-    bool MySqlQuery::getPk(int& value, const int& colum)const
+    bool MySqlQuery::getPk(int& value, const int& column)const
     {
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
-            if(db_res->isNull((uint32_t)colum))
+            if(db_res->isNull((uint32_t)column))
             {
                 value = -1;
                 return false;
             }
-            value = db_res->getUInt((uint32_t)colum);
+            value = db_res->getUInt((uint32_t)column);
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
@@ -183,6 +184,36 @@ namespace orm
         #endif
         return true;
     };
+    
+    bool MySqlQuery::get(struct tm& value,const int& column)const
+    {
+        bool res = false;
+        #if ORM_ALLOW_EXCEPTION
+        try{
+        #endif
+            std::string str;
+            str = db_res->getString((uint32_t)column);
+
+            int year,mon,day,hour,min,sec;
+            res = ::sscanf(str.c_str(),"%d-%d-%d %d:%d:%d",&year,&mon,&day,&hour,&min,&sec) == 6;
+            if (res)
+            {
+                value.tm_year = year;
+                value.tm_mon = mon;
+                value.tm_mday = day;
+                value.tm_hour = hour;
+                value.tm_min = min;
+                value.tm_sec = sec;
+            }
+        #if ORM_ALLOW_EXCEPTION
+        }
+        catch(sql::InvalidArgumentException& e){
+            return false;
+        }
+        #endif
+
+        return res;
+    }
 
     bool MySqlQuery::next()
     {
@@ -260,6 +291,19 @@ namespace orm
         prepared_statement->setString(column,value);
         return true;
     };
+
+    bool MySqlQuery::set(const struct tm& value, const unsigned int& column)
+    {
+        if(not prepared)
+            return false;
+
+        std::stringstream stream;
+        stream<<value.tm_year<<"-"<<value.tm_mon<<"-"<<value.tm_mday<<" "
+            <<value.tm_hour<<":"<<value.tm_min<<":"<<value.tm_sec;
+
+        prepared_statement->setString(column,stream.str());
+        return true;
+    }
 
     bool MySqlQuery::setNull(const int& value,const unsigned int& column)
     {

@@ -14,7 +14,7 @@ project (ORM)
 # setup version numbers
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 3)
-set(VERSION_PATCH 4)
+set(VERSION_PATCH 5)
 
 
 # add the  header path

@@ -17,7 +17,7 @@ namespace orm
     template<typename T>
     class Attr : public VAttr
     {
-        private:
+        protected:
             T _value; ///< value stored
 
         public:

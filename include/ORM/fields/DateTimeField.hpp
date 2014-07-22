@@ -3,56 +3,78 @@
 
 #include <ORM/fields/private/Attr.hpp>
 
+#include <ctime>
+
 namespace orm
 {
-    /**
-    * \todo this DateTimeField class
-    */
-    class DateTimeField : public Attr<std::string>
+    class DateTimeField : public Attr<struct tm>
     {
         public:
-            /**
-             * \brief Make a Attr
-             *
-             * \param value value to store
-             * \param column Column in db
-             **/
-            DateTimeField(const std::string& value,const std::string& column);
-            
-            /**
-             * \brief Make a Attr
-             * default value is empty string.
-             * \param column Column in db
-             **/
+            DateTimeField(const struct tm& value,const std::string& column);
+
             DateTimeField(const std::string& column);
 
-            DateTimeField(const DateTimeField&) = delete;
-            DateTimeField& operator=(const DateTimeField&) = delete;
 
-            DateTimeField(DateTimeField&&) = default;
-            DateTimeField& operator=(DateTimeField&&) = default;
+            int& year();
+            int year()const;
 
-            /*using Attr<std::string>::operator=;
+            int& month();
+            int month()const;
 
-            using Attr<std::string>::operator+;
+            int& day();
+            int day()const;
 
-            using Attr<std::string>::operator==;
-            using Attr<std::string>::operator!=;
-            using Attr<std::string>::operator>;
-            using Attr<std::string>::operator<;
-            using Attr<std::string>::operator>=;
-            using Attr<std::string>::operator<=;
+            int& hour();
+            int hour()const;
 
-            using Attr<std::string>::operator+=;*/
-            using Attr<std::string>::operator std::string;
+            int& minute();
+            int minute()const;
+
+            int& second();
+            int second()const;
             
-            //static DateTimeField now();
+            int& yday();
+            int yday()const;
+
+
+            std::time_t as_timestamp();
+
+            using Attr<struct tm>::operator tm;
+
+            /*DateTimeField& operator>(const DateTimeField& other);
+            DateTimeField& operator>=(const DateTimeField& other);
+            DateTimeField& operator<(const DateTimeField& other);
+            DateTimeField& operator<=(const DateTimeField& other);
+            DateTimeField& operator==(const DateTimeField& other);
+
+            DateTimeField& operator+(const DateTimeField& other);
+            DateTimeField& operator-(const DateTimeField& other);*/
+
+
+            bool operator>(const struct tm& other);
+            bool operator>=(const struct tm& other);
+            bool operator<(const struct tm& other);
+            bool operator<=(const struct tm& other);
+            bool operator==(const struct tm& other);
+
+            struct tm operator+(const struct tm& other);
+            struct tm operator-(const struct tm& other);
+
+            static struct tm now();
 
         protected:
-            /**
-             * \brief create the attr column
-             */
+            //bool auto_now;
+            //bool auto_now_add;
+
+            virtual struct tm prepare_to_db(const struct tm& value);
+
+            virtual struct tm prepare_from_db(const struct tm& value);
+
             virtual std::string create(const DB& db) const;
+
+        private:
     };
 }
+std::ostream& operator<<(std::ostream& stream,const struct tm& time);
+
 #endif

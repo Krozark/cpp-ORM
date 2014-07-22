@@ -88,9 +88,9 @@ namespace orm
              * \param value : where the value is stored (<=0 if null)
              * \param colun The column to extract
              *
-             * \return false if fail or colum is null
+             * \return false if fail or column is null
              */
-            virtual bool getPk(int& value, const int& colum)const=0;
+            virtual bool getPk(int& value, const int& column)const=0;
 
             /**
              * \brief Get a value of a column, and store it 
@@ -161,6 +161,16 @@ namespace orm
              * \return false if fail
              **/
             virtual bool get(std::string& value,const int& column)const = 0;
+
+            /**
+             * \brief Get a value of a column, and store it 
+             *
+             * \param colun The column to extract
+             * \param value Where the value will be stored
+             *
+             * \return false if fail
+             **/
+            virtual bool get(struct tm& value,const int& column)const=0;
 
 
             /**
@@ -291,6 +301,17 @@ namespace orm
              * \results false if fail
              **/
             virtual bool set(const std::string& value,const unsigned int& column) = 0;
+
+            /**
+             *
+             * \brief For prepared query only, set the column value
+             *
+             * \param value The value to set
+             * \param column The column number to set
+             *
+             * \results false if fail
+             **/
+            virtual bool set(const struct tm& value, const unsigned int& column)=0;
 
             /**
              * \brief For prepared query only, set the column value to null

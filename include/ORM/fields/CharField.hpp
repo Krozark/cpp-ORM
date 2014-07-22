@@ -27,6 +27,8 @@ namespace orm
 
             CharField(const CharField&) = delete;
             CharField& operator=(const CharField&) = delete;
+            
+            using Attr<std::string>::operator std::string;
 
             using Attr<std::string>::operator=;
 
@@ -40,7 +42,6 @@ namespace orm
             using Attr<std::string>::operator<=;
 
             using Attr<std::string>::operator+=;
-            using Attr<std::string>::operator std::string;
 
         protected:
             /**
