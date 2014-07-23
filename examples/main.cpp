@@ -174,9 +174,9 @@ int main(int argc,char* argv[])
         cout<<"Save current"<<endl;
 
         std::list<std::shared_ptr<TestTypes>> lis;
-        /*TestTypes::query()
+        TestTypes::query()
         .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::_datetimeField))
-        .get(lis);*/
+        .get(lis);
 
         cout<<"All tests with DateTimeField > now - 1 day"<<endl;
         for(auto u : lis)
@@ -184,6 +184,7 @@ int main(int argc,char* argv[])
             cout<<*u<<endl;
         }
 
+        cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
         TestTypes test2;
         test2.datetimeField = test.datetimeField - orm::DateTimeField::day(1);
 

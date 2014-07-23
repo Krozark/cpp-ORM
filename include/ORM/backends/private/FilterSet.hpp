@@ -73,7 +73,7 @@ namespace orm
     FilterSet<RELATED> operator||(FilterSet<RELATED>&& a, FilterSet<RELATED>&& b);
     
     template <typename RELATED,typename T, typename ... Args>
-    FilterSet<RELATED> Q(T&& value,Args&& ... args);
+    FilterSet<RELATED> Q(const T& value,Args&& ... args);
 
 }
 #include <ORM/backends/private/FilterSet.tpl>

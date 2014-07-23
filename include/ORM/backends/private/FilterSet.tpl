@@ -4,13 +4,11 @@ namespace orm
     template<typename T>
     FilterSet<RELATED>::FilterSet(Filter<RELATED,T>&& f): left(new Filter<RELATED,T>(std::forward<Filter<RELATED,T>>(f))), ope(), right(nullptr), type(LEAF)
     {
-        std::cout<<"FilterSet(Filter<RELATED,T>&& f)"<<f.value<<std::endl;
     };
 
     template<typename RELATED>
     FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& a) : left(nullptr), ope(), right(nullptr), type(a.type)
     {
-        std::cout<<"FilterSet(FilterSet<RELATED>&& f)"<<std::endl;
         std::swap(left,a.left);
         std::swap(ope,a.ope);
         std::swap(right,a.right);
@@ -19,8 +17,6 @@ namespace orm
     template<typename RELATED>
     FilterSet<RELATED>::FilterSet(const FilterSet<RELATED>& a) :ope(a.ope), type(a.type)
     {
-        std::cout<<"FilterSet(const FilterSet<RELATED>& f)"<<std::endl;
-
         switch(type)
         {
             case LEAF:
@@ -56,8 +52,6 @@ namespace orm
     template<typename RELATED>
     FilterSet<RELATED>::~FilterSet()
     {
-        std::cout<<"~FilterSet"<<std::endl;
-
         if(type == LEAF)
             delete reinterpret_cast<VFilter*>(left);
         else
@@ -168,11 +162,9 @@ namespace orm
     }
 
     template <typename RELATED,typename T, typename ... Args>
-    FilterSet<RELATED> Q(T&& value,Args&& ... args)
+    FilterSet<RELATED> Q(const T& value,Args&& ... args)
     {
-        std::cout<<"Q "<<value<<std::endl;
-        Filter<RELATED,T> tmp(std::forward<T>(value),std::forward<Args>(args)...);
-        std::cout<<"Q2 "<<tmp.value<<std::endl;
+        Filter<RELATED,T> tmp(value,std::forward<Args>(args)...);
         return FilterSet<RELATED>(std::move(tmp));
     }
 }
