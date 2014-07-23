@@ -2,6 +2,7 @@
 #include <ORM/backends/Sqlite3/Sqlite3DB.hpp>
 
 #include <sstream>
+#include <iomanip>
 
 
 namespace orm
@@ -232,8 +233,14 @@ namespace orm
             return false;
 
         std::stringstream stream;
-        stream<<value.tm_year<<"-"<<value.tm_mon<<"-"<<value.tm_mday<<" "
-            <<value.tm_hour<<":"<<value.tm_min<<":"<<value.tm_sec;
+        stream<<std::setfill('0')
+            <<std::setw(4)<<value.tm_year
+            <<"-"<<std::setw(2)<<value.tm_mon
+            <<"-"<<std::setw(2)<<value.tm_mday
+            <<" "
+            <<std::setw(2)<<value.tm_hour
+            <<":"<<std::setw(2)<<value.tm_min
+            <<":"<<std::setw(2)<<value.tm_sec;
         return (sqlite3_bind_text(statement,(int)column,stream.str().c_str(),-1,SQLITE_TRANSIENT)== SQLITE_OK);
         
     }

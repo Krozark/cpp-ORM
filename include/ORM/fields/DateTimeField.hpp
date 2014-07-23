@@ -16,51 +16,30 @@ namespace orm
 
 
             int& year();
-            int year()const;
-
             int& month();
-            int month()const;
-
             int& day();
-            int day()const;
-
             int& hour();
-            int hour()const;
-
             int& minute();
-            int minute()const;
-
             int& second();
-            int second()const;
-            
             int& yday();
-            int yday()const;
 
+            std::time_t mktime();
 
-            std::time_t as_timestamp();
+            virtual std::ostream& print_value(std::ostream& output)const;
 
             using Attr<struct tm>::operator tm;
+            struct tm& operator=(const struct tm& other);
 
-            /*DateTimeField& operator>(const DateTimeField& other);
-            DateTimeField& operator>=(const DateTimeField& other);
-            DateTimeField& operator<(const DateTimeField& other);
-            DateTimeField& operator<=(const DateTimeField& other);
-            DateTimeField& operator==(const DateTimeField& other);
-
-            DateTimeField& operator+(const DateTimeField& other);
-            DateTimeField& operator-(const DateTimeField& other);*/
-
-
-            bool operator>(const struct tm& other);
-            bool operator>=(const struct tm& other);
-            bool operator<(const struct tm& other);
-            bool operator<=(const struct tm& other);
-            bool operator==(const struct tm& other);
-
-            struct tm operator+(const struct tm& other);
-            struct tm operator-(const struct tm& other);
 
             static struct tm now();
+            static struct tm time(int hour,int min,int sec);
+            static struct tm time();
+            static struct tm date(int year,int month,int day);
+            static struct tm day(int nb);
+            static struct tm month(int nb);
+            static struct tm year(int nb);
+            static struct tm& normalize(struct tm& time);
+            static struct tm normalize(struct tm&& time);
 
         protected:
             //bool auto_now;
@@ -76,5 +55,14 @@ namespace orm
     };
 }
 std::ostream& operator<<(std::ostream& stream,const struct tm& time);
+
+bool operator>(const struct tm& first,const struct tm& second);
+bool operator>=(const struct tm& first,const struct tm& second);
+bool operator<(const struct tm& first,const struct tm& second);
+bool operator<=(const struct tm& first,const struct tm& second);
+bool operator==(const struct tm& first,const struct tm& second);
+
+struct tm operator+(const struct tm& first,const struct tm& second);
+struct tm operator-(const struct tm& first,const struct tm& second);
 
 #endif

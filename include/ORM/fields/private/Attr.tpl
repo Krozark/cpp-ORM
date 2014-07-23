@@ -26,12 +26,6 @@ namespace orm
     }
 
     template<typename T>
-    void Attr<T>::print(std::ostream& output) const
-    {
-        output<<'"'<<_value<<'"';
-    };
-
-    template<typename T>
     bool Attr<T>::set(Query& query,const unsigned int& column)
     {
         bool res;
@@ -57,6 +51,12 @@ namespace orm
     std::ostream& Attr<T>::print_value(std::ostream& output)const
     {
         return (output<<'"'<<_value<<'"');
+    }
+
+    template<typename T>
+    const T& Attr<T>::value()const
+    {
+        return _value;
     }
 
 

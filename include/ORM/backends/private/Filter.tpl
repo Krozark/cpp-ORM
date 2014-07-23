@@ -1,16 +1,49 @@
 #include <sstream>
+#include <ctime>
+#include <cstring>
+
+#include <ORM/fields/DateTimeField.hpp>
 
 namespace orm
 {
+    //default do nothing
+    template<typename T>
+    T __filter_value_helper(const T& value)
+    {
+        return value;
+    }
+
+    //special date type
+    template<>
+    struct tm __filter_value_helper<struct tm>(const struct tm& value)
+    {
+        tm tmp;
+        ::memcpy(&tmp,&value,sizeof(struct tm));
+        ::mktime(&tmp);
+        tmp.tm_year +=1900;
+        tmp.tm_mon +=1;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
+
     template<typename RELATED,typename T>
     template<typename ... Args>
-    Filter<RELATED,T>::Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args) : column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)), ope(ope), value(value)
+    Filter<RELATED,T>::Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args) : column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)), ope(ope), value(__filter_value_helper(value))
     {
+        std::cout<<"Filter(const T& value,const std::string& ope,const std::string& column,Args&& ... args) => "<<this->value<<std::endl;
     };
+
+    template<typename RELATED,typename T>
+    Filter<RELATED,T>::Filter(Filter<RELATED,T>&& other) : column(std::move(other.column)), ope(std::move(other.ope)), value(other.value)
+    {
+        std::cout<<"Filter(Filter<RELATED,T>&& other)"<<other.value<<" | "<<value<<std::endl;
+    }
 
     template<typename RELATED,typename T>
     Filter<RELATED,T>::~Filter()
     {
+        std::cout<<"~Filter"<<std::endl;
     };
 
 
@@ -33,16 +66,37 @@ namespace orm
         //DB::makecolumname(db,OBJ::table,column,args...)
     };
 
+    //default do nothing
+    template<typename T>
+    T __filter_clone_helper(const T& value)
+    {
+        return value;
+    }
+
+    //special date type
+    template<>
+    struct tm __filter_clone_helper<struct tm>(const struct tm& value)
+    {
+        tm tmp;
+        ::memcpy(&tmp,&value,sizeof(struct tm));
+        tmp.tm_year -=1900;
+        tmp.tm_mon -=1;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
     template<typename RELATED,typename T>
     VFilter* Filter<RELATED,T>::clone() const
     {
-        return new Filter<RELATED,T>(value,ope,column);
+        return new Filter<RELATED,T>(__filter_clone_helper(value),ope,column);
     };
 
     template<typename RELATED,typename T>
     bool Filter<RELATED,T>::set(Query* query,unsigned int& column) const
     {
         auto v = query->db.formatValue(ope,value);
+
+        std::cout<<value<<" "<<v<<std::endl;
 
         bool res = query->set(v,column);
         #if ORM_DEBUG & ORM_DEBUG_SQL

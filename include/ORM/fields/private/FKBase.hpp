@@ -69,6 +69,8 @@ namespace orm
              **/
             FKBase<T>& operator=(const typename Cache<T>::type_ptr& other);
 
+            virtual std::ostream& print_value(std::ostream& output)const;
+
         protected:
             /**
              * \brief Construct a FK
@@ -79,11 +81,6 @@ namespace orm
             FKBase(const std::string& column,const bool nullable=true);
 
             std::shared_ptr<T> value_ptr; ///< the stored object
-
-            /**
-             * \brief Print the object
-             **/
-            virtual void print(std::ostream& output) const;
 
             /**
              * \brief Set the fk value to the query

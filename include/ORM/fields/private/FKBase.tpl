@@ -81,12 +81,13 @@ namespace orm
     }
     
     template<typename T>
-    void FKBase<T>::print(std::ostream& output) const
+    std::ostream& FKBase<T>::print_value(std::ostream& output)const
     {
         if(loaded)
             output<<(*value_ptr);
         else
             output<<"{\"pk\":\""<<fk<<"\",\"_data_\" = null}";
+        return output;
     }
 
     template<typename T>

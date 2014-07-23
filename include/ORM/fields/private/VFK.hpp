@@ -52,12 +52,6 @@ namespace orm
             virtual bool del(bool recursive, DB&) = 0;
 
             /**
-             * \brief Print the object
-             **/
-            virtual std::ostream& print_value(std::ostream& output)const;
-
-
-            /**
              * \return the fk value 
              */
             inline int getFk()const{return fk;}

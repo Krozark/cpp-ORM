@@ -132,7 +132,24 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
+    /*std::cout<<"date tests"<<std::endl;
+    std::cout<<"1 month: "<<orm::DateTimeField::month(1)
+    <<"\n 2 months: "<<orm::DateTimeField::month(2)
+    <<"\n 1+1 months: "<<orm::DateTimeField::month(1) + orm::DateTimeField::month(1)
+    <<"\n now: "<<orm::DateTimeField::now()
+    <<"\n now + 30 day: "<<orm::DateTimeField::now() + orm::DateTimeField::day(30)
+    <<"\n 1 hour: "<<orm::DateTimeField::time(1,0,0)
+    <<"\n 2 hour: "<<orm::DateTimeField::time(2,0,0)
+    <<"\n 1+1 hour: "<<orm::DateTimeField::time(1,0,0) + orm::DateTimeField::time(1,0,0)
+    <<"\n 1 day: "<<orm::DateTimeField::date(0,0,1)
+    <<"\n 1 day + 1 hour: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0))
+    <<"\n 1 day + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::now())
+    <<"\n 1 day + 1 hour + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0)+orm::DateTimeField::now())
+    <<std::endl;*/
+
     orm::DB::Default.connect();
+
+
     //REGISTER_DB(Perso,orm::DB::Default)
     
     DB* con2 = orm::DB::Default.clone();
@@ -146,7 +163,7 @@ int main(int argc,char* argv[])
         TestTypes test;
         test.booleanField = false;
         test.charField = "test";
-        //test.datetimeField = "";
+        test.datetimeField = orm::DateTimeField::now();
         test.integerField = 42;
         test.floatField = 4.2;
         test.doubleField = 4.2;
@@ -155,8 +172,36 @@ int main(int argc,char* argv[])
         cout<<"Current test"<<test<<endl;
         test.save();
         cout<<"Save current"<<endl;
+
+        std::list<std::shared_ptr<TestTypes>> lis;
+        /*TestTypes::query()
+        .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::_datetimeField))
+        .get(lis);*/
+
+        cout<<"All tests with DateTimeField > now - 1 day"<<endl;
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+
+        TestTypes test2;
+        test2.datetimeField = test.datetimeField - orm::DateTimeField::day(1);
+
+        lis.clear();
+        TestTypes::query()
+        .filter(orm::Q<TestTypes>(test2.datetimeField.value(),orm::op::gt,TestTypes::_datetimeField))
+        .get(lis);
+        //.__print__();
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+
     }
-    std::cout<<"=============="<<std::endl;
+
+return 0;
+
+   /* std::cout<<"=============="<<std::endl;
     { 
         auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
@@ -221,7 +266,6 @@ int main(int argc,char* argv[])
 
     }
     std::cout<<"=============="<<std::endl;
-    return 0;
 
    {
        cout<<"All persos"<<endl;
@@ -282,23 +326,23 @@ int main(int argc,char* argv[])
 
 
        std::list<Cache<Perso>::type_ptr> results;
-       /*Perso p;// = new Perso;
-       p.name="test";
-       p.maitre->name="test master";
-       p.maitre->lvl = 5;
-       p.save();
+       //Perso p;// = new Perso;
+       //p.name="test";
+       //p.maitre->name="test master";
+       //p.maitre->lvl = 5;
+       //p.save();
 
-       std::cout<<p<<std::endl;
+       //std::cout<<p<<std::endl;
     
-       Perso::query()
-           .filter(4,orm::op::gt,Perso::_maitre,Perso::_lvl)
-           .orderBy(Perso::_name)
-           .get(results);
-       for(auto& perso : results)
-           cout<<*perso<<endl;
+       //Perso::query()
+       //    .filter(4,orm::op::gt,Perso::_maitre,Perso::_lvl)
+       //    .orderBy(Perso::_name)
+       //    .get(results);
+       //for(auto& perso : results)
+       //    cout<<*perso<<endl;
 
 
-       results.clear();*/
+       //results.clear();
 
        cout<<"All perso"<<endl;
        Perso::query().get(results);
@@ -332,52 +376,53 @@ int main(int argc,char* argv[])
     std::cout<<"=============="<<std::endl;
 
 
-   /*{ 
-       auto& p1 = Perso::get(1);
-       const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
-       for(auto u : spells)
-           cout<<*u<<endl;
-   }
-       
+  // { 
+  //     auto& p1 = Perso::get(1);
+  //     const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
+  //     for(auto u : spells)
+  //         cout<<*u<<endl;
+  // }
+  //     
+  //  std::cout<<"=============="<<std::endl;
+
+  //  {
+  //     std::list<std::shared_ptr<Spell>> list;
+  //     Spell::query().get(list);
+  //     for(auto u : list)
+  //         cout<<*u<<endl;
+  //  }
+
+  //  std::cout<<"=============="<<std::endl;
+  //  {
+  //      auto& p1 = Perso::get(1);
+  //      std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
+
+  //      auto& stats = Stats::get(1);
+  //      p1->stats = stats;
+
+  //      std::list<std::shared_ptr<Spell>> list;
+  //      p1->spells.query()\
+  //          .filter(2,"exact",Spell::_element)\
+  //          .get(list);
+
+  //      cout<<"sorts d'element == 2"<<endl;
+  //      for(auto u : list)
+  //          cout<<*u<<endl;
+
+  //      cout<<"sorts du perso"<<endl;
+  //      for(auto u : p1->spells.all())
+  //          cout<<*u<<endl;
+
+  //      auto& sort = Spell::get(1);
+  //      cout<<"sort pk = 1.\n"<<*sort<<endl;
+
+  //      p1->spells.add(sort);
+  //      p1->spells.remove(sort);
+
+  //  }
+
     std::cout<<"=============="<<std::endl;
-
-    {
-       std::list<std::shared_ptr<Spell>> list;
-       Spell::query().get(list);
-       for(auto u : list)
-           cout<<*u<<endl;
-    }
-
-    std::cout<<"=============="<<std::endl;
-    {
-        auto& p1 = Perso::get(1);
-        std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
-
-        auto& stats = Stats::get(1);
-        p1->stats = stats;
-
-        std::list<std::shared_ptr<Spell>> list;
-        p1->spells.query()\
-            .filter(2,"exact",Spell::_element)\
-            .get(list);
-
-        cout<<"sorts d'element == 2"<<endl;
-        for(auto u : list)
-            cout<<*u<<endl;
-
-        cout<<"sorts du perso"<<endl;
-        for(auto u : p1->spells.all())
-            cout<<*u<<endl;
-
-        auto& sort = Spell::get(1);
-        cout<<"sort pk = 1.\n"<<*sort<<endl;
-
-        p1->spells.add(sort);
-        p1->spells.remove(sort);
-
-    }*/
-
-    std::cout<<"=============="<<std::endl;
+   */ 
 
 
     DB::Default.disconnect();

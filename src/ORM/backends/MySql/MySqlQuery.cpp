@@ -2,6 +2,7 @@
 
 #include <cppconn/exception.h>
 #include <sstream>
+#include <iomanip>
 
 namespace orm
 {
@@ -298,8 +299,14 @@ namespace orm
             return false;
 
         std::stringstream stream;
-        stream<<value.tm_year<<"-"<<value.tm_mon<<"-"<<value.tm_mday<<" "
-            <<value.tm_hour<<":"<<value.tm_min<<":"<<value.tm_sec;
+        stream<<std::setfill('0')
+            <<std::setw(4)<<value.tm_year
+            <<"-"<<std::setw(2)<<value.tm_mon
+            <<"-"<<std::setw(2)<<value.tm_mday
+            <<" "
+            <<std::setw(2)<<value.tm_hour
+            <<":"<<std::setw(2)<<value.tm_min
+            <<":"<<std::setw(2)<<value.tm_sec;
 
         prepared_statement->setString(column,stream.str());
         return true;

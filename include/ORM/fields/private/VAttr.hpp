@@ -37,6 +37,7 @@ namespace orm
             friend std::ostream& operator<<(std::ostream& output,const VAttr& self);
 
             /**
+             * \brief use by subclass for change the "<<" display
              * \brief print the value
              **/
             virtual std::ostream& print_value(std::ostream& output)const = 0;
@@ -64,13 +65,6 @@ namespace orm
 
             bool modify; ///< if the attr as been modify
             const std::string& column; ///< the column name
-
-            /**
-             * \brief use by subclass for change the "<<" display
-             *
-             * \param output Wher to display the content
-             **/
-            virtual void print(std::ostream& output) const =0;
 
             /**
              * \brief set the value to the query

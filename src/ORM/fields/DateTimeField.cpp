@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdio>
 #include <ORM/backends/private/TableCreator.hpp>
+#include <iomanip>
 
 namespace orm
 {
@@ -16,187 +17,146 @@ namespace orm
 
     int& DateTimeField::year()
     {
-        return _value.tm_year;
-    }
-
-    int DateTimeField::year()const
-    {
-        return _value.tm_year;
+        return getValue().tm_year;
     }
 
     int& DateTimeField::month()
     {
-        return _value.tm_mon;
-    }
-
-    int DateTimeField::month()const
-    {
-        return _value.tm_mon;
+        return getValue().tm_mon;
     }
 
     int& DateTimeField::day()
     {
-        return _value.tm_mday;
-    }
-
-    int DateTimeField::day()const
-    {
-        return _value.tm_mday;
+        return getValue().tm_mday;
     }
 
     int& DateTimeField::hour()
     {
-        return _value.tm_hour;
-    }
-
-    int DateTimeField::hour()const
-    {
-        return _value.tm_hour;
+        return getValue().tm_hour;
     }
 
     int& DateTimeField::minute()
     {
-        return _value.tm_min;
-    }
-
-    int DateTimeField::minute()const
-    {
-        return _value.tm_min;
+        return getValue().tm_min;
     }
 
     int& DateTimeField::second()
     {
-        return _value.tm_sec;
-    }
-
-    int DateTimeField::second()const
-    {
-        return _value.tm_sec;
+        return getValue().tm_sec;
     }
 
     int& DateTimeField::yday()
     {
-        return _value.tm_yday;
+        return getValue().tm_yday;
     }
 
-    int DateTimeField::yday()const
+    std::time_t DateTimeField::mktime()
     {
-        return _value.tm_yday;
+        return ::mktime(&getValue());
     }
 
-    std::time_t DateTimeField::as_timestamp()
+    std::ostream& DateTimeField::print_value(std::ostream& stream) const
     {
-        return ::mktime(&_value);
+        char prev = stream.fill ('x');
+        return(stream<<'"'
+        <<std::setfill('0')
+        <<std::setw(4)<<(_value.tm_year+(prepared?1900:0))
+        <<"-"<<std::setw(2)<<(_value.tm_mon+(prepared?1:0))
+        <<"-"<<std::setw(2)<<_value.tm_mday<<" "
+        <<std::setw(2)<<_value.tm_hour<<":"<<std::setw(2)<<_value.tm_min<<":"<<std::setw(2)<<_value.tm_sec
+        <<std::setw(0)<<std::setfill(prev)
+        <<'"');
+    };
+
+
+    struct tm& DateTimeField::operator=(const struct tm& other)
+    {
+        modify = true;
+        prepared = true;
+        ::memcpy(&_value,&other,sizeof(struct tm));
+        return _value;
     }
 
-    /*DateTimeField& DateTimeField::operator>(const DateTimeField& other)
-    {
-        return *this > other._value;
-    }
-
-    DateTimeField& DateTimeField::operator>=(const DateTimeField& other)
-    {
-        return *this >= other._value;
-    }
-
-    DateTimeField& DateTimeField::operator<(const DateTimeField& other)
-    {
-        return *this < other._value;
-    }
-
-    DateTimeField& DateTimeField::operator<=(const DateTimeField& other)
-    {
-        return *this <= other._value;
-    }
-
-    DateTimeField& DateTimeField::operator==(const DateTimeField& other)
-    {
-        return *this == other._value;
-    }
-
-    DateTimeField& DateTimeField::operator+(const DateTimeField& other)
-    {
-        return *this + other._value;
-    }
-
-    DateTimeField& DateTimeField::operator-(const DateTimeField& other)
-    {
-        return *this - other._value;
-    }*/
-
-
-    bool DateTimeField::operator>(const struct tm& other)
-    {
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        return as_timestamp() > ::mktime(&tmp);
-    }
-
-    bool DateTimeField::operator>=(const struct tm& other)
-    {
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        return as_timestamp() >= ::mktime(&tmp);
-    }
-
-    bool DateTimeField::operator<(const struct tm& other)
-    {
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        return as_timestamp() < ::mktime(&tmp);
-    }
-
-    bool DateTimeField::operator<=(const struct tm& other)
-    {
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        return as_timestamp() <= ::mktime(&tmp);
-    }
-
-    bool DateTimeField::operator==(const struct tm& other)
-    {
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        return as_timestamp() == ::mktime(&tmp);
-    }
-
-    struct tm DateTimeField::operator+(const struct tm& other)
-    {
-
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        std::time_t res = as_timestamp() + ::mktime(&tmp);
-        ::gmtime_r(&res,&tmp);
-        return tmp;
-    }
-
-    struct tm DateTimeField::operator-(const struct tm& other)
-    {
-        struct tm tmp;
-        ::memcpy(&tmp,&other,sizeof(struct tm));
-        std::time_t res = as_timestamp() - ::mktime(&tmp);
-        ::gmtime_r(&res,&tmp);
-        return tmp;
-    }
 
     struct tm DateTimeField::now()
     {
         struct tm tmp;
         std::time_t t = ::time(nullptr);
-        ::gmtime_r(&t,&tmp);
-        tmp.tm_year +=1900;
-        tmp.tm_mon +=1;
-        ::mktime(&tmp);
+        ::localtime_r(&t,&tmp);
+        /*tmp.tm_year +=1900;
+        tmp.tm_mon +=1;*/
+        tmp.tm_isdst = -1;
         return tmp;
+    }
+
+    struct tm DateTimeField::time(int hour,int min,int sec)
+    {
+        struct tm tmp{0};
+        tmp.tm_year = 0;
+        tmp.tm_mon = 0 /*- 1*/;
+        tmp.tm_mday = 0;
+
+        tmp.tm_hour = hour;
+        tmp.tm_min = min;
+        tmp.tm_sec = sec;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
+    struct tm DateTimeField::date(int year,int month,int day)
+    {
+        struct tm tmp{0};
+        tmp.tm_year = year /*- 1900*/;
+        tmp.tm_mon = month /*- 1*/;
+        tmp.tm_mday = day;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
+    struct tm DateTimeField::day(int nb)
+    {
+        struct tm tmp{0};
+        tmp.tm_mday = nb;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
+    struct tm DateTimeField::month(int nb)
+    {
+        struct tm tmp{0};
+        tmp.tm_mon = nb;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
+    struct tm DateTimeField::year(int nb)
+    {
+        struct tm tmp{0};
+        tmp.tm_year = nb;
+        tmp.tm_isdst = -1;
+        return tmp;
+    }
+
+    struct tm& DateTimeField::normalize(struct tm& time)
+    {
+        ::mktime(&time);
+        return time;
+    }
+
+    struct tm DateTimeField::normalize(struct tm&& time)
+    {
+        ::mktime(&time);
+        return time;
     }
 
     struct tm DateTimeField::prepare_to_db(const struct tm& value)
     {
         tm tmp;
         ::memcpy(&tmp,&value,sizeof(struct tm));
+        ::mktime(&tmp);
         tmp.tm_year +=1900;
         tmp.tm_mon +=1;
-        ::mktime(&tmp);
+        tmp.tm_isdst = -1;
         return tmp;
     }
 
@@ -217,7 +177,6 @@ namespace orm
     }
 }
 
-#include <iomanip>
 std::ostream& operator<<(std::ostream& stream,const struct tm& time)
 {
     char prev = stream.fill ('x');
@@ -226,5 +185,85 @@ std::ostream& operator<<(std::ostream& stream,const struct tm& time)
         <<std::setw(2)<<time.tm_hour<<":"<<std::setw(2)<<time.tm_min<<":"<<std::setw(2)<<time.tm_sec
         <<std::setw(0)<<std::setfill(prev);
     return stream;
+}
+
+bool operator>(const struct tm& first,const struct tm& second)
+{
+    struct tm _1,
+              _2;
+    ::memcpy(&_1,&first,sizeof(struct tm));
+    ::memcpy(&_2,&second,sizeof(struct tm));
+
+    return mktime(&_1) > ::mktime(&_2);
+}
+
+bool operator>=(const struct tm& first,const struct tm& second)
+{
+    struct tm _1,
+              _2;
+    ::memcpy(&_1,&first,sizeof(struct tm));
+    ::memcpy(&_2,&second,sizeof(struct tm));
+
+    return mktime(&_1) >= ::mktime(&_2);
+}
+
+bool operator<(const struct tm& first,const struct tm& second)
+{
+    struct tm _1,
+              _2;
+    ::memcpy(&_1,&first,sizeof(struct tm));
+    ::memcpy(&_2,&second,sizeof(struct tm));
+
+    return mktime(&_1) < ::mktime(&_2);
+}
+
+bool operator<=(const struct tm& first,const struct tm& second)
+{
+    struct tm _1,
+              _2;
+    ::memcpy(&_1,&first,sizeof(struct tm));
+    ::memcpy(&_2,&second,sizeof(struct tm));
+
+    return mktime(&_1) <= ::mktime(&_2);
+}
+
+bool operator==(const struct tm& first,const struct tm& second)
+{
+    struct tm _1,
+              _2;
+    ::memcpy(&_1,&first,sizeof(struct tm));
+    ::memcpy(&_2,&second,sizeof(struct tm));
+
+    return mktime(&_1) == ::mktime(&_2);
+}
+
+struct tm operator+(const struct tm& first,const struct tm& second)
+{
+    struct tm tmp;
+    ::memcpy(&tmp,&first,sizeof(struct tm));
+    tmp.tm_sec += second.tm_sec;
+    tmp.tm_min += second.tm_min;
+    tmp.tm_hour += second.tm_hour;
+    tmp.tm_mday += second.tm_mday;
+    tmp.tm_mon += second.tm_mon;
+    tmp.tm_year += second.tm_year;
+    tmp.tm_isdst = -1;
+    //::mktime(&tmp);
+    return tmp;
+}
+
+struct tm operator-(const struct tm& first,const struct tm& second)
+{
+    struct tm tmp;
+    ::memcpy(&tmp,&first,sizeof(struct tm));
+    tmp.tm_sec -= second.tm_sec;
+    tmp.tm_min -= second.tm_min;
+    tmp.tm_hour -= second.tm_hour;
+    tmp.tm_mday -= second.tm_mday;
+    tmp.tm_mon -= second.tm_mon;
+    tmp.tm_year -= second.tm_year;
+    tmp.tm_isdst = -1;
+    //::mktime(&tmp);
+    return tmp;
 }
 

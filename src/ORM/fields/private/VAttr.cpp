@@ -14,8 +14,7 @@ namespace orm
 
     std::ostream& operator<<(std::ostream& output,const VAttr& self)
     {
-        self.print(output);
-        return output;
+        return self.print_value(output);
     };
     const std::string& VAttr::getcolumn() const
     {

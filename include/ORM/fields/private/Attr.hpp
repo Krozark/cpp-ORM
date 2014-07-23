@@ -398,14 +398,9 @@ namespace orm
              **/
             virtual std::ostream& print_value(std::ostream& output)const;
 
-        protected:
-            /**
-             * \brief print the stored value
-             *
-             * \param output print in this stream
-             **/
-            virtual void print(std::ostream& output) const final;
+            const T& value()const;
 
+        protected:
             /**
              * \brief Set the value in the query (use for dispatch
              *
@@ -431,13 +426,10 @@ namespace orm
 
             virtual T prepare_from_db(const T& value);
 
-        private:
-            inline T& getValue();
-            inline void setValue(const T& v);
-
             bool prepared;
-
-
+            inline T& getValue();
+        private:
+            inline void setValue(const T& v);
     };
 
     // define more common type
