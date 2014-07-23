@@ -200,9 +200,7 @@ int main(int argc,char* argv[])
 
     }
 
-return 0;
-
-   /* std::cout<<"=============="<<std::endl;
+    std::cout<<"=============="<<std::endl;
     { 
         auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
@@ -377,53 +375,52 @@ return 0;
     std::cout<<"=============="<<std::endl;
 
 
-  // { 
-  //     auto& p1 = Perso::get(1);
-  //     const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
-  //     for(auto u : spells)
-  //         cout<<*u<<endl;
-  // }
-  //     
-  //  std::cout<<"=============="<<std::endl;
+   /*{ 
+       auto& p1 = Perso::get(1);
+       const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
+       for(auto u : spells)
+           cout<<*u<<endl;
+   }
+       
+    std::cout<<"=============="<<std::endl;
 
-  //  {
-  //     std::list<std::shared_ptr<Spell>> list;
-  //     Spell::query().get(list);
-  //     for(auto u : list)
-  //         cout<<*u<<endl;
-  //  }
-
-  //  std::cout<<"=============="<<std::endl;
-  //  {
-  //      auto& p1 = Perso::get(1);
-  //      std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
-
-  //      auto& stats = Stats::get(1);
-  //      p1->stats = stats;
-
-  //      std::list<std::shared_ptr<Spell>> list;
-  //      p1->spells.query()\
-  //          .filter(2,"exact",Spell::_element)\
-  //          .get(list);
-
-  //      cout<<"sorts d'element == 2"<<endl;
-  //      for(auto u : list)
-  //          cout<<*u<<endl;
-
-  //      cout<<"sorts du perso"<<endl;
-  //      for(auto u : p1->spells.all())
-  //          cout<<*u<<endl;
-
-  //      auto& sort = Spell::get(1);
-  //      cout<<"sort pk = 1.\n"<<*sort<<endl;
-
-  //      p1->spells.add(sort);
-  //      p1->spells.remove(sort);
-
-  //  }
+    {
+       std::list<std::shared_ptr<Spell>> list;
+       Spell::query().get(list);
+       for(auto u : list)
+           cout<<*u<<endl;
+    }
 
     std::cout<<"=============="<<std::endl;
-   */ 
+    {
+        auto& p1 = Perso::get(1);
+        std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
+
+        auto& stats = Stats::get(1);
+        p1->stats = stats;
+
+        std::list<std::shared_ptr<Spell>> list;
+        p1->spells.query()\
+          .filter(2,"exact",Spell::_element)\
+          .get(list);
+
+        cout<<"sorts d'element == 2"<<endl;
+        for(auto u : list)
+            cout<<*u<<endl;
+
+        cout<<"sorts du perso"<<endl;
+        for(auto u : p1->spells.all())
+            cout<<*u<<endl;
+
+        auto& sort = Spell::get(1);
+        cout<<"sort pk = 1.\n"<<*sort<<endl;
+
+        p1->spells.add(sort);
+        p1->spells.remove(sort);
+
+    }*/
+
+    std::cout<<"=============="<<std::endl;
 
 
     DB::Default.disconnect();
