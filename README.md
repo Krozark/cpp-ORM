@@ -268,6 +268,13 @@ Make the default constructor of your class, construct all comulm as static strin
 This macro simply call REGISTER_TABLE(klass,colum) and MAKE_CONSTRUCTOR(klass,__VA_ARGS__)
 
 
+Marcos II
+---------
+
+Only to use if you want build a custum constructor
+
+
+
 REGISTER_TABLE(klass,colum)
 ------------------------------
 
