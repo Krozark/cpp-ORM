@@ -42,7 +42,7 @@ find_library(SQLITE_LIB sqlite3)
 set(LIBS ${MYSQL_LIB} ${SQLITE_LIB})
 
 set(WARNING "-Wall")
-set(FLAGS "-g -std=c++0x")
+set(FLAGS "-o3 -std=c++0x")
 set(CMAKE_CXX_FLAGS "${DEFINES} ${WARNING} ${FLAGS}")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
