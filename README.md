@@ -180,8 +180,8 @@ static member:
 * std::string table : table name on the database
 
 make member fonction:
-* bool save(bool recursive=false)
-* bool del(bool recursive=false)
+* bool save(bool recursive=false,DB&=*db_used)
+* bool del(bool recursive=false,DB&=*db_used)
 
 Exemple: see main.cpp
 
