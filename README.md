@@ -31,7 +31,7 @@ functions
  * save / update / load / add / remove
 * fiters (and, or, not)
  * WHERE statement
- * exclude
+ * and, or, not 
  * order by
  * limite
 * caching
@@ -193,8 +193,8 @@ Fields
 * CharField\<int\>
 * TextField
 * DateTimeField
-** AutoDateTimeField
-** AutoNowDateTimeField
+* AutoDateTimeField
+* AutoNowDateTimeField
 * DoubleField
 * FloatField
 * IntegerField
