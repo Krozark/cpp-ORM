@@ -409,7 +409,7 @@ namespace orm
              *
              * \return false if fail
              */
-            virtual bool set(Query& query,const unsigned int& column) final;
+            virtual bool set(Query& query,const unsigned int& column);
 
             virtual T prepare_to_db(const T& value);
 

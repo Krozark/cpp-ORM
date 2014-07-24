@@ -67,6 +67,30 @@ namespace orm
             const std::string& column; ///< the column name
 
             /**
+             * \brief prepare the field before save it in DB (new object only)
+             * Note : do nothing by default.
+             */
+            virtual void before_save();
+
+            /**
+             * \brief prepare the field after save it in DB (new object only)
+             * Note : do nothing by default.
+             */
+            virtual void after_save();
+
+            /**
+             * \brief prepare the field before update it in DB (not new object only)
+             * Note : do nothing by default.
+             */
+            virtual void before_update();
+
+            /**
+             * \brief prepare the field after update it in DB (not new object only)
+             * Note : do nothing by default.
+             */
+            virtual void after_update();
+
+            /**
              * \brief set the value to the query
              *
              * \param query the prepared query

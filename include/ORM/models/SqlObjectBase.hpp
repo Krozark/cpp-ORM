@@ -24,10 +24,11 @@ namespace orm
              **/
             SqlObjectBase();
 
-            virtual ~SqlObjectBase(){};
+            virtual ~SqlObjectBase();
 
             SqlObjectBase(const SqlObjectBase&)=delete;
             SqlObjectBase& operator=(const SqlObjectBase&)=delete;
+
 
 
             /**
@@ -38,7 +39,8 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive,DB& db) = 0;
+            virtual bool save(bool recursive,DB& db)=0;
+
 
             /**
              * \brief delete the object from de data base
@@ -74,6 +76,30 @@ namespace orm
             int pk; ///< the object pf
             std::vector<VAttr*> attrs; ///< the object attrs
             std::vector<VFK*> fks; ///< the object FK
+
+            /**
+             * \brief prepare the object before save it in DB (new object only)
+             * Note : do nothing by default.
+             */
+            virtual void before_save();
+
+            /**
+             * \brief prepare the object after save it in DB (new object only)
+             * Note : do nothing by default.
+             */
+            virtual void after_save();
+
+            /**
+             * \brief prepare the object before update it in DB (not new object only)
+             * Note : do nothing by default.
+             */
+            virtual void before_update();
+
+            /**
+             * \brief prepare the object after update it in DB (not new object only)
+             * Note : do nothing by default.
+             */
+            virtual void after_update();
 
             /**
              * \brief create the object using the query

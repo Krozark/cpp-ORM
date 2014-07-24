@@ -5,14 +5,22 @@
 
 namespace orm
 {
-    SqlObjectBase::SqlObjectBase() : pk(-1)
-    {
-    }; 
+    SqlObjectBase::SqlObjectBase() : pk(-1){}; 
+
+    SqlObjectBase::~SqlObjectBase(){}
 
     int SqlObjectBase::getPk()const
     {
         return pk;
     }
+
+    void SqlObjectBase::before_save(){}
+
+    void SqlObjectBase::after_save(){}
+
+    void SqlObjectBase::before_update(){}
+
+    void SqlObjectBase::after_update(){}
 
     bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
     {

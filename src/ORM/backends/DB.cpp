@@ -79,11 +79,16 @@ namespace orm
 
             for(unsigned int i=0;i<size;++i)
             {
+                //prepare the field
+                attrs[i]->before_save();
+
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
                 attrs[i]->set(q,i+1);
                 attrs[i]->modify = false;
+                //post save
+                attrs[i]->after_save();
             }
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")"<<std::endl;
@@ -114,12 +119,16 @@ namespace orm
             bool first(true);
             for(unsigned int i=0;i<size;++i)
             {
+                //prepare the field (can change modify)
+                attrs[i]->before_update();
+
                 if(attrs[i]->modify)
                 {
                     if(not first)
                         str_q+=",";
                     first = false;
                     str_q+=attrs[i]->column+"=(?)";
+
                 }
             }
 
@@ -151,6 +160,8 @@ namespace orm
                     #endif
                     attrs[i]->set(q,index++);
                     attrs[i]->modify = false;
+                    //after update (can change modify)
+                    attrs[i]->after_update();
                 }
             }
 

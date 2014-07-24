@@ -175,6 +175,23 @@ namespace orm
     {
         return db.creator().dateTimeField(column,false);
     }
+
+    //AutoDateTimeField
+    void AutoDateTimeField::before_save()
+    {
+        *this=DateTimeField::now();
+    }
+
+    //AutoNowDateTimeField
+    void AutoNowDateTimeField::before_save()
+    {
+        *this=DateTimeField::now();
+    }
+
+    void AutoNowDateTimeField::before_update()
+    {
+        *this=DateTimeField::now();
+    }
 }
 
 std::ostream& operator<<(std::ostream& stream,const struct tm& time)

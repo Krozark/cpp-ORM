@@ -78,6 +78,7 @@ namespace orm
     template<typename T>
     bool SqlObject<T>::save(bool recursive,DB& db)
     {
+        bool res;
         if(recursive)//save all FK
         {
             for(VFK* fk : fks)
@@ -95,12 +96,18 @@ namespace orm
 
         if(pk <= 0)
         {
-            return db.save(table,pk,attrs);
+
+            before_save();
+            res = db.save(table,pk,attrs);
+            after_save();
         }
         else
         {
-            return db.update(table,pk,attrs);
+            before_update();
+            res= db.update(table,pk,attrs);
+            after_update();
         }
+        return res;
     }
 
     template<typename T>

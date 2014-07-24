@@ -84,13 +84,15 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
     orm::FK<TestTypes> fk;
 
-    orm::BooleanField   booleanField;
-    orm::CharField<255> charField;
-    orm::DateTimeField  datetimeField;
-    orm::IntegerField   integerField;
-    orm::FloatField     floatField;
-    orm::DoubleField    doubleField;
-    orm::TextField      textField;
+    orm::BooleanField           booleanField;
+    orm::CharField<255>         charField;
+    orm::DateTimeField          datetimeField;
+    orm::AutoDateTimeField      autodatetimeField;
+    orm::AutoNowDateTimeField   autonowdatetimeField;
+    orm::IntegerField           integerField;
+    orm::FloatField             floatField;
+    orm::DoubleField            doubleField;
+    orm::TextField              textField;
 
 
     MAKE_STATIC_COLUMN(\
@@ -98,6 +100,8 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        booleanField,\
                        charField,\
                        datetimeField,\
+                       autodatetimeField,\
+                       autonowdatetimeField,\
                        integerField,\
                        floatField,\
                        doubleField,\
@@ -109,6 +113,8 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        booleanField,"booleanField",\
                        charField,"charField",\
                        datetimeField, "datetimeField",\
+                       autodatetimeField, "autodatetimeField",\
+                       autonowdatetimeField, "autonowdatetimeField",\
                        integerField,"integerField",\
                        floatField,"floatField",\
                        doubleField,"doubleField",\
@@ -199,6 +205,7 @@ int main(int argc,char* argv[])
         }
 
     }
+return 0;
 
     std::cout<<"=============="<<std::endl;
     { 

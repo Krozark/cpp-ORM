@@ -26,6 +26,14 @@ namespace orm
         object.attrs.emplace_back(this);
     }
 
+    void VAttr::before_save(){}
+
+    void VAttr::after_save(){}
+
+    void VAttr::before_update(){}
+
+    void VAttr::after_update(){}
+
     std::string VAttr::makeName(DB& db, const std::string& prefix,int max_depth) const
     {
         return ", "+db.escapeColumn(prefix)+"."+db.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);

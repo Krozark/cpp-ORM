@@ -1,6 +1,26 @@
 0.3.5
 =====
-Add DateTimeField
+
+Fields
+-------
+
+* Add DateTimeField
+* Add AutoDateTimeField
+* Add AutoNowDateTimeField
+
+Add [before/after]_[save/update] methods
+
+You can now add some logical befor/after a BD query is made 
+
+SqlObjectBase
+-------------
+
+Add [before/after]_[save/update] methods
+
+You can now add some logical befor/after a BD query is made 
+
+
+
 
 0.3.4:
 ======
