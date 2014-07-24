@@ -103,9 +103,9 @@ To build the exemple (the database is include)
     {
         public:
             Perso();
-            orm::Attr<std::string> name;
-            orm::Attr<int> pv;
-            orm::Attr<int> lvl;
+            orm::CharField<255> name;
+            orm::IntegerField pv;
+            orm::IntegerField lvl;
     
             MAKE_STATIC_COLUM(name,pv,lvl)
     };
@@ -185,8 +185,26 @@ make member fonction:
 
 Exemple: see main.cpp
 
+Fields
+------
+
+* AutoField
+* BooleanField
+* CharField\<int\>
+* TextField
+* DateTimeField
+** AutoDateTimeField
+** AutoNowDateTimeField
+* DoubleField
+* FloatField
+* IntegerField
+
+
+* FK\<T\>
+* ManyToMany\<OWNER,T\>
+
 orm::Attr\<T\>
-------------
+--------------
 
 Make a T persistent in the dadabase.
 
@@ -195,6 +213,8 @@ You can acces to the value using:
 
 
 All operators are overloads to make a easy use of it.
+
+You may prefer to use premake fields
 
 orm::ManyToMany\<T,U\>
 ======================
