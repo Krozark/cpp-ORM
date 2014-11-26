@@ -142,11 +142,11 @@ To build the exemple (the database is include)
         list.clear();
         //custom query
         Perso::query()\
-            .filter(4,"gt",Perso::_lvl)\
-            .filter(42,"gte",Perso::_lvl)\
-            .filter("test","startswith",Perso::_name)\
-            .exclude(4,"lt",Perso::_lvl)\
-            .orderBy(Perso::_name)\
+            .filter(Q<Perso>(4,"gt",Perso::_lvl)
+                and Q<Perso>(42,"gte",Perso::_lvl)
+                and Q<Perso>("test","startswith",Perso::_name)
+                and not Q<Perso>(4,"lt",Perso::_lvl)
+            ).orderBy(Perso::_name)\
             .limit(42)\
             .get(lis); //get take a list<shared_ptr<T>>& or a T& as param
         for(auto u : lis)
