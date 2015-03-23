@@ -1,17 +1,14 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/backends)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends)
+set(INCROOT ${INCROOT}/backends)
+set(SRCROOT ${SRCROOT}/backends)
+
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/DB.hpp
     ${INCROOT}/DB.tpl
-    ${INCROOT}/MySql.hpp
     ${INCROOT}/op.hpp
     ${INCROOT}/Query.hpp
     ${INCROOT}/Query.tpl
-    ${INCROOT}/Sqlite3.hpp
 )
-# set in parent scope
-set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
     ${SRCROOT}/DB.cpp
@@ -19,9 +16,22 @@ list(APPEND FILES_SRC
     ${SRCROOT}/Query.cpp
 )
 
-add_subdirectory(MySql)
+if(BUILD_SUPPORT_SQLITE3)
+	list(APPEND FILES_HEADER
+		${INCROOT}/Sqlite3.hpp
+	)
+	add_subdirectory(Sqlite3)
+endif()
+
+if(BUILD_SUPPORT_MYSQL)
+	list(APPEND FILES_HEADER
+	    ${INCROOT}/MySql.hpp
+	)
+	add_subdirectory(MySql)
+endif()
+
 add_subdirectory(private)
-add_subdirectory(Sqlite3)
 
 # set in parent scope
+set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 set(FILES_SRC "${FILES_SRC}" PARENT_SCOPE)
