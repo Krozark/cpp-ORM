@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/backends/private)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends/private)
+set(INCROOT ${INCROOT}/private)
+set(SRCROOT ${SRCROOT}/private)
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/Filter.hpp

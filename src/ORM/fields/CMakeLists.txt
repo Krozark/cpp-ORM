@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/fields)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/fields)
+set(INCROOT ${INCROOT}/fields)
+set(SRCROOT ${SRCROOT}/fields)
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/AutoField.hpp

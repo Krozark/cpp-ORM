@@ -13,8 +13,8 @@ project (ORM)
 
 # setup version numbers
 set(VERSION_MAJOR 0)
-set(VERSION_MINOR 3)
-set(VERSION_PATCH 5)
+set(VERSION_MINOR 4)
+set(VERSION_PATCH 0)
 
 
 # add the  header path
@@ -29,17 +29,24 @@ set_option(BUILD_EXAMPLES TRUE BOOL "TRUE to build the examples, FALSE to ignore
 # add an option for building the API documentation
 set_option(BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
+set_option(BUILD_SUPPORT_SQLITE3 TRUE BOOL "TRUE to build support for sqlite3 backends, FALSE to ignore them")
+
+set_option(BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to build support for Mysql backends, FALSE to ignore them")
+
 
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")
-find_library(MYSQL_LIB mysqlcppconn)
-find_library(SQLITE_LIB sqlite3)
-set(LIBS ${MYSQL_LIB} ${SQLITE_LIB})
 
 set(DEFINES "")
 
-find_library(MYSQL_LIB mysqlcppconn)
-find_library(SQLITE_LIB sqlite3)
-set(LIBS ${MYSQL_LIB} ${SQLITE_LIB})
+if(BUILD_SUPPORT_SQLITE3)
+#-lpthread
+	set(DEFINES "${DEFINES} -DSQLITE_OMIT_LOAD_EXTENSION")
+endif()
+
+if(BUILD_SUPPORT_MYSQL)
+	find_library(MYSQL_LIB mysqlcppconn)
+	set(LIBS ${LIBS} ${MYSQL_LIB})
+endif()
 
 set(WARNING "-Wall")
 set(FLAGS "-o3 -std=c++11")

@@ -4,36 +4,40 @@ cpp-ORM
 Current build status : 
 [![Build Status](https://travis-ci.org/Krozark/cpp-ORMg.png?branch=master)](https://travis-ci.org/Krozark/cpp-ORM)
 
+An ORM project.
 
-A project to create a simple ORM.
-
-You can symply create persistents objects using datas bases.
+You can simply create persistent objects using data bases.
 
 The object representation:
-    Each object have to be in a separate table whith a pk colum named 'id' as autoincrement.
+    Each object have to be in a separate table with a pk column named 'id' as auto increment.
     each attr is a column in this table.
 
 For the moment you have to create tables by hand.
 
 
+Tested on
+----------
+
+* Windows x64 (sqlite3 only) + Mingw 4.9 [v 0.4+]
+* Ubuntu + Gcc 4.8 [v 0.1+]
 
 
 
 functions
 ---------
 
-* Persistant Object
+* Persistent Object
  * print as json
  * save / update / load
 * Foreign key
  * save / update / load
 * ManyToMany
  * save / update / load / add / remove
-* fiters (and, or, not)
+* filters (and, or, not)
  * WHERE statement
  * and, or, not 
  * order by
- * limite
+ * limit
 * caching
 * debug output (set ORM_DEBUG to ORM_DEBUG_XXX in debug.hpp)
 * multi connection for a single object (select/save) [v 0.3]
@@ -48,12 +52,9 @@ Data bases supported
 Requirement
 ===========
 
-* Mysql cppcon
-* lib Sqlite3
+* Mysql cppcon (if Mysql support is needed)
 * doxygen (for user doc only)
-
-* Gcc 4.8+
-
+* +lib Sqlite3+ [included since v 0.4]
 
 
 TODO
@@ -63,7 +64,7 @@ TODO
 * Clean le cache sur les objets qui ne sont plus liés en mémoires (free)
 
 
-Instalation
+Installation
 ===========
 
 You just have to use cmake:
@@ -72,6 +73,10 @@ You just have to use cmake:
     make
     make install
 
+You can customise the backends supported using
+
+* BUILD_SUPPORT_SQLITE3
+* BUILD_SUPPORT_MYSQL
 
 Exemple
 =======
@@ -162,13 +167,13 @@ To build the exemple (the database is include)
 Class
 =====
 
-All class are uder the orm namsspace
+All class are under the orm namespace
 
 
 orm::SqlObject<T>
 -----------------
 
-Base class for persistent T class. It add all static methode / attribute to your class.
+Base class for persistent T class. It add all static method / attribute to your class.
 
 make some static method:
 * std::shared_ptr\<T\> get(int pk)
@@ -206,9 +211,9 @@ Fields
 orm::Attr\<T\>
 --------------
 
-Make a T persistent in the dadabase.
+Make a T persistent in the database.
 
-You can acces to the value using:
+You can access to the value using:
 * T value;
 
 
@@ -219,10 +224,10 @@ You may prefer to use premake fields
 orm::ManyToMany\<T,U\>
 ======================
 
-T have to be the presistent class where the M2M is use, and U the persistent class.
-I create a link with the 2 class, and you can acces to the U using:
+T have to be the persistent class where the M2M is use, and U the persistent class.
+I create a link with the 2 class, and you can access to the U using:
 
-accesor:
+accessors:
 * std::list\<std::shared_ptr\<U\>\> .all()
 
 
@@ -326,8 +331,3 @@ If you use REGISTER_AND_CONSTRUCT, you don't need to use it.
 for each att in ...
 
     this->registerAttr(this->name);
-
-
-
-
-

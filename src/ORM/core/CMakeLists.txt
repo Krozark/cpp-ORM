@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/core)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/core)
+set(INCROOT ${INCROOT}/core)
+set(SRCROOT ${SRCROOT}/core)
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/Cache.hpp

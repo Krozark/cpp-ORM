@@ -1,12 +1,13 @@
 #include <ORM/fields/DateTimeField.hpp>
+#include <ORM/backends/private/TableCreator.hpp>
+
 #include <cstring>
 #include <cstdio>
-#include <ORM/backends/private/TableCreator.hpp>
 #include <iomanip>
 
 namespace orm
 {
-    
+
     DateTimeField::DateTimeField(const struct tm& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -80,13 +81,21 @@ namespace orm
 
     struct tm DateTimeField::now()
     {
-        struct tm tmp;
-        std::time_t t = ::time(nullptr);
-        ::localtime_r(&t,&tmp);
+        /*struct tm tmp;
+        time_t t = ::time(nullptr);
+        ::localtime_r(&t,&tmp);*/
+
         /*tmp.tm_year +=1900;
         tmp.tm_mon +=1;*/
-        tmp.tm_isdst = -1;
-        return tmp;
+
+        struct tm * timeinfo;
+        time_t rawtime;
+
+        std::time(&rawtime);
+        timeinfo = std::localtime(&rawtime);
+
+        timeinfo->tm_isdst = -1;
+        return *timeinfo;
     }
 
     struct tm DateTimeField::time(int hour,int min,int sec)

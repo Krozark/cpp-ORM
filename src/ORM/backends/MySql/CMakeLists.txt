@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/backends/MySql)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/backends/MySql)
+set(INCROOT ${INCROOT}/MySql)
+set(SRCROOT ${SRCROOT}/MySql)
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/MySqlDB.hpp

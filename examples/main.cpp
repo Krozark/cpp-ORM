@@ -4,12 +4,7 @@
 
 #include <ORM/backends/Sqlite3.hpp>
 orm::Sqlite3DB def("./test.db");
-
 orm::DB& orm::DB::Default = def;
-
-/**
- * \todo ADD transaction (start transaction / commit)
- **/
 
 #include <ORM/fields.hpp>
 #include <ORM/fields/ManyToMany.hpp>
@@ -17,7 +12,6 @@ orm::DB& orm::DB::Default = def;
 #include <ORM/backends/op.hpp>
 
 #include <iostream>
-
 
 class Spell : public orm::SqlObject<Spell>
 {
@@ -138,7 +132,7 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    /*std::cout<<"date tests"<<std::endl;
+    std::cout<<"date tests"<<std::endl;
     std::cout<<"1 month: "<<orm::DateTimeField::month(1)
     <<"\n 2 months: "<<orm::DateTimeField::month(2)
     <<"\n 1+1 months: "<<orm::DateTimeField::month(1) + orm::DateTimeField::month(1)
@@ -151,19 +145,17 @@ int main(int argc,char* argv[])
     <<"\n 1 day + 1 hour: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0))
     <<"\n 1 day + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::now())
     <<"\n 1 day + 1 hour + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0)+orm::DateTimeField::now())
-    <<std::endl;*/
+    <<std::endl;
 
     orm::DB::Default.connect();
 
-
     //REGISTER_DB(Perso,orm::DB::Default)
-    
+
     DB* con2 = orm::DB::Default.clone();
     con2->connect();
 
     orm::Tables::drop();
     orm::Tables::create();
-
 
     {
         TestTypes test;
@@ -208,7 +200,7 @@ int main(int argc,char* argv[])
 return 0;
 
     std::cout<<"=============="<<std::endl;
-    { 
+    {
         auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;
@@ -237,7 +229,7 @@ return 0;
         }
             //.filter("test",orm::op::exact,Spell::_name);
             //.get(lis);
-        
+
         std::cout<<"Add spell s1"<<std::endl;
         Spell s1;
         s1.name = "s1";
@@ -320,7 +312,7 @@ return 0;
            .get(p2);
        std::cout<<p2<<std::endl;
 
-       
+
       // Chained way for same result
       // Perso::query()
       //  .filter(4,orm::op::gt,Perso::_lvl)
@@ -328,7 +320,7 @@ return 0;
       //  .exclude(4,orm::op::lt,Perso::_lvl)
       //  .orderBy(Perso::_name)
       //  .get(p2);
-      // 
+      //
 
 
        std::list<Cache<Perso>::type_ptr> results;
@@ -339,7 +331,7 @@ return 0;
        //p.save();
 
        //std::cout<<p<<std::endl;
-    
+
        //Perso::query()
        //    .filter(4,orm::op::gt,Perso::_maitre,Perso::_lvl)
        //    .orderBy(Perso::_name)
@@ -382,13 +374,13 @@ return 0;
     std::cout<<"=============="<<std::endl;
 
 
-   /*{ 
+   /*{
        auto& p1 = Perso::get(1);
        const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
        for(auto u : spells)
            cout<<*u<<endl;
    }
-       
+
     std::cout<<"=============="<<std::endl;
 
     {

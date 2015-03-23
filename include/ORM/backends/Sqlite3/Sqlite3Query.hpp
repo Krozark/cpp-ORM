@@ -3,7 +3,7 @@
 
 #include <ORM/backends/Query.hpp>
 
-#include <sqlite3.h>
+#include <ORM/backends/Sqlite3/sqlite/sqlite3.h>
 
 namespace orm
 {

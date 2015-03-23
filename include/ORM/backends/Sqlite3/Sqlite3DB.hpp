@@ -4,7 +4,7 @@
 #include <ORM/backends/DB.hpp>
 #include <ORM/backends/Sqlite3/Sqlite3TableCreator.hpp>
 
-#include <sqlite3.h>
+#include <ORM/backends/Sqlite3/sqlite/sqlite3.h>
 
 namespace orm
 {

@@ -23,7 +23,7 @@
 /**
  * \brief make string initialisation for attrs
  **/
-#define _MAKE_STRING_0(klass) 
+#define _MAKE_STRING_0(klass)
 #define _MAKE_STRING_2(klass,name,value) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value);
 #define _MAKE_STRING_4(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_2(klass,__VA_ARGS__)
 #define _MAKE_STRING_6(klass,name,value,...) const std::string klass::_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); _MAKE_STRING_4(klass,__VA_ARGS__)
@@ -65,39 +65,39 @@
 /**
  * \brief make static const std::string param_name
  **/
-#define _MAKE_STATIC_COLUMN_0 
+#define _MAKE_STATIC_COLUMN_0
 #define _MAKE_STATIC_COLUMN_1(name) static const std::string _MAKE_NAME(name);
-#define _MAKE_STATIC_COLUMN_2(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_1(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_3(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_2(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_4(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_3(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_5(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_4(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_6(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_5(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_7(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_6(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_8(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_7(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_9(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_8(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_10(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_9(__VA_ARGS__)  
-#define _MAKE_STATIC_COLUMN_11(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_10(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_12(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_11(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_13(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_12(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_14(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_13(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_15(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_14(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_16(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_15(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_17(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_16(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_18(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_17(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_19(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_18(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_20(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_19(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_21(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_20(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_22(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_21(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_23(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_22(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_24(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_23(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_25(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_24(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_26(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_25(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_27(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_26(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_28(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_27(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_29(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_28(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_30(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_30(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_31(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_31(__VA_ARGS__) 
-#define _MAKE_STATIC_COLUMN_32(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_32(__VA_ARGS__) 
+#define _MAKE_STATIC_COLUMN_2(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_1(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_3(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_2(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_4(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_3(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_5(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_4(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_6(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_5(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_7(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_6(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_8(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_7(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_9(name,...)  static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_8(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_10(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_9(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_11(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_10(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_12(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_11(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_13(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_12(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_14(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_13(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_15(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_14(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_16(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_15(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_17(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_16(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_18(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_17(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_19(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_18(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_20(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_19(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_21(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_20(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_22(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_21(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_23(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_22(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_24(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_23(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_25(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_24(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_26(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_25(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_27(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_26(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_28(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_27(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_29(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_28(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_30(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_30(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_31(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_31(__VA_ARGS__)
+#define _MAKE_STATIC_COLUMN_32(name,...) static const std::string _MAKE_NAME(name); _MAKE_STATIC_COLUMN_32(__VA_ARGS__)
 /**
  * \brief init call
  **/
@@ -114,12 +114,12 @@
 /**
  * \brief call Attr constructor
  **/
-#define _MAKE_ATTR_0() 
+#define _MAKE_ATTR_0()
 #define _MAKE_ATTR_2(name,value) name(_MAKE_NAME(name))
-#define _MAKE_ATTR_4(name,value,...)  name(_MAKE_NAME(name)), _MAKE_ATTR_2(__VA_ARGS__) 
-#define _MAKE_ATTR_6(name,value,...)  name(_MAKE_NAME(name)), _MAKE_ATTR_4(__VA_ARGS__) 
-#define _MAKE_ATTR_8(name,value,...)  name(_MAKE_NAME(name)), _MAKE_ATTR_6(__VA_ARGS__) 
-#define _MAKE_ATTR_10(name,value,...) name(_MAKE_NAME(name)), _MAKE_ATTR_8(__VA_ARGS__) 
+#define _MAKE_ATTR_4(name,value,...)  name(_MAKE_NAME(name)), _MAKE_ATTR_2(__VA_ARGS__)
+#define _MAKE_ATTR_6(name,value,...)  name(_MAKE_NAME(name)), _MAKE_ATTR_4(__VA_ARGS__)
+#define _MAKE_ATTR_8(name,value,...)  name(_MAKE_NAME(name)), _MAKE_ATTR_6(__VA_ARGS__)
+#define _MAKE_ATTR_10(name,value,...) name(_MAKE_NAME(name)), _MAKE_ATTR_8(__VA_ARGS__)
 #define _MAKE_ATTR_12(name,value,...) name(_MAKE_NAME(name)), _MAKE_ATTR_10(__VA_ARGS__)
 #define _MAKE_ATTR_14(name,value,...) name(_MAKE_NAME(name)), _MAKE_ATTR_12(__VA_ARGS__)
 #define _MAKE_ATTR_16(name,value,...) name(_MAKE_NAME(name)), _MAKE_ATTR_14(__VA_ARGS__)
@@ -156,39 +156,39 @@
 /**
  * \brief regsiter ATTR
  **/
-#define _MAKE_REGISTER_ATTR_0() 
+#define _MAKE_REGISTER_ATTR_0()
 #define _MAKE_REGISTER_ATTR_2(name,value) this->name.registerAttr(*this);
-#define _MAKE_REGISTER_ATTR_4(name,value,...)  this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_2(__VA_ARGS__)  
-#define _MAKE_REGISTER_ATTR_6(name,value,...)  this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_4(__VA_ARGS__)  
-#define _MAKE_REGISTER_ATTR_8(name,value,...)  this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_6(__VA_ARGS__)  
-#define _MAKE_REGISTER_ATTR_10(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_8(__VA_ARGS__)  
-#define _MAKE_REGISTER_ATTR_12(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_10(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_14(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_12(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_16(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_14(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_18(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_16(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_20(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_18(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_22(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_20(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_24(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_22(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_26(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_24(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_28(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_26(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_30(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_28(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_32(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_30(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_34(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_32(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_36(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_34(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_38(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_36(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_40(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_38(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_42(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_40(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_44(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_42(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_46(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_44(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_48(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_46(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_50(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_48(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_52(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_50(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_54(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_52(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_56(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_54(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_58(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_56(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_60(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_58(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_62(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_60(__VA_ARGS__) 
-#define _MAKE_REGISTER_ATTR_64(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_62(__VA_ARGS__) 
+#define _MAKE_REGISTER_ATTR_4(name,value,...)  this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_2(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_6(name,value,...)  this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_4(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_8(name,value,...)  this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_6(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_10(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_8(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_12(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_10(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_14(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_12(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_16(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_14(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_18(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_16(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_20(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_18(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_22(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_20(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_24(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_22(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_26(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_24(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_28(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_26(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_30(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_28(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_32(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_30(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_34(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_32(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_36(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_34(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_38(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_36(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_40(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_38(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_42(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_40(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_44(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_42(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_46(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_44(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_48(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_46(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_50(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_48(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_52(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_50(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_54(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_52(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_56(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_54(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_58(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_56(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_60(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_58(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_62(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_60(__VA_ARGS__)
+#define _MAKE_REGISTER_ATTR_64(name,value,...) this->name.registerAttr(*this); _MAKE_REGISTER_ATTR_62(__VA_ARGS__)
 /**
  * \brief init call for register attr in constructors
  **/
@@ -215,14 +215,9 @@
     template<> orm::Cache<klass> orm::SqlObject<klass>::cache = orm::Cache<klass>();
 
 /**
- * \def REGISTER_DB(klass,db)
- * set the default db to use for this class
- */
-
-/**
  * \brief set the default db to use for this class
  * \param klass the class name
- * \param db the db to use by defaulf
+ * \param db the db to use by default
  */
 #define REGISTER_DB(klass,db) \
     orm::SqlObject<klass>::default_connection = db;
@@ -236,7 +231,7 @@
  * \brief register all the attrs of the tables
  * \param klass the class name
  * \param colum the table name in the db
- * \param ... is like this (attr name,attr colum name)
+ * \param ... is like this (attr name,attr column name)
  */
 #define REGISTER(klass,column,...)\
     REGISTER_TABLE(klass,column)\

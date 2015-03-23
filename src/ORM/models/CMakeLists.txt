@@ -1,5 +1,5 @@
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM/models)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM/models)
+set(INCROOT ${INCROOT}/models)
+set(SRCROOT ${SRCROOT}/models)
 # append in local scope
 list(APPEND FILES_HEADER
     ${INCROOT}/SqlObject.hpp
