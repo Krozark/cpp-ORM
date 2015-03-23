@@ -188,7 +188,7 @@ namespace orm
     
     bool MySqlQuery::get(struct tm& value,const int& column)const
     {
-        bool res = false;
+        bool res;
         #if ORM_ALLOW_EXCEPTION
         try{
         #endif
@@ -209,7 +209,7 @@ namespace orm
         #if ORM_ALLOW_EXCEPTION
         }
         catch(sql::InvalidArgumentException& e){
-            return false;
+            res = false;
         }
         #endif
 

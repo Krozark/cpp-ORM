@@ -23,9 +23,9 @@ namespace orm
     bool DB::operator==(const DB& other) const
     {
         return (
-                (s_db_name == s_db_name)
-                and (s_serveur ==s_serveur)
-                and (s_port == s_port)
+                (s_db_name == other.s_db_name)
+                and (s_serveur == other.s_serveur)
+                and (s_port == other.s_port)
                 //and (s_username == other.s_username)
                 //and (s_password === other.s_password)
                 );

@@ -55,7 +55,7 @@ namespace orm
     {
         try{
             driver = get_driver_instance();
-        }catch (sql::SQLException e){
+        }catch (sql::SQLException& e){
             std::cerr << "Could not get a database driver. Error message: " << e.what() <<std::endl;
             return false;
         }
@@ -63,7 +63,7 @@ namespace orm
         try{
             dbConn = driver->connect(s_serveur+":"+s_port,s_username,s_password);
         }
-        catch (sql::SQLException e){
+        catch (sql::SQLException& e){
             std::cerr<< "Could not connect to database. Error message: " << e.what() << std::endl;
             return false;
         }
