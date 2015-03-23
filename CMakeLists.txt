@@ -31,7 +31,7 @@ set_option(BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to
 
 set_option(BUILD_SUPPORT_SQLITE3 TRUE BOOL "TRUE to build support for sqlite3 backends, FALSE to ignore them")
 
-set_option(BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to build support for Mysql backends, FALSE to ignore them")
+set_option(BUILD_SUPPORT_MYSQL TRUE BOOL "TRUE to build support for Mysql backends, FALSE to ignore them")
 
 
 #set(includepath "-I${CMAKE_CURRENT_SOURCE_DIR}/include")

@@ -331,11 +331,6 @@ int sqlite3_column_type(sqlite3_stmt*, int iCol); // returned value is one of [S
 ** ^A negative value for the zeroblob results in a zero-length BLOB.
 
 int sqlite3_bind_blob(sqlite3_stmt*, int, const void*, int n, void(*)(void*));
-int sqlite3_bind_double(sqlite3_stmt*, int, double);
-int sqlite3_bind_int(sqlite3_stmt*, int, int);
-int sqlite3_bind_int64(sqlite3_stmt*, int, sqlite3_int64);
-int sqlite3_bind_null(sqlite3_stmt*, int);
-int sqlite3_bind_text(sqlite3_stmt*, int, const char*, int n, void(*)(void*));
 int sqlite3_bind_text16(sqlite3_stmt*, int, const void*, int, void(*)(void*));
 int sqlite3_bind_value(sqlite3_stmt*, int, const sqlite3_value*);
 int sqlite3_bind_zeroblob(sqlite3_stmt*, int, int n);

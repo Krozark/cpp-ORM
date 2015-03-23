@@ -134,7 +134,7 @@ namespace orm
         if (str)
         {
             int year,mon,day,hour,min,sec;
-            res = ::sscanf((const char*)str,"%d-%d-%d %d:%d:%d",&year,&mon,&day,&hour,&min,&sec) == 6;
+            res = ::sscanf((const char*)str,"%4d-%2d-%2d %2d:%2d:%2d",&year,&mon,&day,&hour,&min,&sec) == 6;
             if (res)
             {
                 value.tm_year = year;
