@@ -39,13 +39,16 @@ set_option(BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to build support for Mysql backe
 set(DEFINES "")
 
 if(BUILD_SUPPORT_SQLITE3)
-#-lpthread
+	if(UNIX)
+		find_library(LIB_PTHREAD pthread)
+		set(LIBS ${LIBS} ${LIBS_PTHREAD})
+	endif()
 	set(DEFINES "${DEFINES} -DSQLITE_OMIT_LOAD_EXTENSION")
 endif()
 
 if(BUILD_SUPPORT_MYSQL)
-	find_library(MYSQL_LIB mysqlcppconn)
-	set(LIBS ${LIBS} ${MYSQL_LIB})
+	find_library(LIB_MYSQL mysqlcppconn)
+	set(LIBS ${LIBS} ${LIB_MYSQL})
 endif()
 
 set(WARNING "-Wall")
