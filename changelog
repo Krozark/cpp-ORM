@@ -1,3 +1,23 @@
+0.4.0
+=====
+
+Fields
+------
+
+* Update DateTimeFiled for windows support
+
+Backends
+--------
+
+* Remove extarnals dependencies for sqlite3
+
+Cmake
+-----
+
+* Add option for each backends such as
+ * BUILD_SUPPORT_SQLITE3
+ * BUILD_SUPPORT_MYSQL
+
 0.3.5
 =====
 
