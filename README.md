@@ -54,7 +54,7 @@ Requirement
 
 * Mysql cppcon (if Mysql support is needed)
 * doxygen (for user doc only)
-* +lib Sqlite3+ [included since v 0.4]
+* ~~lib Sqlite3~~ [included since v 0.4]
 
 
 TODO
