@@ -130,6 +130,7 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
+        private:
             virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
 
             /**

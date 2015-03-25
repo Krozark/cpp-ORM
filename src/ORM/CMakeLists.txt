@@ -17,14 +17,15 @@ add_subdirectory(models)
 
 
 #SHARED lib
-add_library(orm SHARED ${FILES_HEADER} ${FILES_SRC})
-SET_TARGET_PROPERTIES(orm
+add_library(orm-shared SHARED ${FILES_HEADER} ${FILES_SRC})
+SET_TARGET_PROPERTIES(orm-shared
     PROPERTIES
+    OUTPUT_NAME orm
     VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
     SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
-target_link_libraries(orm ${LIBS})
-INSTALL(TARGETS orm
+target_link_libraries(orm-shared ${LIBS})
+INSTALL(TARGETS orm-shared
     DESTINATION lib
 )
 
@@ -32,6 +33,7 @@ INSTALL(TARGETS orm
 add_library(orm-static STATIC ${FILES_HEADER} ${FILES_SRC})
 SET_TARGET_PROPERTIES(orm-static
     PROPERTIES
+    OUTPUT_NAME orm
     VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
     SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
