@@ -76,8 +76,8 @@ You just have to use cmake:
 
 You can customise the backends supported using
 
-* BUILD_SUPPORT_SQLITE3
-* BUILD_SUPPORT_MYSQL
+* ORM_BUILD_SUPPORT_SQLITE3
+* ORM_BUILD_SUPPORT_MYSQL
 
 Exemple
 =======

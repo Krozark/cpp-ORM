@@ -16,14 +16,14 @@ list(APPEND FILES_SRC
     ${SRCROOT}/Query.cpp
 )
 
-if(BUILD_SUPPORT_SQLITE3)
+if(ORM_BUILD_SUPPORT_SQLITE3)
 	list(APPEND FILES_HEADER
 		${INCROOT}/Sqlite3.hpp
 	)
 	add_subdirectory(Sqlite3)
 endif()
 
-if(BUILD_SUPPORT_MYSQL)
+if(ORM_BUILD_SUPPORT_MYSQL)
 	list(APPEND FILES_HEADER
 	    ${INCROOT}/MySql.hpp
 	)
