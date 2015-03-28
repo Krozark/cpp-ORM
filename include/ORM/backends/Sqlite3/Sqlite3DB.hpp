@@ -35,45 +35,45 @@ namespace orm
             /**
              * \brief Mkae an explitit copy of the connection
              */
-            virtual DB* clone()const;
+            virtual DB* clone()const override;
 
             /**
             * \brief Create the connection with the database
             *
             * \return false if the connection fail
             **/
-            virtual bool connect();
+            virtual bool connect() override;
             /**
             * \brief Close the connection with the database
             *
             * \return false if fail
             **/
-            virtual bool disconnect();
+            virtual bool disconnect() override;
             
             /**
              * \brief Must be call in a thread
              */
-            virtual void threadInit();
+            virtual void threadInit() override;
 
             /**
              * \brief Must be call after a end of thread
              */
-            virtual void threadEnd();
+            virtual void threadEnd() override;
 
             /**
              * \brief Begin transaction
              */
-            virtual void beginTransaction();
+            virtual void beginTransaction() override;
 
             /**
              * \brief END transaction
              */
-            virtual void endTransaction();
+            virtual void endTransaction() override;
 
             /**
              * \brief rollback
              */
-            virtual void rollback();
+            virtual void rollback() override;
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -82,7 +82,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*Sqlite3*/Query* query(const std::string&);
+            virtual /*Sqlite3*/Query* query(const std::string&) override;
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -91,7 +91,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*Sqlite3*/Query* query(std::string&&);
+            virtual /*Sqlite3*/Query* query(std::string&&) override;
 
             /* manualy create  a query */
             /**
@@ -101,7 +101,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* prepareQuery(const std::string&);
+            virtual Query* prepareQuery(const std::string&) override;
 
             /**
             * \brief Create a prepared query to execute
@@ -110,30 +110,30 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* prepareQuery(std::string&&);
+            virtual Query* prepareQuery(std::string&&) override;
 
             /**
              * \brief create a table
              * \param table the table name
              * \param attrs the attrubuts list
              */
-            virtual bool create(const std::string& table,const std::vector<const VAttr*>& attrs);
+            virtual bool create(const std::string& table,const std::vector<const VAttr*>& attrs) override;
             
             /**
              * \brief drop a table
              */
-            virtual bool drop(const std::string& table);
+            virtual bool drop(const std::string& table) override;
 
             /**
              * \brief drop a table
              */
-            virtual bool clear(const std::string& table);
+            virtual bool clear(const std::string& table) override;
 
             /**
              * \return the creator object
              * Use it to create column in the database
              */
-            virtual const TableCreator& creator()const;
+            virtual const TableCreator& creator()const override;
 
         protected:
             friend class Sqlite3Query;
@@ -143,7 +143,7 @@ namespace orm
             *
             * \return The pk
             **/
-            virtual int getLastInsertPk();
+            virtual int getLastInsertPk() override;
 
             /**
             * \brief Escape the String with "`"
@@ -154,12 +154,12 @@ namespace orm
             *
             * \see escapeValue
             **/
-            virtual std::string escapeColumn(const std::string&) const;
+            virtual std::string escapeColumn(const std::string&) const override;
 
             /**
              * \return Return the initial column number for extract values (0 or 1)
              */
-            int virtual getInitialGetcolumnNumber() const;
+            int virtual getInitialGetcolumnNumber() const override;
 
             /**
              * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
@@ -171,7 +171,7 @@ namespace orm
              *
              * \return *this
              **/
-            virtual std::string limit(const int& skip,const int& count) const;
+            virtual std::string limit(const int& skip,const int& count) const override;
 
 
         private:
