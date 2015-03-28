@@ -16,11 +16,8 @@ namespace orm
         #endif
     }
 
-    /**
-    * \todo tester le retour de _get_ptr qui peut être 0
-    **/
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,DB& db,int max_depth)
+    typename Cache<T>::type_ptr Cache<T>::getOrCreate(const unsigned int& pk,DB& db,int max_depth)
     {
         //std::lock_guard<std::mutex> lock(_mutex);//lock
         //already existe
@@ -36,11 +33,8 @@ namespace orm
         return map[pk];
     }
     
-    /*
-    * \todo add to creatoFromDB depth
-    **/
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth)
+    typename Cache<T>::type_ptr Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth)
     {
         const auto& res= map.find(pk);
         if(res != map.end())
@@ -54,7 +48,7 @@ namespace orm
     }
 
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(const Query& query,int max_depth)
+    typename Cache<T>::type_ptr Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
         int index = query.db.getInitialGetcolumnNumber();

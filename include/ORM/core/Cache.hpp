@@ -21,6 +21,7 @@ namespace orm
     class Cache
     {
         public:
+            typedef std::shared_ptr<T> type_ptr; ///< Type of the stored object
             /***
              * \brief Construct a Cache for T
              *
@@ -36,7 +37,6 @@ namespace orm
             //Cache(const Cache<T>&)=delete;
             //Cache<T>& operator=(const Cache<T>&)=delete;
             
-            typedef std::shared_ptr<T> type_ptr; ///< Type of the stored object
             
             /**
              * \brief make query to get object if not in cache
@@ -46,7 +46,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr& getOrCreate(const unsigned int& pk,DB& bd,int max_depth);
+            type_ptr getOrCreate(const unsigned int& pk,DB& bd,int max_depth);
 
             /**
              * \brief construct object from query if pk not in cache
@@ -58,7 +58,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr& getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth);
+            type_ptr getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth);
 
             /**
              * \brief construct object from query if not in cache after extracting pk from query
@@ -68,7 +68,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr& getOrCreate(const Query& query,int max_depth);
+            type_ptr getOrCreate(const Query& query,int max_depth);
 
             /**
              * \brief Print the cache content
