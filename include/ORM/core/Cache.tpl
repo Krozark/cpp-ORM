@@ -3,17 +3,21 @@ namespace orm
     template<typename T>
     Cache<T>::Cache()
     {
+#ifdef ORM_USE_CACHE
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
         std::cerr<<MAGENTA<<"[Register] Cache of "<<T::table<<BLANC<<std::endl;
         #endif
+#endif
     };
 
     template<typename T>
     Cache<T>::~Cache()
     {
+#ifdef ORM_USE_CACHE
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
         std::cerr<<MAGENTA<<"[Delete] Cache of "<<T::table<<BLANC<<std::endl;
         #endif
+#endif
     }
 
     template<typename T>
