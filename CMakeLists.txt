@@ -15,7 +15,7 @@ project(${PROJECT_NAME})
 # setup version numbers
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 4)
-set(VERSION_PATCH 0)
+set(VERSION_PATCH 1)
 
 
 # add the  header path
@@ -24,7 +24,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_option(ORM_BUILD_SUPPORT_SQLITE3 TRUE BOOL "TRUE to build support for sqlite3 backends, FALSE to ignore them")
 set_option(ORM_BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to build support for Mysql backends, FALSE to ignore them")
 
-set_option(ORM_USE_CACHE FALSE BOOL "TRUE to buid a cache for database query, FALSE to ignore it")
+set_option(ORM_USE_CACHE TRUE BOOL "TRUE to buid a cache for database query, FALSE to ignore it")
 
 set_option(ORM_BUILD_EXAMPLES TRUE BOOL "TRUE to build the examples, FALSE to ignore them")
 set_option(ORM_BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
