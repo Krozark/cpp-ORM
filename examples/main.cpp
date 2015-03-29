@@ -240,7 +240,7 @@ return 0;
         {
             cout<<*u<<endl;
         }
-            //.filter("test",orm::op::exact,Spell::_name);
+            //.filter("test",orm::op::exact,Spell::$name);
             //.get(lis);
 
         std::cout<<"Add spell s1"<<std::endl;

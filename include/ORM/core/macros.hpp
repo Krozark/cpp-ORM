@@ -16,6 +16,10 @@
 /**
  * \brief make string name for attrs
  **/
+//#ifndef ORM_COLUMN_CHAR
+//#define ORM_COLUMN_CHAR $
+//#endif
+
 #define ORM_MAKE_NAME(name)  $ ## name
 
 #define _MAKE_NAME_VALUE(klass,value)  value

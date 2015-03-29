@@ -264,7 +264,31 @@ There are some macos to help.
 MAKE_STATIC_COLUM(...)
 ----------------------
 
-To call in your class with all persistent attrs in params. It will construct the static std::string to use (on filter ...)
+To call in your class with all persistent attrs in params. It will construct the static std::string to use (on filter ...).
+ORM_MAKE_NAME(colum) turn your colunm name to the on to use by adding ORM_COLUMN_CHAR ($ by default)
+
+exemple:
+
+```C++
+    class Spell : public orm::SqlObject<Spell>
+    {
+        public:
+            Spell();
+            orm::CharField<255> name;
+            orm::IntegerField element;
+
+            MAKE_STATIC_COLUMN(name,element);
+
+    };
+```
+
+the colums $name and $element will be created for query.
+
+```C++
+    Spell::
+    auto results = Spell::query().filter("spell name",orm::op::exact,Spell::$name);
+```
+
 
 
 REGISTER_AND_CONSTRUCT(klass,colum,[attr,colum]+)

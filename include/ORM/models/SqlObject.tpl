@@ -61,9 +61,9 @@ namespace orm
     };
 
     template<typename T>
-    std::list<typename Cache<T>::type_ptr> SqlObject<T>::all(DB& db,int max_depth)
+    typename SqlObject<T>::result_type SqlObject<T>::all(DB& db,int max_depth)
     {
-        std::list<typename Cache<T>::type_ptr> results;
+        result_type results;
         query(db).get(results,max_depth);
         return results;
     };

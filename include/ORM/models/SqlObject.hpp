@@ -33,6 +33,7 @@ namespace orm
     class SqlObject : public SqlObjectBase
     {
         public:
+            using result_type = typename QuerySet<T>::result_type;
             /**
             * \brief make a SqlObject
             **/
@@ -68,7 +69,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            static std::list<typename Cache<T>::type_ptr> all(DB& db = *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static result_type all(DB& db = *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief create a queryset for the objet. Use it to make your query
