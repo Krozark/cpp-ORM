@@ -22,6 +22,10 @@ namespace orm
 
     void SqlObjectBase::after_update(){}
 
+    void SqlObjectBase::before_load(){};
+
+    void SqlObjectBase::after_load(){};
+
     bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
     {
         int prefix=query.db.getInitialGetcolumnNumber() -1;
@@ -43,6 +47,7 @@ namespace orm
         if(not res)
             std::cerr<<ROUGE<<"[ATTR] get attr("<<prefix<<") : id"<<" fail"<<BLANC<<std::endl;
         #endif
+        before_load();
         for(VAttr* attr: attrs)
         {
             ++prefix;
@@ -58,6 +63,7 @@ namespace orm
             #endif
             res = (res and  tmp);
         }
+        after_load();
 
         #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
         if(not res)

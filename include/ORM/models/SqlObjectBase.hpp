@@ -102,6 +102,18 @@ namespace orm
             virtual void after_update();
 
             /**
+             * \brief prepare the object before loading it from the DB
+             * Note : do nothing by default.
+             */
+            virtual void before_load();
+
+            /**
+             * \brief prepare the object after loading it in from the DB
+             * Note : do nothing by default.
+             */
+            virtual void after_load();
+
+            /**
              * \brief create the object using the query
              *
              * \param  query The executed query row
