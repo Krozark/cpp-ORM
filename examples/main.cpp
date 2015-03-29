@@ -130,8 +130,9 @@ REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
 using namespace orm;
 using namespace std;
 
-int main(int argc,char* argv[])
+void testDate()
 {
+
     std::cout<<"date tests"<<std::endl;
     std::cout<<"1 month: "<<orm::DateTimeField::month(1)
     <<"\n 2 months: "<<orm::DateTimeField::month(2)
@@ -146,6 +147,10 @@ int main(int argc,char* argv[])
     <<"\n 1 day + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::now())
     <<"\n 1 day + 1 hour + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0)+orm::DateTimeField::now())
     <<std::endl;
+}
+
+int main(int argc,char* argv[])
+{
 
     orm::DB::Default.connect();
 
@@ -197,7 +202,7 @@ int main(int argc,char* argv[])
         }
 
     }
-return 0;
+//return 0;
 
     std::cout<<"=============="<<std::endl;
     {

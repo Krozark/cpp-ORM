@@ -105,7 +105,7 @@ namespace orm
              *
              * \return the shared_ptr of the stored object
              **/
-            type_ptr& add(T& obj);
+            type_ptr& add(type_ptr& obj);
 
             /**
              * \brief Add a object in the cache
@@ -114,7 +114,8 @@ namespace orm
              *
              * \return the shared_ptr of the stored object
              **/
-            type_ptr& add(type_ptr& obj);
+            type_ptr& add(T& obj);
+
 
             std::unordered_map<int,type_ptr> map; ///< store all the objects
 

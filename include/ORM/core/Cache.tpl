@@ -62,25 +62,6 @@ namespace orm
         return r;
     }
 
-    template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(T* tmp)
-    {
-        const auto& res=map.find(tmp->pk);
-        if(res != map.end())
-        {
-            delete tmp;
-            return res->second;
-        }
-        type_ptr& r = map[tmp->pk];
-        r.reset(tmp);
-        return r;
-    }
-
-    template<typename T>
-    void Cache<T>::del(const unsigned int& pk)
-    {
-        map.erase(pk);
-    }
 
 
     template<typename T>
@@ -88,6 +69,20 @@ namespace orm
     {
         for(auto& i : map)
             std::cerr<<*i.second<<std::endl;
+    }
+
+/////////////////// PRIVATE ////////////////////
+
+    template<typename T>
+    typename Cache<T>::type_ptr& Cache<T>::add(typename Cache<T>::type_ptr& obj)
+    {
+        const auto& res=map.find(obj->pk);
+        if(res != map.end())
+        {
+            return res->second;
+        }
+        map[obj->pk] = obj;
+        return obj;
     }
 
 
@@ -105,16 +100,19 @@ namespace orm
     }
 
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::add(typename Cache<T>::type_ptr& obj)
+    typename Cache<T>::type_ptr& Cache<T>::getOrCreate(T* tmp)
     {
-        const auto& res=map.find(obj->pk);
+        const auto& res=map.find(tmp->pk);
         if(res != map.end())
         {
+            delete tmp;
             return res->second;
         }
-        map[obj->pk] = obj;
-        return obj;
+        type_ptr& r = map[tmp->pk];
+        r.reset(tmp);
+        return r;
     }
+
 
     template<typename T>
     void Cache<T>::clear(bool reset_pk)
@@ -126,6 +124,13 @@ namespace orm
                 
         }
         map.clear();
+    }
+
+
+    template<typename T>
+    void Cache<T>::del(const unsigned int& pk)
+    {
+        map.erase(pk);
     }
 
 
