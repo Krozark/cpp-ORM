@@ -91,7 +91,7 @@ namespace orm
     template<typename RELATED>
     bool FilterSet<RELATED>::set(Query* query,unsigned int& column) const
     {
-        bool res;
+        bool res = false;
         switch (type)
         {
             case LEAF :
