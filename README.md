@@ -45,7 +45,7 @@ functions
 Data bases supported
 =====================
 
-* MySql
+* ~~MySql~~ (breaked)
 * Sqlite3
 
 
