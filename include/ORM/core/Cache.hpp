@@ -2,11 +2,15 @@
 #define ORM_CACHE_HPP
 
 #include <ORM/backends/Query.hpp>
-#include <unordered_map>
 #include <string>
 #include <memory>
 
 //#include <mutex>
+
+#ifdef ORM_USE_CACHE
+    #include <unordered_map>
+#endif
+
 
 namespace orm
 {
