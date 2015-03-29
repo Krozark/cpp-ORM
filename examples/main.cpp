@@ -163,6 +163,7 @@ int main(int argc,char* argv[])
     orm::Tables::create();
 
     {
+        std::cout<<"======= TestTypes ======="<<std::endl;
         TestTypes test;
         test.booleanField = false;
         test.charField = "test";
@@ -178,12 +179,13 @@ int main(int argc,char* argv[])
 
         std::list<std::shared_ptr<TestTypes>> lis;
         TestTypes::query()
-        .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::_datetimeField))
-        .get(lis);
+            .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::_datetimeField))
+            .get(lis);
 
         cout<<"All tests with DateTimeField > now - 1 day"<<endl;
         for(auto u : lis)
         {
+            cout<<u.get()<<std::endl;
             cout<<*u<<endl;
         }
 
@@ -193,16 +195,17 @@ int main(int argc,char* argv[])
 
         lis.clear();
         TestTypes::query()
-        .filter(orm::Q<TestTypes>(test2.datetimeField.value(),orm::op::gt,TestTypes::_datetimeField))
-        .get(lis);
+            .filter(orm::Q<TestTypes>(test2.datetimeField.value(),orm::op::gt,TestTypes::_datetimeField))
+            .get(lis);
         //.__print__();
         for(auto u : lis)
         {
+            cout<<u.get()<<std::endl;
             cout<<*u<<endl;
         }
 
     }
-//return 0;
+return 0;
 
     std::cout<<"=============="<<std::endl;
     {

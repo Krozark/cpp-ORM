@@ -114,8 +114,9 @@ namespace orm
              *
              * \return the shared_ptr of the stored object
              **/
-            type_ptr& add(T& obj);
+            //type_ptr& add(T& obj);
 
+#ifdef ORM_USE_CACHE
 
             std::unordered_map<int,type_ptr> map; ///< store all the objects
 
@@ -125,6 +126,7 @@ namespace orm
              * \return a shared_ptr to tho object stored in cache
              **/
             type_ptr& getOrCreate(T* tmp);
+#endif
 
             /**
              * \brief delete object of specified pk
