@@ -12,6 +12,7 @@ list(APPEND FILES_HEADER
     ${INCROOT}/FK.tpl
     ${INCROOT}/FloatField.hpp
     ${INCROOT}/IntegerField.hpp
+    ${INCROOT}/UnsignedIntegerField.hpp
     ${INCROOT}/ManyToMany.hpp
     ${INCROOT}/ManyToMany.tpl
     ${INCROOT}/TextField.hpp
@@ -26,6 +27,7 @@ list(APPEND FILES_SRC
     ${SRCROOT}/DateTimeField.cpp
     ${SRCROOT}/FloatField.cpp
     ${SRCROOT}/IntegerField.cpp
+    ${SRCROOT}/UnsignedIntegerField.cpp
     ${SRCROOT}/TextField.cpp
 )
 

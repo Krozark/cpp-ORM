@@ -88,6 +88,7 @@ class TestTypes : public orm::SqlObject<TestTypes>
     orm::FloatField             floatField;
     orm::DoubleField            doubleField;
     orm::TextField              textField;
+    orm::UnsignedIntegerField   unsignedIntegerField;
 
 
     MAKE_STATIC_COLUMN(\
@@ -100,7 +101,8 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        integerField,\
                        floatField,\
                        doubleField,\
-                       textField\
+                       textField,\
+                       unsignedIntegerField\
                       )
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
@@ -113,7 +115,8 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        integerField,"integerField",\
                        floatField,"floatField",\
                        doubleField,"doubleField",\
-                       textField,"textField"\
+                       textField,"textField",\
+                       unsignedIntegerField,"unsignedIntegerField"\
                       )
 //merge all colums
 class TestMergeHeritage : public TestTypes
@@ -173,6 +176,7 @@ int main(int argc,char* argv[])
         test.floatField = 4.2;
         test.doubleField = 4.2;
         test.textField = "this is a long text for testing";
+        test.unsignedIntegerField = -1;
 
         cout<<"Current test"<<test<<endl;
         test.save();
