@@ -61,7 +61,7 @@ class Perso : public orm::SqlObject<Perso>
 };
 M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
-Perso::Perso() : name(Perso::_name), lvl(Perso::_lvl), stats(Perso::_stats),stats2(Perso::_stats2), maitre(_maitre), spells(*this)
+Perso::Perso() : name(Perso::$name), lvl(Perso::$lvl), stats(Perso::$stats),stats2(Perso::$stats2), maitre($maitre), spells(*this)
 {
     name.registerAttr(*this);
     lvl.registerAttr(*this);
@@ -184,7 +184,7 @@ int main(int argc,char* argv[])
 
         std::list<std::shared_ptr<TestTypes>> lis;
         TestTypes::query()
-            .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::_datetimeField))
+            .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
             .get(lis);
 
         cout<<"All tests with DateTimeField > now - 1 day"<<endl;
@@ -200,7 +200,7 @@ int main(int argc,char* argv[])
 
         lis.clear();
         TestTypes::query()
-            .filter(orm::Q<TestTypes>(test2.datetimeField.value(),orm::op::gt,TestTypes::_datetimeField))
+            .filter(orm::Q<TestTypes>(test2.datetimeField.value(),orm::op::gt,TestTypes::$datetimeField))
             .get(lis);
         //.__print__();
         for(auto u : lis)
@@ -268,7 +268,7 @@ return 0;
         std::cout<<"All his spells with name s2 ("<<p1->getPk()<<",s2"<<")"<<std::endl;
         lis.clear();
         p1->spells.query()
-        .filter(std::string("s2"),orm::op::exact,Spell::_name)
+        .filter(std::string("s2"),orm::op::exact,Spell::$name)
             .get(lis);
         for(auto& u : lis)
         {
@@ -317,21 +317,21 @@ return 0;
 
 
        Perso::query()
-           .filter(Q<Perso>(4,orm::op::gt,Perso::_lvl)
-                   and Q<Perso>(42,orm::op::gte,Perso::_lvl)
-                   and not Q<Perso>(4,orm::op::lt,Perso::_lvl)
+           .filter(Q<Perso>(4,orm::op::gt,Perso::$lvl)
+                   and Q<Perso>(42,orm::op::gte,Perso::$lvl)
+                   and not Q<Perso>(4,orm::op::lt,Perso::$lvl)
                   )
-           .orderBy(Perso::_name)
+           .orderBy(Perso::$name)
            .get(p2);
        std::cout<<p2<<std::endl;
 
 
       // Chained way for same result
       // Perso::query()
-      //  .filter(4,orm::op::gt,Perso::_lvl)
-      //  .filter(42,orm::op::gte,Perso::_lvl)
-      //  .exclude(4,orm::op::lt,Perso::_lvl)
-      //  .orderBy(Perso::_name)
+      //  .filter(4,orm::op::gt,Perso::$lvl)
+      //  .filter(42,orm::op::gte,Perso::$lvl)
+      //  .exclude(4,orm::op::lt,Perso::$lvl)
+      //  .orderBy(Perso::$name)
       //  .get(p2);
       //
 
@@ -346,7 +346,7 @@ return 0;
        //std::cout<<p<<std::endl;
 
        //Perso::query()
-       //    .filter(4,orm::op::gt,Perso::_maitre,Perso::_lvl)
+       //    .filter(4,orm::op::gt,Perso::_maitre,Perso::$lvl)
        //    .orderBy(Perso::_name)
        //    .get(results);
        //for(auto& perso : results)
@@ -366,7 +366,7 @@ return 0;
        results.clear();
 
        cout<<"All perso where lvl < 200"<<endl;
-       Perso::query().filter(200,orm::op::lt,Perso::_lvl).get(results);
+       Perso::query().filter(200,orm::op::lt,Perso::$lvl).get(results);
        for(auto& perso : results)
        {
            cout<<perso.get()<<std::endl;
@@ -379,7 +379,7 @@ return 0;
    {
 
        std::list<std::shared_ptr<Perso>> lis;
-       Perso::query().filter(string("test"),orm::op::startswith,Perso::_name).get(lis);
+       Perso::query().filter(string("test"),orm::op::startswith,Perso::$name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
    }
@@ -413,7 +413,7 @@ return 0;
 
         std::list<std::shared_ptr<Spell>> list;
         p1->spells.query()\
-          .filter(2,"exact",Spell::_element)\
+          .filter(2,"exact",Spell::$element)\
           .get(list);
 
         cout<<"sorts d'element == 2"<<endl;

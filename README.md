@@ -182,12 +182,12 @@ make some static method:
 * orm::QuerySet\<T\> T::query()  construct a queryset to make custom query
 
 static member:
-* DB* db_used : database where the object is contain
+* DB* default_connection : database where the object is contain
 * std::string table : table name on the database
 
 make member fonction:
-* bool save(bool recursive=false,DB&=*db_used)
-* bool del(bool recursive=false,DB&=*db_used)
+* bool save(bool recursive=false,DB&=*default_connection)
+* bool del(bool recursive=false,DB&=*default_connection)
 
 Exemple: see main.cpp
 
@@ -286,10 +286,7 @@ REGISTER_TABLE(klass,colum)
 
 If you use REGISTER_AND_CONSTRUCT, you don't need to use it.
 
-    template<>
-    const std::string orm::SqlObject<klass>::table =colum;
-    template<>
-    orm::DB* orm::SqlObject<klass>::db_used = &orm::DB::Default;
+Thiis will create all the static variables needed by the library
 
 
 MAKE_CONSTRUCTOR(klass[,attr,colum]+)
