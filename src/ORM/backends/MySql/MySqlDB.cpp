@@ -128,12 +128,11 @@ namespace orm
 
     bool MySqlDB::create(const std::string& table,const std::vector<const VAttr*>& attrs)
     {
-        std::string sql = "CREATE TABLE \""+table+"\"(\n";
+        std::string sql = "CREATE TABLE "+escapeColumn(table)+"(\n";
         unsigned int size = attrs.size();
         sql+= creator().autoField("id");
 
         const DB& db=*this;
-        sql+=attrs[0]->create(db);
         for(unsigned int i=0;i<size;++i)
         {
             sql+=",\n"+attrs[i]->create(db);
@@ -150,7 +149,7 @@ namespace orm
 
     bool MySqlDB::drop(const std::string& table)
     {
-        std::string sql = "DROP TABLE \""+table+"\";";
+        std::string sql = "DROP TABLE "+escapeColumn(table)+";";
 
         Query* q = this->query(sql);
         q->execute();
@@ -163,7 +162,7 @@ namespace orm
     bool MySqlDB::clear(const std::string& table)
     {
 
-        std::string sql = "TRUNCATE \""+table+"\";";
+        std::string sql = "TRUNCATE "+escapeColumn(table)+";";
 
         Query* q = this->query(sql);
         q->execute();

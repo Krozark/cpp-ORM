@@ -1,9 +1,10 @@
-//#include <ORM/backends/MySql.hpp>
-//orm::MySqlDB def("root","toor","test");
+#include <ORM/backends/MySql.hpp>
+orm::MySqlDB def("root","toor","test");
 //orm::MySqlDB def("root","root","test");
 
-#include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3DB def("./test.db");
+//#include <ORM/backends/Sqlite3.hpp>
+//orm::Sqlite3DB def("./test.db");
+
 orm::DB& orm::DB::Default = def;
 
 #include <ORM/fields.hpp>
@@ -159,7 +160,7 @@ int main(int argc,char* argv[])
     DB* con2 = orm::DB::Default.clone();
     con2->connect();
 
-    orm::Tables::drop();
+    //orm::Tables::drop();
     orm::Tables::create();
 
     {
