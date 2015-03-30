@@ -70,10 +70,13 @@ namespace orm
         
         #ifdef ORM_USE_CACHE
         const auto& res= map.find(pk);
+
         if(res != map.end())
             return res->second;
+
         type_ptr& r= map[pk];
         r.reset(T::createFromDB(query,--index,max_depth));
+
         #else
         type_ptr r(T::createFromDB(query,--index,max_depth));
         #endif

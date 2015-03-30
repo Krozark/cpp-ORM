@@ -99,6 +99,8 @@ namespace orm
 
             before_save();
             res = db.save(table,pk,attrs);
+            type_ptr ptr = this->shared_from_this();
+            cache.add(ptr);
             after_save();
         }
         else
