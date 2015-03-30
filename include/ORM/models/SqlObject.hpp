@@ -34,6 +34,7 @@ namespace orm
     {
         public:
             using result_type = typename QuerySet<T>::result_type;
+            using type_ptr = typename Cache<T>::type_ptr;
             /**
             * \brief make a SqlObject
             **/
@@ -61,7 +62,7 @@ namespace orm
             *
             * Note : if the return obj as a pk of -1 : fail
             **/
-            static typename Cache<T>::type_ptr get(const unsigned int& id,DB& db= *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static type_ptr get(const unsigned int& id,DB& db= *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief shortcut for T::query().get(list)

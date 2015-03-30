@@ -22,7 +22,7 @@ namespace orm
     };
 
     template<typename T>
-    typename Cache<T>::type_ptr SqlObject<T>::get(const unsigned int& id,DB& db,int max_depth)
+    typename SqlObject<T>::type_ptr SqlObject<T>::get(const unsigned int& id,DB& db,int max_depth)
     {
         return cache.getOrCreate(id,db,max_depth);
     }
