@@ -1,3 +1,18 @@
+0.4.1
+=====
+
+Query
+------
+
+* Change column prefix from '_' to '$' to avoid double underscore in variable name that can cause undefine behaviours.
+* Add alias for query return type Queryset\<T\>::result_type , Sqlobject\<T\>::result_type
+
+SqlObjectBase
+-------------
+
+* Add [before/after]_load methods. You can now add some logical befor/after an object is created from the DB 
+
+
 0.4.0
 =====
 
@@ -35,11 +50,7 @@ You can now add some logical befor/after a BD query is made
 SqlObjectBase
 -------------
 
-Add [before/after]_[save/update] methods
-
-You can now add some logical befor/after a BD query is made 
-
-
+* Add [before/after]_[save/update] methods. You can now add some logical before/after a BD query is made 
 
 
 0.3.4:
