@@ -12,9 +12,9 @@ namespace orm
     }
 
     template<typename T,typename U>
-    std::list<typename Cache<U>::type_ptr> ManyToMany<T,U>::all(DB& db,int max_depth) const
+    typename U::result_type ManyToMany<T,U>::all(DB& db,int max_depth) const
     {
-        std::list<typename Cache<U>::type_ptr> results;
+        typename U::result_type results;
         query(db).get(results,max_depth);
         return results;
     };
@@ -52,7 +52,7 @@ namespace orm
     }
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::add(const typename Cache<U>::type_ptr& obj,DB& db)
+    void ManyToMany<T,U>::add(const typename U::type_ptr& obj,DB& db)
     {
         add(*obj,db);
     }
@@ -88,7 +88,7 @@ namespace orm
     };
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::remove(const typename Cache<U>::type_ptr& obj,DB& db)
+    void ManyToMany<T,U>::remove(const typename U::type_ptr& obj,DB& db)
     {
         remove(*obj,db);
     }

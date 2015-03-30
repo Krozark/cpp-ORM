@@ -125,6 +125,12 @@ namespace orm
     };
 
     template<typename T>
+    FKBase<T>::operator typename T::type_ptr() const
+    {
+        return value_ptr;
+    }
+
+    template<typename T>
     FKBase<T>::operator bool()const
     {
         return value_ptr.get();

@@ -387,8 +387,8 @@ return 0;
     std::cout<<"=============="<<std::endl;
 
 
-   /*{
-       auto& p1 = Perso::get(1);
+   {
+       auto p1 = Perso::get(1);
        const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
        for(auto u : spells)
            cout<<*u<<endl;
@@ -405,10 +405,10 @@ return 0;
 
     std::cout<<"=============="<<std::endl;
     {
-        auto& p1 = Perso::get(1);
+        auto p1 = Perso::get(1);
         std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
 
-        auto& stats = Stats::get(1);
+        auto stats = Stats::get(1);
         p1->stats = stats;
 
         std::list<std::shared_ptr<Spell>> list;
@@ -424,13 +424,13 @@ return 0;
         for(auto u : p1->spells.all())
             cout<<*u<<endl;
 
-        auto& sort = Spell::get(1);
+        auto sort = Spell::get(1);
         cout<<"sort pk = 1.\n"<<*sort<<endl;
 
         p1->spells.add(sort);
         p1->spells.remove(sort);
 
-    }*/
+    }
 
     std::cout<<"=============="<<std::endl;
 

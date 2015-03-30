@@ -36,7 +36,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            std::list<typename Cache<RELATED>::type_ptr> all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
+            typename RELATED::result_type all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH)const;
             
             /**
              * \brief add a object in the relation
@@ -54,7 +54,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void add(const typename Cache<RELATED>::type_ptr& obj,DB& db=*default_connection);
+            void add(const typename RELATED::type_ptr& obj,DB& db=*default_connection);
 
             /**
              * \brief remove a object in the relation
@@ -72,7 +72,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const typename Cache<RELATED>::type_ptr& obj,DB& db=*default_connection);
+            void remove(const typename RELATED::type_ptr& obj,DB& db=*default_connection);
 
             /**
              * \brief create the table

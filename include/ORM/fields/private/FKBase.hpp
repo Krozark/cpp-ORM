@@ -60,9 +60,14 @@ namespace orm
             T& operator*();
 
             /**
+             * \brief convertion operator
+             */
+            operator typename T::type_ptr() const;
+
+            /**
              * \brief Test if a value is stared
              */
-            operator bool()const;
+            explicit operator bool()const;
 
             /**
              * \brief Copy operator
