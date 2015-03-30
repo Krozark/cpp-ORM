@@ -85,7 +85,7 @@ namespace orm
              **/
             FKBase(const std::string& column,const bool nullable=true);
 
-            std::shared_ptr<T> value_ptr; ///< the stored object
+            T::value_ptr value_ptr; ///< the stored object
 
             /**
              * \brief Set the fk value to the query
