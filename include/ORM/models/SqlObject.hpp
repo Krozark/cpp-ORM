@@ -100,6 +100,9 @@ namespace orm
             virtual bool del(bool recursive=false,DB& db = *default_connection) final;
 
 
+            type_ptr as_type_ptr();
+
+
             /**
              * \brief create the table
              * \todo

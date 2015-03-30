@@ -139,7 +139,7 @@ namespace orm
     }*/
 
     #ifdef ORM_USE_CACHE
-    template<typename T>
+   /* template<typename T>
     typename Cache<T>::type_ptr& Cache<T>::getOrCreate(T* tmp)
     {
         const auto& res=map.find(tmp->pk);
@@ -151,7 +151,7 @@ namespace orm
         type_ptr& r = map[tmp->pk];
         r.reset(tmp);
         return r;
-    }
+    }*/
     #endif
 
 
