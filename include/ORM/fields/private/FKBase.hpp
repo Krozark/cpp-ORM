@@ -32,7 +32,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive=false,DB& db=*T::default_connection);
+            virtual bool save(bool recursive=false,DB& db=*T::default_connection) override;
 
             /**
              * \brief Delete the object from the db and cache
@@ -43,7 +43,7 @@ namespace orm
              *
              * \return fale if fail
              **/
-            virtual bool del(bool recursive=false,DB& db=*T::default_connection);
+            virtual bool del(bool recursive=false,DB& db=*T::default_connection) override;
 
             typedef T type; ///< Type of stored object
 
@@ -58,6 +58,11 @@ namespace orm
              * \cast this in value
              **/
             T& operator*();
+
+            /**
+             * \brief Test if a value is stared
+             */
+            operator bool()const;
 
             /**
              * \brief Copy operator
