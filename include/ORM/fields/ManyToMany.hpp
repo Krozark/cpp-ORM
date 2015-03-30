@@ -6,7 +6,6 @@
 #include <ORM/backends/private/M2MQuerySet.hpp>
 #include <ORM/core/M2MRegister.hpp>
 #include <string>
-#include <list>
 #include <memory>
 
 namespace orm

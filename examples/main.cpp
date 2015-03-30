@@ -182,7 +182,7 @@ int main(int argc,char* argv[])
         test.save();
         cout<<"Save current"<<endl;
 
-        std::list<std::shared_ptr<TestTypes>> lis;
+        TestTypes::result_type lis;
         TestTypes::query()
             .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
             .get(lis);
@@ -234,7 +234,7 @@ return 0;
         p1->maitre->maitre.del(true);
         cout<<"Current perso1 "<<*p1<<endl;
 
-        auto lis = p1->spells.all();
+        Spell::result_type lis = p1->spells.all();
         std::cout<<"All his spells"<<std::endl;
         for(auto u : lis)
         {
@@ -280,7 +280,7 @@ return 0;
 
    {
        cout<<"All persos"<<endl;
-       std::list<Cache<Perso>::type_ptr> lis= Perso::all();
+       Perso::result_type lis= Perso::all();
        for(auto u : lis)
        {
             cout<<*u<<endl;
@@ -304,7 +304,7 @@ return 0;
        p2.save();
 
        cout<<"All persos (current="<<p2<<")"<<endl;
-       std::list<std::shared_ptr<Perso> > lis= Perso::all();
+       Perso::result_type lis= Perso::all();
        for(auto u : lis)
        {
             cout<<*u<<endl;
@@ -336,7 +336,7 @@ return 0;
       //
 
 
-       std::list<Cache<Perso>::type_ptr> results;
+       Perso::result_type results;
        //Perso p;// = new Perso;
        //p.name="test";
        //p.maitre->name="test master";
@@ -378,7 +378,7 @@ return 0;
     std::cout<<"=============="<<std::endl;
    {
 
-       std::list<std::shared_ptr<Perso>> lis;
+       Perso::result_type lis;
        Perso::query().filter(string("test"),orm::op::startswith,Perso::$name).get(lis);
        for(auto u : lis)
            cout<<*u<<endl;
@@ -389,7 +389,7 @@ return 0;
 
    {
        auto p1 = Perso::get(1);
-       const std::list<std::shared_ptr<Spell> >& spells = p1->spells.all();
+       const Spell::result_type spells = p1->spells.all();
        for(auto u : spells)
            cout<<*u<<endl;
    }
@@ -397,7 +397,7 @@ return 0;
     std::cout<<"=============="<<std::endl;
 
     {
-       std::list<std::shared_ptr<Spell>> list;
+        Spell::result_type list;
        Spell::query().get(list);
        for(auto u : list)
            cout<<*u<<endl;
@@ -411,7 +411,7 @@ return 0;
         auto stats = Stats::get(1);
         p1->stats = stats;
 
-        std::list<std::shared_ptr<Spell>> list;
+        Spell::result_type list;
         p1->spells.query()\
           .filter(2,"exact",Spell::$element)\
           .get(list);
