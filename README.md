@@ -141,7 +141,7 @@ To build the exemple (the database is include)
 
         // all
         cout<<"All persos"<<endl;
-        std::list<std::shared_ptr<Perso> > lis= Perso::all();
+        Perso::result_type lis= Perso::all();
         for(auto u : lis)
             cout<<*u<<endl;
 
@@ -154,7 +154,7 @@ To build the exemple (the database is include)
                 and not Q<Perso>(4,"lt",Perso::_lvl)
             ).orderBy(Perso::_name)\
             .limit(42)\
-            .get(lis); //get take a list<shared_ptr<T>>& or a T& as param
+            .get(lis); //get take a list T::result_type& or a T& as param
         for(auto u : lis)
             cout<<*u<<endl;
 
@@ -177,8 +177,8 @@ orm::SqlObject<T>
 Base class for persistent T class. It add all static method / attribute to your class.
 
 make some static method:
-* std::shared_ptr\<T\> get(int pk)
-* std::list\<std::shared_ptr\<T\>\> all()
+* T::result_type get(int pk)
+* T::result_type all()
 * orm::QuerySet\<T\> T::query()  construct a queryset to make custom query
 
 static member:
@@ -229,7 +229,7 @@ T have to be the persistent class where the M2M is use, and U the persistent cla
 I create a link with the 2 class, and you can access to the U using:
 
 accessors:
-* std::list\<std::shared_ptr\<U\>\> .all()
+* U::result_type .all()
 
 
 orm::DB
