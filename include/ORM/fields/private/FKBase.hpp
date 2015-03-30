@@ -50,7 +50,7 @@ namespace orm
             /**
              * \brief assessor operator to the stored object
              **/
-            T* operator->();
+            typename T::type_ptr operator->();
 
             /**
              * \brief cast operator
@@ -85,7 +85,7 @@ namespace orm
              **/
             FKBase(const std::string& column,const bool nullable=true);
 
-            T::value_ptr value_ptr; ///< the stored object
+            typename T::type_ptr value_ptr; ///< the stored object
 
             /**
              * \brief Set the fk value to the query
@@ -116,7 +116,7 @@ namespace orm
              *
              * \return The new object
              **/
-            T* getObjectT_ptr(DB& db,int max_depth = ORM_DEFAULT_MAX_DEPTH);
+            void setObjectT_ptr(DB& db,int max_depth = ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief make the attrs colum name

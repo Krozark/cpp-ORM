@@ -31,11 +31,12 @@ namespace orm
     template<typename T>
     const SqlObjectBase& FKBase<T>::getObject(DB& db,int max_depth)
     {
-        return *getObjectT_ptr(db,max_depth);
+        setObjectT_ptr(db,max_depth);
+        return *value_ptr;
     };
 
     template<typename T>
-    T* FKBase<T>::getObjectT_ptr(DB& db,int max_depth)
+    void FKBase<T>::setObjectT_ptr(DB& db,int max_depth)
     {
         //if (not loaded)
         if (not value_ptr.get())
@@ -52,7 +53,6 @@ namespace orm
                 /*loaded =*/ modify = true;
             }
         }
-        return value_ptr.get();
     };
 
     template<typename T>
@@ -98,7 +98,7 @@ namespace orm
         /*if (not nullable)
         {
             if(not loaded)
-                getObjectT_ptr();
+                setObjectT_ptr();
             return query.set(fk,column);
         }
         return query.setNull(fk,column);
@@ -110,16 +110,18 @@ namespace orm
     };
 
     template<typename T>
-    T* FKBase<T>::operator->()
+    typename T::type_ptr FKBase<T>::operator->()
     {
         modify = true;
-        return getObjectT_ptr(*T::default_connection);
+        setObjectT_ptr(*T::default_connection);
+        return value_ptr;
     };
 
     template<typename T>
     T& FKBase<T>::operator*()
     {
-        return *getObjectT_ptr(*T::default_connection);
+        setObjectT_ptr(*T::default_connection);
+        return *value_ptr;
     };
 
     template<typename T>
@@ -155,7 +157,7 @@ namespace orm
 
         if(not nullable)
         {
-            getObjectT_ptr(db);
+            setObjectT_ptr(db);
         }
         if(modify)
         {
