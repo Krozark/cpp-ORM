@@ -123,7 +123,7 @@ To build the exemple (the database is include)
         orm::DB::Default.connect();
     
         //get perso with pk=1
-        auto& p1 = Perso::get(1);
+        Perso::type_ptr p1 = Perso::get(1);
         //see it
         cout<<*p1<<endl;
         //modify it
@@ -133,11 +133,11 @@ To build the exemple (the database is include)
 
 
         //add one
-        Perso p2;// = new Perso;
-        p2.name = "test insert";
-        p2.lvl = 75;
-        p2.save(); //save it
-        cout<<p2<<endl;
+        Perso::type_ptr p2 = Perso::create();// = new Perso;
+        p2->name = "test insert";
+        p2->lvl = 75;
+        p2->save(); //save it
+        cout<<*p2<<endl;
 
         // all
         cout<<"All persos"<<endl;
@@ -148,11 +148,11 @@ To build the exemple (the database is include)
         list.clear();
         //custom query
         Perso::query()\
-            .filter(Q<Perso>(4,"gt",Perso::_lvl)
-                and Q<Perso>(42,"gte",Perso::_lvl)
-                and Q<Perso>("test","startswith",Perso::_name)
-                and not Q<Perso>(4,"lt",Perso::_lvl)
-            ).orderBy(Perso::_name)\
+            .filter(Q<Perso>(4,"gt",Perso::$lvl)
+                and Q<Perso>(42,"gte",Perso::$lvl)
+                and Q<Perso>("test","startswith",Perso::$name)
+                and not Q<Perso>(4,"lt",Perso::$lvl)
+            ).orderBy(Perso::$name)\
             .limit(42)\
             .get(lis); //get take a list T::result_type& or a T& as param
         for(auto u : lis)
