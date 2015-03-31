@@ -168,18 +168,20 @@ int main(int argc,char* argv[])
 
     {
         std::cout<<"======= TestTypes ======="<<std::endl;
-        TestTypes test;
-        test.booleanField = false;
-        test.charField = "test";
-        test.datetimeField = orm::DateTimeField::now();
-        test.integerField = 42;
-        test.floatField = 4.2;
-        test.doubleField = 4.2;
-        test.textField = "this is a long text for testing";
-        test.unsignedIntegerField = -1;
 
-        cout<<"Current test"<<test<<endl;
-        test.save();
+        TestTypes::type_ptr test = TestTypes::create();
+
+        test->booleanField = false;
+        test->charField = "test";
+        test->datetimeField = orm::DateTimeField::now();
+        test->integerField = 42;
+        test->floatField = 4.2;
+        test->doubleField = 4.2;
+        test->textField = "this is a long text for testing";
+        test->unsignedIntegerField = -1;
+
+        cout<<"Current test"<<*test<<endl;
+        test->save();
         cout<<"Save current"<<endl;
 
         TestTypes::result_type lis;
@@ -195,12 +197,12 @@ int main(int argc,char* argv[])
         }
 
         cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
-        TestTypes test2;
-        test2.datetimeField = test.datetimeField - orm::DateTimeField::day(1);
+        TestTypes::type_ptr test2 = TestTypes::create();
+        test2->datetimeField = test->datetimeField - orm::DateTimeField::day(1);
 
         lis.clear();
         TestTypes::query()
-            .filter(orm::Q<TestTypes>(test2.datetimeField.value(),orm::op::gt,TestTypes::$datetimeField))
+            .filter(orm::Q<TestTypes>(test2->datetimeField.value(),orm::op::gt,TestTypes::$datetimeField))
             .get(lis);
         //.__print__();
         for(auto u : lis)
@@ -209,10 +211,11 @@ int main(int argc,char* argv[])
             cout<<*u<<endl;
         }
 
-    }
-return 0;
+        test2->save();
 
-    std::cout<<"=============="<<std::endl;
+    }
+
+    /*std::cout<<"=============="<<std::endl;
     {
         auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
@@ -433,6 +436,8 @@ return 0;
     }
 
     std::cout<<"=============="<<std::endl;
+    
+    */
 
 
     DB::Default.disconnect();
