@@ -215,7 +215,7 @@ int main(int argc,char* argv[])
 
     }
 
-    /*std::cout<<"=============="<<std::endl;
+    std::cout<<"=============="<<std::endl;
     {
         auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
@@ -247,17 +247,17 @@ int main(int argc,char* argv[])
             //.get(lis);
 
         std::cout<<"Add spell s1"<<std::endl;
-        Spell s1;
-        s1.name = "s1";
-        s1.element = 1;
-        s1.save();
+        Spell::type_ptr s1 = Spell::create();
+        s1->name = "s1";
+        s1->element = 1;
+        s1->save();
         p1->spells.add(s1);
 
         std::cout<<"Add spell s2"<<std::endl;
-        Spell s2;
-        s2.name = "s2";
-        s2.element = 2;
-        s2.save();
+        Spell::type_ptr s2 = Spell::create();
+        s2->name = "s2";
+        s2->element = 2;
+        s2->save();
         p1->spells.add(s2);
 
         std::cout<<"All his spells"<<std::endl;
@@ -281,7 +281,7 @@ int main(int argc,char* argv[])
     }
     std::cout<<"=============="<<std::endl;
 
-   {
+   /*{
        cout<<"All persos"<<endl;
        Perso::result_type lis= Perso::all();
        for(auto u : lis)
@@ -436,7 +436,7 @@ int main(int argc,char* argv[])
     }
 
     std::cout<<"=============="<<std::endl;
-    
+
     */
 
 

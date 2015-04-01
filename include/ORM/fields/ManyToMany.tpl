@@ -34,7 +34,7 @@ namespace orm
     {
         U::nameAttrs(q_str,ORM_MAKE_NAME(related),max_depth,db);
     }
-    
+
     template<typename T,typename U>
     void ManyToMany<T,U>::nameTables(std::string& q_str,int max_depth,DB& db)
     {
@@ -64,47 +64,46 @@ namespace orm
     template<typename T,typename U>
     bool ManyToMany<T,U>::add(const typename U::type_ptr& obj,DB& db)
     {
-        bool res = add(*obj,db);
-#ifdef ORM_USE_CACHE
-        if(res)
-        {
-            _adds = true;
-            _cache.emplace_back(obj);
-        }
-#endif
-        return res;
-    }
-
-    template<typename T,typename U>
-    bool ManyToMany<T,U>::add(const U& obj,DB& db)
-    {
         if(owner.pk <=0)
         {
             ORM_PRINT_ERROR("The M2M owner as not be saved")
             return false;
         }
-        if(obj.pk<=0)
+        if(obj->pk<=0)
         {
             ORM_PRINT_ERROR("The object must be save to be add in a M2M")
             return false;
         }
-        
+
         std::string q_str = "INSERT INTO "+db.escapeColumn(table)
             +"("+ORM_MAKE_NAME(owner)+","+ORM_MAKE_NAME(linked)+") VALUES ((?),(?));";
 
-        Query& q = *db.prepareQuery(q_str);
-        q.set(owner.pk,1);
-        q.set(obj.pk,2);
+        std::unique_ptr<Query> q(db.prepareQuery(q_str));
+        q->set(owner.pk,1);
+        q->set(obj->pk,2);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<BLEU<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;
+        std::cerr<<BLEU<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj->pk<<")"<<BLANC<<std::endl;
         #endif
-        
-        q.execute();
-        q.next();
-        delete &q;
+
+        q->execute();
+        q->next();
+
+
+#ifdef ORM_USE_CACHE
+
+        _adds = true;
+        _cache.emplace_back(obj);
+
+#endif
         return true;
-    };
+    }
+
+    /*template<typename T,typename U>
+    bool ManyToMany<T,U>::add(const U& obj,DB& db)
+    {
+
+    };*/
 
     template<typename T,typename U>
     void ManyToMany<T,U>::remove(const typename U::type_ptr& obj,DB& db)
@@ -119,7 +118,7 @@ namespace orm
             return;
 
         const std::string table_escaped = db.escapeColumn(table);
-        
+
         std::string q_str = "DELETE FROM "+table_escaped+" WHERE ("
             +table_escaped+"."+db.escapeColumn(ORM_MAKE_NAME(owner))+" = (?)"
             +" AND "
@@ -132,7 +131,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;
         #endif
-        
+
         q.execute();
         q.next();
         delete &q;
@@ -145,7 +144,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
         std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
         #endif
-        
+
         static std::vector<const VAttr*> column_attrs = {
             new FK<T,false>(ORM_MAKE_NAME(owner)),
             new FK<U,false>(ORM_MAKE_NAME(linked))

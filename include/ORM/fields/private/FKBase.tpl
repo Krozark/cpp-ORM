@@ -15,7 +15,6 @@ namespace orm
     template<typename T>
     FKBase<T>::FKBase(const std::string& column,bool nullable) : VFK(column,nullable)/*, value_ptr(0)*/
     {
-        //value_ptr.reset(new T());
     }
 
     template<typename T>
@@ -49,7 +48,7 @@ namespace orm
             }
             else
             {
-                value_ptr.reset(new T());
+                value_ptr = T::create();
                 /*loaded =*/ modify = true;
             }
         }
@@ -104,7 +103,7 @@ namespace orm
         return query.setNull(fk,column);
         */
         //if(loaded)
-        if(value_ptr.get())
+        if(value_ptr.get() and fk>0)
             return query.set(fk,column);
         return query.setNull(fk,column);
     };
@@ -159,20 +158,23 @@ namespace orm
     template<typename T>
     bool FKBase<T>::save(bool recursive,DB& db)
     {
-        bool res = true;
+        bool res = false;
 
         if(not nullable)
         {
             setObjectT_ptr(db);
         }
+		
+		
         if(modify)
         {
-            modify = false;
+            modify = false; //avoid loop cause by user callbacks
             res = value_ptr->save(recursive,db);
             if(fk<=0)
             {
                 value_ptr = T::cache.add(value_ptr);
             }
+            modify = value_ptr->pk != fk;
             fk = value_ptr->pk;
         }
         return res;
