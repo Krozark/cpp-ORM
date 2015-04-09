@@ -100,7 +100,7 @@ namespace orm
 
             pk = getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<"new PK: "<<pk<<BLANC<<std::endl;
+            std::cerr<<JAUNE<<"new PK: "<<pk<<" in table "<<table<<BLANC<<std::endl;
             #endif
 
             return true;
@@ -125,7 +125,7 @@ namespace orm
                 if(attrs[i]->modify)
                 {
                     if(not first)
-                        str_q+=",";
+                        str_q+=", ";
                     first = false;
                     str_q+=attrs[i]->column+"=(?)";
 
@@ -141,7 +141,7 @@ namespace orm
                 std::cerr<<BLEU2<<"[Sql:update] "<<str_q<<"\nNo Update needed, exit"<<BLANC<<std::endl;
                 #endif
 
-                return true;
+                return false;
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL

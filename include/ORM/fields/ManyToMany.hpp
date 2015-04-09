@@ -36,7 +36,7 @@ namespace orm
             * \return all the objects T
             **/
             typename RELATED::result_type all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
-
+            
             /**
              * \brief add a object in the relation
              *
@@ -44,7 +44,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            //bool add(const RELATED& obj,DB& db=*default_connection);
+            bool add(const RELATED& obj,DB& db=*default_connection);
 
             /**
              * \brief add a object in the relation
