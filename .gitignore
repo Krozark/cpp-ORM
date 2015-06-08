@@ -18,10 +18,5 @@
 CMakeCache.txt
 CMakeFiles
 Makefile
-*.cmake
-install_manifest.txt
-doc/html
-build/doc/Doxyfile
-*.cbp
-build/ORM.layout
-*.dll
+
+build/*
