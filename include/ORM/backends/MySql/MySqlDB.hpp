@@ -4,8 +4,8 @@
 #include <ORM/backends/DB.hpp>
 #include <ORM/backends/MySql/MySqlTableCreator.hpp>
 
-#include <cppconn/driver.h>
-#include <cppconn/statement.h>
+//#include <cppconn/driver.h>
+//#include <cppconn/statement.h>
 
 namespace orm
 {

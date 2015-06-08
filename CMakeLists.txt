@@ -1,13 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
 
-# define a macro that helps defining an option
-macro(set_option var default type docstring)
-    if(NOT DEFINED ${var})
-        set(${var} ${default})
-    endif()
-    set(${var} ${${var}} CACHE ${type} ${docstring} FORCE)
-endmacro()
-
 # project name
 set(PROJECT_NAME ORM)
 project(${PROJECT_NAME})
@@ -16,6 +8,9 @@ project(${PROJECT_NAME})
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 4)
 set(VERSION_PATCH 1)
+
+include(cmake/macro.cmake)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
 
 
 # add the  header path
@@ -39,8 +34,9 @@ if(ORM_BUILD_SUPPORT_SQLITE3)
 endif()
 
 if(ORM_BUILD_SUPPORT_MYSQL)
-	find_library(LIB_MYSQL mysqlcppconn)
-	set(LIBS ${LIBS} ${LIB_MYSQL})
+    find_package(MySQL REQUIRED)
+    include_directories(${MYSQL_INCLUDE_DIR})
+    set(LIBS ${LIBS} ${MYSQL_LIBRARIES})
 endif()
 
 

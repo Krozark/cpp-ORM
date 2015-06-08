@@ -19,7 +19,8 @@ Tested on
 ----------
 
 * Windows x64 (sqlite3 only) + Mingw 4.9 [v 0.4+]
-* Ubuntu + Gcc 4.8 [v 0.1+]
+* Ubuntu + Gcc 4.8+ [v 0.1+]
+* Ubuntu + clang 3.3+ [v 0.1+]
 
 
 
@@ -52,10 +53,10 @@ Data bases supported
 Requirement
 ===========
 
-* Mysql cppcon (if Mysql support is needed)
-* doxygen (for user doc only)
+* Mysql cppcon (if Mysql support is needed). Can be find here : https://dev.mysql.com/downloads/connector/c/
 * ~~lib Sqlite3~~ [included since v 0.4]
 * pthread (for linux only) [v 0.4+]
+* doxygen (for user doc only)
 
 
 TODO
@@ -70,7 +71,9 @@ Installation
 
 You just have to use cmake:
 
-    cmake.
+    mkdir build
+    cd build
+    cmake ..
     make
     make install
 
