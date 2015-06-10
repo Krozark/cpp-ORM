@@ -25,10 +25,10 @@ namespace orm
         #endif
         
         executed = true;
-        if(not prepared)
+        /*if(not prepared)
         {
             query+=";";
-        }
+        }*/
         executeQuery();
     };
 

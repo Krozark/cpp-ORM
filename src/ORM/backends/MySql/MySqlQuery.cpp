@@ -1,33 +1,39 @@
 #include <ORM/backends/MySql/MySqlQuery.hpp>
 
-#include <cppconn/exception.h>
+//#include <cppconn/exception.h>
 #include <sstream>
 #include <iomanip>
 
 namespace orm
 {
-    MySqlQuery::MySqlQuery(DB& db,const std::string& query) : Query(db,query), db_res(0), prepared_statement(0), statement(0)
+    MySqlQuery::MySqlQuery(DB& db,const std::string& query) : Query(db,query), db_res(nullptr), prepared_statement(nullptr)
     {
-    };
-
-    MySqlQuery::MySqlQuery(DB& db,std::string&& query) : Query(db,query), db_res(0), prepared_statement(0), statement(0)
-    {
+        //remove all ';' at the end 
+        auto s = query.size() -1;
+        while(s >= 0 and query[s] == ';')
+            --s;
+        if(s != query.size() - 1)
+            Query::query = Query::query.substr(0,s);
     };
 
     MySqlQuery::~MySqlQuery()
     {
         if(prepared and prepared_statement)
-            delete prepared_statement;
-        if(not prepared and statement)
-            delete statement;
+        {
+            mysql_stmt_close(prepared_statement);
+            prepared_statement = nullptr;
+        }
+
         if(db_res)
-            delete db_res;
+        {
+            mysql_free_result(db_res);
+        }
     };
 
 
     int MySqlQuery::count()const
     {
-        return db_res->rowsCount();
+        return mysql_num_rows(db_res);
     };
 
     bool MySqlQuery::get(bool& value,const int& column)const

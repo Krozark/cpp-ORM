@@ -8,11 +8,11 @@
 namespace orm
 {
 
-    DB::DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,const std::string& port) : s_username(username),
+    DB::DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,int port) : s_username(username),
         s_password(pass),
         s_db_name(db),
         s_serveur(serveur),
-        s_port(port)
+        _port(port)
     {
     };
 
@@ -25,7 +25,7 @@ namespace orm
         return (
                 (s_db_name == other.s_db_name)
                 and (s_serveur == other.s_serveur)
-                and (s_port == other.s_port)
+                and (_port == other._port)
                 //and (s_username == other.s_username)
                 //and (s_password === other.s_password)
                 );
@@ -52,7 +52,7 @@ namespace orm
 
     void DB::setPort(unsigned int port)
     {
-        s_port = std::to_string(port);
+        _port = port;
     }
 
     bool DB::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)

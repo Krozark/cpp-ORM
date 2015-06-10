@@ -4,8 +4,7 @@
 #include <ORM/backends/DB.hpp>
 #include <ORM/backends/MySql/MySqlTableCreator.hpp>
 
-//#include <cppconn/driver.h>
-//#include <cppconn/statement.h>
+#include <mysql.h>
 
 namespace orm
 {
@@ -26,7 +25,7 @@ namespace orm
             * \param serveur IP adresse of the serveur to connect (default value is 127.0.0.1 as the default for mytsql)
             * \param port Port to use for the connection (the default is 3306 as the default of mysql)
             **/
-            MySqlDB(std::string username,std::string pass,std::string db,std::string serveur="tcp://127.0.0.1",std::string port="3306");
+            MySqlDB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur="tcp://127.0.0.1",int port=3306);
 
             /**
              * \brief Destructor
@@ -180,10 +179,12 @@ namespace orm
             virtual std::string limit(const int& skip,const int& count)const override;
 
         private:
-            sql::Driver     *driver; ///< Create a pointer to a MySql driver object
-            sql::Connection *dbConn; ///< Create a pointer to a database connection object
+            MYSQL* dbConn; ///< Create a pointer to a database connection object
 
             static MySqlTableCreator my_creator;
+
+
+
     };
 };
 #endif

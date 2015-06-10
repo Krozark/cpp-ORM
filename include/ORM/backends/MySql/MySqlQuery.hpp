@@ -1,8 +1,7 @@
 #ifndef ORM_MYSqlQUERY_HPP
 #define ORM_MYSqlQUERY_HPP
 
-#include <cppconn/resultset.h>
-#include <cppconn/prepared_statement.h>
+#include <mysql.h>
 
 #include <ORM/backends/Query.hpp>
 
@@ -24,13 +23,6 @@ namespace orm
              **/
             MySqlQuery(DB& db,const std::string& query);
 
-            /**
-             * \brief Create a query
-             *
-             * \param db database where the query will be execute
-             * \param query Query string to execute
-             **/
-            MySqlQuery(DB& db,std::string&& query);
 
             MySqlQuery(const MySqlQuery&) = delete;
             MySqlQuery& operator=(const MySqlQuery&) = delete;
@@ -288,38 +280,37 @@ namespace orm
         private:
             friend class MySqlDB;
 
-            sql::ResultSet  *db_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
-            sql::PreparedStatement *prepared_statement; ///< Hold the statement
-            sql::Statement  *statement; ///< Create a pointer to a Statement object to hold our Sql commands
+            MYSQL_RES  *db_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
+
+            std::vector<MYSQL_BIND> prepared_res;
+
+            MYSQL_STMT *prepared_statement;///< Hold the statement
     };
 };
-/* sql::DataType (mysql)
- * 	enum {
-		UNKNOWN = 0,
-		BIT,
-		TINYINT,
-		SMALLINT,
-		MEDIUMINT,
-		INTEGER,
-		BIGINT,
-		REAL,
-		DOUBLE,
-		DECIMAL,
-		NUMERIC,
-		CHAR,
-		BINARY,
-		VARCHAR,
-		VARBINARY,
-		LONGVARCHAR,
-		LONGVARBINARY,
-		TIMESTAMP,
-		DATE,
-		TIME,
-		YEAR,
-		GEOMETRY,
-		ENUM,
-		SET,
-		SqlNULL
-	};*/
+
+/*enum enum_field_types { MYSQL_TYPE_DECIMAL, MYSQL_TYPE_TINY,
+			MYSQL_TYPE_SHORT,  MYSQL_TYPE_LONG,
+			MYSQL_TYPE_FLOAT,  MYSQL_TYPE_DOUBLE,
+			MYSQL_TYPE_NULL,   MYSQL_TYPE_TIMESTAMP,
+			MYSQL_TYPE_LONGLONG,MYSQL_TYPE_INT24,
+			MYSQL_TYPE_DATE,   MYSQL_TYPE_TIME,
+			MYSQL_TYPE_DATETIME, MYSQL_TYPE_YEAR,
+			MYSQL_TYPE_NEWDATE, MYSQL_TYPE_VARCHAR,
+			MYSQL_TYPE_BIT,
+			MYSQL_TYPE_TIMESTAMP2,
+			MYSQL_TYPE_DATETIME2,
+			MYSQL_TYPE_TIME2,
+                        MYSQL_TYPE_NEWDECIMAL=246,
+			MYSQL_TYPE_ENUM=247,
+			MYSQL_TYPE_SET=248,
+			MYSQL_TYPE_TINY_BLOB=249,
+			MYSQL_TYPE_MEDIUM_BLOB=250,
+			MYSQL_TYPE_LONG_BLOB=251,
+			MYSQL_TYPE_BLOB=252,
+			MYSQL_TYPE_VAR_STRING=253,
+			MYSQL_TYPE_STRING=254,
+			MYSQL_TYPE_GEOMETRY=255
+
+};*/
 
 #endif

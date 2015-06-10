@@ -29,7 +29,7 @@ namespace orm
             * \param serveur IP adresse of the serveur to connect
             * \param port Port to use for the connection
             **/
-            DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,const std::string& port);
+            DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur, int port);
 
 
             /***
@@ -186,7 +186,7 @@ namespace orm
             std::string s_password; ///< Username password use for the connection
             std::string s_db_name; ///< Database  name use for the connection
             std::string s_serveur; ///< Ip of tfe serveur to make the connection
-            std::string s_port; ///< Port to use for the connection
+            int _port; ///< Port to use for the connection
 
             /**
             * \brief Map the operators that can be use

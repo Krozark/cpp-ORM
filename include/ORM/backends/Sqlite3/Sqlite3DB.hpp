@@ -21,7 +21,7 @@ namespace orm
             *
             * \param db Database name to use
             **/
-            Sqlite3DB(std::string db);
+            Sqlite3DB(const std::string& db);
 
             /**
              * \brief Destructor

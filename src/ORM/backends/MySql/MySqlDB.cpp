@@ -4,16 +4,20 @@
 #include <ORM/fields/private/VAttr.hpp>
 #include <ORM/backends/op.hpp>
 
-#include <cppconn/exception.h>
+#include <my_global.h>
+
+#include <mutex>
+
+std::mutex _counterMutex;
+int _counter = 0;
 
 namespace orm
 {
     MySqlTableCreator MySqlDB::my_creator;
 
-    MySqlDB::MySqlDB(std::string username,std::string pass,std::string db,std::string serveur,std::string port) :
+    MySqlDB::MySqlDB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,int port) :
         DB(username,pass,db,serveur,port),
-        driver(0),
-        dbConn(0)
+        dbConn(nullptr)
     {
         //Operators
         operators[op::exact]= " = %s";
@@ -36,94 +40,120 @@ namespace orm
         operators["+"] = " ASC ";
         operators["-"] = " DESC ";
 
+        {
+            std::lock_guard<std::mutex> guard(_counterMutex);
+            if (_counter++ == 0)
+            {
+                if(mysql_library_init(0,nullptr,nullptr))
+                {
+                    std::cerr<<"Unable to initialize MySQL library"<<std::endl;
+                }
+            }
+        }
+
         //escape_char = "";
     };
 
     MySqlDB::~MySqlDB()
     {
-        if(dbConn)
-            delete dbConn;
+        disconnect();
+
+        {
+            std::lock_guard<std::mutex> guard(_counterMutex);
+            if (--_counter == 0)
+            {
+                mysql_library_end();
+            }
+        }
+
     };
 
     DB* MySqlDB::clone()const
     {
-        MySqlDB* copy = new MySqlDB(this->s_username,this->s_password,this->s_db_name,this->s_serveur,this->s_port);
+        MySqlDB* copy = new MySqlDB(this->s_username,this->s_password,this->s_db_name,this->s_serveur,this->_port);
         return copy;
     }
     
     bool MySqlDB::connect()
     {
-        try{
-            driver = get_driver_instance();
-        }catch (sql::SQLException& e){
-            std::cerr << "Could not get a database driver. Error message: " << e.what() <<std::endl;
+        dbConn = mysql_init(nullptr);
+        if(dbConn == nullptr)
+        {
+            std::cerr << "Could not get a database driver. Error message: "<< mysql_error(dbConn) <<std::endl;
             return false;
         }
 
-        try{
-            dbConn = driver->connect(s_serveur+":"+s_port,s_username,s_password);
-        }
-        catch (sql::SQLException& e){
-            std::cerr<< "Could not connect to database. Error message: " << e.what() << std::endl;
+        if(mysql_real_connect(dbConn, s_serveur.c_str(),s_username.c_str(),s_password.c_str(),
+                              s_db_name.c_str(), _port, nullptr /* socket*/, 0 /*flags*/) == nullptr)
+        {
+            std::cerr<< "Could not connect to database. Error message: " <<  mysql_error(dbConn)  << std::endl;
+            disconnect();
             return false;
         }
-
-        sql::Statement* statement = dbConn->createStatement();
-        statement->execute("USE "+escapeColumn(s_db_name));
-
-        std::cerr<<"MySqlDB::Connect to "<<s_serveur<<" using database: "<<s_db_name<<std::endl;
-
-        delete statement;
 
         return true;
     };
 
     bool MySqlDB::disconnect()
     {
-        return true;
+        bool res = false;
+        if(dbConn)
+        {
+            mysql_close(dbConn);
+            dbConn = nullptr;
+            res = true;
+        }
+        return res;
     };
 
     void MySqlDB::threadInit()
     {
-        driver->threadInit();
+        mysql_thread_init();
     }
 
     void MySqlDB::threadEnd()
     {
-        driver->threadEnd();
+        mysql_thread_end();
     }
 
     Query* MySqlDB::query(const std::string& str)
     {
         auto q = new MySqlQuery(*this,str);
-        q->statement = dbConn->createStatement();
         q->prepared = false;
         return q;
     };
 
     Query* MySqlDB::query(std::string&& str)
     {
-        auto q = new MySqlQuery(*this,str);
-        q->statement = dbConn->createStatement();
-        q->prepared = false;
-        return q;
+        return query(str);
     };
 
 
     Query* MySqlDB::prepareQuery(const std::string& str)
     {
         auto q = new MySqlQuery(*this,str);
-        q->prepared_statement = dbConn->prepareStatement(str);
+        q->prepared_statement = mysql_stmt_init(dbConn);
         q->prepared = true;
+
+        if(q->prepared_statement == nullptr)
+        {
+            std::cerr<<" Could not create the statement. Error message : "<< mysql_error(dbConn) <<std::endl;
+            delete q;
+            q = nullptr;
+        }
+
+        else if(mysql_stmt_prepare(q->prepared_statement,str.c_str(),str.size()) != 0)
+        {
+            std::cerr<<" Could not prepare the statement. Error message : "<< mysql_error(dbConn) <<std::endl;
+            delete q;
+            q = nullptr;
+        }
         return q;
     };
 
     Query* MySqlDB::prepareQuery(std::string&& str)
     {
-        auto q = new MySqlQuery(*this,str);
-        q->prepared_statement = dbConn->prepareStatement(str);
-        q->prepared = true;
-        return q;
+        return prepareQuery(str);
     }
 
     bool MySqlDB::create(const std::string& table,const std::vector<const VAttr*>& attrs)
@@ -137,7 +167,7 @@ namespace orm
         {
             sql+=",\n"+attrs[i]->create(db);
         }
-        sql+="\n);";
+        sql+="\n)";
 
         Query* q = this->query(sql);
         q->execute();
@@ -149,7 +179,7 @@ namespace orm
 
     bool MySqlDB::drop(const std::string& table)
     {
-        std::string sql = "DROP TABLE "+escapeColumn(table)+";";
+        std::string sql = "DROP TABLE "+escapeColumn(table);
 
         Query* q = this->query(sql);
         q->execute();
@@ -162,7 +192,7 @@ namespace orm
     bool MySqlDB::clear(const std::string& table)
     {
 
-        std::string sql = "TRUNCATE "+escapeColumn(table)+";";
+        std::string sql = "TRUNCATE "+escapeColumn(table);
 
         Query* q = this->query(sql);
         q->execute();
@@ -176,28 +206,32 @@ namespace orm
     
     void MySqlDB::beginTransaction()
     {
-        sql::Statement* statement = dbConn->createStatement();
-        statement->execute("START TRANSACTION;");
-        delete statement;
+        Query* q = this->query("START TRANSACTION");
+        q->execute();
+        q->next();
+        delete q;
     };
 
     void MySqlDB::endTransaction()
     {
-        sql::Statement* statement = dbConn->createStatement();
-        statement->execute("COMMIT;");
-        delete statement;
+        Query* q = this->query("COMMIT");
+        q->execute();
+        q->next();
+        delete q;
+
     };
 
     void MySqlDB::rollback()
     {
-        sql::Statement* statement = dbConn->createStatement();
-        statement->execute("ROLLBACK;");
-        delete statement;
+        Query* q = this->query("ROLLBACK");
+        q->execute();
+        q->next();
+        delete q;
     };
 
     int MySqlDB::getLastInsertPk()
     {
-        Query& q = *query("SELECT LAST_INSERT_ID();");
+        Query& q = *query("SELECT LAST_INSERT_ID()");
 
         q.execute();
         q.next();

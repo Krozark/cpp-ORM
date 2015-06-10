@@ -9,7 +9,7 @@ namespace orm
 {
     Sqlite3TableCreator Sqlite3DB::my_creator;
 
-    Sqlite3DB::Sqlite3DB(std::string db) : DB("","",db,"",""), dbConn(0)
+    Sqlite3DB::Sqlite3DB(const std::string& db) : DB("","",db,"",0), dbConn(0)
 
     {
         //operators
