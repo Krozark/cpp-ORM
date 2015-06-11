@@ -281,8 +281,10 @@ namespace orm
             friend class MySqlDB;
 
             MYSQL_RES  *db_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
+            MYSQL_ROW current_res;
+            int num_fields_res;
 
-            std::vector<MYSQL_BIND> prepared_res;
+            std::vector<MYSQL_BIND> prepared_params;
 
             MYSQL_STMT *prepared_statement;///< Hold the statement
     };

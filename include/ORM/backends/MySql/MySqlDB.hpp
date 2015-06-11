@@ -179,6 +179,8 @@ namespace orm
             virtual std::string limit(const int& skip,const int& count)const override;
 
         private:
+            friend class MySqlQuery;
+
             MYSQL* dbConn; ///< Create a pointer to a database connection object
 
             static MySqlTableCreator my_creator;

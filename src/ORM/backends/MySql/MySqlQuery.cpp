@@ -6,7 +6,7 @@
 
 namespace orm
 {
-    MySqlQuery::MySqlQuery(DB& db,const std::string& query) : Query(db,query), db_res(nullptr), prepared_statement(nullptr)
+    MySqlQuery::MySqlQuery(DB& db,const std::string& query) : Query(db,query), db_res(nullptr), current_res(nullptr), num_fields_res(0),prepared_statement(nullptr)
     {
         //remove all ';' at the end 
         auto s = query.size() -1;
@@ -33,7 +33,10 @@ namespace orm
 
     int MySqlQuery::count()const
     {
-        return mysql_num_rows(db_res);
+        if(prepared)
+            return mysql_stmt_num_row(prepared_statement);
+        else
+            return mysql_num_rows(db_res);
     };
 
     bool MySqlQuery::get(bool& value,const int& column)const
@@ -224,7 +227,15 @@ namespace orm
 
     bool MySqlQuery::next()
     {
-        return db_res->next();
+        if(prepared)
+        {
+            #error TODO
+        }
+        else
+        {
+            current_res = mysql_fetch_row(db_res);
+            return (current_res != nullptr);
+        }
     }
 
     bool MySqlQuery::set(const bool& value,const unsigned int& column)
@@ -329,9 +340,49 @@ namespace orm
     void MySqlQuery::executeQuery()
     {
         if(prepared)
-            db_res = prepared_statement->executeQuery();
+        {
+            if(mysql_stmt_prepare(prepared_statement,query.c_str(),query.size()))
+            {
+                std::cerr<"Could not execute the query. Error message:"<<mysql_stmt_error(prepared_statement)<<std::endl;
+                return;
+            }
+
+            if(mysql_stmt_bind_param(prepared_statement,prepared_params.data()))
+            {
+                std::cerr<<"mysql_stmt_bind_param failed"<<std::endl;
+                return;
+            }
+
+            if(mysql_stmt_execute(prepared_statement))
+            {
+                std::cerr<<"mysql_stmt_execute(), failed. Error messuge: "<<mysql_stmt_error(statement)<<std:endl;
+                return;
+            }
+
+            db_res = mysql_stmt_result_metadata(prepared_statement);
+            num_fields_res = mysql_num_fields(bd_res);
+
+
+        }
         else
-            db_res = statement->executeQuery(query);
+        {
+            MYSQL* con = static_cast<MySqlQuery&>(Query::db)->dbConn;
+            if(mysql_query(conn,query.c_str()))
+            {
+                std::cerr<"Could not execute the query. Error message:"<<mysql_error(con)<<std::endl;
+                return;
+            }
+
+            bd_res = mysql_store_result(con);
+            if(bd_res == nullptr)
+            {
+                std::cerr<"Could not get query results. Error message:"<<mysql_error(con)<<std::endl;
+                return;
+            }
+
+            num_fields_res = mysql_num_fields(bd_res);
+        }
+
     };
 
 };
