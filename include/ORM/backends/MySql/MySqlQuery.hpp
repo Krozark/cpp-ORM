@@ -285,8 +285,11 @@ namespace orm
             int num_fields_res;
 
             std::vector<MYSQL_BIND> prepared_params;
+            std::vector<MYSQL_BIND> prepared_results;
 
             MYSQL_STMT *prepared_statement;///< Hold the statement
+
+            bool initResults();
     };
 };
 

@@ -362,7 +362,6 @@ namespace orm
             db_res = mysql_stmt_result_metadata(prepared_statement);
             num_fields_res = mysql_num_fields(bd_res);
 
-
         }
         else
         {
@@ -384,5 +383,58 @@ namespace orm
         }
 
     };
+
+    bool MySqlQuery::initResults()
+    {
+        prepared_results.clear();
+        prepared_results.resize(num_fields_res);
+
+        std::memset(prepared_results.data(), 0, sizeof(MYSQL_BIND)*num_fields_res);
+
+        int i = 0;
+
+        MYSQL_FIELD *field;
+        while((field = mysql_fetch_field(db_res)))
+        {
+            prepared_results[i].buffer_type = field->type;
+            switch(field->type)
+            {
+                case MYSQL_TYPE_DECIMAL:
+                {
+                    prepared_results[i].buffer = new double;
+                    prepared_results[i].buffer_length = sizeof(double);
+                }break;
+                   /*MYSQL_TYPE_TINY,
+			MYSQL_TYPE_SHORT,  MYSQL_TYPE_LONG,
+			MYSQL_TYPE_FLOAT,  MYSQL_TYPE_DOUBLE,
+			MYSQL_TYPE_NULL,   MYSQL_TYPE_TIMESTAMP,
+			MYSQL_TYPE_LONGLONG,MYSQL_TYPE_INT24,
+			MYSQL_TYPE_DATE,   MYSQL_TYPE_TIME,
+			MYSQL_TYPE_DATETIME, MYSQL_TYPE_YEAR,
+			MYSQL_TYPE_NEWDATE, MYSQL_TYPE_VARCHAR,
+			MYSQL_TYPE_BIT,
+			MYSQL_TYPE_TIMESTAMP2,
+			MYSQL_TYPE_DATETIME2,
+			MYSQL_TYPE_TIME2,
+                        MYSQL_TYPE_NEWDECIMAL=246,
+			MYSQL_TYPE_ENUM=247,
+			MYSQL_TYPE_SET=248,
+			MYSQL_TYPE_TINY_BLOB=249,
+			MYSQL_TYPE_MEDIUM_BLOB=250,
+			MYSQL_TYPE_LONG_BLOB=251,
+			MYSQL_TYPE_BLOB=252,
+			MYSQL_TYPE_VAR_STRING=253,
+			MYSQL_TYPE_STRING=254,
+			MYSQL_TYPE_GEOMETRY=255*/
+
+            }
+            //unsigned long max_length;   /* Max width for selected set */
+            //enum enum_field_types type; /* Type of field. See mysql_com.h for types */
+
+            ++i;
+        }
+
+        return (i == num_fields_res);
+    }
 
 };
