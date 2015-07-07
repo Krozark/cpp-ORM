@@ -251,7 +251,7 @@ namespace orm
 
     int MySqlDB::getInitialGetcolumnNumber() const
     {
-        return 1;
+        return 0;
     }
 
     std::string MySqlDB::limit(const int& skip,const int& count)const

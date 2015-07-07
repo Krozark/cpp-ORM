@@ -290,6 +290,8 @@ namespace orm
             MYSQL_STMT *prepared_statement;///< Hold the statement
 
             bool initResults();
+
+            void _resizePreparedParams(unsigned int size);
     };
 };
 
@@ -316,6 +318,8 @@ namespace orm
 			MYSQL_TYPE_STRING=254,
 			MYSQL_TYPE_GEOMETRY=255
 
-};*/
+};
+https://dev.mysql.com/doc/refman/5.6/en/c-api-prepared-statement-type-codes.html
+*/
 
 #endif
