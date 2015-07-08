@@ -25,7 +25,7 @@ namespace orm
             * \param serveur IP adresse of the serveur to connect (default value is 127.0.0.1 as the default for mytsql)
             * \param port Port to use for the connection (the default is 3306 as the default of mysql)
             **/
-            MySqlDB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur="tcp://127.0.0.1",int port=3306);
+            MySqlDB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur="127.0.0.1",int port=3306);
 
             /**
              * \brief Destructor

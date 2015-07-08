@@ -32,7 +32,51 @@ namespace orm
             mysql_free_result(db_res);
         }
 
-        #error free prepared_params and prepared_results
+
+        for(MYSQL_BIND& param : prepared_params)
+        {
+            switch(param.buffer_type)
+            {
+                case MYSQL_TYPE_TINY :
+                {
+                    delete reinterpret_cast<bool*>(param.buffer);
+                }break;
+                case MYSQL_TYPE_LONG :
+                {
+                    if(param.is_unsigned)
+                        delete reinterpret_cast<unsigned int*>(param.buffer);
+                    else
+                        delete reinterpret_cast<int*>(param.buffer);
+                }break;
+                case MYSQL_TYPE_LONGLONG :
+                {
+                    if(param.is_unsigned)
+                        delete reinterpret_cast<long long unsigned int*>(param.buffer);
+                    else
+                        delete reinterpret_cast<long long int*>(param.buffer);
+                }break;
+                case MYSQL_TYPE_FLOAT:
+                {
+                    delete reinterpret_cast<float*>(param.buffer);
+                }break;
+                case MYSQL_TYPE_DOUBLE:
+                {
+                    delete reinterpret_cast<double*>(param.buffer);
+                }break;
+                case MYSQL_TYPE_STRING:
+                {
+                    delete[] reinterpret_cast<char*>(param.buffer);
+                }break;
+                default:
+                {
+                    assert("This case should never apear");
+                }
+
+            }
+        }
+
+        #error prepared_results
+
     };
 
 
@@ -361,19 +405,19 @@ namespace orm
         {
             if(mysql_stmt_prepare(prepared_statement,query.c_str(),query.size()))
             {
-                std::cerr<<"Could not execute the query. Error message:"<<mysql_stmt_error(prepared_statement)<<std::endl;
+                std::cerr<<ROUGE<<"[MySqlQuery::executeQuery()] : Could not execute the query. Error message:"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 return;
             }
 
             if(mysql_stmt_bind_param(prepared_statement,prepared_params.data()))
             {
-                std::cerr<<"mysql_stmt_bind_param failed"<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_bind_param failed"<<BLANC<<std::endl;
                 return;
             }
 
             if(mysql_stmt_execute(prepared_statement))
             {
-                std::cerr<<"mysql_stmt_execute(), failed. Error messuge: "<<mysql_stmt_error(prepared_statement)<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_execute(), failed. Error messuge: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 return;
             }
 
@@ -387,14 +431,14 @@ namespace orm
             
             if(mysql_query(con,query.c_str()))
             {
-                std::cerr<<"Could not execute the query. Error message:"<<mysql_error(con)<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : Could not execute the query. Error message:"<<mysql_error(con)<<BLANC<<std::endl;
                 return;
             }
 
             db_res = mysql_store_result(con);
             if(db_res == nullptr)
             {
-                std::cerr<<"Could not get query results. Error message:"<<mysql_error(con)<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : Could not get query results. Error message:"<<mysql_error(con)<<BLANC<<std::endl;
                 return;
             }
 

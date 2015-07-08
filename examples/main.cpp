@@ -3,7 +3,7 @@ orm::MySqlDB def("root","toor","test");
 //orm::MySqlDB def("root","root","test");
 
 //#include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3DB def("./test.db");
+//orm::Sqlite3DB def("./test.db");
 
 orm::DB& orm::DB::Default = def;
 
@@ -163,7 +163,7 @@ int main(int argc,char* argv[])
     DB* con2 = orm::DB::Default.clone();
     con2->connect();
 
-    orm::Tables::drop();
+    //orm::Tables::drop();
     orm::Tables::create();
 
     {
