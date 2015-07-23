@@ -282,14 +282,13 @@ namespace orm
 
             MYSQL_RES  *db_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
             MYSQL_ROW current_res;
-            int num_fields_res;
 
             std::vector<MYSQL_BIND> prepared_params;
             std::vector<MYSQL_BIND> prepared_results;
 
             MYSQL_STMT *prepared_statement;///< Hold the statement
 
-            bool initResults();
+            bool _initResults(int num_fields_res);
 
             void _resizePreparedParams(unsigned int size);
     };

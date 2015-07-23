@@ -163,7 +163,7 @@ int main(int argc,char* argv[])
     DB* con2 = orm::DB::Default.clone();
     con2->connect();
 
-    //orm::Tables::drop();
+    orm::Tables::drop();
     orm::Tables::create();
 
     {
@@ -180,7 +180,7 @@ int main(int argc,char* argv[])
         test->textField = "this is a long text for testing";
         test->unsignedIntegerField = -1;
 
-        cout<<"Current test"<<*test<<endl;
+        cout<<"Current test: "<<*test<<endl;
         test->save();
         cout<<"Save current"<<endl;
 

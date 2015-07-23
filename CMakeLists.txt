@@ -46,7 +46,7 @@ endif()
 
 
 set(WARNING "-Wall")
-set(FLAGS "-o3")
+set(FLAGS "-g")
 set(CMAKE_CXX_FLAGS "${WARNING} ${FLAGS} -std=c++11")
 set(CMAKE_C_FLAGS "${WARNING} ${FLAGS}")
 

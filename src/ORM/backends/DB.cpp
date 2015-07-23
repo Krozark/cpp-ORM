@@ -85,7 +85,7 @@ namespace orm
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
-                attrs[i]->set(q,i+1);
+                attrs[i]->set(q,i+getInitialGetcolumnNumber());
                 attrs[i]->modify = false;
                 //post save
                 attrs[i]->after_save();
