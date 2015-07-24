@@ -132,22 +132,8 @@ namespace orm
     Query* MySqlDB::prepareQuery(const std::string& str)
     {
         auto q = new MySqlQuery(*this,str);
-        q->prepared_statement = mysql_stmt_init(dbConn);
         q->prepared = true;
 
-        if(q->prepared_statement == nullptr)
-        {
-            std::cerr<<" Could not create the statement. Error message : "<< mysql_error(dbConn) <<std::endl;
-            delete q;
-            q = nullptr;
-        }
-
-        else if(mysql_stmt_prepare(q->prepared_statement,str.c_str(),str.size()) != 0)
-        {
-            std::cerr<<" Could not prepare the statement. Error message : "<< mysql_error(dbConn) <<std::endl;
-            delete q;
-            q = nullptr;
-        }
         return q;
     };
 

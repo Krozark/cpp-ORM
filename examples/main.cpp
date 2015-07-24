@@ -77,7 +77,7 @@ class TestTypes : public orm::SqlObject<TestTypes>
     public:
     TestTypes();
 
-    orm::FK<TestTypes> fk;
+    /*orm::FK<TestTypes> fk;
 
     orm::BooleanField           booleanField;
     orm::CharField<255>         charField;
@@ -87,12 +87,12 @@ class TestTypes : public orm::SqlObject<TestTypes>
     orm::IntegerField           integerField;
     orm::FloatField             floatField;
     orm::DoubleField            doubleField;
-    orm::TextField              textField;
+    orm::TextField              textField;*/
     orm::UnsignedIntegerField   unsignedIntegerField;
 
 
     MAKE_STATIC_COLUMN(\
-                       fk,\
+                       /*fk,\
                        booleanField,\
                        charField,\
                        datetimeField,\
@@ -101,12 +101,12 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        integerField,\
                        floatField,\
                        doubleField,\
-                       textField,\
+                       textField,\*/
                        unsignedIntegerField\
                       )
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
-                       fk,"fk",\
+                       /*fk,"fk",\
                        booleanField,"booleanField",\
                        charField,"charField",\
                        datetimeField, "datetimeField",\
@@ -115,7 +115,7 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        integerField,"integerField",\
                        floatField,"floatField",\
                        doubleField,"doubleField",\
-                       textField,"textField",\
+                       textField,"textField",\*/
                        unsignedIntegerField,"unsignedIntegerField"\
                       )
 //merge all colums
@@ -171,30 +171,41 @@ int main(int argc,char* argv[])
 
         TestTypes::type_ptr test = TestTypes::create();
 
-        test->booleanField = false;
+        /*test->booleanField = false;
         test->charField = "test";
         test->datetimeField = orm::DateTimeField::now();
         test->integerField = 42;
         test->floatField = 4.2;
         test->doubleField = 4.2;
-        test->textField = "this is a long text for testing";
+        test->textField = "this is a long text for testing";*/
         test->unsignedIntegerField = -1;
 
         cout<<"Current test: "<<*test<<endl;
         test->save();
         cout<<"Save current"<<endl;
 
+        cout<<"All tests with DateTimeField > now - 1 day"<<endl;
+
         TestTypes::result_type lis;
-        TestTypes::query()
+        /*
+         TestTypes::query()
             .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
             .get(lis);
+        */
 
-        cout<<"All tests with DateTimeField > now - 1 day"<<endl;
+         TestTypes::query()
+            .filter(orm::Q<TestTypes>(1,orm::op::exact,"pk"))
+            .get(lis);
+
         for(auto u : lis)
         {
             cout<<u.get()<<std::endl;
             cout<<*u<<endl;
         }
+
+        return 0;
+
+        /*
 
         cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
         TestTypes::type_ptr test2 = TestTypes::create();
@@ -212,9 +223,11 @@ int main(int argc,char* argv[])
         }
 
         test2->save();
+        */
 
     }
 
+    /*
     std::cout<<"=============="<<std::endl;
     {
         auto p1 = Perso::get(1,*con2);
@@ -280,7 +293,7 @@ int main(int argc,char* argv[])
 
     }
     std::cout<<"=============="<<std::endl;
-
+    */
    /*{
        cout<<"All persos"<<endl;
        Perso::result_type lis= Perso::all();

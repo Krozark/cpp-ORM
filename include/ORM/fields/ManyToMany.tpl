@@ -77,8 +77,8 @@ namespace orm
         std::string q_str = "INSERT INTO "+db.escapeColumn(table)
             +"("+ORM_MAKE_NAME(owner)+","+ORM_MAKE_NAME(linked)+") VALUES ((?),(?));";
         std::unique_ptr<Query> q(db.prepareQuery(q_str));
-        q->set(owner.pk,1);
-        q->set(obj->pk,2);
+        q->set(owner.pk,db.getInitialGetcolumnNumber());
+        q->set(obj->pk,db.getInitialGetcolumnNumber()+1);
         #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<BLEU<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj->pk<<")"<<BLANC<<std::endl;
         #endif
@@ -116,8 +116,8 @@ namespace orm
             +table_escaped+"."+db.escapeColumn(ORM_MAKE_NAME(linked))+" = (?))";
 
         Query& q = *db.prepareQuery(q_str);
-        q.set(owner.pk,1);
-        q.set(obj.pk,2);
+        q.set(owner.pk,db.getInitialGetcolumnNumber());
+        q.set(obj.pk,db.getInitialGetcolumnNumber()+1);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;

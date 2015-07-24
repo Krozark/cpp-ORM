@@ -150,7 +150,7 @@ namespace orm
 
             Query& q = *prepareQuery(str_q);
             
-            int index=1;
+            int index=getInitialGetcolumnNumber();
             for(unsigned int i=0;i<size;++i)
             {
                 if(attrs[i]->modify)

@@ -284,11 +284,12 @@ namespace orm
             MYSQL_ROW current_res;
 
             std::vector<MYSQL_BIND> prepared_params;
-            std::vector<MYSQL_BIND> prepared_results;
+            mutable std::vector<MYSQL_BIND> prepared_results;
+            int num_fields_res;
 
             MYSQL_STMT *prepared_statement;///< Hold the statement
 
-            bool _initResults(int num_fields_res);
+            bool _initResults();
 
             void _resizePreparedParams(unsigned int size);
     };
