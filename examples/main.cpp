@@ -81,12 +81,12 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
    /* orm::BooleanField           booleanField;
     orm::CharField<255>         charField;
-    orm::DateTimeField          datetimeField;
+    orm::DateTimeField          datetimeField;*/
     orm::AutoDateTimeField      autodatetimeField;
     orm::AutoNowDateTimeField   autonowdatetimeField;
     orm::IntegerField           integerField;
     orm::FloatField             floatField;
-    orm::DoubleField            doubleField;*/
+    orm::DoubleField            doubleField;
     orm::TextField              textField;
     orm::UnsignedIntegerField   unsignedIntegerField;
 
@@ -95,12 +95,12 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        fk,\
                        /*booleanField,\
                        charField,\
-                       datetimeField,\
+                       datetimeField,\*/
                        autodatetimeField,\
                        autonowdatetimeField,\
                        integerField,\
                        floatField,\
-                       doubleField,\*/
+                       doubleField,\
                        textField,\
                        unsignedIntegerField\
                       )
@@ -109,12 +109,12 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        fk,"fk",\
                        /*booleanField,"booleanField",\
                        charField,"charField",\
-                       datetimeField, "datetimeField",\
+                       datetimeField, "datetimeField",\*/
                        autodatetimeField, "autodatetimeField",\
                        autonowdatetimeField, "autonowdatetimeField",\
                        integerField,"integerField",\
                        floatField,"floatField",\
-                       doubleField,"doubleField",\*/
+                       doubleField,"doubleField",\
                        textField,"textField",\
                        unsignedIntegerField,"unsignedIntegerField"\
                       )
