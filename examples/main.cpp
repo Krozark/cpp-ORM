@@ -220,8 +220,8 @@ int main(int argc,char* argv[])
     //REGISTER_DB(Perso,orm::DB::Default)
 
 
-    //orm::Tables::drop();
-    //orm::Tables::create();
+    orm::Tables::drop();
+    orm::Tables::create();
 
     test_TestTypes();
 
