@@ -5,6 +5,7 @@
 #include <ostream>
 
 #include <ORM/externals.hpp>
+#include <ORM/core/macros.hpp>
 
 namespace orm
 {
@@ -61,6 +62,8 @@ namespace orm
              * \brief Display the object in json
              **/
             friend std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self);
+
+            MAKE_STATIC_COLUMN(pk);
 
 
         protected:
@@ -140,6 +143,8 @@ namespace orm
              * \param prefix prefix column name
              * \param max_depth maximun depth of constrution
              **/
+
+
         private:
 
             int pk; ///< the object pf

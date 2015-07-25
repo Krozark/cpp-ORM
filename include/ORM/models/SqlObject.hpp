@@ -130,6 +130,7 @@ namespace orm
 
             static  DB* default_connection; ///< db use to stor the object
 
+
         protected:
             const static std::string table; ///< the table name
             static Cache<T> cache; ///< the cache containing the objects

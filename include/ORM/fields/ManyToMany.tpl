@@ -51,11 +51,11 @@ namespace orm
             "\nLEFT JOIN "+T::table+" AS "+table_alias_T
             +" ON ("
             +db.escapeColumn(table)+"."+db.escapeColumn(ORM_MAKE_NAME(owner))
-            +" = "+db.escapeColumn(table_alias_T)+"."+db.escapeColumn("pk")
+            +" = "+db.escapeColumn(table_alias_T)+"."+db.escapeColumn(T::ORM_MAKE_NAME(pk))
             +")\nLEFT JOIN "+U::table+" AS "+ORM_MAKE_NAME(related)
             +" ON ("
             +db.escapeColumn(table)+"."+db.escapeColumn(ORM_MAKE_NAME(linked))
-            +" = "+db.escapeColumn(ORM_MAKE_NAME(related))+"."+db.escapeColumn("pk")
+            +" = "+db.escapeColumn(ORM_MAKE_NAME(related))+"."+db.escapeColumn(U::ORM_MAKE_NAME(pk))
             +")";
 
         U::makeJoin(q_str,ORM_MAKE_NAME(related),max_depth,db);

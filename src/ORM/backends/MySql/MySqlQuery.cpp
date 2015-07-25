@@ -444,9 +444,9 @@ namespace orm
             if(db_res == nullptr)
             {
                 std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_result_metadata() : db_res == nullptr. Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                return;
+                //return;
             }
-
+            else
             {//for results length
                 my_bool arg = 1;
                 if(mysql_stmt_attr_set(prepared_statement,STMT_ATTR_UPDATE_MAX_LENGTH,&arg))
@@ -463,25 +463,29 @@ namespace orm
                 return;
             }
 
-            if (mysql_stmt_store_result(prepared_statement))
+            if(db_res)
             {
-                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_store_result(), failed. Error messuge: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                return;
-            }
 
-            num_fields_res = mysql_num_fields(db_res);
-            std::cout<<JAUNE<<"num_fields_res: "<<num_fields_res<<BLANC<<std::endl;
-            
-            if(!_initResults())
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() _initResults() : Could not execute prepare the results"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                return;
-            }
+                if (mysql_stmt_store_result(prepared_statement))
+                {
+                    std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_store_result(), failed. Error messuge: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                    return;
+                }
 
-            if(mysql_stmt_bind_result(prepared_statement,prepared_results.data()))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_bind_result() : "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                return;
+                num_fields_res = mysql_num_fields(db_res);
+                std::cout<<JAUNE<<"num_fields_res: "<<num_fields_res<<BLANC<<std::endl;
+
+                if(!_initResults())
+                {
+                    std::cerr<<ROUGE<<"MySqlQuery::executeQuery() _initResults() : Could not execute prepare the results"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                    return;
+                }
+
+                if(mysql_stmt_bind_result(prepared_statement,prepared_results.data()))
+                {
+                    std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_bind_result() : "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                    return;
+                }
             }
             
         }
@@ -526,12 +530,16 @@ namespace orm
         for(int i = 0;i< num_fields_res;++i)
         {
             MYSQL_FIELD* field = &(db_res->fields[i]);
+            int len = field->max_length;
+            len = len>0?len:1;
 
-            prepared_results_buffer[i].buffer.resize(field->max_length + 1,'\0');
+            prepared_results_buffer[i].buffer.resize(len + 1,'\0');
+
+            std::cout<<"["<<i<<"] "<<field->name<<" len: "<<len<<std::endl;
 
             prepared_results[i].buffer_type = MYSQL_TYPE_STRING;
             prepared_results[i].buffer = &(prepared_results_buffer[i].buffer[0]);
-            prepared_results[i].buffer_length = field->max_length;
+            prepared_results[i].buffer_length = len;
             prepared_results[i].is_null = &prepared_results_buffer[i].is_null;
             prepared_results[i].length = &(prepared_results_buffer[i].real_len);
         }

@@ -87,7 +87,7 @@ namespace orm
         if(value_ptr.get())
             output<<(*value_ptr);
         else
-            output<<"{\"pk\":\""<<fk<<"\",\"_data_\" = null}";
+            output<<"{\""<<T::ORM_MAKE_NAME(pk)<<"\":\""<<fk<<"\",\"_data_\" = null}";
         return output;
     }
 

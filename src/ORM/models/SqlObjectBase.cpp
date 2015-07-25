@@ -5,6 +5,8 @@
 
 namespace orm
 {
+    _MAKE_STRING_N(SqlObjectBase,2,pk,"pk");
+
     SqlObjectBase::SqlObjectBase() : pk(-1){}; 
 
     SqlObjectBase::~SqlObjectBase(){}
@@ -77,7 +79,7 @@ namespace orm
 
     std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self)
     {
-        output<<"{ \"pk\":"<<self.pk;
+        output<<"{ \""<<SqlObjectBase::ORM_MAKE_NAME(pk)<<"\":"<<self.pk;
         for(VAttr* attr: self.attrs)
             output<<", \""<<attr->getcolumn()<<"\":"<<*attr;
         output<<"}";
