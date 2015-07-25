@@ -303,9 +303,9 @@ namespace orm
 
             void _resizePreparedParams(unsigned int size);
 
-            /*template<typename T>
-            bool _getValue(T& value,const int& column);*/
-};
+            template<typename T>
+            bool _getValue(T& value,const int& column)const;
+    };
 
 /*enum enum_field_types { MYSQL_TYPE_DECIMAL, MYSQL_TYPE_TINY,
 			MYSQL_TYPE_SHORT,  MYSQL_TYPE_LONG,
@@ -329,9 +329,9 @@ namespace orm
 			MYSQL_TYPE_VAR_STRING=253,
 			MYSQL_TYPE_STRING=254,
 			MYSQL_TYPE_GEOMETRY=255
+    */
 
-};
-https://dev.mysql.com/doc/refman/5.6/en/c-api-prepared-statement-type-codes.html
-*/
+}
+//https://dev.mysql.com/doc/refman/5.6/en/c-api-prepared-statement-type-codes.html
 
 #endif

@@ -252,6 +252,6 @@ namespace orm
     {
         return db.escapeColumn(prefix)+"."+db.escapeColumn(column);
     }
-};
+}
 //orm::DB* orm::DB::Default = 0;
 

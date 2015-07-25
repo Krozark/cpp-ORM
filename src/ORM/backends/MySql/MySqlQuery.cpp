@@ -14,7 +14,7 @@ namespace orm
         //remove all ';' at the end 
         auto s = query.size() -1;
 
-        while(s >= 0 and query[s] == ';')
+        while(query[s] == ';')
             --s;
         if(s != query.size() - 1)
             Query::query = Query::query.substr(0,s + 1);
@@ -90,22 +90,22 @@ namespace orm
             return mysql_num_rows(db_res);
     };
 
-    /*template<typename T>
-    bool MySqlQuery::_getValue(T& value,const int& column)
+    template<typename T>
+    bool MySqlQuery::_getValue(T& value,const int& column)const
     {
         bool res = true;
         if(prepared)
         {
             assert(column < int(prepared_results.size()));
 
-            if(prepared_results_buffer.is_null)
+            if(prepared_results_buffer[column].is_null)
             {
                 value = T();
                 res = false;
             }
             else
             {
-                int len = prepared_results_buffer[column].real_len;
+                int real_len = prepared_results_buffer[column].real_len;
 
                 prepared_results_buffer[column].buffer[real_len + 1] = '\0';
 
@@ -119,59 +119,60 @@ namespace orm
         }
 
         return res;
-    }*/
+    }
 
     bool MySqlQuery::get(bool& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(int& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::getPk(int& value, const int& column)const
     {
-       /* if(not _getValue(value,column))
-        {
+        bool res = _getValue(value,column);
+        if(not res)
             value = -1;
-        }*/
+
+        return res;
     }
 
     bool MySqlQuery::get(unsigned int& value,const int& column)const
     {
-       // return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(long long int& value,const int& column)const
     {    
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(long long unsigned int& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(float& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(double& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(long double& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
 
     bool MySqlQuery::get(std::string& value,const int& column)const
     {
-        //return _getValue(value,column);
+        return _getValue(value,column);
     };
     
     bool MySqlQuery::get(struct tm& value,const int& column)const
@@ -200,7 +201,7 @@ namespace orm
 
     bool MySqlQuery::next()
     {
-        bool res = true;
+        int res = true;
         if(prepared)
         {
             if(num_fields_res > 0)
@@ -212,7 +213,7 @@ namespace orm
                 }
                 else if (res == MYSQL_NO_DATA)
                 {
-                    std::cerr<<ROUGE<<"MySqlQuery::next() MYSQL_NO_DATA : "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                    //std::cerr<<ROUGE<<"MySqlQuery::next() MYSQL_NO_DATA : "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 }
                 else if (res == MYSQL_DATA_TRUNCATED)
                 {
@@ -462,7 +463,7 @@ namespace orm
                 return;
             }
 
-            if (mysql_stmt_store_result(stmt) != 0)
+            if (mysql_stmt_store_result(prepared_statement))
             {
                 std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_store_result(), failed. Error messuge: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 return;
@@ -529,7 +530,7 @@ namespace orm
             prepared_results_buffer[i].buffer.resize(field->max_length + 1,'\0');
 
             prepared_results[i].buffer_type = MYSQL_TYPE_STRING;
-            prepared_results[i].buffer = &(prepared_results_buffer[i][0]);
+            prepared_results[i].buffer = &(prepared_results_buffer[i].buffer[0]);
             prepared_results[i].buffer_length = field->max_length;
             prepared_results[i].is_null = &prepared_results_buffer[i].is_null;
             prepared_results[i].length = &(prepared_results_buffer[i].real_len);

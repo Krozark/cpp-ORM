@@ -184,7 +184,7 @@ void test_TestTypes()
        */
 
     TestTypes::query()
-        .filter(orm::Q<TestTypes>(1,orm::op::exact,"pk"))
+        .filter(orm::Q<TestTypes>(1,orm::op::gt,"pk"))
         .get(lis);
 
     for(auto u : lis)
@@ -349,7 +349,7 @@ void minimalTest()
 
 int main(int argc,char* argv[])
 {
-    minimalTest();
+    //minimalTest();
 
 
     orm::DB::Default.connect();
@@ -360,7 +360,7 @@ int main(int argc,char* argv[])
     //orm::Tables::drop();
     //orm::Tables::create();
 
-    //test_TestTypes();
+    test_TestTypes();
 
     /*
     std::cout<<"=============="<<std::endl;
