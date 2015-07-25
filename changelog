@@ -1,3 +1,11 @@
+0.4.2
+=====
+
+MySqlDB
+-------
+
+* Use C API instead of C++
+
 0.4.1
 =====
 

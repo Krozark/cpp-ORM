@@ -7,7 +7,7 @@ project(${PROJECT_NAME})
 # setup version numbers
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 4)
-set(VERSION_PATCH 1)
+set(VERSION_PATCH 2)
 
 include(cmake/macro.cmake)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")

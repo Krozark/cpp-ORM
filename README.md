@@ -46,24 +46,17 @@ functions
 Data bases supported
 =====================
 
-* ~~MySql~~ (breaked)
+* MySql
 * Sqlite3
 
 
 Requirement
 ===========
 
-* Mysql cppcon (if Mysql support is needed). Can be find here : https://dev.mysql.com/downloads/connector/c/
+* mysql-connector-c (if Mysql support is needed). Can be find here : https://dev.mysql.com/downloads/connector/c/
 * ~~lib Sqlite3~~ [included since v 0.4]
 * pthread (for linux only) [v 0.4+]
 * doxygen (for user doc only)
-
-
-TODO
-====
-
-* MAJ le cache pour fetch 2 DB différente avec les même classe d'objets et pk identique, mais objets différents
-* Clean le cache sur les objets qui ne sont plus liés en mémoires (free)
 
 
 Installation
