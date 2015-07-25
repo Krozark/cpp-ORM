@@ -153,83 +153,221 @@ void testDate()
     <<std::endl;
 }
 
+void test_TestTypes()
+{
+    std::cout<<"======= TestTypes ======="<<std::endl;
+
+    TestTypes::type_ptr test = TestTypes::create();
+
+    /*test->booleanField = false;
+      test->charField = "test";
+      test->datetimeField = orm::DateTimeField::now();
+      test->integerField = 42;
+      test->floatField = 4.2;
+      test->doubleField = 4.2;
+      test->textField = "this is a long text for testing";
+    test->unsignedIntegerField = -1;
+
+    cout<<"Current test: "<<*test<<endl;
+    test->save();
+    cout<<"Save current"<<endl;
+
+    cout<<"All tests with DateTimeField > now - 1 day"<<endl;
+    
+    */
+
+    TestTypes::result_type lis;
+    /*
+       TestTypes::query()
+       .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
+       .get(lis);
+       */
+
+    TestTypes::query()
+        .filter(orm::Q<TestTypes>(1,orm::op::exact,"pk"))
+        .get(lis);
+
+    for(auto u : lis)
+    {
+        cout<<u.get()<<std::endl;
+        cout<<*u<<endl;
+    }
+
+    /*
+
+       cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
+       TestTypes::type_ptr test2 = TestTypes::create();
+       test2->datetimeField = test->datetimeField - orm::DateTimeField::day(1);
+
+       lis.clear();
+       TestTypes::query()
+       .filter(orm::Q<TestTypes>(test2->datetimeField.value(),orm::op::gt,TestTypes::$datetimeField))
+       .get(lis);
+    //.__print__();
+    for(auto u : lis)
+    {
+    cout<<u.get()<<std::endl;
+    cout<<*u<<endl;
+    }
+
+    test2->save();
+    */
+
+}
+
+
+void minimalTest()
+{
+    std::string sql = "SELECT `test_types`.`pk`, `test_types`.`unsignedIntegerField`,  `test_types`.`pk`" 
+                     " FROM `test_types`"
+                    " WHERE (`test_types`.`pk` > (?))"; 
+
+
+    MYSQL *con =  mysql_init(nullptr);
+
+    if(con == nullptr)
+    {
+        std::cerr << "Could not get a database driver. Error message: "<< mysql_error(con) <<std::endl;
+        return;
+    }
+
+    if(mysql_real_connect(con,"127.0.0.1","root","toor",
+                          "test", 3306, nullptr /* socket*/, 0 /*flags*/) == nullptr)
+    {
+        std::cerr<< "Could not connect to database. Error message: " <<  mysql_error(con)  << std::endl;
+        return;
+    }
+
+     MYSQL_STMT *stmt = mysql_stmt_init(con);
+     if (stmt == nullptr)
+     {
+         cout<<"Could not initialize statement handler"<<std::endl;
+         return;
+     }
+
+     if (mysql_stmt_prepare(stmt, sql.c_str(), sql.size() +1) != 0)
+     {
+         cout<<"Could not prepare statement: "<<mysql_stmt_error(stmt)<<std::endl;;
+         return;
+     }
+
+    MYSQL_BIND param[1] = {{0}};
+    long int param_pk = 1;
+
+     param[0].buffer_type     = MYSQL_TYPE_LONG;
+     param[0].buffer         = (void *) &param_pk;
+     param[0].is_unsigned    = 0;
+     param[0].is_null         = 0;
+     param[0].length         = 0;
+
+     // Bind param structure to statement
+     if (mysql_stmt_bind_param(stmt, param) != 0)
+     {
+         cout<<"Could not bind parameters: "<<mysql_stmt_error(stmt)<<std::endl;;
+         return;
+     }
+
+
+
+     MYSQL_RES* db_res = mysql_stmt_result_metadata(stmt);
+
+     if(db_res == nullptr)
+     {
+         std::cout<<JAUNE<<"mysql_stmt_result_metadata() : db_res == nullptr"<<mysql_stmt_error(stmt)<<std::endl;
+         return;
+     }
+
+     {
+        my_bool arg = 1;
+        if(mysql_stmt_attr_set(stmt,STMT_ATTR_UPDATE_MAX_LENGTH,&arg))
+        {
+            cout<<"Could not mysql_stmt_attr_set: "<<mysql_stmt_error(stmt)<<std::endl;;
+        }
+     }
+
+     // Set bind parameters
+
+     if (mysql_stmt_execute(stmt) != 0)
+     {
+         cout<<"Could not execute statement: "<<mysql_stmt_error(stmt)<<std::endl;;
+         return;
+     }
+
+     if (mysql_stmt_store_result(stmt) != 0)
+     {
+         cout<<"Could not buffer result set: "<<mysql_stmt_error(stmt)<<std::endl;;
+         return;
+     }
+
+     int num_results = mysql_num_fields(db_res);
+     
+     std::vector<std::string> results_buffers(num_results);
+     std::vector<my_bool> is_null(num_results,0);
+     std::vector<MYSQL_BIND> result(num_results,{0});
+     std::vector<long unsigned int> real_len(num_results,0);
+
+     for(int i= 0;i<num_results;++i)
+     {
+         MYSQL_FIELD* field = &(db_res->fields[i]);
+         results_buffers[i].resize(field->max_length,'\0');
+
+         std::cout<<field->max_length<<" "<< results_buffers[i].capacity()<<std::endl;
+
+         result[i].buffer_type     = MYSQL_TYPE_STRING;
+         result[i].buffer         = &(results_buffers[i][0]);
+         result[i].buffer_length = field->max_length;
+         result[i].is_null         = &is_null[i];
+         result[i].length = &real_len[i];
+     }
+
+     // Bind result
+     if (mysql_stmt_bind_result(stmt, result.data()) != 0)
+     {
+         cout<<"Could not bind results: "<<mysql_stmt_error(stmt)<<std::endl;;
+         return;
+     }
+
+     while(!mysql_stmt_fetch(stmt))
+     {
+         for(int i=0;i<num_results;++i)
+         {
+             MYSQL_FIELD* field = &(db_res->fields[i]);
+            std::cout<<"["<<i<<": "<<field->name<<"]: "<<results_buffers[i]<<"("<<results_buffers[i].size()<<"/"<<field->max_length<<"), ";
+         }
+         std::cout<<std::endl;
+     }
+
+     mysql_stmt_free_result(stmt); /* deallocate result set */
+
+     // Close the statement
+     mysql_stmt_close(stmt);
+
+     // Close Database
+     mysql_close(con);
+
+}
+
 int main(int argc,char* argv[])
 {
+    minimalTest();
+
 
     orm::DB::Default.connect();
 
     //REGISTER_DB(Perso,orm::DB::Default)
 
-    DB* con2 = orm::DB::Default.clone();
-    con2->connect();
 
-    orm::Tables::drop();
-    orm::Tables::create();
+    //orm::Tables::drop();
+    //orm::Tables::create();
 
-    {
-        std::cout<<"======= TestTypes ======="<<std::endl;
-
-        TestTypes::type_ptr test = TestTypes::create();
-
-        /*test->booleanField = false;
-        test->charField = "test";
-        test->datetimeField = orm::DateTimeField::now();
-        test->integerField = 42;
-        test->floatField = 4.2;
-        test->doubleField = 4.2;
-        test->textField = "this is a long text for testing";*/
-        test->unsignedIntegerField = -1;
-
-        cout<<"Current test: "<<*test<<endl;
-        test->save();
-        cout<<"Save current"<<endl;
-
-        cout<<"All tests with DateTimeField > now - 1 day"<<endl;
-
-        TestTypes::result_type lis;
-        /*
-         TestTypes::query()
-            .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
-            .get(lis);
-        */
-
-         TestTypes::query()
-            .filter(orm::Q<TestTypes>(1,orm::op::exact,"pk"))
-            .get(lis);
-
-        for(auto u : lis)
-        {
-            cout<<u.get()<<std::endl;
-            cout<<*u<<endl;
-        }
-
-        return 0;
-
-        /*
-
-        cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
-        TestTypes::type_ptr test2 = TestTypes::create();
-        test2->datetimeField = test->datetimeField - orm::DateTimeField::day(1);
-
-        lis.clear();
-        TestTypes::query()
-            .filter(orm::Q<TestTypes>(test2->datetimeField.value(),orm::op::gt,TestTypes::$datetimeField))
-            .get(lis);
-        //.__print__();
-        for(auto u : lis)
-        {
-            cout<<u.get()<<std::endl;
-            cout<<*u<<endl;
-        }
-
-        test2->save();
-        */
-
-    }
+    //test_TestTypes();
 
     /*
     std::cout<<"=============="<<std::endl;
     {
+        DB* con2 = orm::DB::Default.clone();
+        con2->connect();
+
         auto p1 = Perso::get(1,*con2);
         cout<<"Current perso1 "<<*p1<<endl;
         cout<<" add 1 to lvl"<<endl;

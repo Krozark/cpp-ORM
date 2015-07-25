@@ -3,6 +3,8 @@
 
 #include <mysql.h>
 
+#include <string>
+
 #include <ORM/backends/Query.hpp>
 
 namespace orm
@@ -283,8 +285,16 @@ namespace orm
             MYSQL_RES  *db_res; ///< Create a pointer to a ResultSet object to hold the results of any queries we run
             MYSQL_ROW current_res;
 
+            struct ResultData
+            {
+                std::string buffer;
+                my_bool is_null;
+                long unsigned int real_len;
+            };
+
             std::vector<MYSQL_BIND> prepared_params;
             mutable std::vector<MYSQL_BIND> prepared_results;
+            mutable std::vector<ResultData> prepared_results_buffer;
             int num_fields_res;
 
             MYSQL_STMT *prepared_statement;///< Hold the statement
@@ -292,7 +302,9 @@ namespace orm
             bool _initResults();
 
             void _resizePreparedParams(unsigned int size);
-    };
+
+            /*template<typename T>
+            bool _getValue(T& value,const int& column);*/
 };
 
 /*enum enum_field_types { MYSQL_TYPE_DECIMAL, MYSQL_TYPE_TINY,

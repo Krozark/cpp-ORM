@@ -90,27 +90,28 @@ namespace orm
             return mysql_num_rows(db_res);
     };
 
-    bool MySqlQuery::get(bool& value,const int& column)const
+    /*template<typename T>
+    bool MySqlQuery::_getValue(T& value,const int& column)
     {
         bool res = true;
         if(prepared)
         {
             assert(column < int(prepared_results.size()));
-            /*assert(prepared_results[column].buffer_type == MYSQL_TYPE_TINY);
 
-            value = *reinterpret_cast<bool*>(prepared_results[column].buffer);*/
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
+            if(prepared_results_buffer.is_null)
             {
-                std::cerr<<ROUGE<<"MySqlQuery::get(bool) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                value = T();
                 res = false;
             }
             else
-                std::stringstream(data) >> value;
+            {
+                int len = prepared_results_buffer[column].real_len;
 
-            delete[] data;
+                prepared_results_buffer[column].buffer[real_len + 1] = '\0';
+
+                std::stringstream(prepared_results_buffer[column].buffer) >> value;
+            }
+            
         }
         else
         {
@@ -118,275 +119,59 @@ namespace orm
         }
 
         return res;
+    }*/
+
+    bool MySqlQuery::get(bool& value,const int& column)const
+    {
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::get(int& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_LONG);
-
-            //value = *reinterpret_cast<int*>(prepared_results[column].buffer);
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(int) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::getPk(int& value, const int& column)const
     {
-        bool res = true;
-        if(prepared)
+       /* if(not _getValue(value,column))
         {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_LONG);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::getPk(int) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-
-            delete[] data;
-
-            if (prepared_results[column].is_null)
-            {
-                value = -1;
-                return false;
-            }
-
-            //value = *reinterpret_cast<unsigned int*>(prepared_results[column].buffer);
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+            value = -1;
+        }*/
     }
 
     bool MySqlQuery::get(unsigned int& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_LONG);
-
-            //value = *reinterpret_cast<unsigned int*>(prepared_results[column].buffer);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(unsigned int) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-        return res;
+       // return _getValue(value,column);
     };
 
     bool MySqlQuery::get(long long int& value,const int& column)const
     {    
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_LONGLONG);
-
-            //value = *reinterpret_cast<long long int*>(prepared_results[column].buffer);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(long long int) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::get(long long unsigned int& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_LONGLONG);
-
-            //value = *reinterpret_cast<long long unsigned int*>(prepared_results[column].buffer);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(long long unsigned int) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::get(float& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_FLOAT);
-
-            //value = *reinterpret_cast<float*>(prepared_results[column].buffer);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(float) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::get(double& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_DOUBLE);
-
-            //value = *reinterpret_cast<double*>(prepared_results[column].buffer);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(double) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::get(long double& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_DOUBLE);
-
-            //value = *reinterpret_cast<double*>(prepared_results[column].buffer);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(long double) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-
-            delete[] data;
-        }
-        else
-        {
-            std::stringstream(current_res[column]) >> value;
-        }
-
-        return res;
+        //return _getValue(value,column);
     };
 
     bool MySqlQuery::get(std::string& value,const int& column)const
     {
-        bool res = true;
-        if(prepared)
-        {
-            assert(column < int(prepared_results.size()));
-            //assert(prepared_results[column].buffer_type == MYSQL_TYPE_STRING);
-
-            char* data = new char[prepared_results[column].buffer_length + 1];
-            prepared_results[column].buffer = data;
-            if(mysql_stmt_fetch_column(prepared_statement,prepared_results.data(),column,0))
-            {
-                std::cerr<<ROUGE<<"MySqlQuery::get(std::string) Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
-                res = false;
-            }
-            else
-                std::stringstream(data) >> value;
-            delete[] data;
-
-            //value = *reinterpret_cast<char*>(prepared_results[column].buffer);
-        }
-        else
-        {
-            value = current_res[column];
-        }
-        
-        return res;
+        //return _getValue(value,column);
     };
     
     bool MySqlQuery::get(struct tm& value,const int& column)const
@@ -433,9 +218,9 @@ namespace orm
                 {
                     std::cerr<<ROUGE<<"MySqlQuery::next() MYSQL_DATA_TRUNCATED : "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 }
-                std::cout<<JAUNE<<"next: "<<res<<BLANC<<std::endl;
 
                 res = not res;
+                std::cout<<JAUNE<<"next: "<<res<<BLANC<<std::endl;
             }
 
         }
@@ -582,7 +367,7 @@ namespace orm
 
         prepared_params[column].buffer_type = MYSQL_TYPE_STRING;
         prepared_params[column].buffer = buffer;
-        prepared_params[column].buffer_length = size;
+        prepared_params[column].buffer_length = size + 1;
         prepared_params[column].is_null_value = false;
         prepared_params[column].is_null = &(prepared_params[column].is_null_value);
         prepared_params[column].length = &(prepared_params[column].buffer_length);
@@ -627,7 +412,6 @@ namespace orm
 
     void MySqlQuery::executeQuery()
     {
-        //std::cout<<VERT<<query<<std::endl;
         if(prepared)
         {
             {
@@ -635,25 +419,42 @@ namespace orm
                 prepared_statement = mysql_stmt_init(con);
                 if(prepared_statement == nullptr)
                 {
-                    std::cerr<<"MySqlQuery::executeQuery() : Could not create the statement. Error message : "<< mysql_error(con) <<std::endl;
+                    std::cerr<<"MySqlQuery::executeQuery() mysql_stmt_init(): Could not create the statement. Error message : "<< mysql_error(con) <<std::endl;
                     return;
                 }
             }
 
-            if(mysql_stmt_prepare(prepared_statement,query.c_str(),query.size()))
+            if(mysql_stmt_prepare(prepared_statement,query.c_str(),query.size() + 1))
             {
-                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : Could not execute the query. Error message:"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_prepare() : Could not execute the query. Error message:"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 return;
             }
 
-            //bool b = true;
-            //mysql_stmt_attr_set(prepared_statement, STMT_ATTR_UPDATE_MAX_LENGTH,&b); //Setting the STMT_ATTR_UPDATE_MAX_LENGTH attribute causes the maximal length of column values to be indicated by the max_length member of the result set metadata returned by mysql_stmt_result_metadata().
+            std::cout<<"prepared_params.size(): "<<prepared_params.size()<<std::endl;
 
             if(mysql_stmt_bind_param(prepared_statement,prepared_params.data()))
             {
-                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_bind_param failed"<<BLANC<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_bind_param() "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
                 return;
             }
+
+            db_res = mysql_stmt_result_metadata(prepared_statement);
+
+            if(db_res == nullptr)
+            {
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_result_metadata() : db_res == nullptr. Error: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                return;
+            }
+
+            {//for results length
+                my_bool arg = 1;
+                if(mysql_stmt_attr_set(prepared_statement,STMT_ATTR_UPDATE_MAX_LENGTH,&arg))
+                {
+                    std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_attr_set Error:"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                    return;
+                }
+            }
+
 
             if(mysql_stmt_execute(prepared_statement))
             {
@@ -661,27 +462,27 @@ namespace orm
                 return;
             }
 
-            db_res = mysql_stmt_result_metadata(prepared_statement);
-
-            if(db_res != nullptr)
+            if (mysql_stmt_store_result(stmt) != 0)
             {
-                std::cerr<<JAUNE<<"MySqlQuery::executeQuery() : db_res != nullptr"<<BLANC<<std::endl;
-
-                num_fields_res = mysql_num_fields(db_res);
-                std::cout<<JAUNE<<"num_fields_res: "<<num_fields_res<<BLANC<<std::endl;
-                if(!_initResults())
-                {
-                    std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : Could not execute prepare the results"<<BLANC<<std::endl;
-                    return;
-                }
-                mysql_stmt_bind_result(prepared_statement,prepared_results.data());
-                //mysql_stmt_store_result(prepared_statement);
-            }
-            else
-            {
-                std::cerr<<JAUNE<<"MySqlQuery::executeQuery() : db_res == nullptr"<<BLANC<<std::endl;
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() : mysql_stmt_store_result(), failed. Error messuge: "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                return;
             }
 
+            num_fields_res = mysql_num_fields(db_res);
+            std::cout<<JAUNE<<"num_fields_res: "<<num_fields_res<<BLANC<<std::endl;
+            
+            if(!_initResults())
+            {
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() _initResults() : Could not execute prepare the results"<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                return;
+            }
+
+            if(mysql_stmt_bind_result(prepared_statement,prepared_results.data()))
+            {
+                std::cerr<<ROUGE<<"MySqlQuery::executeQuery() mysql_stmt_bind_result() : "<<mysql_stmt_error(prepared_statement)<<BLANC<<std::endl;
+                return;
+            }
+            
         }
         else
         {
@@ -708,92 +509,32 @@ namespace orm
 
         }
 
-    };
+    }
 
     bool MySqlQuery::_initResults()
     {
 
-        //#error TODO
-
         prepared_results.clear();
         prepared_results.resize(num_fields_res);
-
         std::memset(prepared_results.data(), 0, sizeof(MYSQL_BIND)*num_fields_res);
+
+        prepared_results_buffer.clear();
+        prepared_results_buffer.resize(num_fields_res);
+
 
         for(int i = 0;i< num_fields_res;++i)
         {
+            MYSQL_FIELD* field = &(db_res->fields[i]);
+
+            prepared_results_buffer[i].buffer.resize(field->max_length + 1,'\0');
+
             prepared_results[i].buffer_type = MYSQL_TYPE_STRING;
-            prepared_results[i].buffer = 0;
-            prepared_results[i].buffer_length = 0;
-            prepared_results[i].length = &(prepared_results[i].buffer_length);
+            prepared_results[i].buffer = &(prepared_results_buffer[i][0]);
+            prepared_results[i].buffer_length = field->max_length;
+            prepared_results[i].is_null = &prepared_results_buffer[i].is_null;
+            prepared_results[i].length = &(prepared_results_buffer[i].real_len);
         }
 
-
-        /*
-        int i = 0;
-
-        MYSQL_FIELD *field;
-        while((field = mysql_fetch_field(db_res)))
-        {
-            //prepared_results[i].buffer_type = field->type;
-            switch(field->type)
-            {
-                case MYSQL_TYPE_TINY :
-                {
-                    prepared_results[i].buffer = new bool(0);
-                    prepared_results[i].buffer_length = sizeof(bool);
-                    prepared_results[i].length = &(prepared_results[i].buffer_length);
-                }break;
-
-                case MYSQL_TYPE_LONG :
-                {
-                    prepared_results[i].buffer = new int(0);
-                    prepared_results[i].buffer_length = sizeof(int);
-                    prepared_results[i].length = &(prepared_results[i].buffer_length);
-
-                }break;
-
-                case MYSQL_TYPE_LONGLONG :
-                {
-                    prepared_results[i].buffer = new long long int(0);
-                    prepared_results[i].buffer_length = sizeof(long long int);
-                    prepared_results[i].length = &(prepared_results[i].buffer_length);
-                }break;
-
-                case MYSQL_TYPE_FLOAT:
-                {
-                    prepared_results[i].buffer = new float(0);
-                    prepared_results[i].buffer_length = sizeof(float);
-                    prepared_results[i].length = &(prepared_results[i].buffer_length);
-                }break;
-
-                case MYSQL_TYPE_DOUBLE:
-                {
-                    prepared_results[i].buffer = new double(0);
-                    prepared_results[i].buffer_length = sizeof(double);
-                    prepared_results[i].length = &(prepared_results[i].buffer_length);
-                }break;
-
-                default :
-                //case MYSQL_TYPE_STRING:
-                {
-                    prepared_results[i].buffer_type = MYSQL_TYPE_STRING;
-                    prepared_results[i].buffer = 0;
-                    prepared_results[i].buffer_length = 0;
-                    prepared_results[i].length = &(prepared_results[i].buffer_length);
-                }break;
-
-                {
-                    std::cerr<<ROUGE<<"MySqlQuery::_initResults : Type "<<field->type<<" not bind"<<BLANC<<std::endl;
-                    assert(false && "This case should never apear");
-                }
-
-            }
-            ++i;
-        }
-
-        return (i == num_fields_res);
-        */
         return true;
     }
 
