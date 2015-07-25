@@ -222,7 +222,7 @@ namespace orm
         {
             auto begin = filters.begin();
             const auto& end = filters.end();
-            unsigned int index = db.getInitialGetcolumnNumber();
+            unsigned int index = db.getInitialSetcolumnNumber();
             while(begin != end)
             {
 

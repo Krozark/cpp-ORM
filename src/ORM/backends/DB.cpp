@@ -85,7 +85,7 @@ namespace orm
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
-                attrs[i]->set(q,i+getInitialGetcolumnNumber());
+                attrs[i]->set(q,i+getInitialSetcolumnNumber());
                 attrs[i]->modify = false;
                 //post save
                 attrs[i]->after_save();
@@ -150,7 +150,7 @@ namespace orm
 
             Query& q = *prepareQuery(str_q);
             
-            int index=getInitialGetcolumnNumber();
+            int index=getInitialSetcolumnNumber();
             for(unsigned int i=0;i<size;++i)
             {
                 if(attrs[i]->modify)

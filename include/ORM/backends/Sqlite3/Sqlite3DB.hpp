@@ -161,6 +161,8 @@ namespace orm
              */
             int virtual getInitialGetcolumnNumber() const override;
 
+            int virtual getInitialSetcolumnNumber() const override;
+
             /**
              * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
              *

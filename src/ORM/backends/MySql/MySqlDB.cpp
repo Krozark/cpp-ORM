@@ -240,6 +240,11 @@ namespace orm
         return 0;
     }
 
+    int MySqlDB::getInitialSetcolumnNumber() const
+    {
+        return 0;
+    }
+
     std::string MySqlDB::limit(const int& skip,const int& count)const
     {
         std::string query;

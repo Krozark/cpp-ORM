@@ -193,6 +193,11 @@ namespace orm
         return 0;
     }
 
+    int Sqlite3DB::getInitialSetcolumnNumber() const
+    {
+        return 1;
+    }
+
 
     std::string Sqlite3DB::limit(const int& skip,const int& count) const
     {

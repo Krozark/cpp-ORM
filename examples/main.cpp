@@ -79,43 +79,44 @@ class TestTypes : public orm::SqlObject<TestTypes>
 
     orm::FK<TestTypes> fk;
 
-   /* orm::BooleanField           booleanField;
+    orm::TextField              textField;
     orm::CharField<255>         charField;
-    orm::DateTimeField          datetimeField;*/
+    orm::DateTimeField          datetimeField;
     orm::AutoDateTimeField      autodatetimeField;
     orm::AutoNowDateTimeField   autonowdatetimeField;
+
+    orm::BooleanField           booleanField;
     orm::IntegerField           integerField;
     orm::FloatField             floatField;
     orm::DoubleField            doubleField;
-    orm::TextField              textField;
     orm::UnsignedIntegerField   unsignedIntegerField;
 
 
     MAKE_STATIC_COLUMN(\
                        fk,\
-                       /*booleanField,\
+                       textField,\
                        charField,\
-                       datetimeField,\*/
+                       datetimeField,\
                        autodatetimeField,\
                        autonowdatetimeField,\
+                       booleanField,\
                        integerField,\
                        floatField,\
                        doubleField,\
-                       textField,\
                        unsignedIntegerField\
                       )
 };
 REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        fk,"fk",\
-                       /*booleanField,"booleanField",\
+                       textField,"textField",\
                        charField,"charField",\
-                       datetimeField, "datetimeField",\*/
+                       datetimeField, "datetimeField",\
                        autodatetimeField, "autodatetimeField",\
                        autonowdatetimeField, "autonowdatetimeField",\
+                       booleanField,"booleanField",\
                        integerField,"integerField",\
                        floatField,"floatField",\
                        doubleField,"doubleField",\
-                       textField,"textField",\
                        unsignedIntegerField,"unsignedIntegerField"\
                       )
 //merge all colums
@@ -159,39 +160,37 @@ void test_TestTypes()
 
     TestTypes::type_ptr test = TestTypes::create();
 
-    /*test->booleanField = false;
+    test->textField = "this is a long text for testing";
+    
     test->charField = "test";
+
     test->datetimeField = orm::DateTimeField::now();
+
+    test->booleanField = false;
     test->integerField = 42;
     test->floatField = 4.2;
-    test->doubleField = 4.2;*/
-    test->textField = "this is a long text for testing";
+    test->doubleField = 4.2;
     test->unsignedIntegerField = -1;
-
+    
     cout<<"Current test: "<<*test<<endl;
     test->save();
     cout<<"Save current"<<endl;
 
     cout<<"All tests with DateTimeField > now - 1 day"<<endl;
     
-    /*
     TestTypes::result_type lis;
        TestTypes::query()
        .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
        .get(lis);
-    */
 
-    TestTypes::result_type lis;
-       TestTypes::query()
-       .filter(orm::Q<TestTypes>(0,orm::op::gt,TestTypes::$pk))
-       .get(lis);
+
     for(auto u : lis)
     {
         cout<<u.get()<<std::endl;
-        cout<<*u<<endl;
+        if(u)
+            cout<<*u<<endl;
     }
 
-    /*
     cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
     TestTypes::type_ptr test2 = TestTypes::create();
     test2->datetimeField = test->datetimeField - orm::DateTimeField::day(1);
@@ -208,7 +207,6 @@ void test_TestTypes()
     }
 
     test2->save();
-    */
 
 }
 
@@ -216,14 +214,14 @@ void test_TestTypes()
 int main(int argc,char* argv[])
 {
 
-    testDate();
+    //testDate();
     orm::DB::Default.connect();
 
     //REGISTER_DB(Perso,orm::DB::Default)
 
 
-    orm::Tables::drop();
-    orm::Tables::create();
+    //orm::Tables::drop();
+    //orm::Tables::create();
 
     test_TestTypes();
 

@@ -293,6 +293,8 @@ namespace orm
             };
 
             std::vector<MYSQL_BIND> prepared_params;
+            std::vector<ResultData> prepared_params_buffer;
+
             mutable std::vector<MYSQL_BIND> prepared_results;
             mutable std::vector<ResultData> prepared_results_buffer;
             int num_fields_res;

@@ -280,6 +280,8 @@ namespace orm
              */
             int virtual getInitialGetcolumnNumber() const = 0;
 
+            int virtual getInitialSetcolumnNumber() const = 0;
+
             /**
              * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
              *
