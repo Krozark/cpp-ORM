@@ -135,14 +135,16 @@ REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
 using namespace orm;
 using namespace std;
 
-void testDate()
+void test_Datetime()
 {
+
+    std::cout<<"======= test_Datetime ======="<<std::endl;
 
     std::cout<<"date tests"<<std::endl;
     std::cout<<"1 month: "<<orm::DateTimeField::month(1)
     <<"\n 2 months: "<<orm::DateTimeField::month(2)
     <<"\n 1+1 months: "<<orm::DateTimeField::month(1) + orm::DateTimeField::month(1)
-    <<"\n now: "<<orm::DateTimeField::now()
+    <<"\n now (since the 1900/01/01): "<<orm::DateTimeField::now()
     <<"\n now + 30 day: "<<orm::DateTimeField::now() + orm::DateTimeField::day(30)
     <<"\n 1 hour: "<<orm::DateTimeField::time(1,0,0)
     <<"\n 2 hour: "<<orm::DateTimeField::time(2,0,0)
@@ -152,31 +154,50 @@ void testDate()
     <<"\n 1 day + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::now())
     <<"\n 1 day + 1 hour + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0)+orm::DateTimeField::now())
     <<std::endl;
+
+    std::cout<<"======= END test_Datetime =======\n"<<std::endl;
 }
 
 void test_TestTypes()
 {
-    std::cout<<"======= TestTypes ======="<<std::endl;
+    std::cout<<"======= test_TestTypes ======="<<std::endl;
 
     TestTypes::type_ptr test = TestTypes::create();
 
     test->textField = "this is a long text for testing";
-    
     test->charField = "test";
-
     test->datetimeField = orm::DateTimeField::now();
 
     test->booleanField = false;
     test->integerField = 42;
     test->floatField = 4.2;
-    test->doubleField = 4.2;
+    test->doubleField = 523.89;
     test->unsignedIntegerField = -1;
-    
-    cout<<"Current test: "<<*test<<endl;
-    test->save();
-    cout<<"Save current"<<endl;
 
-    cout<<"All tests with DateTimeField > now - 1 day"<<endl;
+    cout<<"*** Current test: "<<*test<<endl;
+    test->save();
+    cout<<"**** Save current\n"<<endl;
+
+    {
+        TestTypes::type_ptr test2 = TestTypes::create();
+        test2->fk = test;
+        test2->textField = "this is another long text for testing";
+        test2->charField = "test2";
+        test2->datetimeField = orm::DateTimeField::now() + orm::DateTimeField::day(36);
+
+        test2->booleanField = true;
+        test2->integerField = -42;
+        test2->floatField = -4.2;
+        test2->doubleField = -533.89;
+        test2->unsignedIntegerField = 1689;
+
+        cout<<"*** Current test2: "<<*test<<endl;
+        test2->save();
+        cout<<"*** Save current\n"<<endl;
+    }
+
+
+    cout<<"++++++++ get all tests with DateTimeField > now() - 1 day (should have 2 result = 1 + 2) ++++++++"<<endl;
     
     TestTypes::result_type lis;
        TestTypes::query()
@@ -186,273 +207,179 @@ void test_TestTypes()
 
     for(auto u : lis)
     {
-        cout<<u.get()<<std::endl;
-        if(u)
-            cout<<*u<<endl;
-    }
-
-    cout<<"All tests with DateTimeField > now - 1 day (with ref to value)"<<endl;
-    TestTypes::type_ptr test2 = TestTypes::create();
-    test2->datetimeField = test->datetimeField - orm::DateTimeField::day(1);
-
-    lis.clear();
-    TestTypes::query()
-        .filter(orm::Q<TestTypes>(test2->datetimeField.value(),orm::op::gt,TestTypes::$datetimeField))
-        .get(lis);
-    //.__print__();
-    for(auto u : lis)
-    {
-        cout<<u.get()<<std::endl;
         cout<<*u<<endl;
     }
 
-    test2->save();
 
+    TestTypes::type_ptr test3 = TestTypes::create();
+    test3->charField = "test3";
+    test3->datetimeField = test->datetimeField - orm::DateTimeField::day(2);
+
+    cout<<"*** Current test3: "<<*test<<endl;
+    test3->save();
+    cout<<"*** Save current\n"<<endl;
+
+
+    cout<<"++++++++++++ All tests with DateTimeField < now() - 2 day (with ref to value, 2 result = 1 + 3) +++++++++++"<<endl;
+
+    lis.clear();
+    TestTypes::query()
+        .filter(orm::Q<TestTypes>(orm::DateTimeField::now(),orm::op::lte,TestTypes::$datetimeField))
+        .get(lis);
+
+    for(auto u : lis)
+    {
+        cout<<*u<<endl;
+    }
+
+    std::cout<<"======= END test_TestTypes =======\n"<<std::endl;
+
+}
+
+void test_Perso()
+{
+    std::cout<<"======= test_Perso ======="<<std::endl;
+
+    DB* con2 = orm::DB::Default.clone();
+    con2->connect();
+
+    auto p1 = Perso::get(1,*con2);
+    cout<<"*** Current perso1 "<<*p1<<endl;
+    cout<<"*** add 1 to lvl"<<endl;
+    p1->lvl = p1->lvl + 1;
+    cout<<"*** Current perso1 "<<*p1<<endl;
+    cout<<"*** save it"<<endl;
+    cout<<"*** current lvl: "<<p1->lvl<<endl;
+    p1->save();
+
+    cout<<"*** Current perso1 "<<*p1<<endl;
+    cout<<"*** add 2 to stats.pv"<<endl;
+    p1->stats->pv += 2;
+    cout<<"*** Current perso1 "<<*p1<<endl;
+    p1->save();
+    cout<<"*** Current perso1 "<<*p1<<endl;
+
+    cout<<"\n*** delete p1->master->master"<<endl;
+    p1->maitre->maitre.del(true);
+    cout<<"*** Current perso1 "<<*p1<<endl;
+
+    {
+        Spell::result_type lis = p1->spells.all();
+        std::cout<<"\n*** All his spells (result = [])"<<std::endl;
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+    }
+
+    std::cout<<"\n*** Create spell s1"<<std::endl;
+    Spell::type_ptr s1 = Spell::create();
+    s1->name = "s1";
+    s1->element = 1;
+    s1->save();
+    cout<<*s1<<std::endl;
+
+    std::cout<<"\n*** Create spell s2"<<std::endl;
+    Spell::type_ptr s2 = Spell::create();
+    s2->name = "s2";
+    s2->element = 2;
+    s2->save();
+    cout<<*s2<<std::endl;
+
+    {
+        std::cout<<"\n*** All spells (result = [s1, s2])"<<std::endl;
+        Spell::result_type lis = Spell::all();
+        for(auto& u : lis)
+        {
+            cout<<*u<<endl;
+        }
+    }
+
+    std::cout<<"\n*** Add s1 and s2 to perso1"<<std::endl;
+    p1->spells.add(s1);
+    p1->spells.add(s2);
+
+
+    {
+        std::cout<<"\n*** All his spells with name s2 (result = [s2])"<<std::endl;
+        Spell::result_type lis;
+        p1->spells.query()
+            .filter(std::string("s2"),orm::op::exact,Spell::$name)
+            .get(lis);
+        for(auto& u : lis)
+        {
+            cout<<*u<<endl;
+        }
+    }
+
+
+
+    {
+        std::cout<<"\n*** All his spells (result = [s1, s2])"<<std::endl;
+        Spell::result_type lis;
+        lis = p1->spells.all();
+        for(auto u : lis)
+        {
+            cout<<*u<<endl;
+        }
+    }
+
+    std::cout<<"======= END test_Perso =======\n"<<std::endl;
+
+}
+
+void test_Perso_Master()
+{
+    auto perso = Perso::create();
+
+    std::cout<<"======= test_Perso_Master ======="<<std::endl;
+
+    {
+        cout<<"*** All perso"<<endl;
+        auto list = Perso::all();
+        for(auto& perso : list)
+        {
+            std::cout<<*perso<<endl;
+        }
+    }
+
+    std::cout<<"*** create a new perso (perso2)"<<std::endl;
+    perso->name = "perso2";
+    perso->lvl = 18;
+
+    std::cout<<"*** create it's master (master)"<<std::endl;
+    perso->maitre->name = "master"; //auto create it if nedeed
+    perso->maitre->lvl = 78;
+
+    perso->save(true); //true for recursion save (master)
+
+    {
+        cout<<"*** All perso"<<endl;
+        auto list = Perso::all();
+        for(auto& perso : list)
+        {
+            std::cout<<*perso<<endl;
+        }
+    }
+
+    std::cout<<"======= END test_Perso_Master =======\n"<<std::endl;
 }
 
 
 int main(int argc,char* argv[])
 {
 
-    //testDate();
     orm::DB::Default.connect();
-
-    //REGISTER_DB(Perso,orm::DB::Default)
-
 
     orm::Tables::drop();
     orm::Tables::create();
 
+    test_Datetime();
+
     test_TestTypes();
 
-    /*
-    std::cout<<"=============="<<std::endl;
-    {
-        DB* con2 = orm::DB::Default.clone();
-        con2->connect();
-
-        auto p1 = Perso::get(1,*con2);
-        cout<<"Current perso1 "<<*p1<<endl;
-        cout<<" add 1 to lvl"<<endl;
-        p1->lvl = p1->lvl + 1;
-        cout<<"Current perso1 "<<*p1<<endl;
-        cout<<"save it"<<endl;
-        cout<<"current lvl: "<<p1->lvl<<endl;
-        p1->save();
-
-        cout<<"Current perso1 "<<*p1<<endl;
-        cout<<" add 2 to stats.pv"<<endl;
-        p1->stats->pv += 2;
-        cout<<"Current perso1 "<<*p1<<endl;
-        p1->save();
-        cout<<"Current perso1 "<<*p1<<endl;
-
-        cout<<"delete p1->master->master"<<endl;
-        p1->maitre->maitre.del(true);
-        cout<<"Current perso1 "<<*p1<<endl;
-
-        Spell::result_type lis = p1->spells.all();
-        std::cout<<"All his spells"<<std::endl;
-        for(auto u : lis)
-        {
-            cout<<*u<<endl;
-        }
-            //.filter("test",orm::op::exact,Spell::$name);
-            //.get(lis);
-
-        std::cout<<"Add spell s1"<<std::endl;
-        Spell::type_ptr s1 = Spell::create();
-        s1->name = "s1";
-        s1->element = 1;
-        s1->save();
-        p1->spells.add(s1);
-
-        std::cout<<"Add spell s2"<<std::endl;
-        Spell::type_ptr s2 = Spell::create();
-        s2->name = "s2";
-        s2->element = 2;
-        s2->save();
-        p1->spells.add(s2);
-
-        std::cout<<"All his spells"<<std::endl;
-        lis.clear();
-        lis = p1->spells.all();
-        for(auto u : lis)
-        {
-            cout<<*u<<endl;
-        }
-
-        std::cout<<"All his spells with name s2 ("<<p1->getPk()<<",s2"<<")"<<std::endl;
-        lis.clear();
-        p1->spells.query()
-        .filter(std::string("s2"),orm::op::exact,Spell::$name)
-            .get(lis);
-        for(auto& u : lis)
-        {
-            cout<<*u<<endl;
-        }
-
-    }
-    std::cout<<"=============="<<std::endl;
-    */
-   /*{
-       cout<<"All persos"<<endl;
-       Perso::result_type lis= Perso::all();
-       for(auto u : lis)
-       {
-            cout<<*u<<endl;
-       }
-   }
-    std::cout<<"=============="<<std::endl;
-
-   {
-       cout<<"Create Perso"<<endl;
-       Perso p2;// = new Perso;
-
-       p2.name = "test insert";
-       p2.lvl = 75;
-       p2.save();
-
-       cout<<"Change PV to +=20"<<endl;
-       p2.stats->pv+= 20;
-       cout<<p2<<endl;
-
-       cout<<"save it"<<endl;
-       p2.save();
-
-       cout<<"All persos (current="<<p2<<")"<<endl;
-       Perso::result_type lis= Perso::all();
-       for(auto u : lis)
-       {
-            cout<<*u<<endl;
-       }
-
-   }
-    std::cout<<"=============="<<std::endl;
-   {
-       Perso p2;
-
-
-       Perso::query()
-           .filter(Q<Perso>(4,orm::op::gt,Perso::$lvl)
-                   and Q<Perso>(42,orm::op::gte,Perso::$lvl)
-                   and not Q<Perso>(4,orm::op::lt,Perso::$lvl)
-                  )
-           .orderBy(Perso::$name)
-           .get(p2);
-       std::cout<<p2<<std::endl;
-
-
-      // Chained way for same result
-      // Perso::query()
-      //  .filter(4,orm::op::gt,Perso::$lvl)
-      //  .filter(42,orm::op::gte,Perso::$lvl)
-      //  .exclude(4,orm::op::lt,Perso::$lvl)
-      //  .orderBy(Perso::$name)
-      //  .get(p2);
-      //
-
-
-       Perso::result_type results;
-       //Perso p;// = new Perso;
-       //p.name="test";
-       //p.maitre->name="test master";
-       //p.maitre->lvl = 5;
-       //p.save();
-
-       //std::cout<<p<<std::endl;
-
-       //Perso::query()
-       //    .filter(4,orm::op::gt,Perso::_maitre,Perso::$lvl)
-       //    .orderBy(Perso::_name)
-       //    .get(results);
-       //for(auto& perso : results)
-       //    cout<<*perso<<endl;
-
-
-       //results.clear();
-
-       cout<<"All perso"<<endl;
-       Perso::query().get(results);
-       for(auto& perso : results)
-       {
-           cout<<perso.get()<<std::endl;
-           std::cout<<*perso<<endl;
-       }
-
-       results.clear();
-
-       cout<<"All perso where lvl < 200"<<endl;
-       Perso::query().filter(200,orm::op::lt,Perso::$lvl).get(results);
-       for(auto& perso : results)
-       {
-           cout<<perso.get()<<std::endl;
-           std::cout<<*perso<<endl;
-       }
-
-
-   }
-    std::cout<<"=============="<<std::endl;
-   {
-
-       Perso::result_type lis;
-       Perso::query().filter(string("test"),orm::op::startswith,Perso::$name).get(lis);
-       for(auto u : lis)
-           cout<<*u<<endl;
-   }
-
-    std::cout<<"=============="<<std::endl;
-
-
-   {
-       auto p1 = Perso::get(1);
-       const Spell::result_type spells = p1->spells.all();
-       for(auto u : spells)
-           cout<<*u<<endl;
-   }
-
-    std::cout<<"=============="<<std::endl;
-
-    {
-        Spell::result_type list;
-       Spell::query().get(list);
-       for(auto u : list)
-           cout<<*u<<endl;
-    }
-
-    std::cout<<"=============="<<std::endl;
-    {
-        auto p1 = Perso::get(1);
-        std::cout<<"perso pk=1:\n"<<*p1<<std::endl;
-
-        auto stats = Stats::get(1);
-        p1->stats = stats;
-
-        Spell::result_type list;
-        p1->spells.query()\
-          .filter(2,"exact",Spell::$element)\
-          .get(list);
-
-        cout<<"sorts d'element == 2"<<endl;
-        for(auto u : list)
-            cout<<*u<<endl;
-
-        cout<<"sorts du perso"<<endl;
-        for(auto u : p1->spells.all())
-            cout<<*u<<endl;
-
-        auto sort = Spell::get(1);
-        cout<<"sort pk = 1.\n"<<*sort<<endl;
-
-        p1->spells.add(sort);
-        p1->spells.remove(sort);
-
-    }
-
-    std::cout<<"=============="<<std::endl;
-
-    */
-
+    test_Perso();
+    test_Perso_Master();
 
     DB::Default.disconnect();
     return 0;
