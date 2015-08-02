@@ -4,6 +4,8 @@ set(SRCROOT ${SRCROOT}/models)
 list(APPEND FILES_HEADER
     ${INCROOT}/SqlObject.hpp
     ${INCROOT}/SqlObject.tpl
+    ${INCROOT}/SqlExtends.hpp
+    ${INCROOT}/SqlExtends.tpl
     ${INCROOT}/SqlObjectBase.hpp
 )
 # set in parent scope

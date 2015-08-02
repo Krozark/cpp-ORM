@@ -10,6 +10,7 @@ orm::DB& orm::DB::Default = def;
 #include <ORM/fields.hpp>
 #include <ORM/fields/ManyToMany.hpp>
 #include <ORM/models/SqlObject.hpp>
+#include <ORM/models/SqlExtends.hpp>
 #include <ORM/backends/op.hpp>
 
 #include <iostream>
@@ -120,7 +121,7 @@ REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
                        unsignedIntegerField,"unsignedIntegerField"\
                       )
 //merge all colums
-class TestMergeHeritage : public TestTypes
+class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
 {
     public:
         TestMergeHeritage();
@@ -129,8 +130,11 @@ class TestMergeHeritage : public TestTypes
 
         MAKE_STATIC_COLUMN(b)
 };
-REGISTER_AND_CONSTRUCT(TestMergeHeritage,"TestMergeHeritage",b,"b")
-//REGISTER_TABLE(TestMergeHeritage,"TestMergeHeritage")
+REGISTER(TestMergeHeritage,"TestMergeHeritage",b,"b");
+TestMergeHeritage::TestMergeHeritage() : b(TestMergeHeritage::$b)
+{
+    b.registerAttr(*static_cast<SqlObject<TestMergeHeritage>*>(this));
+};
 
 using namespace orm;
 using namespace std;
@@ -234,6 +238,32 @@ void test_TestTypes()
 
     std::cout<<"======= END test_TestTypes =======\n"<<std::endl;
 
+}
+
+void test_TestMergeHeritage()
+{
+    std::cout<<"======= test_TestMergeHeritage ======="<<std::endl;
+    {
+        cout<<"*** All TestMergeHeritage"<<endl;
+        TestMergeHeritage test;
+        /*
+        auto list = TestMergeHeritage::all();
+        for(auto& i : list)
+        {
+            std::cout<<(*i)<<endl;
+        }
+        */
+
+        /*
+        auto test = TestMergeHeritage::create();
+        
+        test->b = true;
+
+        test->save();
+        */
+    }
+
+    std::cout<<"======= END test_TestMergeHeritage =======\n"<<std::endl;
 }
 
 void test_Perso()
@@ -374,12 +404,14 @@ int main(int argc,char* argv[])
     orm::Tables::drop();
     orm::Tables::create();
 
-    test_Datetime();
+    //test_Datetime();
 
-    test_TestTypes();
+    //test_TestTypes();
+    test_TestMergeHeritage();
 
-    test_Perso();
-    test_Perso_Master();
+    //test_Perso();
+    //test_Perso_Master();
+
 
     DB::Default.disconnect();
     return 0;

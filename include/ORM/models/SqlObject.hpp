@@ -92,7 +92,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(bool recursive=false,DB& db = *default_connection) override final;
+            virtual bool save(bool recursive=false,DB& db = *default_connection) override /*final*/;
 
             /**
             * \brief delete the object from de data base
