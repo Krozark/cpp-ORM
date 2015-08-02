@@ -24,8 +24,7 @@ namespace orm
             delete res;
             res = nullptr;
         }
-		
-        return SqlObject<T>::type_ptr(res);
+	    return SqlObject<T>::type_ptr(res);	
     };
 
     template<typename T>

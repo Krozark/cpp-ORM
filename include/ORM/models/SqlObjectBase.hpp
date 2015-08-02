@@ -122,7 +122,7 @@ namespace orm
              *
              * \return false if fail 
              **/
-            bool loadFromDB(const Query& query,int max_depth);
+            virtual bool loadFromDB(const Query& query,int max_depth);
 
             /**
              * \brief create the object using the query
@@ -133,7 +133,7 @@ namespace orm
              *
              * \return false if fail 
              **/
-            bool loadFromDB(const Query& query,int& prefix,int max_depth);
+            virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
 
             /**
              * \brief make the attrs columns alias
@@ -146,7 +146,6 @@ namespace orm
 
 
         private:
-
             int pk; ///< the object pf
             std::vector<VAttr*> attrs; ///< the object attrs
             std::vector<VFK*> fks; ///< the object FK

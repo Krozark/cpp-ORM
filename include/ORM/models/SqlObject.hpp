@@ -10,6 +10,31 @@
 //std::
 #include <memory>
 
+/**
+needed for multiple inheritance from std::enable_shared_from_this<T>
+struct A: virtual_enable_shared_from_this<A> {};
+struct B: virtual_enable_shared_from_this<B> {};
+struct Z: A, B { };
+int main() {
+   std::shared_ptr<Z> z = std::make_shared<Z>();
+   std::shared_ptr<B> b = z->B::shared_from_this();
+}
+*/
+struct virtual_enable_shared_from_this_base: std::enable_shared_from_this<virtual_enable_shared_from_this_base>
+{
+   virtual ~virtual_enable_shared_from_this_base() {}
+};
+
+template<typename T>
+struct virtual_enable_shared_from_this: virtual virtual_enable_shared_from_this_base
+{
+   std::shared_ptr<T> shared_from_this()
+   {
+      return std::dynamic_pointer_cast<T>(virtual_enable_shared_from_this_base::shared_from_this());
+   }
+};
+
+
 
 namespace orm
 {
@@ -30,7 +55,7 @@ namespace orm
     * \endcode
     **/
     template<typename T>
-    class SqlObject : public SqlObjectBase, public std::enable_shared_from_this<T>
+    class SqlObject : public SqlObjectBase, public virtual_enable_shared_from_this<T>
     {
         public:
             using result_type = typename QuerySet<T>::result_type;

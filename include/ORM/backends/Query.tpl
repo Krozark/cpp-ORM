@@ -21,7 +21,7 @@ namespace orm
         int res = 0;
         while(next())
         {
-            auto tmp = T::cache.getOrCreate(*this,max_depth);
+            auto tmp = SqlObject<T>::cache.getOrCreate(*this,max_depth);
             //TODO
             //if(tmp)
             {

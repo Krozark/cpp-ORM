@@ -135,6 +135,22 @@ TestMergeHeritage::TestMergeHeritage() : b(TestMergeHeritage::$b)
 {
     b.registerAttr(*static_cast<SqlObject<TestMergeHeritage>*>(this));
 };
+/*
+class TestMergeHeritage2 : public orm::SqlExtends<TestMergeHeritage2,TestMergeHeritage>
+{
+    public:
+        TestMergeHeritage2();
+
+        orm::BooleanField   b2;
+
+        MAKE_STATIC_COLUMN(b2)
+};
+REGISTER(TestMergeHeritage2,"TestMergeHeritage2",b2,"b2");
+TestMergeHeritage2::TestMergeHeritage2() : b2(TestMergeHeritage2::$b2)
+{
+    b2.registerAttr(*static_cast<SqlObject<TestMergeHeritage2>*>(this));
+};
+*/
 
 using namespace orm;
 using namespace std;
@@ -245,22 +261,27 @@ void test_TestMergeHeritage()
     std::cout<<"======= test_TestMergeHeritage ======="<<std::endl;
     {
         cout<<"*** All TestMergeHeritage"<<endl;
-        TestMergeHeritage test;
-        /*
         auto list = TestMergeHeritage::all();
         for(auto& i : list)
         {
             std::cout<<(*i)<<endl;
         }
-        */
 
-        /*
-        auto test = TestMergeHeritage::create();
         
-        test->b = true;
+        auto test = TestMergeHeritage::create();
+        cout<<"*** Current test: "<<*test<<endl;
+        cout<<"*** Ste some values "<<endl;
 
+        test->b = true;
+        test->integerField = 42;
+
+        cout<<"*** Current test: "<<*test<<endl;
+
+        
+        cout<<"**** Save current\n"<<endl;
         test->save();
-        */
+        cout<<"*** Current test: "<<*test<<endl;
+
     }
 
     std::cout<<"======= END test_TestMergeHeritage =======\n"<<std::endl;

@@ -75,10 +75,10 @@ namespace orm
             return res->second;
 
         type_ptr& r= map[pk];
-        r = T::createFromDB(query,--index,max_depth);
+        r = SqlObject<T>::createFromDB(query,--index,max_depth);
 
         #else
-        type_ptr r = T::createFromDB(query,--index,max_depth);
+        type_ptr r = SqlObject<T>::createFromDB(query,--index,max_depth);
         #endif
         return r;
     }

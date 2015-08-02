@@ -2,26 +2,46 @@
 #define ORM_SQLEXTENDS_HPP
 
 #include <ORM/models/SqlObject.hpp>
-//#include <ORM/fields/FK.tpl>
+#include <ORM/fields/FK.hpp>
 
 namespace orm
 {
     template <typename T, typename BASE>
-    class SqlExtends : public SqlObject<T>, public SqlObject<BASE>
+    class SqlExtends : public SqlObject<T>, public BASE
     {
         public:
+            using result_type = typename SqlObject<T>::result_type;
+            using type_ptr = typename SqlObject<T>::type_ptr;
+
             SqlExtends();
             virtual ~SqlExtends();
 
-            virtual bool save(bool recursive=false,DB& db = *SqlObject<T>::default_connection) override final;
+            virtual bool save(bool recursive=false,DB& db = *SqlObject<T>::default_connection) override;
 
             //virtual bool del(bool recursive, DB& db) override final;
 
+            using SqlObject<T>::create;
+            using SqlObject<T>::all;
+            
+            //static result_type all(DB& db = *SqlObject<T>::default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            
+
+            friend std::ostream& operator<<(std::ostream& output,const SqlExtends& self)
+            {
+                return output<<static_cast<const SqlObject<T>&>(self);
+            }
+
+            const std::string ORM_MAKE_NAME(base) = typeid<T>().name();
 
         protected:
+            template<typename U> friend class SqlObject;
+
+            virtual bool loadFromDB(const Query& query,int max_depth);
+            virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
 
         private:
-            //FK<BASE,false> _base_fk;
+            FK<BASE,false> _base_fk;
+
             /*
             template<typename U> friend class Register;
 

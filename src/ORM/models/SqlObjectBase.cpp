@@ -28,11 +28,13 @@ namespace orm
 
     void SqlObjectBase::after_load(){};
 
+    
     bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
     {
         int prefix=query.db.getInitialGetcolumnNumber() -1;
         return loadFromDB(query,prefix,max_depth);
     };
+    
 
     bool SqlObjectBase::loadFromDB(const Query& query,int& prefix,int max_depth)
     {

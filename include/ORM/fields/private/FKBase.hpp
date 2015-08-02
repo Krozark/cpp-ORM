@@ -23,7 +23,6 @@ namespace orm
              **/
             ~FKBase();
 
-
             /**
              * \brief Save or update the object on the fk
              *

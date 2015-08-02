@@ -174,10 +174,10 @@ namespace orm
     Query* QuerySet<T>::makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,max_depth,db);
+        SqlObject<T>::nameAttrs(q_str,SqlObject<T>::table,max_depth,db);
 
         q_str+="\nFROM ";
-        T::nameTables(q_str,"",max_depth,db);
+        SqlObject<T>::nameTables(q_str,"",max_depth,db);
 
         const int filters_size = filters.size();
 
