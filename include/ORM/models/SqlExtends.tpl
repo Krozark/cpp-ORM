@@ -2,7 +2,7 @@ namespace orm
 {
 
     template <typename T, typename BASE>
-    SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base))
+    SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_ptr_pk))
     {
         _base_fk.registerAttr(*static_cast<SqlObject<T>*>(this));
         _base_fk = typename BASE::type_ptr(static_cast<BASE*>(this));

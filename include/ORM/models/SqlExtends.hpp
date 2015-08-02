@@ -31,7 +31,7 @@ namespace orm
                 return output<<static_cast<const SqlObject<T>&>(self);
             }
 
-            const std::string ORM_MAKE_NAME(base) = typeid<T>().name();
+            const std::string ORM_MAKE_NAME(base_ptr_pk) = "_base_ptr_pk";
 
         protected:
             template<typename U> friend class SqlObject;
