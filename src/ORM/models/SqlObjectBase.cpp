@@ -7,9 +7,13 @@ namespace orm
 {
     _MAKE_STRING_N(SqlObjectBase,2,pk,"pk");
 
-    SqlObjectBase::SqlObjectBase() : pk(-1){}; 
+    SqlObjectBase::SqlObjectBase() : pk(-1)
+    {
+    }
 
-    SqlObjectBase::~SqlObjectBase(){}
+    SqlObjectBase::~SqlObjectBase()
+    {
+    }
 
     int SqlObjectBase::getPk()const
     {

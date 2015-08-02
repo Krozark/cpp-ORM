@@ -53,6 +53,9 @@ namespace orm
 
             virtual const std::string& getTable() const override final;
             */
+
+            template<typename ... Args>
+            static type_ptr _createForRegister(Args&& ... args);
     };
 }
 

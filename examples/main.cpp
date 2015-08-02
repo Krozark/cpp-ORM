@@ -270,7 +270,7 @@ void test_TestMergeHeritage()
         
         auto test = TestMergeHeritage::create();
         cout<<"*** Current test: "<<*test<<endl;
-        cout<<"*** Ste some values "<<endl;
+        cout<<"*** Store some values "<<endl;
 
         test->b = true;
         test->integerField = 42;

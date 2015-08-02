@@ -62,7 +62,7 @@ namespace orm
             delete res;
             res = nullptr;
         }
-        return std::shared_ptr<T>(res);
+        return SqlObject<T>::type_ptr(res);
     };
 
     template<typename T>
