@@ -19,7 +19,10 @@ namespace orm
 
     template<typename RELATED,typename T>
     template<typename ... Args>
-    Filter<RELATED,T>::Filter(const T& val,const std::string& ope,const std::string& column,Args&& ... args) : column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)), ope(ope), value(__filter_value_helper(val))
+    Filter<RELATED,T>::Filter(const T& val,const std::string& ope,const std::string& column,Args&& ... args) : 
+        column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)),
+        ope(ope),
+        value(__filter_value_helper(val))
     {
     };
 

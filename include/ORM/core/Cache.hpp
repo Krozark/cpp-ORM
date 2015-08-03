@@ -111,6 +111,13 @@ namespace orm
              **/
             type_ptr& add(type_ptr& obj);
 
+
+            /**
+             * \brief replace an existing value in cach by the new one
+             * \return true if replaced, false if added
+             */
+            //bool replace(type_ptr& obj);
+
             /**
              * \brief Add a object in the cache
              *

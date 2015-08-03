@@ -90,7 +90,7 @@ namespace orm
     {
         #ifdef ORM_USE_CACHE
         for(auto& i : map)
-            std::cerr<<static_cast<SqlObject<T>*>(i.second.get())->second<<std::endl;
+            std::cerr<<*static_cast<SqlObject<T>*>(i.second.get())<<std::endl;
         #endif
     }
 
@@ -101,7 +101,7 @@ namespace orm
         if(reset_pk)
         {
             for(auto& i : map)
-                static_cast<SqlObject<T>*>(i.second.get())->pk = -1;
+                i.second->SqlObject<T>::pk = -1;
 
         }
         map.clear();
@@ -114,7 +114,7 @@ namespace orm
     typename Cache<T>::type_ptr& Cache<T>::add(typename Cache<T>::type_ptr& obj)
     {
         #ifdef ORM_USE_CACHE
-        auto pk = static_cast<SqlObject<T>*>(obj.get())->pk;
+        auto pk = obj.get()->SqlObject<T>::pk;
         const auto& res=map.find(pk);
         if(res != map.end())
         {

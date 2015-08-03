@@ -126,7 +126,7 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(bool recursive=false,DB& db = *default_connection) override final;
+            virtual bool del(bool recursive=false,DB& db = *default_connection) override;
 
 
             type_ptr as_type_ptr();

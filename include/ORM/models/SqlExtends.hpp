@@ -18,12 +18,13 @@ namespace orm
 
             virtual bool save(bool recursive=false,DB& db = *SqlObject<T>::default_connection) override;
 
-            //virtual bool del(bool recursive, DB& db) override final;
+            virtual bool del(bool recursive=false, DB& db = *SqlObject<T>::default_connection) override final;
 
             using SqlObject<T>::create;
             using SqlObject<T>::all;
+            using SqlObject<T>::query;
+            //using SqlObject<T>::default_connection;
             
-            //static result_type all(DB& db = *SqlObject<T>::default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
             
 
             friend std::ostream& operator<<(std::ostream& output,const SqlExtends& self)
@@ -31,16 +32,24 @@ namespace orm
                 return output<<static_cast<const SqlObject<T>&>(self);
             }
 
-            const std::string ORM_MAKE_NAME(base_ptr_pk) = "_base_ptr_pk";
+            static  DB*& default_connection;
+
+            static const std::string ORM_MAKE_NAME(base_ptr_pk);
 
         protected:
             template<typename U> friend class SqlObject;
+            template<typename U,typename V> friend class ManyToMany;
+            template<typename RELATED,typename U> friend class Filter;
 
-            virtual bool loadFromDB(const Query& query,int max_depth);
+            const static std::string& table; ///< the table name
+
+            //virtual bool loadFromDB(const Query& query,int max_depth);
             virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
 
         private:
             FK<BASE,false> _base_fk;
+
+            int _save_nb; //save() hack
 
             /*
             template<typename U> friend class Register;

@@ -133,7 +133,7 @@ class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
 REGISTER(TestMergeHeritage,"TestMergeHeritage",b,"b");
 TestMergeHeritage::TestMergeHeritage() : b(TestMergeHeritage::$b)
 {
-    b.registerAttr(*static_cast<SqlObject<TestMergeHeritage>*>(this));
+    b.registerAttr(*static_cast<orm::SqlObject<TestMergeHeritage>*>(this));
 };
 /*
 class TestMergeHeritage2 : public orm::SqlExtends<TestMergeHeritage2,TestMergeHeritage>
@@ -260,11 +260,17 @@ void test_TestMergeHeritage()
 {
     std::cout<<"======= test_TestMergeHeritage ======="<<std::endl;
     {
-        cout<<"*** All TestMergeHeritage"<<endl;
-        auto list = TestMergeHeritage::all();
-        for(auto& i : list)
         {
-            std::cout<<(*i)<<endl;
+            cout<<"*** All TestMergeHeritage"<<endl;
+            auto list = TestMergeHeritage::all();
+            for(auto& i : list)
+            {
+                std::cout<<(*i)<<endl;
+                TestTypes::type_ptr base_ptr = i;
+                std::cout<<"Base : "<<*base_ptr<<std::endl;
+                base_ptr->integerField += 1;
+                base_ptr->save();
+            }
         }
 
         
@@ -279,8 +285,27 @@ void test_TestMergeHeritage()
 
         
         cout<<"**** Save current\n"<<endl;
-        test->save();
+        test->save(true);
         cout<<"*** Current test: "<<*test<<endl;
+
+        cout<<"**** delete current\n"<<endl;
+        test->del(true);
+        cout<<"*** Current test: "<<*test<<endl;
+
+
+
+        {
+            cout<<"**** filter query"<<std::endl;
+
+            auto list = TestMergeHeritage::result_type();
+            TestMergeHeritage::query().filter(
+                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::$base_ptr_pk,TestTypes::$integerField)
+            ).get(list);
+            for(auto& i : list)
+            {
+                std::cout<<(*i)<<endl;
+            }
+        }
 
     }
 
@@ -422,8 +447,8 @@ int main(int argc,char* argv[])
 
     orm::DB::Default.connect();
 
-    orm::Tables::drop();
-    orm::Tables::create();
+    //orm::Tables::drop();
+    //orm::Tables::create();
 
     //test_Datetime();
 

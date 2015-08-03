@@ -174,6 +174,7 @@ namespace orm
             friend class VAttr;
 
             template<typename T> friend class SqlObject;
+            template<typename T,typename BASE> friend class SqlExtends;
             template<typename T> friend class QuerySet;
             template<typename T> friend class Cache;
             template<typename T> friend class FKBase;

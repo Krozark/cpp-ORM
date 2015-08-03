@@ -30,6 +30,7 @@ namespace orm
             template<typename T> friend class FKBase;
             template<typename T> friend class QuerySet;
             template<typename T> friend class SqlObject;
+            template<typename T,typename BASE> friend class SqlExtends;
             template<typename T> friend class Cache;
             template<typename RELATED,typename T> friend class Filter;
             template<typename T,typename U> friend class ManyToMany;

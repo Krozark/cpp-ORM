@@ -38,7 +38,7 @@ namespace orm
              **/
             virtual void __print__(const DB& db) const final;
 
-        //protected:
+        protected:
             const std::string column; ///< Colum to apply filter
             const std::string ope; ///< operator to use. \see DB::operators
             const T value; ///< Store the value of the filter to compare with

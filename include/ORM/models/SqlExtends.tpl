@@ -1,5 +1,14 @@
 namespace orm
 {
+    template <typename T, typename BASE>
+    DB*& SqlExtends<T,BASE>::default_connection = SqlObject<T>::default_connection;
+
+    template <typename T, typename BASE>
+    const std::string SqlExtends<T,BASE>::ORM_MAKE_NAME(base_ptr_pk) = "_base_ptr_pk";
+
+    template <typename T, typename BASE>
+    const std::string& SqlExtends<T,BASE>::table = SqlObject<T>::table; ///< the table name
+
     void emptyDeleter(void* obj)
     {
     }
@@ -12,6 +21,8 @@ namespace orm
         _base_fk.registerAttr(*static_cast<SqlObject<T>*>(this));
 
         _base_fk = typename BASE::type_ptr(static_cast<BASE*>(this),emptyDeleter); //avoid to delete this twice
+
+        _save_nb = 0;
     }
 
     template <typename T, typename BASE>
@@ -22,27 +33,25 @@ namespace orm
     template <typename T, typename BASE>
     bool SqlExtends<T,BASE>::save(bool recursive,DB& db)
     {
-        bool res = BASE::save(recursive,db);
-        if(res)
-            res = SqlObject<T>::save(recursive,db);
+        bool res = false;
+        if(_save_nb == 0) // hack to avoid recursion due to extends
+        {
+            ++_save_nb;
+            res = SqlObject<BASE>::save(recursive,db);
+            res |= SqlObject<T>::save(recursive,db);
+        }
+        --_save_nb;
         return res;
     }
 
-    /*SqlExtends::result_type all(DB& db,int max_depth)
-    {
-        return SqlObject<T>::all(db,max_depth);
-    }*/
-
-    /*template <typename T, typename BASE>
-    std::ostream& operator<<(std::ostream& output,const SqlExtends<T,BASE>& self)
-    {
-        return output<<static_cast<SqlObject<T>&>(self);
-    }*/
-
     template <typename T, typename BASE>
-    bool SqlExtends<T,BASE>::loadFromDB(const Query& query,int max_depth)
+    bool SqlExtends<T,BASE>::del(bool recursive, DB& db)
     {
-        return SqlObject<T>::loadFromDB(query,max_depth);
+        std::cout<<"SqlExtends<T>::del()"<<std::endl;
+        bool res = false;
+        res = SqlObject<BASE>::del(recursive,db);
+        res |= SqlObject<T>::del(recursive,db);
+        return res;
     }
 
     template <typename T, typename BASE>
@@ -52,21 +61,6 @@ namespace orm
     }
 
     /*
-    template <typename T, typename BASE>
-    bool SqlExtends<T,BASE>::save(bool recursive,DB& db)
-    {
-        //SqlObject<BASE>::save(recursive,db);
-        //SqlObject<T>::save(recursive,db);
-        return false;
-    }
-    */
-
-    /*
-    template <typename T, typename BASE>
-    bool SqlExtends<T,BASE>::del(bool recursive, DB& db)
-    {
-        return false;
-    }
 
     template <typename T, typename BASE>
     void SqlExtends<T,BASE>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const 

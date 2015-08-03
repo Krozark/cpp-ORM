@@ -50,7 +50,7 @@ namespace orm
     {
         bool res = false;
         //if(loaded)
-        if(value_ptr.get())
+        if(value_ptr.get() and value_ptr->pk != -1)
         {
             res = value_ptr->del(recursive,db);
             fk = value_ptr->pk;
@@ -163,7 +163,18 @@ namespace orm
             if(res)
             {
                 const unsigned int id = fk;
-                value_ptr = T::cache.getOrCreate(id,query,prefix,max_depth);
+                if(test())
+                {
+                    value_ptr->T::loadFromDB(query,prefix,max_depth);
+                    if(T::cache.add(value_ptr) != value_ptr)
+                    {
+                        std::cerr<<ROUGE<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<BLANC<<std::endl;
+                    }
+                }
+                else
+                {
+                    value_ptr = T::cache.getOrCreate(id,query,prefix,max_depth);
+                }
                 //loaded = true;
             }
             else
