@@ -119,6 +119,10 @@ To build the exemple (the database is include)
     {
         //connect to database
         orm::DB::Default.connect();
+        
+        //orm::Tables::drop();  // delete all tables
+        //orm::Tables::clear();  // clear tables contents
+        orm::Tables::create(); //create all thes tables
     
         //get perso with pk=1
         Perso::type_ptr p1 = Perso::get(1);
