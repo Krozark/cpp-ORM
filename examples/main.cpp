@@ -299,7 +299,7 @@ void test_TestMergeHeritage()
 
             auto list = TestMergeHeritage::result_type();
             TestMergeHeritage::query().filter(
-                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::$base_ptr_pk,TestTypes::$integerField)
+                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::$base_obj_ptr,TestTypes::$integerField)
             ).get(list);
             for(auto& i : list)
             {
