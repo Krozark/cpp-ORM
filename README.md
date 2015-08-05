@@ -30,7 +30,7 @@ functions
 * Persistent Object
  * print as json
  * save / update / load
- * polymorphic object [0.4.1]
+ * polymorphic object [0.4.2]
 * Foreign key
  * save / update / load
 * ManyToMany
