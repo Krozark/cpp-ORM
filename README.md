@@ -6,13 +6,13 @@ Current build status :
 
 An ORM project.
 
-You can simply create persistent objects using data bases.
+You can simply create persistent objects using databases.
 
 The object representation:
     Each object have to be in a separate table with a pk column named 'id' as auto increment.
     each attr is a column in this table.
 
-For the moment you have to create tables by hand.
+Table ares created automaticly.
 
 
 Tested on
@@ -30,6 +30,7 @@ functions
 * Persistent Object
  * print as json
  * save / update / load
+ * polymorphic object [0.4.1]
 * Foreign key
  * save / update / load
 * ManyToMany
@@ -42,6 +43,7 @@ functions
 * caching
 * debug output (set ORM_DEBUG to ORM_DEBUG_XXX in debug.hpp)
 * multi connection for a single object (select/save) [v 0.3]
+* Table creation, clearing and drop
 
 Data bases supported
 =====================
