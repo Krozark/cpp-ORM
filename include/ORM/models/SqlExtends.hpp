@@ -24,8 +24,8 @@ namespace orm
             using SqlObject<T>::all;
             using SqlObject<T>::query;
             //using SqlObject<T>::default_connection;
-            
-            
+
+
 
             friend std::ostream& operator<<(std::ostream& output,const SqlExtends& self)
             {
@@ -37,11 +37,13 @@ namespace orm
             static const std::string ORM_MAKE_NAME(base_obj_ptr);
 
         protected:
+            friend class Query;
             template<typename U> friend class SqlObject;
             template<typename U,typename V> friend class ManyToMany;
             template<typename RELATED,typename U> friend class Filter;
 
             const static std::string& table; ///< the table name
+            static Cache<T>& cache;
 
             //virtual bool loadFromDB(const Query& query,int max_depth);
             virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);

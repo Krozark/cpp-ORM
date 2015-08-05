@@ -5,7 +5,7 @@ namespace orm
     {
         if(not executed)
             execute();
-        
+
         if (next())
             return obj.loadFromDB(*this,max_depth);
 
@@ -21,14 +21,14 @@ namespace orm
         int res = 0;
         while(next())
         {
-            auto tmp = SqlObject<T>::cache.getOrCreate(*this,max_depth);
+            auto tmp = T::cache.getOrCreate(*this,max_depth);
             //TODO
             //if(tmp)
             {
                 objs.emplace_back(tmp);
                 ++res;
             }
-        }   
-        return res;     
+        }
+        return res;
     };
 };

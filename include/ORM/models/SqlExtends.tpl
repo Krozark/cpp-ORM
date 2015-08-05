@@ -9,11 +9,12 @@ namespace orm
     template <typename T, typename BASE>
     const std::string& SqlExtends<T,BASE>::table = SqlObject<T>::table; ///< the table name
 
+    template <typename T, typename BASE>
+    Cache<T>& SqlExtends<T,BASE>::cache = SqlObject<T>::cache;
+
     void emptyDeleter(void* obj)
     {
     }
-
-    static int counter = 0;
 
     template <typename T, typename BASE>
     SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr))
@@ -63,7 +64,7 @@ namespace orm
     /*
 
     template <typename T, typename BASE>
-    void SqlExtends<T,BASE>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const 
+    void SqlExtends<T,BASE>::_nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const
     {
     }
 
