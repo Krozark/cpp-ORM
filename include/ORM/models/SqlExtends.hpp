@@ -34,7 +34,7 @@ namespace orm
 
             static  DB*& default_connection;
 
-            static const std::string ORM_MAKE_NAME(base_ptr_pk);
+            static const std::string ORM_MAKE_NAME(base_obj_ptr);
 
         protected:
             template<typename U> friend class SqlObject;
