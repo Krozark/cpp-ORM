@@ -6,6 +6,11 @@ MySqlDB
 
 * Use C API instead of C++
 
+SqlExtends
+----------
+
+* Add this class to support polymorphic object.
+
 0.4.1
 =====
 
