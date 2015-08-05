@@ -4,7 +4,7 @@ namespace orm
     DB*& SqlExtends<T,BASE>::default_connection = SqlObject<T>::default_connection;
 
     template <typename T, typename BASE>
-    const std::string SqlExtends<T,BASE>::ORM_MAKE_NAME(base_ptr_pk) = "_base_ptr_pk";
+    const std::string SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr) = "_base_obj_ptr";
 
     template <typename T, typename BASE>
     const std::string& SqlExtends<T,BASE>::table = SqlObject<T>::table; ///< the table name
@@ -16,7 +16,7 @@ namespace orm
     static int counter = 0;
 
     template <typename T, typename BASE>
-    SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_ptr_pk))
+    SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr))
     {
         _base_fk.registerAttr(*static_cast<SqlObject<T>*>(this));
 
