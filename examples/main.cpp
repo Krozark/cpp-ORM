@@ -15,6 +15,7 @@ orm::DB& orm::DB::Default = def;
 
 #include <iostream>
 
+
 class Spell : public orm::SqlObject<Spell>
 {
     public:
@@ -151,6 +152,20 @@ TestMergeHeritage2::TestMergeHeritage2() : b2(TestMergeHeritage2::$b2)
     b2.registerAttr(*static_cast<SqlObject<TestMergeHeritage2>*>(this));
 };
 */
+
+namespace a
+{
+    class TestNamespace : public orm::SqlObject<TestNamespace>
+    {
+        public:
+        TestNamespace();
+        orm::CharField<255> name;
+
+        MAKE_STATIC_COLUMN(name);
+
+    };
+}
+REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name")
 
 using namespace orm;
 using namespace std;

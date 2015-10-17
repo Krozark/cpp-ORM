@@ -3,6 +3,8 @@
 
 namespace orm
 {
+    ///////////////// functions ////////////////
+
     template<typename T>
     SqlObject<T>::SqlObject()
     {

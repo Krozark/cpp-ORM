@@ -251,8 +251,8 @@
  * \param klass the class name
  * \param ... is like this (attr name,attr colum name)
  */
-#define MAKE_CONSTRUCTOR(klass,...) \
-        klass::klass(): _MAKE_ATTRS_N(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
+#define MAKE_CONSTRUCTOR(NAMESPACE,klass,...) \
+        NAMESPACE  klass::klass(): _MAKE_ATTRS_N(NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         {\
          _MAKE_REGISTER_ATTRS(klass,NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         }
@@ -267,10 +267,53 @@
  * \param klass the class name
  * \param colum the table name in the db
  * \param ... is like this (attr name,attr colum name)
+ * \note this macro have to be use out of any namespace
+ * \code
+class Spell : public orm::SqlObject<Spell>
+{
+    public:
+        Spell();
+        orm::CharField<255> name;
+        orm::IntegerField element;
+
+        MAKE_STATIC_COLUMN(name,element);
+
+};
+REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
+
+ * \endcode
  */
 #define REGISTER_AND_CONSTRUCT(klass,column,...) \
         REGISTER(klass,column,__VA_ARGS__)\
-        MAKE_CONSTRUCTOR(klass,__VA_ARGS__)
+        MAKE_CONSTRUCTOR(::,klass,__VA_ARGS__)
+
+/**
+ * \brief construct and register the class
+ * \param NAMESPACE the namspace of the class
+ * \param klass the class name
+ * \param colum the table name in the db
+ * \param ... is like this (attr name,attr colum name)
+ * \note this macro have to be use out of any namespace
+ * \code
+namespace a
+{
+    class TestNamespace : public orm::SqlObject<TestNamespace>
+    {
+        public:
+        TestNamespace();
+        orm::CharField<255> name;
+
+        MAKE_STATIC_COLUMN(name);
+
+    };
+}
+REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name") // out of namespace
+\endcode
+
+ */
+#define REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(NAMESPACE,klass,column,...) \
+        REGISTER(NAMESPACE::klass,column,__VA_ARGS__)\
+        MAKE_CONSTRUCTOR(NAMESPACE::,klass,__VA_ARGS__)
 
 /******************************************
  ********** for ManyToMany ****************
