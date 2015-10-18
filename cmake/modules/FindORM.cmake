@@ -25,6 +25,17 @@
 
 set( ORM_FOUND false )
 
+if(NOT DEFINED ORM_USE_CACHE)
+    set(ORM_USE_CACHE TRUE)
+endif()
+
+if(ORM_USE_CACHE)
+    add_definitions("-DORM_USE_CACHE")
+endif()
+
+set(ORM_USE_CACHE ${ORM_USE_CACHE} CACHE BOOL "use ORM cache" FORCE)
+
+
 find_path(
 	ORM_INCLUDE_DIR
     ORM/models.hpp

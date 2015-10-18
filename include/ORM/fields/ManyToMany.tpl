@@ -1,7 +1,10 @@
 namespace orm
 {
     template<typename T,typename U>
-    ManyToMany<T,U>::ManyToMany(T& o) : owner(o), _adds(true)
+    ManyToMany<T,U>::ManyToMany(T& o) : owner(o)
+#ifdef ORM_USE_CACHE
+                                        , _adds(true)
+#endif
     {
     }
 
