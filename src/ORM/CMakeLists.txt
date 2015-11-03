@@ -2,6 +2,7 @@ set(INCROOT ${PROJECT_SOURCE_DIR}/include/ORM)
 set(SRCROOT ${PROJECT_SOURCE_DIR}/src/ORM)
 
 set(FILES_HEADER
+    ${INCROOT}/all.hpp
     ${INCROOT}/backends.hpp
     ${INCROOT}/debug.hpp
     ${INCROOT}/externals.hpp

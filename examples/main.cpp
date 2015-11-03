@@ -7,11 +7,7 @@ orm::Sqlite3DB def("./test.db");
 
 orm::DB& orm::DB::Default = def;
 
-#include <ORM/fields.hpp>
-#include <ORM/fields/ManyToMany.hpp>
-#include <ORM/models/SqlObject.hpp>
-#include <ORM/models/SqlExtends.hpp>
-#include <ORM/backends/op.hpp>
+#include <ORM/all.hpp>
 
 #include <iostream>
 
