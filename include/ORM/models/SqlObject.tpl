@@ -3,6 +3,7 @@
 
 namespace orm
 {
+
     ///////////////// functions ////////////////
 
     template<typename T>

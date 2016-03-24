@@ -68,6 +68,19 @@
 ******** COLORS ***********
 **************************/
 
+#ifdef ORM_USE_MSVC
+
+#define ROUGE  	""
+#define VERT   	""
+#define JAUNE  	""
+#define BLEU   	""
+#define MAGENTA ""
+#define LMAGENTA ""
+#define BLEU2 ""
+#define COMMENTAIRE ""
+#define BLANC 	""
+
+#else
 
 #define ROUGE  	"\033[31m"
 #define VERT   	"\033[32m"
@@ -78,5 +91,7 @@
 #define BLEU2 "\033[36m"
 #define COMMENTAIRE "\033[31m"
 #define BLANC 	"\033[00m"
+
+#endif
 
 #endif

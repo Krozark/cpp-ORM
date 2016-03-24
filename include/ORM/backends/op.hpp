@@ -8,28 +8,28 @@ namespace orm
     /**
      * \brief Stor the operator values for filter and ordering
      */
-    class op
+    namespace op
     {
-        public:
-            //filter
-            static const std::string exact;
-            static const std::string iexact;
-            static const std::string contains;
-            static const std::string icontains;
-            static const std::string regex;
-            static const std::string iregex;
-            static const std::string gt;
-            static const std::string gte;
-            static const std::string lt;
-            static const std::string lte;
-            static const std::string startswith;
-            static const std::string endswith;
-            static const std::string istartswith;
-            static const std::string iendswith;
-            //ordering
-            static const std::string random;
-            static const char        asc;
-            static const char        desc;
+        //filters
+        static const  char exact[] = "exact";
+        static const  char iexact[] = "iexact";
+        static const  char contains[] = "contains";
+        static const  char icontains[] = "icontains";
+        static const  char regex[] = "regex";
+        static const  char iregex[] = "iregex";
+        static const  char gt[] = "gt";
+        static const  char gte[] = "gte";
+        static const  char lt[] = "lt";
+        static const  char lte[] = "lte";
+        static const  char startswith[] = "startswith";
+        static const  char endswith[] = "endswith";
+        static const  char istartswith[] = "istartswith";
+        static const  char iendswith[] = "iendswith";
+        //ordering
+        static const  char random = '?';
+        static const  char asc = '+';
+        static const  char desc = '-';
     };
+
 }
 #endif

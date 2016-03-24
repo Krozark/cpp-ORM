@@ -461,7 +461,7 @@ int main(int argc,char* argv[])
     //test_TestTypes();
     //test_TestMergeHeritage();
 
-    //test_Perso();
+    test_Perso();
     //test_Perso_Master();
 
     orm::DB::Default.disconnect();

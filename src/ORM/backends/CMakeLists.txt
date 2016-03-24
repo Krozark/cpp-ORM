@@ -12,7 +12,6 @@ list(APPEND FILES_HEADER
 
 list(APPEND FILES_SRC
     ${SRCROOT}/DB.cpp
-    ${SRCROOT}/op.cpp
     ${SRCROOT}/Query.cpp
 )
 
