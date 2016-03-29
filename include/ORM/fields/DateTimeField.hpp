@@ -11,7 +11,7 @@ namespace orm
      * \brief a field classe to store datetime types.
      * Internaly use struct tm as localtime (from time.h)
      */
-    class DateTimeField : public Attr<struct tm>
+    class DateTimeField : public Attr<tm>
     {
         public:
             /**
@@ -20,7 +20,7 @@ namespace orm
              * \param value value to store
              * \param column Column in db
              **/            
-            DateTimeField(const struct tm& value,const std::string& column);
+            DateTimeField(const tm& value,const std::string& column);
 
             /**
              * \brief Make a Attr
@@ -50,12 +50,12 @@ namespace orm
              */
             virtual std::ostream& print_value(std::ostream& output)const;
 
-            using Attr<struct tm>::operator tm;///\brief cast operator
+            using Attr<tm>::operator tm;///\brief cast operator
 
-            struct tm& operator=(const struct tm& other);
+            tm& operator=(const tm& other);
 
 
-            static struct tm now();///\return the localtime now
+            static tm now();///\return the localtime now
 
             /**
              * \brief construct a tm struct with spécified value
@@ -63,36 +63,36 @@ namespace orm
              * \param min the minutes (can be greater than 59)
              * \param sec the second (can be greater than 59)
              */
-            static struct tm time(int hour,int min,int sec);
+            static tm time(int hour,int min,int sec);
 
             /**
              * \brief construct a tm struct with spécified value
              */
-            static struct tm date(int year,int month,int day);
+            static tm date(int year,int month,int day);
 
-            static struct tm day(int nb);///\retrun a tm struc of values of nb days
-            static struct tm month(int nb); ///\return a tm struct of nb months
-            static struct tm year(int nb);///\return a tm struct of nb days
-
-            /**
-             * \brief normalize the param
-             * \param time tm to normalize
-             * \return the param
-             */
-            static struct tm& normalize(struct tm& time);
+            static tm day(int nb);///\retrun a tm struc of values of nb days
+            static tm month(int nb); ///\return a tm struct of nb months
+            static tm year(int nb);///\return a tm struct of nb days
 
             /**
              * \brief normalize the param
              * \param time tm to normalize
              * \return the param
              */
-            static struct tm normalize(struct tm&& time);
+            static tm& normalize(tm& time);
+
+            /**
+             * \brief normalize the param
+             * \param time tm to normalize
+             * \return the param
+             */
+            static tm normalize(tm&& time);
 
         private:
             
-            virtual struct tm prepare_to_db(const struct tm& value) override;///< convert t to real time (add +1900 y and +1 month)
+            virtual tm prepare_to_db(const tm& value) override;///< convert t to real time (add +1900 y and +1 month)
 
-            virtual struct tm prepare_from_db(const struct tm& value) override; ///< convert DB to tm
+            virtual tm prepare_from_db(const tm& value) override; ///< convert DB to tm
 
             virtual std::string create(const DB& db) const override; ///< get creator
 
@@ -131,15 +131,15 @@ namespace orm
     };
 }
 
-std::ostream& operator<<(std::ostream& stream,const struct tm& time);///\print a tm as "YYYY-MM-DD HH:MM:SS"
+std::ostream& operator<<(std::ostream& stream,const tm& time);///\print a tm as "YYYY-MM-DD HH:MM:SS"
 
-bool operator>(const struct tm& first,const struct tm& second);
-bool operator>=(const struct tm& first,const struct tm& second);
-bool operator<(const struct tm& first,const struct tm& second);
-bool operator<=(const struct tm& first,const struct tm& second);
-bool operator==(const struct tm& first,const struct tm& second);
+bool operator>(const tm& first,const tm& second);
+bool operator>=(const tm& first,const tm& second);
+bool operator<(const tm& first,const tm& second);
+bool operator<=(const tm& first,const tm& second);
+bool operator==(const tm& first,const tm& second);
 
-struct tm operator+(const struct tm& first,const struct tm& second);
-struct tm operator-(const struct tm& first,const struct tm& second);
+tm operator+(const tm& first,const tm& second);
+tm operator-(const tm& first,const tm& second);
 
 #endif

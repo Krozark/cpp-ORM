@@ -22,8 +22,10 @@ namespace orm
     {
         public:
 
+            #ifndef ORM_USE_MSVC
             M2MQuerySet(M2MQuerySet&&) = default;
             M2MQuerySet& operator=(M2MQuerySet&&) = default;
+            #endif
 
 
             /**
@@ -41,7 +43,7 @@ namespace orm
              * \return *this
              **/
             template<typename T,typename ... Args>
-            M2MQuerySet<OWNER,RELATED>& filter(T&&,const std::string& op,Args&& ... args);
+            M2MQuerySet<OWNER,RELATED>& filter(T&&,const std::string& operand,Args&& ... args);
 
             M2MQuerySet<OWNER,RELATED>& filter(const FilterSet<ManyToMany<OWNER,RELATED>>& f);
             M2MQuerySet<OWNER,RELATED>& filter(FilterSet<ManyToMany<OWNER,RELATED>>&&);

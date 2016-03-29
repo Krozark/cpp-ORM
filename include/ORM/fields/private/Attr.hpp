@@ -34,7 +34,7 @@ namespace orm
              *
              * \param column Column in db
              **/
-            Attr(const std::string& column);
+            explicit Attr(const std::string& column);
 
             Attr(const Attr&) = delete;
 

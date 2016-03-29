@@ -2,12 +2,13 @@
 #define ORM_EXTERNALS_HPP
 
 #include <ORM/debug.hpp>
+#include <iso646.h> //for visual support
 
 #include <iostream>
 
 namespace orm
 {
-    static const std::string TABLE_ALIAS_SEPARATOR("__"); ///< table separator in sql alias constructionh
+    static const std::string TABLE_ALIAS_SEPARATOR("__"); ///< table separator in sql alias construction
 
     /**
      * \brief make a new alias using 2 tables names / alias

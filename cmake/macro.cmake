@@ -1,3 +1,6 @@
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMake")
+
 macro(set_option var default type docstring)
 	if(NOT DEFINED ${var})
 		set(${var} ${default})
@@ -23,6 +26,8 @@ macro(build_library target)
             set(lib ${target}-${sufix})
 
             add_library(${lib} ${type} ${THIS_SOURCES})
+            
+            set_target_properties(${lib} PROPERTIES FOLDER "Libraries")
 
             set_target_properties(${lib} PROPERTIES
                 OUTPUT_NAME ${target}
@@ -45,6 +50,7 @@ macro(build_library target)
             if(THIS_EXTERNAL_LIBS)
                 target_link_libraries(${lib} ${THIS_EXTERNAL_LIBS})
             endif()
+            
         endforeach(type)
     else()
         message(FATAL_ERROR "TYPE is not set for the build. Please set TYPE as STATIC or/and SHARED")

@@ -17,9 +17,9 @@ namespace orm
 
     template <typename OWNER, typename RELATED>
     template <typename T,typename ... Args>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(T&& v,const std::string& op,Args&& ... args)
+    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(T&& v,const std::string& operand,Args&& ... args)
     {
-        filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(std::forward<T>(v),op,m2m.ORM_MAKE_NAME(linked),std::forward<Args>(args)...));
+        filters.emplace_back(Q<ManyToMany<OWNER, RELATED>>(std::forward<T>(v), operand, m2m.ORM_MAKE_NAME(linked), std::forward<Args>(args)...));
         return *this;
     };
 

@@ -5,6 +5,8 @@
 #include <ORM/models/SqlObjectBase.hpp>
 #include <ORM/fields/private/VAttr.hpp>
 
+#include <memory>
+
 namespace orm
 {
 
@@ -70,7 +72,7 @@ namespace orm
             for(unsigned int i=1;i<size;++i)
                 str_q+=",(?)";
             str_q+=");";
-            
+
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<BLEU<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
             #endif
@@ -106,7 +108,7 @@ namespace orm
             return true;
 
         }
-        return -1;
+        return false;
     };
 
     bool DB::update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs)
@@ -133,7 +135,7 @@ namespace orm
             }
 
             str_q+=" WHERE "+escapeColumn(table)+"."+escapeColumn("pk")+" = "+std::to_string(pk)+";"; ///< \todo column.id
-            
+
 
             if(first) //NO MAJ NEDEED
             {
@@ -149,7 +151,7 @@ namespace orm
             #endif
 
             Query& q = *prepareQuery(str_q);
-            
+
             int index=getInitialSetcolumnNumber();
             for(unsigned int i=0;i<size;++i)
             {
@@ -241,10 +243,10 @@ namespace orm
     std::string DB::formatPreparedValue(const std::string& filter) const
     {
         const std::string& op = operators.at(filter);
-        char buffer[op.size() + 3];
-        sprintf(buffer,op.c_str(),"(?)");
+        std::unique_ptr<char>buffer (new char[op.size() + 3]);
+        sprintf(buffer.get(),op.c_str(),"(?)");
 
-        return std::string(buffer);
+        return std::string(buffer.get());
     }
 
 

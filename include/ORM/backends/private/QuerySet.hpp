@@ -25,11 +25,11 @@ namespace orm
     {
         public:
             using result_type = std::vector<typename Cache<T>::type_ptr>;
-
             
+            #ifndef ORM_USE_MSVC
             QuerySet(QuerySet<T>&&) = default;
             QuerySet& operator=(QuerySet<T>&&) = default;
-
+            #endif
 
             /**
              * \brief Destructor

@@ -127,7 +127,7 @@ namespace orm
         return true;
     };
 
-    bool Sqlite3Query::get(struct tm& value,const int& column)const
+    bool Sqlite3Query::get(tm& value,const int& column)const
     {
         bool res = false;
         const unsigned char* str = sqlite3_column_text(statement,column);
@@ -227,7 +227,7 @@ namespace orm
         return (sqlite3_bind_text(statement,(int)column,value.c_str(),-1,SQLITE_TRANSIENT)== SQLITE_OK);
     };
 
-    bool Sqlite3Query::set(const struct tm& value, const unsigned int& column)
+    bool Sqlite3Query::set(const tm& value, const unsigned int& column)
     {
         if(not prepared)
             return false;

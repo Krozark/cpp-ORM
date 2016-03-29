@@ -22,7 +22,8 @@ class Spell : public orm::SqlObject<Spell>
         MAKE_STATIC_COLUMN(name,element);
 
 };
-REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
+REGISTER_AND_CONSTRUCT(Spell, "spell", name, "name", element, "element");
+
 
 class Stats : public orm::SqlObject<Stats>
 {
@@ -30,18 +31,11 @@ class Stats : public orm::SqlObject<Stats>
         Stats();
         orm::IntegerField pv;
         orm::IntegerField pi;
-        /*orm::IntegerField intelligence;
-        orm::IntegerField force;
-        orm::IntegerField defence;
-        orm::IntegerField vattaque;
-        orm::IntegerField esquive;
-        orm::IntegerField chance;
-        orm::IntegerField charme;
-        orm::IntegerField mouvement;*/
 
-        MAKE_STATIC_COLUMN(pv,pi/*,intelligence,force,defence,vattaque,esquive,chance,charme,mouvement*/)
+        MAKE_STATIC_COLUMN(pv,pi)
 };
-REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi"/*,intelligence,"int",force,"force",defence,"def",vattaque,"vatq",esquive,"esq",chance,"chance",charme,"charme",mouvement,"mouvement"*/)
+REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi")
+
 
 class Perso : public orm::SqlObject<Perso>
 {
@@ -59,7 +53,13 @@ class Perso : public orm::SqlObject<Perso>
 };
 M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
-Perso::Perso() : name(Perso::$name), lvl(Perso::$lvl), stats(Perso::$stats),stats2(Perso::$stats2), maitre($maitre), spells(*this)
+Perso::Perso() :
+    name(Perso::column_name),
+    lvl(Perso::column_lvl),
+    stats(Perso::column_stats),
+    stats2(Perso::column_stats2),
+    maitre(column_maitre),
+    spells(*this)
 {
     name.registerAttr(*this);
     lvl.registerAttr(*this);
@@ -67,7 +67,6 @@ Perso::Perso() : name(Perso::$name), lvl(Perso::$lvl), stats(Perso::$stats),stat
     stats2.registerAttr(*this);
     maitre.registerAttr(*this);
 }
-//REGISTER_AND_CONSTRUCT(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 
 
 class TestTypes : public orm::SqlObject<TestTypes>
@@ -80,8 +79,8 @@ class TestTypes : public orm::SqlObject<TestTypes>
     orm::TextField              textField;
     orm::CharField<255>         charField;
     orm::DateTimeField          datetimeField;
-    orm::AutoDateTimeField      autodatetimeField;
-    orm::AutoNowDateTimeField   autonowdatetimeField;
+    //orm::AutoDateTimeField      autodatetimeField;
+    //orm::AutoNowDateTimeField   autonowdatetimeField;
 
     orm::BooleanField           booleanField;
     orm::IntegerField           integerField;
@@ -95,8 +94,8 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        textField,\
                        charField,\
                        datetimeField,\
-                       autodatetimeField,\
-                       autonowdatetimeField,\
+                       /*autodatetimeField,\
+                       autonowdatetimeField\*/
                        booleanField,\
                        integerField,\
                        floatField,\
@@ -104,20 +103,24 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        unsignedIntegerField\
                       )
 };
-REGISTER_AND_CONSTRUCT(TestTypes,"test_types",\
-                       fk,"fk",\
-                       textField,"textField",\
-                       charField,"charField",\
-                       datetimeField, "datetimeField",\
-                       autodatetimeField, "autodatetimeField",\
-                       autonowdatetimeField, "autonowdatetimeField",\
-                       booleanField,"booleanField",\
-                       integerField,"integerField",\
-                       floatField,"floatField",\
-                       doubleField,"doubleField",\
-                       unsignedIntegerField,"unsignedIntegerField"\
-                      )
+REGISTER_AND_CONSTRUCT(TestTypes, "test_types", \
+    fk, "fk", \
+    textField, "textField", \
+    charField, "charField", \
+    datetimeField, "datetimeField", \
+    /*autodatetimeField, "autodatetimeField", \
+    autonowdatetimeField, "autonowdatetimeField" \*/
+    booleanField, "booleanField", \
+    integerField, "integerField", \
+    floatField, "floatField", \
+    doubleField, "doubleField", \
+    unsignedIntegerField, "unsignedIntegerField"\
+    )
+    
+    
+
 //merge all colums
+
 class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
 {
     public:
@@ -128,26 +131,12 @@ class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
         MAKE_STATIC_COLUMN(b)
 };
 REGISTER(TestMergeHeritage,"TestMergeHeritage",b,"b");
-TestMergeHeritage::TestMergeHeritage() : b(TestMergeHeritage::$b)
+TestMergeHeritage::TestMergeHeritage() :
+    b(TestMergeHeritage::column_b)
 {
     b.registerAttr(*static_cast<orm::SqlObject<TestMergeHeritage>*>(this));
 };
-/*
-class TestMergeHeritage2 : public orm::SqlExtends<TestMergeHeritage2,TestMergeHeritage>
-{
-    public:
-        TestMergeHeritage2();
 
-        orm::BooleanField   b2;
-
-        MAKE_STATIC_COLUMN(b2)
-};
-REGISTER(TestMergeHeritage2,"TestMergeHeritage2",b2,"b2");
-TestMergeHeritage2::TestMergeHeritage2() : b2(TestMergeHeritage2::$b2)
-{
-    b2.registerAttr(*static_cast<SqlObject<TestMergeHeritage2>*>(this));
-};
-*/
 
 namespace a
 {
@@ -162,6 +151,8 @@ namespace a
     };
 }
 REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name")
+
+
 
 using namespace orm;
 using namespace std;
@@ -188,6 +179,8 @@ void test_Datetime()
 
     std::cout<<"======= END test_Datetime =======\n"<<std::endl;
 }
+
+
 
 void test_TestTypes()
 {
@@ -232,7 +225,7 @@ void test_TestTypes()
 
     TestTypes::result_type lis;
        TestTypes::query()
-       .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
+       .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::column_datetimeField))
        .get(lis);
 
 
@@ -255,7 +248,7 @@ void test_TestTypes()
 
     lis.clear();
     TestTypes::query()
-        .filter(orm::Q<TestTypes>(orm::DateTimeField::now(),orm::op::lte,TestTypes::$datetimeField))
+        .filter(orm::Q<TestTypes>(orm::DateTimeField::now(),orm::op::lte,TestTypes::column_datetimeField))
         .get(lis);
 
     for(auto u : lis)
@@ -266,6 +259,7 @@ void test_TestTypes()
     std::cout<<"======= END test_TestTypes =======\n"<<std::endl;
 
 }
+
 
 void test_TestMergeHeritage()
 {
@@ -310,7 +304,7 @@ void test_TestMergeHeritage()
 
             auto list = TestMergeHeritage::result_type();
             TestMergeHeritage::query().filter(
-                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::$base_obj_ptr,TestTypes::$integerField)
+                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::column_base_obj_ptr,TestTypes::column_integerField)
             ).get(list);
             for(auto& i : list)
             {
@@ -322,6 +316,7 @@ void test_TestMergeHeritage()
 
     std::cout<<"======= END test_TestMergeHeritage =======\n"<<std::endl;
 }
+
 
 void test_Perso()
 {
@@ -351,8 +346,8 @@ void test_Perso()
     cout<<"*** Current perso1 "<<*p1<<endl;
 
     {
-        Spell::result_type lis = p1->spells.all();
         std::cout<<"\n*** All his spells (result = [])"<<std::endl;
+        Spell::result_type lis = p1->spells.all();
         for(auto u : lis)
         {
             cout<<*u<<endl;
@@ -391,7 +386,7 @@ void test_Perso()
         std::cout<<"\n*** All his spells with name s2 (result = [s2])"<<std::endl;
         Spell::result_type lis;
         p1->spells.query()
-            .filter(std::string("s2"),orm::op::exact,Spell::$name)
+            .filter(std::string("s2"),orm::op::exact,Spell::column_name)
             .get(lis);
         for(auto& u : lis)
         {
@@ -464,12 +459,11 @@ int main(int argc,char* argv[])
     //test_Datetime();
 
     //test_TestTypes();
-    test_TestMergeHeritage();
+    //test_TestMergeHeritage();
 
     //test_Perso();
     //test_Perso_Master();
 
-
-    DB::Default.disconnect();
+    orm::DB::Default.disconnect();
     return 0;
 };

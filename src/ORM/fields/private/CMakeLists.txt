@@ -9,8 +9,7 @@ list(APPEND FILES_HEADER
     ${INCROOT}/VAttr.hpp
     ${INCROOT}/VFK.hpp
 )
-# set in parent scope
-set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
+
 
 list(APPEND FILES_SRC
     ${SRCROOT}/VAttr.cpp
@@ -18,4 +17,5 @@ list(APPEND FILES_SRC
 )
 
 # set in parent scope
+set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 set(FILES_SRC "${FILES_SRC}" PARENT_SCOPE)

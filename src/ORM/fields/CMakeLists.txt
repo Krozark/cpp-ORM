@@ -17,8 +17,6 @@ list(APPEND FILES_HEADER
     ${INCROOT}/ManyToMany.tpl
     ${INCROOT}/TextField.hpp
 )
-# set in parent scope
-set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
     ${SRCROOT}/AutoField.cpp
@@ -34,4 +32,5 @@ list(APPEND FILES_SRC
 add_subdirectory(private)
 
 # set in parent scope
+set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 set(FILES_SRC "${FILES_SRC}" PARENT_SCOPE)

@@ -11,11 +11,11 @@ namespace orm
     T __filter_value_helper(const T& value)
     {
         return value;
-    }
+    };
 
     //special date type
     template<>
-    struct tm __filter_value_helper<struct tm>(const struct tm& value);
+    tm __filter_value_helper<tm>(const tm& value);
 
     template<typename RELATED,typename T>
     template<typename ... Args>
@@ -49,10 +49,10 @@ namespace orm
             v=ss.str();
         }
 
-        char buffer[ope.size() + v.size()];
-        sprintf(buffer,op.c_str(),v.c_str());
+        std::unique_ptr<char> buffer(new char[ope.size() + v.size()]);
+        sprintf(buffer.get(),op.c_str(),v.c_str());
 
-        std::cout<<column<<" "<<buffer;
+        std::cout<<column<<" "<< buffer.get();
         //DB::makecolumname(db,OBJ::table,column,args...)
     };
 
@@ -65,7 +65,7 @@ namespace orm
 
     //special date type
     template<>
-    struct tm __filter_clone_helper<struct tm>(const struct tm& value);
+    tm __filter_clone_helper<tm>(const tm& value);
 
     template<typename RELATED,typename T>
     VFilter* Filter<RELATED,T>::clone() const

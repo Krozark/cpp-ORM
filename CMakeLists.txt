@@ -10,6 +10,8 @@ set(VERSION_MINOR 4)
 set(VERSION_PATCH 2)
 
 include(cmake/macro.cmake)
+include(cmake/compiler.cmake)
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
 
 
@@ -44,16 +46,43 @@ if(ORM_USE_CACHE)
     add_definitions(-DORM_USE_CACHE)
 endif()
 
-
-set(WARNING "-Wall")
-set(FLAGS "-g")
-set(CMAKE_CXX_FLAGS "${WARNING} ${FLAGS} -std=c++11")
-set(CMAKE_C_FLAGS "${WARNING} ${FLAGS}")
+set(WARNING "")
+set(FLAGS "")
+set(CMAKE_CXX_FLAGS "")
+set(CMAKE_C_FLAGS "")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(LIB_INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+
+foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+    string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+    set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_SOURCE_DIR}/lib )
+    set( CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_SOURCE_DIR}/lib )
+    set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_SOURCE_DIR}/lib )
+endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+
+
+if(COMPILER_NAME STREQUAL "msvc")
+	#add_definitions("/Za")
+	add_definitions("/EHsc")
+	
+	add_definitions("/DORM_USE_MSVC")
+	
+	# Workaround for "error LNK2026: module unsafe for SAFESEH"
+	# when compiling with certain externally compiled libraries with VS2012.
+	# This disables safe exception handling by default.
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
+	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
+else()
+	add_definitions("-g -std=c++11")
+endif()
+
+
+#add dependencies
+include_directories(extlibs)
 
 # add the subdirectories
 add_subdirectory(src/ORM)

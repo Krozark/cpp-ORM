@@ -1,6 +1,7 @@
 #ifndef ORM_TABLECREATOR_HPP
 #define ORM_TABLECREATOR_HPP
 
+#include <ORM/externals.hpp>
 #include <string>
 
 namespace orm

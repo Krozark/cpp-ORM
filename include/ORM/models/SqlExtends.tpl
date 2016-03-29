@@ -12,16 +12,12 @@ namespace orm
     template <typename T, typename BASE>
     Cache<T>& SqlExtends<T,BASE>::cache = SqlObject<T>::cache;
 
-    void emptyDeleter(void* obj)
-    {
-    }
-
     template <typename T, typename BASE>
     SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr))
     {
         _base_fk.registerAttr(*static_cast<SqlObject<T>*>(this));
 
-        _base_fk = typename BASE::type_ptr(static_cast<BASE*>(this),emptyDeleter); //avoid to delete this twice
+        _base_fk = typename BASE::type_ptr(static_cast<BASE*>(this), [](void* obj){}); //avoid to delete this twice
 
         _save_nb = 0;
     }

@@ -172,7 +172,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(struct tm& value,const int& column)const=0;
+            virtual bool get(tm& value,const int& column)const=0;
 
 
             /**
@@ -313,7 +313,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const struct tm& value, const unsigned int& column)=0;
+            virtual bool set(const tm& value, const unsigned int& column)=0;
 
             /**
              * \brief For prepared query only, set the column value to null

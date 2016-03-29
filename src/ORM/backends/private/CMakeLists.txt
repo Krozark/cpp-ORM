@@ -15,8 +15,6 @@ list(APPEND FILES_HEADER
     ${INCROOT}/TableCreator.hpp
     ${INCROOT}/VFilter.hpp
 )
-# set in parent scope
-set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 
 list(APPEND FILES_SRC
     ${SRCROOT}/Filter.cpp
@@ -25,4 +23,5 @@ list(APPEND FILES_SRC
 )
 
 # set in parent scope
+set(FILES_HEADER "${FILES_HEADER}" PARENT_SCOPE)
 set(FILES_SRC "${FILES_SRC}" PARENT_SCOPE)

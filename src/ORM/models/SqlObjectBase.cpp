@@ -5,7 +5,8 @@
 
 namespace orm
 {
-    _MAKE_STRING_N(SqlObjectBase,2,pk,"pk");
+
+    const std::string SqlObjectBase::ORM_MAKE_NAME(pk) = _MAKE_NAME_VALUE(SqlObjectBase, "pk");
 
     SqlObjectBase::SqlObjectBase() : pk(-1)
     {
