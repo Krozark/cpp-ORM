@@ -79,8 +79,8 @@ class TestTypes : public orm::SqlObject<TestTypes>
     orm::TextField              textField;
     orm::CharField<255>         charField;
     orm::DateTimeField          datetimeField;
-    //orm::AutoDateTimeField      autodatetimeField;
-    //orm::AutoNowDateTimeField   autonowdatetimeField;
+    orm::AutoDateTimeField      autodatetimeField;
+    orm::AutoNowDateTimeField   autonowdatetimeField;
 
     orm::BooleanField           booleanField;
     orm::IntegerField           integerField;
@@ -94,8 +94,8 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        textField,\
                        charField,\
                        datetimeField,\
-                       /*autodatetimeField,\
-                       autonowdatetimeField\*/
+                       autodatetimeField,\
+                       autonowdatetimeField,\
                        booleanField,\
                        integerField,\
                        floatField,\
@@ -108,8 +108,8 @@ REGISTER_AND_CONSTRUCT(TestTypes, "test_types", \
     textField, "textField", \
     charField, "charField", \
     datetimeField, "datetimeField", \
-    /*autodatetimeField, "autodatetimeField", \
-    autonowdatetimeField, "autonowdatetimeField" \*/
+    autodatetimeField, "autodatetimeField", \
+    autonowdatetimeField, "autonowdatetimeField", \
     booleanField, "booleanField", \
     integerField, "integerField", \
     floatField, "floatField", \

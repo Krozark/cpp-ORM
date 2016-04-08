@@ -185,13 +185,35 @@ namespace orm
         return db.creator().dateTimeField(column,false);
     }
 
-    //AutoDateTimeField
+    //////////////////////////AutoDateTimeField/////////////////////
+    AutoDateTimeField::AutoDateTimeField(const tm& value, const std::string& column) :
+        DateTimeField(value,column)
+    {
+    }
+
+
+    AutoDateTimeField::AutoDateTimeField(const std::string& column):
+        DateTimeField(column)
+    {
+    }
+
     void AutoDateTimeField::before_save()
     {
         *this=DateTimeField::now();
     }
 
-    //AutoNowDateTimeField
+    /////////////////////AutoNowDateTimeField/////////////////////
+    AutoNowDateTimeField::AutoNowDateTimeField(const tm& value, const std::string& column):
+        DateTimeField(value, column)
+    {
+    }
+
+    AutoNowDateTimeField::AutoNowDateTimeField(const std::string& column):
+        DateTimeField(column)
+    {
+    }
+
+
     void AutoNowDateTimeField::before_save()
     {
         *this=DateTimeField::now();

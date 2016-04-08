@@ -104,7 +104,21 @@ namespace orm
     class AutoDateTimeField : public DateTimeField
     {
         public:
-            using DateTimeField::DateTimeField;
+            /**
+            * \brief Make a Attr
+            *
+            * \param value value to store
+            * \param column Column in db
+            **/
+            AutoDateTimeField(const tm& value, const std::string& column);
+
+            /**
+            * \brief Make a Attr
+            *  default value is false.
+            * \param column Column in db
+            *
+            **/
+            AutoDateTimeField(const std::string& column);
 
             using DateTimeField::operator tm;
             using DateTimeField::operator=;
@@ -120,7 +134,21 @@ namespace orm
     class AutoNowDateTimeField : public DateTimeField
     {
         public:
-            using DateTimeField::DateTimeField;
+            /**
+            * \brief Make a Attr
+            *
+            * \param value value to store
+            * \param column Column in db
+            **/
+            AutoNowDateTimeField(const tm& value, const std::string& column);
+
+            /**
+            * \brief Make a Attr
+            *  default value is false.
+            * \param column Column in db
+            *
+            **/
+            AutoNowDateTimeField(const std::string& column);
 
             using DateTimeField::operator tm;
             using DateTimeField::operator=;
