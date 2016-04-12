@@ -67,6 +67,9 @@ namespace orm
 
             /**
              * \brief construct a tm struct with spécified value
+             * \param year the year
+             * \param month from 1-12
+             * \param day 1-31
              */
             static tm date(int year,int month,int day);
 

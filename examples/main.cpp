@@ -175,6 +175,7 @@ void test_Datetime()
     <<"\n 1 day + 1 hour: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0))
     <<"\n 1 day + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::now())
     <<"\n 1 day + 1 hour + 1 now: "<<orm::DateTimeField::normalize(orm::DateTimeField::date(0,0,1) + orm::DateTimeField::time(1,0,0)+orm::DateTimeField::now())
+    << "\n 25/06/2014: " << orm::DateTimeField::date(2014,06,25)
     <<std::endl;
 
     std::cout<<"======= END test_Datetime =======\n"<<std::endl;
@@ -456,12 +457,12 @@ int main(int argc,char* argv[])
     orm::Tables::drop();
     orm::Tables::create();
 
-    //test_Datetime();
+    test_Datetime();
 
     //test_TestTypes();
     //test_TestMergeHeritage();
 
-    test_Perso();
+    //test_Perso();
     //test_Perso_Master();
 
     orm::DB::Default.disconnect();
