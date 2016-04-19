@@ -24,7 +24,7 @@ namespace orm
     class QuerySet
     {
         public:
-            using result_type = std::vector<typename Cache<T>::pointer>;
+            using pointer_array = std::vector<typename Cache<T>::pointer>;
             
             #ifndef ORM_USE_MSVC
             QuerySet(QuerySet<T>&&) = default;
@@ -130,7 +130,7 @@ namespace orm
              *
              * \return Number of objects
              **/
-            int get(result_type& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            int get(pointer_array& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief Print the content of the filter for debug help

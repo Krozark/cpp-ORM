@@ -111,7 +111,7 @@ namespace orm
     }
 
     template<typename T>
-    int QuerySet<T>::get(typename QuerySet<T>::result_type& objs,int max_depth)
+    int QuerySet<T>::get(typename QuerySet<T>::pointer_array& objs,int max_depth)
     {
         Query* q = makeQuery(max_depth);
         int res = q->getObj(objs,max_depth);

@@ -224,7 +224,7 @@ void test_TestTypes()
 
     cout<<"++++++++ get all tests with DateTimeField > now() - 1 day (should have 2 result = 1 + 2) ++++++++"<<endl;
 
-    TestTypes::result_type lis;
+    TestTypes::pointer_array lis;
        TestTypes::query()
        .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::column_datetimeField))
        .get(lis);
@@ -303,7 +303,7 @@ void test_TestMergeHeritage()
         {
             cout<<"**** filter query"<<std::endl;
 
-            auto list = TestMergeHeritage::result_type();
+            auto list = TestMergeHeritage::pointer_array();
             TestMergeHeritage::query().filter(
                 orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::column_base_obj_ptr,TestTypes::column_integerField)
             ).get(list);
@@ -348,7 +348,7 @@ void test_Perso()
 
     {
         std::cout<<"\n*** All his spells (result = [])"<<std::endl;
-        Spell::result_type lis = p1->spells.all();
+        Spell::pointer_array lis = p1->spells.all();
         for(auto u : lis)
         {
             cout<<*u<<endl;
@@ -371,7 +371,7 @@ void test_Perso()
 
     {
         std::cout<<"\n*** All spells (result = [s1, s2])"<<std::endl;
-        Spell::result_type lis = Spell::all();
+        Spell::pointer_array lis = Spell::all();
         for(auto& u : lis)
         {
             cout<<*u<<endl;
@@ -385,7 +385,7 @@ void test_Perso()
 
     {
         std::cout<<"\n*** All his spells with name s2 (result = [s2])"<<std::endl;
-        Spell::result_type lis;
+        Spell::pointer_array lis;
         p1->spells.query()
             .filter(std::string("s2"),orm::op::exact,Spell::column_name)
             .get(lis);
@@ -399,7 +399,7 @@ void test_Perso()
 
     {
         std::cout<<"\n*** All his spells (result = [s1, s2])"<<std::endl;
-        Spell::result_type lis;
+        Spell::pointer_array lis;
         lis = p1->spells.all();
         for(auto u : lis)
         {

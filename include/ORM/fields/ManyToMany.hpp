@@ -35,7 +35,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            typename RELATED::result_type all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            typename RELATED::pointer_array all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
             
             /**
              * \brief add a object in the relation
@@ -137,7 +137,7 @@ namespace orm
             static M2MRegister<OWNER,RELATED> _register;
 
 #ifdef ORM_USE_CACHE
-            typename RELATED::result_type _cache;
+            typename RELATED::pointer_array _cache;
             bool _adds;
 #endif
 

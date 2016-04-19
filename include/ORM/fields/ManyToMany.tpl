@@ -15,7 +15,7 @@ namespace orm
     }
 
     template<typename T,typename U>
-    typename U::result_type ManyToMany<T,U>::all(DB& db,int max_depth)
+    typename U::pointer_array ManyToMany<T,U>::all(DB& db,int max_depth)
     {
 #ifdef ORM_USE_CACHE
         if(_adds)
@@ -26,7 +26,7 @@ namespace orm
         }
         return _cache;
 #else
-        typename U::result_type results;
+        typename U::pointer_array results;
         query(db).get(results,max_depth);
         return results;
 #endif
