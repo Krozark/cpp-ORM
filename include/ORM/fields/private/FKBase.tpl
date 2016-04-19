@@ -59,7 +59,7 @@ namespace orm
     }
 
     template<typename T>
-    typename T::type_ptr FKBase<T>::operator->()
+    typename T::pointer FKBase<T>::operator->()
     {
         modify = true;
         setObjectT_ptr(*T::default_connection);
@@ -74,7 +74,7 @@ namespace orm
     };
 
     template<typename T>
-    FKBase<T>::operator typename T::type_ptr() const
+    FKBase<T>::operator typename T::pointer() const
     {
         return value_ptr;
     }
@@ -96,7 +96,7 @@ namespace orm
     }
 
     template<typename T>
-    FKBase<T>& FKBase<T>::operator=(const typename Cache<T>::type_ptr& other)
+    FKBase<T>& FKBase<T>::operator=(const typename Cache<T>::pointer& other)
     {
         modify = true;
         fk = other->pk;

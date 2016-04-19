@@ -24,7 +24,7 @@ namespace orm
     class QuerySet
     {
         public:
-            using result_type = std::vector<typename Cache<T>::type_ptr>;
+            using result_type = std::vector<typename Cache<T>::pointer>;
             
             #ifndef ORM_USE_MSVC
             QuerySet(QuerySet<T>&&) = default;

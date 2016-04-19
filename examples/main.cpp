@@ -187,7 +187,7 @@ void test_TestTypes()
 {
     std::cout<<"======= test_TestTypes ======="<<std::endl;
 
-    TestTypes::type_ptr test = TestTypes::create();
+    TestTypes::pointer test = TestTypes::create();
 
     test->textField = "this is a long text for testing";
     test->charField = "test";
@@ -204,7 +204,7 @@ void test_TestTypes()
     cout<<"**** Save current\n"<<endl;
 
     {
-        TestTypes::type_ptr test2 = TestTypes::create();
+        TestTypes::pointer test2 = TestTypes::create();
         test2->fk = test;
         test2->textField = "this is another long text for testing";
         test2->charField = "test2";
@@ -236,7 +236,7 @@ void test_TestTypes()
     }
 
 
-    TestTypes::type_ptr test3 = TestTypes::create();
+    TestTypes::pointer test3 = TestTypes::create();
     test3->charField = "test3";
     test3->datetimeField = test->datetimeField - orm::DateTimeField::day(2);
 
@@ -272,7 +272,7 @@ void test_TestMergeHeritage()
             for(auto& i : list)
             {
                 std::cout<<(*i)<<endl;
-                TestTypes::type_ptr base_ptr = i;
+                TestTypes::pointer base_ptr = i;
                 std::cout<<"Base : "<<*base_ptr<<std::endl;
                 base_ptr->integerField += 1;
                 base_ptr->save();
@@ -356,14 +356,14 @@ void test_Perso()
     }
 
     std::cout<<"\n*** Create spell s1"<<std::endl;
-    Spell::type_ptr s1 = Spell::create();
+    Spell::pointer s1 = Spell::create();
     s1->name = "s1";
     s1->element = 1;
     s1->save();
     cout<<*s1<<std::endl;
 
     std::cout<<"\n*** Create spell s2"<<std::endl;
-    Spell::type_ptr s2 = Spell::create();
+    Spell::pointer s2 = Spell::create();
     s2->name = "s2";
     s2->element = 2;
     s2->save();

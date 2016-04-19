@@ -53,7 +53,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            bool add(const typename RELATED::type_ptr& obj,DB& db=*default_connection);
+            bool add(const typename RELATED::pointer& obj,DB& db=*default_connection);
 
             /**
              * \brief remove a object in the relation
@@ -71,7 +71,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const typename RELATED::type_ptr& obj,DB& db=*default_connection);
+            void remove(const typename RELATED::pointer& obj,DB& db=*default_connection);
 
             /**
              * \brief create the table

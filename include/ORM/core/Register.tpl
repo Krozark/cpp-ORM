@@ -8,7 +8,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[Register] Table "<<SqlObject<T>::table<<BLANC<<std::endl;
         #endif
 
-        static typename T::type_ptr tmp = T::create();
+        static typename T::pointer tmp = T::create();
         for(VAttr* attr: static_cast<SqlObject<T>*>(tmp.get())->attrs)
         {
             #if ORM_DEBUG & ORM_DEBUG_REGISTER

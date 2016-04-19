@@ -49,7 +49,7 @@ namespace orm
             /**
              * \brief assessor operator to the stored object
              **/
-            typename T::type_ptr operator->();
+            typename T::pointer operator->();
 
             /**
              * \brief cast operator
@@ -61,7 +61,7 @@ namespace orm
             /**
              * \brief convertion operator
              */
-            operator typename T::type_ptr() const;
+            operator typename T::pointer() const;
 
             /**
              * \brief Test if a value is stared
@@ -76,7 +76,7 @@ namespace orm
             /**
              * \brief Copy operator
              **/
-            FKBase<T>& operator=(const typename Cache<T>::type_ptr& other);
+            FKBase<T>& operator=(const typename Cache<T>::pointer& other);
 
             virtual std::ostream& print_value(std::ostream& output)const;
 
@@ -91,7 +91,7 @@ namespace orm
              **/
             FKBase(const std::string& column,const bool nullable=true);
 
-            typename T::type_ptr value_ptr; ///< the stored object
+            typename T::pointer value_ptr; ///< the stored object
 
             /**
              * \brief Set the fk value to the query

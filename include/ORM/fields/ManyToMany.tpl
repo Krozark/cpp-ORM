@@ -65,7 +65,7 @@ namespace orm
     }
 
     template<typename T,typename U>
-    bool ManyToMany<T,U>::add(const typename U::type_ptr& obj,DB& db)
+    bool ManyToMany<T,U>::add(const typename U::pointer& obj,DB& db)
     {
         if(owner.pk <=0)
         {
@@ -100,7 +100,7 @@ namespace orm
     };*/
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::remove(const typename U::type_ptr& obj,DB& db)
+    void ManyToMany<T,U>::remove(const typename U::pointer& obj,DB& db)
     {
         remove(*obj,db);
     }
