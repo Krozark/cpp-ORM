@@ -6,6 +6,8 @@
 
 #include <ORM/externals.hpp>
 #include <ORM/core/macros.hpp>
+#include <memory>
+
 
 namespace orm
 {
@@ -20,6 +22,8 @@ namespace orm
     class SqlObjectBase
     {
         public:
+            typedef std::shared_ptr<SqlObjectBase> pointer;
+
             /**
              * \brief Make a SqlObjectBase
              **/

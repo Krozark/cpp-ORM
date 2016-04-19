@@ -2,6 +2,9 @@
 #define ORM_TABLES_HPP
 
 #include <vector>
+#include <string>
+#include <ORM/core/Factory.hpp>
+#include <ORM/models/SqlObjectBase.hpp>
 
 namespace orm
 {
@@ -31,6 +34,11 @@ namespace orm
              * \return the number of success
              */
             static int clear();
+
+            /**
+            \brief get the internal Factory
+            */
+            static Factory<SqlObjectBase::pointer>& getFactory();
 
         private:
             template<typename T> friend class Register;

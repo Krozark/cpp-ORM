@@ -21,6 +21,7 @@ namespace orm
         return pk;
     }
 
+
     void SqlObjectBase::before_save(){}
 
     void SqlObjectBase::after_save(){}
