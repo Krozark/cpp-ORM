@@ -58,6 +58,12 @@ namespace orm
 
             virtual bool test() const = 0;
 
+            /**
+            * \brief set the internal value from a string
+            * \return true on success
+            */
+            virtual bool set(const std::string&);
+
 
         protected:
             template<typename T> friend class SqlObject;

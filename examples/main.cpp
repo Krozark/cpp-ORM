@@ -463,7 +463,11 @@ void test_Factory()
         std::cout << attr->getcolumn() << ":" << (*attr) << std::endl;
     }
 
-    std::cout << ptr->getAttribute("name") << std::endl;
+    std::cout << *ptr->getAttribute("name") << std::endl;
+    ptr->getAttribute("name")->set("blah");
+    ptr->getAttribute("element")->set("42");
+    std::cout << (*ptr) << std::endl;
+
 }
 
 int main(int argc,char* argv[])

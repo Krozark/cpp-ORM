@@ -398,7 +398,16 @@ namespace orm
              **/
             virtual std::ostream& print_value(std::ostream& output)const override;
 
+            /**
+            \return the internal value
+            */
             const T& value()const;
+
+            /**
+            * \brief set the internal value from a string
+            * \return true on success
+            */
+            virtual bool set(const std::string& value);
 
 
         protected:

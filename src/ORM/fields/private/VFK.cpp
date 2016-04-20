@@ -13,4 +13,9 @@ namespace orm
         object.fks.emplace_back(this);
     }
 
+    bool VFK::set(const std::string&)
+    {
+        return false;
+    }
+
 };

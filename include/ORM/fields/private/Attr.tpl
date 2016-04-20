@@ -1,6 +1,9 @@
 #include <ORM/backends/Query.hpp>
 
-namespace orm 
+#include <ORM/core/from_string.hpp>
+#include <typeinfo>
+
+namespace orm
 {
     template<typename T>
     Attr<T>::Attr(const T& val,const std::string& col) : VAttr(col), _value(val), prepared(false)
@@ -11,6 +14,12 @@ namespace orm
     Attr<T>::Attr(const std::string& col) : VAttr(col) , _value(), prepared(false)
     {
     };
+
+    template<typename T>
+    bool Attr<T>::set(const std::string& value)
+    {
+        return from_string<T>(value,_value);
+    }
 
     template<typename T>
     bool Attr<T>::get(const Query& query,int& prefix,int max_depth)
@@ -78,7 +87,7 @@ namespace orm
         modify = true;
         _value = v;
     }
-    
+
     template<typename T>
     template<typename U>
     T& Attr<T>::operator=(const U& v)
@@ -204,7 +213,7 @@ namespace orm
 
     template<typename T>
     template<typename U>
-    bool Attr<T>::operator<=(const U& v) 
+    bool Attr<T>::operator<=(const U& v)
     {
         return getValue()<=v;
     };
