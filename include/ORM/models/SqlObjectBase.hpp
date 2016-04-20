@@ -63,9 +63,21 @@ namespace orm
             int getPk()const;
 
             /**
+            \brief get all the attributs of the instance
+            **/
+            std::vector<VAttr*>& getAttributes();
+
+            /**
+            \brief get the attributs of the instance named name
+            \return nullptr if not existe
+            **/
+            VAttr* getAttribute(const std::string& name);
+
+            /**
              * \brief Display the object in json
              **/
             friend std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self);
+
 
             MAKE_STATIC_COLUMN(pk);
 
@@ -139,21 +151,20 @@ namespace orm
              **/
             virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
 
-            /**
-             * \brief make the attrs columns alias
-             *
-             * \param db the db to fetch
-             * \param q_str string query to add the alias
-             * \param prefix prefix column name
-             * \param max_depth maximun depth of constrution
-             **/
-
 
         private:
             int pk; ///< the object pf
             std::vector<VAttr*> attrs; ///< the object attrs
             std::vector<VFK*> fks; ///< the object FK
 
+            /**
+            * \brief make the attrs columns alias
+            *
+            * \param db the db to fetch
+            * \param q_str string query to add the alias
+            * \param prefix prefix column name
+            * \param max_depth maximun depth of constrution
+            **/
             virtual void _nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
 
             /**

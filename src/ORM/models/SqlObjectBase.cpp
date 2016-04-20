@@ -22,6 +22,39 @@ namespace orm
     }
 
 
+    std::vector<VAttr*>& SqlObjectBase::getAttributes()
+    {
+        return attrs;
+    }
+
+    VAttr* SqlObjectBase::getAttribute(const std::string& name)
+    {
+        VAttr* res = nullptr;
+        const unsigned int size = attrs.size();
+        for (unsigned int i = 0; i < size; ++i)
+        {
+            if (attrs[i]->getcolumn() == name)
+            {
+                res = attrs[i];
+                break;
+            }
+        }
+        return res;
+    }
+
+    std::ostream& operator<<(std::ostream& output, const SqlObjectBase& self)
+    {
+        output << "{ \"" << SqlObjectBase::ORM_MAKE_NAME(pk) << "\":" << self.pk;
+        for (VAttr* attr : self.attrs)
+            output << ", \"" << attr->getcolumn() << "\":" << *attr;
+        output << "}";
+        return output;
+    };
+
+
+    ////////////////////////////// Private / protected /////////////////////
+
+
     void SqlObjectBase::before_save(){}
 
     void SqlObjectBase::after_save(){}
@@ -84,13 +117,4 @@ namespace orm
         return res;
     };
 
-
-    std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self)
-    {
-        output<<"{ \""<<SqlObjectBase::ORM_MAKE_NAME(pk)<<"\":"<<self.pk;
-        for(VAttr* attr: self.attrs)
-            output<<", \""<<attr->getcolumn()<<"\":"<<*attr;
-        output<<"}";
-        return output;
-    };
 };

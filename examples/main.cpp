@@ -448,7 +448,23 @@ void test_Perso_Master()
     std::cout<<"======= END test_Perso_Master =======\n"<<std::endl;
 }
 
-#include <typeinfo>
+void test_Factory()
+{
+    for (auto p : orm::Tables::getFactory())
+    {
+        std::cout << "Table " << p.first << std::endl;
+    }
+
+    auto ptr = orm::Tables::getFactory().create("spell");
+    std::cout << (*ptr) << std::endl;
+
+    for (auto attr : ptr->getAttributes())
+    {
+        std::cout << attr->getcolumn() << ":" << (*attr) << std::endl;
+    }
+
+    std::cout << ptr->getAttribute("name") << std::endl;
+}
 
 int main(int argc,char* argv[])
 {
@@ -458,15 +474,8 @@ int main(int argc,char* argv[])
     orm::Tables::drop();
     orm::Tables::create();
 
-    for (auto p : orm::Tables::getFactory())
-    {
-        std::cout << "First : Table " << p.first << std::endl;
-        std::cout << "Second : ptr "<<p.second() << std::endl;
-        std::cout << "ptr.get() " << typeid(p.second().get()).name() << std::endl;
-        std::cout << "*ptr.get() " << typeid(*p.second().get()).name() << std::endl;
-    }
-
-    orm::Tables::getFactory().create("spell");
+    test_Factory();
+    
     //test_Datetime();
 
     //test_TestTypes();
