@@ -153,6 +153,11 @@ namespace orm
              */
             static bool clearTable(DB& db = *default_connection);
 
+            /**
+            \brief return the default database registred for the object
+            */
+            virtual DB& getDefaultDataBase()const override;
+
             static  DB* default_connection; ///< db use to stor the object
 
 
