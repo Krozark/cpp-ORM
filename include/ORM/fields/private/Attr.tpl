@@ -18,7 +18,13 @@ namespace orm
     template<typename T>
     bool Attr<T>::set(const std::string& value)
     {
-        return from_string<T>(value,_value);
+        T tmp;
+        if (from_string<T>(value, tmp))
+        {
+            setValue(tmp);
+            return true;
+        }
+        return false;
     }
 
     template<typename T>
