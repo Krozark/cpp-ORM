@@ -21,6 +21,12 @@ namespace orm
     }
 
     template<typename T>
+    bool Factory<T>::count(const std::string& className)
+    {
+        return _constructors.count(className);
+    }
+
+    template<typename T>
     typename Factory<T>::Container::const_iterator Factory<T>::begin() const
     {
         return _constructors.begin();
