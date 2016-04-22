@@ -459,6 +459,7 @@ int main(int argc,char* argv[])
     //test_Datetime();
 
     test_TestTypes();
+    //test_TestTypes();
     //test_TestMergeHeritage();
 
     //test_Perso();
