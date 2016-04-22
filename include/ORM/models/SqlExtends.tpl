@@ -44,7 +44,6 @@ namespace orm
     template <typename T, typename BASE>
     bool SqlExtends<T,BASE>::del(bool recursive, DB& db)
     {
-        std::cout<<"SqlExtends<T>::del()"<<std::endl;
         bool res = false;
         res = SqlObject<BASE>::del(recursive,db);
         res |= SqlObject<T>::del(recursive,db);

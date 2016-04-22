@@ -11,8 +11,8 @@ set(FILES_HEADER
 )
 set(FILES_SRC)
 
-add_subdirectory(backends)
 add_subdirectory(core)
+add_subdirectory(backends)
 add_subdirectory(fields)
 add_subdirectory(models)
 

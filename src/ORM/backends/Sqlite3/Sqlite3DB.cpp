@@ -10,8 +10,9 @@ namespace orm
     Sqlite3TableCreator Sqlite3DB::my_creator;
 
     Sqlite3DB::Sqlite3DB(const std::string& db) : DB("","",db,"",0), dbConn(0)
-
     {
+        
+
         //operators
         operators[op::exact]= " = %s";
         operators[op::iexact]= " LIKE %s ESCAPE '\\'";
