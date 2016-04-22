@@ -113,7 +113,7 @@ namespace orm
              *
              * \return Number of objects
              **/
-            int get(typename RELATED::result_type& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            int get(typename RELATED::pointer_array& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief Print the content of the filter for debug help

@@ -58,7 +58,7 @@ namespace orm
     class SqlObject : public SqlObjectBase, public virtual_enable_shared_from_this<T>
     {
         public:
-            using result_type = typename QuerySet<T>::result_type;
+            using pointer_array = typename QuerySet<T>::pointer_array;
             using pointer = typename Cache<T>::pointer;
 
 
@@ -99,7 +99,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            static result_type all(DB& db = *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer_array all(DB& db = *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief create a queryset for the objet. Use it to make your query

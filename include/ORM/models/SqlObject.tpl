@@ -69,9 +69,9 @@ namespace orm
     };
 
     template<typename T>
-    typename SqlObject<T>::result_type SqlObject<T>::all(DB& db,int max_depth)
+    typename SqlObject<T>::pointer_array SqlObject<T>::all(DB& db,int max_depth)
     {
-        result_type results;
+        pointer_array results;
         query(db).get(results,max_depth);
         return results;
     };

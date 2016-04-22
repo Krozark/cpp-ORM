@@ -10,7 +10,7 @@ namespace orm
     class SqlExtends : public SqlObject<T>, public BASE
     {
         public:
-            using result_type = typename SqlObject<T>::result_type;
+            using pointer_array = typename SqlObject<T>::pointer_array;
             using pointer = typename SqlObject<T>::pointer;
 
             SqlExtends();
