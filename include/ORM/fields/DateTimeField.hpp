@@ -67,6 +67,9 @@ namespace orm
 
             /**
              * \brief construct a tm struct with spécified value
+             * \param year the year
+             * \param month from 1-12
+             * \param day 1-31
              */
             static tm date(int year,int month,int day);
 
@@ -104,7 +107,21 @@ namespace orm
     class AutoDateTimeField : public DateTimeField
     {
         public:
-            using DateTimeField::DateTimeField;
+            /**
+            * \brief Make a Attr
+            *
+            * \param value value to store
+            * \param column Column in db
+            **/
+            AutoDateTimeField(const tm& value, const std::string& column);
+
+            /**
+            * \brief Make a Attr
+            *  default value is false.
+            * \param column Column in db
+            *
+            **/
+            AutoDateTimeField(const std::string& column);
 
             using DateTimeField::operator tm;
             using DateTimeField::operator=;
@@ -120,7 +137,21 @@ namespace orm
     class AutoNowDateTimeField : public DateTimeField
     {
         public:
-            using DateTimeField::DateTimeField;
+            /**
+            * \brief Make a Attr
+            *
+            * \param value value to store
+            * \param column Column in db
+            **/
+            AutoNowDateTimeField(const tm& value, const std::string& column);
+
+            /**
+            * \brief Make a Attr
+            *  default value is false.
+            * \param column Column in db
+            *
+            **/
+            AutoNowDateTimeField(const std::string& column);
 
             using DateTimeField::operator tm;
             using DateTimeField::operator=;

@@ -115,8 +115,8 @@ namespace orm
     tm DateTimeField::date(int year,int month,int day)
     {
         tm tmp{0};
-        tmp.tm_year = year /*- 1900*/;
-        tmp.tm_mon = month /*- 1*/;
+        tmp.tm_year = year - 1900;
+        tmp.tm_mon = month - 1;
         tmp.tm_mday = day;
         tmp.tm_isdst = -1;
         return tmp;
@@ -133,7 +133,7 @@ namespace orm
     tm DateTimeField::month(int nb)
     {
         tm tmp{0};
-        tmp.tm_mon = nb;
+        tmp.tm_mon = nb - 1;
         tmp.tm_isdst = -1;
         return tmp;
     }
@@ -141,7 +141,7 @@ namespace orm
     tm DateTimeField::year(int nb)
     {
         tm tmp{0};
-        tmp.tm_year = nb;
+        tmp.tm_year = nb - 1900;
         tmp.tm_isdst = -1;
         return tmp;
     }
@@ -185,13 +185,35 @@ namespace orm
         return db.creator().dateTimeField(column,false);
     }
 
-    //AutoDateTimeField
+    //////////////////////////AutoDateTimeField/////////////////////
+    AutoDateTimeField::AutoDateTimeField(const tm& value, const std::string& column) :
+        DateTimeField(value,column)
+    {
+    }
+
+
+    AutoDateTimeField::AutoDateTimeField(const std::string& column):
+        DateTimeField(column)
+    {
+    }
+
     void AutoDateTimeField::before_save()
     {
         *this=DateTimeField::now();
     }
 
-    //AutoNowDateTimeField
+    /////////////////////AutoNowDateTimeField/////////////////////
+    AutoNowDateTimeField::AutoNowDateTimeField(const tm& value, const std::string& column):
+        DateTimeField(value, column)
+    {
+    }
+
+    AutoNowDateTimeField::AutoNowDateTimeField(const std::string& column):
+        DateTimeField(column)
+    {
+    }
+
+
     void AutoNowDateTimeField::before_save()
     {
         *this=DateTimeField::now();
