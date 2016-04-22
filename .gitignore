@@ -12,6 +12,8 @@
 *.la
 *.a
 *.exe
+*.lib
+*.dll
 
 #perso
 *.vim

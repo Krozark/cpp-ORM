@@ -116,11 +116,11 @@ REGISTER_AND_CONSTRUCT(TestTypes, "test_types", \
     doubleField, "doubleField", \
     unsignedIntegerField, "unsignedIntegerField"\
     )
-    
-    
+
+
 
 //merge all colums
-
+/*
 class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
 {
     public:
@@ -137,7 +137,7 @@ TestMergeHeritage::TestMergeHeritage() :
     b.registerAttr(*static_cast<orm::SqlObject<TestMergeHeritage>*>(this));
 };
 
-
+*/
 namespace a
 {
     class TestNamespace : public orm::SqlObject<TestNamespace>
@@ -261,7 +261,7 @@ void test_TestTypes()
 
 }
 
-
+/*
 void test_TestMergeHeritage()
 {
     std::cout<<"======= test_TestMergeHeritage ======="<<std::endl;
@@ -317,7 +317,7 @@ void test_TestMergeHeritage()
 
     std::cout<<"======= END test_TestMergeHeritage =======\n"<<std::endl;
 }
-
+*/
 
 void test_Perso()
 {
@@ -448,6 +448,7 @@ void test_Perso_Master()
     std::cout<<"======= END test_Perso_Master =======\n"<<std::endl;
 }
 
+#include <typeinfo>
 
 int main(int argc,char* argv[])
 {
@@ -457,7 +458,16 @@ int main(int argc,char* argv[])
     orm::Tables::drop();
     orm::Tables::create();
 
-    test_Datetime();
+    for (auto p : orm::Tables::getFactory())
+    {
+        std::cout << "First : Table " << p.first << std::endl;
+        std::cout << "Second : ptr "<<p.second() << std::endl;
+        std::cout << "ptr.get() " << typeid(p.second().get()).name() << std::endl;
+        std::cout << "*ptr.get() " << typeid(*p.second().get()).name() << std::endl;
+    }
+
+    orm::Tables::getFactory().create("spell");
+    //test_Datetime();
 
     //test_TestTypes();
     //test_TestMergeHeritage();

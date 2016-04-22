@@ -4,6 +4,8 @@ set(SRCROOT ${SRCROOT}/core)
 list(APPEND FILES_HEADER
     ${INCROOT}/Cache.hpp
     ${INCROOT}/Cache.tpl
+	${INCROOT}/Factory.hpp
+	${INCROOT}/Factory.tpl
     ${INCROOT}/macros.hpp
     ${INCROOT}/Register.hpp
     ${INCROOT}/Register.tpl

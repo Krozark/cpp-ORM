@@ -1,6 +1,8 @@
+
 namespace orm
 {
-    
+    class SlqObjectBase;
+
     template<typename T>
     Register<T>::Register()
     {
@@ -23,6 +25,10 @@ namespace orm
             #endif
             SqlObject<T>::column_fks.emplace_back(fk);
         }
+
+        Tables::getFactory().add(SqlObject<T>::table, [](){
+            return std::dynamic_pointer_cast<SqlObjectBase>(T::create());
+        });
 
         Tables::_create.push_back(
                                  []()->bool{

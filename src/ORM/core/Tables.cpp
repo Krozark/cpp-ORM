@@ -41,4 +41,10 @@ namespace orm
         //TODO commit
         return res;
     }
+
+    Factory<SqlObjectBase::pointer>& Tables::getFactory()
+    {
+        static Factory<SqlObjectBase::pointer> factory;
+        return factory;
+    }
 }
