@@ -50,6 +50,9 @@ namespace orm
             /**
             * \brief set the internal value from a string
             * \return true on success
+            * \note : special Format
+            * bool : true, false, or integer
+            * date : "%d/%m/%Y %H:%M:%S" (day/mounth/year hour:minutes:secondes)
             */
             virtual bool set(const std::string&) = 0;
 

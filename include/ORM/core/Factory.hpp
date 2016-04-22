@@ -17,6 +17,8 @@ namespace orm
 
             void add(const std::string& className, std::function<T()> constructor);
 
+            bool count(const std::string& className);
+
             typename Container::const_iterator begin() const;
 
             typename Container::const_iterator end() const;
