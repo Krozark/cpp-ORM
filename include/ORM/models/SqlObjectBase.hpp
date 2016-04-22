@@ -44,7 +44,17 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive,DB& db)=0;
+            virtual bool save(bool recursive, DB& db) = 0;
+
+            /**
+            * \brief save/update the object in data base
+            * overload of save, but use default dadabase
+            *
+            * \param recursive recursive?
+            *
+            * \return false if fail
+            **/
+            bool save(bool recursive = false);
 
 
             /**
@@ -55,6 +65,16 @@ namespace orm
              * \return false if fail
              **/
             virtual bool del(bool recursive, DB& db) = 0;
+
+            /**
+            * \brief delete the object from de data base
+            * overload of del, but use default dadabase
+            *
+            * \param recursive recursive?
+            *
+            * \return false if fail
+            **/
+            bool del(bool recursive = false);
 
 
             /**
@@ -74,12 +94,22 @@ namespace orm
             VAttr* getAttribute(const std::string& name);
 
             /**
+            \brief return the default database registred for the object
+            */
+            virtual DB& getDefaultDataBase()const = 0;
+
+            /**
              * \brief Display the object in json
              **/
             friend std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self);
 
 
             MAKE_STATIC_COLUMN(pk);
+
+            /**
+            * \return the table name
+            **/
+            virtual const std::string& getTable() const = 0;
 
 
         protected:
@@ -186,11 +216,6 @@ namespace orm
              * \param max_depth maximun depth of constrution
              **/
             virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
-
-            /**
-             * \return the table name
-             **/
-            virtual const std::string& getTable() const = 0;
 
     };
 };

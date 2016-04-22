@@ -181,6 +181,18 @@ namespace orm
     }
 
     template<typename T>
+    DB& SqlObject<T>::getDefaultDataBase()const
+    {
+        return *default_connection;
+    }
+
+    template<typename T>
+    const std::string& SqlObject<T>::getTable()const
+    {
+        return table;
+    }
+
+    template<typename T>
     void SqlObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)
     {
         q_str+= db.escapeColumn(prefix)+"."+db.escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))+" AS "+JOIN_ALIAS(prefix,SqlObjectBase::ORM_MAKE_NAME(pk));

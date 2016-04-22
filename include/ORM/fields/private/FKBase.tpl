@@ -29,8 +29,8 @@ namespace orm
         {
             setObjectT_ptr(db);
         }
-		
-		
+
+
         if(modify)
         {
             modify = false; //avoid loop cause by user callbacks
@@ -105,7 +105,7 @@ namespace orm
         return *this;
     }
 
-    
+
     template<typename T>
     std::ostream& FKBase<T>::print_value(std::ostream& output)const
     {
@@ -121,6 +121,30 @@ namespace orm
     bool FKBase<T>::test()const
     {
         return value_ptr.get();
+    }
+
+    template<typename T>
+    DB& FKBase<T>::getDefaultDataBase()const
+    {
+        return *T::default_connection;
+    }
+
+    template<typename T>
+    bool FKBase<T>::set(SqlObjectBase::pointer& ptr)
+    {
+        typename Cache<T>::pointer other = std::dynamic_pointer_cast<T>(ptr);
+        if (other)
+        {
+            (*this) = other;
+            return true;
+        }
+        return false;
+    }
+
+    template<typename T>
+    const std::string& FKBase<T>::getTable() const
+    {
+        return T::table;
     }
 
     /////////////////////// PROTECTED /////////////////////////
@@ -186,7 +210,7 @@ namespace orm
         }
         else if(nullable)
             res = true;
-        
+
         return res;
     }
 
