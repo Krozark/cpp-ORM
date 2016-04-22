@@ -48,6 +48,12 @@ namespace orm
             const std::string& getcolumn() const;
 
             /**
+            * \brief set the internal value from a string
+            * \return true on success
+            */
+            virtual bool set(const std::string&) = 0;
+
+            /**
              * \brief add the attr to the object
              *
              * \param obj The owner of the attr

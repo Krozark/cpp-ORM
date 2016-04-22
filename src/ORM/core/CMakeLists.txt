@@ -6,6 +6,8 @@ list(APPEND FILES_HEADER
     ${INCROOT}/Cache.tpl
 	${INCROOT}/Factory.hpp
 	${INCROOT}/Factory.tpl
+	${INCROOT}/from_string.hpp
+	${INCROOT}/from_string.tpl
     ${INCROOT}/macros.hpp
     ${INCROOT}/Register.hpp
     ${INCROOT}/Register.tpl
@@ -16,6 +18,7 @@ list(APPEND FILES_HEADER
 
 list(APPEND FILES_SRC
     ${SRCROOT}/Tables.cpp
+	${SRCROOT}/from_string.cpp
 )
 
 # set in parent scope
