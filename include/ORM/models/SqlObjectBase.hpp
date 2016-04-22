@@ -106,6 +106,11 @@ namespace orm
 
             MAKE_STATIC_COLUMN(pk);
 
+            /**
+            * \return the table name
+            **/
+            virtual const std::string& getTable() const = 0;
+
 
         protected:
             friend class DB;
@@ -211,11 +216,6 @@ namespace orm
              * \param max_depth maximun depth of constrution
              **/
             virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const =0;
-
-            /**
-             * \return the table name
-             **/
-            virtual const std::string& getTable() const = 0;
 
     };
 };

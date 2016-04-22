@@ -160,15 +160,16 @@ namespace orm
 
             static  DB* default_connection; ///< db use to stor the object
 
+            /**
+            * \return the table name
+            **/
+            virtual const std::string& getTable()const override;
+
 
         protected:
             const static std::string table; ///< the table name
             static Cache<T> cache; ///< the cache containing the objects
 
-            /**
-            * \return the table name
-            **/
-            virtual const std::string& getTable()const override {return table;};
             
             /**
              * \brief make the attrs columns alias

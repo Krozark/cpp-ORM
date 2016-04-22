@@ -78,9 +78,18 @@ namespace orm
              **/
             FKBase<T>& operator=(const typename Cache<T>::pointer& other);
 
-            virtual std::ostream& print_value(std::ostream& output)const;
+            virtual std::ostream& print_value(std::ostream& output)const override;
 
             virtual bool test() const override;
+
+            virtual DB& getDefaultDataBase()const override;
+
+            virtual bool set(SqlObjectBase::pointer& ptr) override;
+
+            /**
+            * \return the table name
+            **/
+            virtual const std::string& getTable() const override;
 
         protected:
             /**
