@@ -25,7 +25,7 @@ namespace orm
     class Cache
     {
         public:
-            typedef std::shared_ptr<T> type_ptr; ///< Type of the stored object
+            typedef std::shared_ptr<T> pointer; ///< Type of the stored object
             /***
              * \brief Construct a Cache for T
              *
@@ -50,7 +50,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr getOrCreate(const unsigned int& pk,DB& bd,int max_depth);
+            pointer getOrCreate(const unsigned int& pk,DB& bd,int max_depth);
 
             /**
              * \brief construct object from query if pk not in cache
@@ -62,7 +62,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth);
+            pointer getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth);
 
             /**
              * \brief construct object from query if not in cache after extracting pk from query
@@ -72,7 +72,7 @@ namespace orm
              *
              * \return a shared_ptr to tho object stored in cache
              **/
-            type_ptr getOrCreate(const Query& query,int max_depth);
+            pointer getOrCreate(const Query& query,int max_depth);
 
             /**
              * \brief Print the cache content
@@ -99,7 +99,7 @@ namespace orm
              */
             /*class time_obj {
                 std::time_t added;
-                type_ptr obj;
+                pointer obj;
             };*/
 
             /**
@@ -109,14 +109,14 @@ namespace orm
              *
              * \return the shared_ptr of the stored object
              **/
-            type_ptr& add(type_ptr& obj);
+            pointer& add(pointer& obj);
 
 
             /**
              * \brief replace an existing value in cach by the new one
              * \return true if replaced, false if added
              */
-            //bool replace(type_ptr& obj);
+            //bool replace(pointer& obj);
 
             /**
              * \brief Add a object in the cache
@@ -125,10 +125,10 @@ namespace orm
              *
              * \return the shared_ptr of the stored object
              **/
-            //type_ptr& add(T& obj);
+            //pointer& add(T& obj);
 
 #ifdef ORM_USE_CACHE
-            std::unordered_map<int,type_ptr> map; ///< store all the objects
+            std::unordered_map<int,pointer> map; ///< store all the objects
 #endif
 
             /**

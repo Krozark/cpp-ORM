@@ -13,13 +13,13 @@ namespace orm
 
     template<typename T>
     template<typename ... Args>
-    typename SqlObject<T>::type_ptr SqlObject<T>::create(Args&& ... args)
+    typename SqlObject<T>::pointer SqlObject<T>::create(Args&& ... args)
     {
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
 
     template<typename T>
-    typename SqlObject<T>::type_ptr SqlObject<T>::createFromDB(const Query& query,int& prefix, int max_depth)
+    typename SqlObject<T>::pointer SqlObject<T>::createFromDB(const Query& query,int& prefix, int max_depth)
     {
         T* res = new T();
         if(not res->loadFromDB(query,prefix,max_depth))
@@ -27,17 +27,17 @@ namespace orm
             delete res;
             res = nullptr;
         }
-	    return SqlObject<T>::type_ptr(res);	
+	    return SqlObject<T>::pointer(res);	
     };
 
     template<typename T>
-    typename SqlObject<T>::type_ptr SqlObject<T>::get(const unsigned int& id,DB& db,int max_depth)
+    typename SqlObject<T>::pointer SqlObject<T>::get(const unsigned int& id,DB& db,int max_depth)
     {
         return cache.getOrCreate(id,db,max_depth);
     }
 
     template<typename T>
-    typename SqlObject<T>::type_ptr SqlObject<T>::_get_ptr(const unsigned int id,DB& db,int max_depth)
+    typename SqlObject<T>::pointer SqlObject<T>::_get_ptr(const unsigned int id,DB& db,int max_depth)
     {
         if(max_depth <0)
             return 0;
@@ -65,7 +65,7 @@ namespace orm
             delete res;
             res = nullptr;
         }
-        return SqlObject<T>::type_ptr(res);
+        return SqlObject<T>::pointer(res);
     };
 
     template<typename T>
@@ -109,7 +109,7 @@ namespace orm
             res = db.save(table,pk,attrs);
             if(res)
             {
-                type_ptr ptr = this->as_type_ptr();
+                pointer ptr = this->as_pointer();
                 cache.add(ptr);
                 after_save();
             }
@@ -146,7 +146,7 @@ namespace orm
     };
 
     template<typename T>
-    typename SqlObject<T>::type_ptr SqlObject<T>::as_type_ptr()
+    typename SqlObject<T>::pointer SqlObject<T>::as_pointer()
     {
         return this->shared_from_this();
     }

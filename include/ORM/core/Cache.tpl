@@ -21,7 +21,7 @@ namespace orm
     }
 
     template<typename T>
-    typename Cache<T>::type_ptr Cache<T>::getOrCreate(const unsigned int& pk,DB& db,int max_depth)
+    typename Cache<T>::pointer Cache<T>::getOrCreate(const unsigned int& pk,DB& db,int max_depth)
     {
         //std::lock_guard<std::mutex> lock(_mutex);//lock
         //already existe
@@ -31,7 +31,7 @@ namespace orm
             return res->second;
         #endif
 
-        type_ptr ptr = T::_get_ptr(pk,db,max_depth);
+        pointer ptr = T::_get_ptr(pk,db,max_depth);
         if(ptr.get() == nullptr)
             ptr = T::create();
 
@@ -39,12 +39,12 @@ namespace orm
         map[pk] = ptr;
         return map[pk];
         #else
-        return type_ptr(ptr);
+        return pointer(ptr);
         #endif
     }
 
     template<typename T>
-    typename Cache<T>::type_ptr Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth)
+    typename Cache<T>::pointer Cache<T>::getOrCreate(const unsigned int& pk,const Query& query,int& prefix,int max_depth)
     {
         #ifdef ORM_USE_CACHE
         const auto& res= map.find(pk);
@@ -53,16 +53,16 @@ namespace orm
             T::incDepth(prefix,max_depth);
             return res->second;
         }
-        type_ptr& r= map[pk];
+        pointer& r= map[pk];
         r = T::createFromDB(query,prefix,max_depth);
         #else
-        type_ptr r = T::createFromDB(query,prefix,max_depth);
+        pointer r = T::createFromDB(query,prefix,max_depth);
         #endif
         return r;
     }
 
     template<typename T>
-    typename Cache<T>::type_ptr Cache<T>::getOrCreate(const Query& query,int max_depth)
+    typename Cache<T>::pointer Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
         int index = query.db.getInitialGetcolumnNumber();
@@ -74,11 +74,11 @@ namespace orm
         if(res != map.end())
             return res->second;
 
-        type_ptr& r= map[pk];
+        pointer& r= map[pk];
         r = SqlObject<T>::createFromDB(query,--index,max_depth);
 
         #else
-        type_ptr r = SqlObject<T>::createFromDB(query,--index,max_depth);
+        pointer r = SqlObject<T>::createFromDB(query,--index,max_depth);
         #endif
         return r;
     }
@@ -111,7 +111,7 @@ namespace orm
 /////////////////// PRIVATE ////////////////////
 
     template<typename T>
-    typename Cache<T>::type_ptr& Cache<T>::add(typename Cache<T>::type_ptr& obj)
+    typename Cache<T>::pointer& Cache<T>::add(typename Cache<T>::pointer& obj)
     {
         #ifdef ORM_USE_CACHE
         auto pk = obj.get()->SqlObject<T>::pk;

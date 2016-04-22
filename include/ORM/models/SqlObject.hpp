@@ -59,7 +59,7 @@ namespace orm
     {
         public:
             using result_type = typename QuerySet<T>::result_type;
-            using type_ptr = typename Cache<T>::type_ptr;
+            using pointer = typename Cache<T>::pointer;
 
 
             SqlObject(const SqlObject&) = delete;
@@ -71,7 +71,7 @@ namespace orm
             SqlObject();
 
             template<typename ... Args>
-            static type_ptr create(Args&& ... args);
+            static pointer create(Args&& ... args);
 
             /**
             * \brief create a new object from query
@@ -82,7 +82,7 @@ namespace orm
             *
             * \return the new object (need to delete it by hand)
             **/
-            static type_ptr createFromDB(const Query& query,int& prefix,int max_depth);
+            static pointer createFromDB(const Query& query,int& prefix,int max_depth);
 
             /**
             * \brief shortcut for T::query().filter(id,"exact","id").get(obj)
@@ -91,7 +91,7 @@ namespace orm
             *
             * Note : if the return obj as a pk of -1 : fail
             **/
-            static type_ptr get(const unsigned int& id,DB& db= *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer get(const unsigned int& id,DB& db= *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -129,7 +129,7 @@ namespace orm
             virtual bool del(bool recursive=false,DB& db = *default_connection) override;
 
 
-            type_ptr as_type_ptr();
+            pointer as_pointer();
 
 
             /**
@@ -249,7 +249,7 @@ namespace orm
             *
             * \return the objet (delete it by hand)
             **/
-            static type_ptr _get_ptr(const unsigned int id,DB& db,int max_depth);
+            static pointer _get_ptr(const unsigned int id,DB& db,int max_depth);
 
             /**
             * \brief use by the cache to increment depth

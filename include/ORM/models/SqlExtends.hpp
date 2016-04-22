@@ -11,7 +11,7 @@ namespace orm
     {
         public:
             using result_type = typename SqlObject<T>::result_type;
-            using type_ptr = typename SqlObject<T>::type_ptr;
+            using pointer = typename SqlObject<T>::pointer;
 
             SqlExtends();
             virtual ~SqlExtends();
@@ -66,7 +66,7 @@ namespace orm
             */
 
             template<typename ... Args>
-            static type_ptr _createForRegister(Args&& ... args);
+            static pointer _createForRegister(Args&& ... args);
     };
 }
 

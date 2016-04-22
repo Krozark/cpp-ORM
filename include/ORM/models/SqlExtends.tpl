@@ -17,7 +17,7 @@ namespace orm
     {
         _base_fk.registerAttr(*static_cast<SqlObject<T>*>(this));
 
-        _base_fk = typename BASE::type_ptr(static_cast<BASE*>(this), [](void* obj){}); //avoid to delete this twice
+        _base_fk = typename BASE::pointer(static_cast<BASE*>(this), [](void* obj){}); //avoid to delete this twice
 
         _save_nb = 0;
     }
