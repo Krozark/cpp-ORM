@@ -4,9 +4,16 @@
 namespace orm
 {
     template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db): limit_skip(0), limit_count(-1), db(db), m2m(m2m)
+    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db):
+        _limitSkip(0),
+        _limitCount(-1),
+        _db(db),
+        _m2m(m2m)
     {
-        filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(m2m.owner.pk,op::exact,m2m.ORM_MAKE_NAME(owner)));
+        _filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(
+            _m2m.owner.pk,
+            op::exact,
+            _m2m.ORM_MAKE_NAME(owner)));
     }
 
     template <typename OWNER, typename RELATED>
@@ -19,21 +26,21 @@ namespace orm
     template <typename T,typename ... Args>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(T&& v,const std::string& operand,Args&& ... args)
     {
-        filters.emplace_back(Q<ManyToMany<OWNER, RELATED>>(std::forward<T>(v), operand, m2m.ORM_MAKE_NAME(linked), std::forward<Args>(args)...));
+        _filters.emplace_back(Q<ManyToMany<OWNER, RELATED>>(std::forward<T>(v), operand, _m2m.ORM_MAKE_NAME(linked), std::forward<Args>(args)...));
         return *this;
     };
 
     template<typename OWNER,typename RELATED>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(const FilterSet<ManyToMany<OWNER,RELATED>>& f)
     {
-        filters.emplace_back(f);
+        _filters.emplace_back(f);
         return *this;
     }
 
     template<typename OWNER,typename RELATED>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(FilterSet<ManyToMany<OWNER,RELATED>>&& f)
     {
-        filters.push_back(std::move(f));
+        _filters.push_back(std::move(f));
         return *this;
     }
 
@@ -41,9 +48,13 @@ namespace orm
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::orderBy(const std::string& column,const char order)
     {
         if( order == op::desc)
-            order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+        {
+            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+        }
         else
-            order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+        {
+            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+        }
         return *this;
     }
 
@@ -51,9 +62,13 @@ namespace orm
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::orderBy(std::string&& column,const char order)
     {
         if( order == op::desc)
-            order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+        {
+            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+        }
         else
-            order_by.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+        {
+            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+        }
         return *this;
     }
 
@@ -61,15 +76,15 @@ namespace orm
     template <typename OWNER, typename RELATED>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::limit(const unsigned int& count)
     {
-        limit_count = static_cast<int>(count);
+        _limitCount = static_cast<int>(count);
         return *this;
     };
 
     template <typename OWNER, typename RELATED>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::limit(const unsigned int& skip,const unsigned int& count)
     {
-        limit_skip = static_cast<int>(skip);
-        limit_count = static_cast<int>(count);
+        _limitSkip = static_cast<int>(skip);
+        _limitCount = static_cast<int>(count);
         return *this;
     }
 
@@ -77,7 +92,7 @@ namespace orm
     template <typename OWNER, typename RELATED>
     int M2MQuerySet<OWNER,RELATED>::get(typename RELATED::pointer_array& objs,int max_depth)
     {
-        Query* q = makeQuery(max_depth);
+        Query* q = _makeQuery(max_depth);
         int res = q->getObj(objs,max_depth);
         delete q;
         return res;
@@ -87,18 +102,18 @@ namespace orm
     void M2MQuerySet<OWNER,RELATED>::debugPrint() const
     {
         std::string q_str ="SELECT ";
-        ManyToMany<OWNER,RELATED>::nameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,db);
+        ManyToMany<OWNER,RELATED>::nameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         q_str+="\nFROM ";
-        ManyToMany<OWNER,RELATED>::nameTables(q_str,ORM_DEFAULT_MAX_DEPTH,db);
+        ManyToMany<OWNER,RELATED>::nameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
-        const int filters_size = filters.size();
+        const int filters_size = _filters.size();
 
         if(filters_size > 0)
         {
             q_str+=" \nWHERE (";
-            auto begin = filters.begin();
-            const auto& end = filters.end();
+            auto begin = _filters.begin();
+            const auto& end = _filters.end();
             std::cout<<q_str;
             q_str.clear();
 
@@ -112,12 +127,12 @@ namespace orm
             std::cout<<") ";
         }
 
-        int _size = order_by.size();
+        int _size = _orderBy.size();
         if(_size >0)
         {
             std::cout<<" ORDER BY ";
-            auto begin = order_by.begin();
-            const auto& end = order_by.end();
+            auto begin = _orderBy.begin();
+            const auto& end = _orderBy.end();
             std::cout<<*begin;
 
             while(++begin != end)
@@ -126,43 +141,45 @@ namespace orm
             }
         }
 
-        if(limit_count > 0)
-            std::cout<<db.limit(limit_skip,limit_count);
+        if(_limitCount > 0)
+        {
+            std::cout<<_db.limit(_limitSkip,_limitCount);
+        }
     };
 
     template <typename OWNER, typename RELATED>
-    Query* M2MQuerySet<OWNER,RELATED>::makeQuery(int max_depth)
+    Query* M2MQuerySet<OWNER,RELATED>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        ManyToMany<OWNER,RELATED>::nameAttrs(q_str,max_depth,db);
+        ManyToMany<OWNER,RELATED>::nameAttrs(q_str,max_depth,_db);
 
         q_str+="\nFROM ";
-        ManyToMany<OWNER,RELATED>::nameTables(q_str,max_depth,db);
+        ManyToMany<OWNER,RELATED>::nameTables(q_str,max_depth,_db);
 
-        const int filters_size = filters.size();
+        const int filters_size = _filters.size();
 
         if(filters_size > 0)
         {
             q_str+=" \nWHERE (";
-            auto begin = filters.begin();
-            const auto& end = filters.end();
+            auto begin = _filters.begin();
+            const auto& end = _filters.end();
 
-            begin->toQuery(q_str,db);
+            begin->_toQuery(q_str,_db);
 
             while(++begin != end)
             {
                 q_str+=" AND ";
-                begin->toQuery(q_str,db);
+                begin->_toQuery(q_str,_db);
             }
             q_str+=") ";
         }
 
-        int _size = order_by.size();
+        int _size = _orderBy.size();
         if(_size >0)
         {
             q_str+=" ORDER BY ";
-            auto begin = order_by.begin();
-            const auto& end = order_by.end();
+            auto begin = _orderBy.begin();
+            const auto& end = _orderBy.end();
             q_str+= (*begin);
 
             while(++begin != end)
@@ -172,20 +189,22 @@ namespace orm
 
         }
 
-        if(limit_count > 0)
-            q_str+= db.limit(limit_skip,limit_count);
+        if(_limitCount > 0)
+        {
+            q_str+= _db.limit(_limitSkip,_limitCount);
+        }
 
-        Query* q = db.prepareQuery(q_str);
+        Query* q = _db.prepareQuery(q_str);
 
         if(filters_size > 0)
         {
-            auto begin = filters.begin();
-            const auto& end = filters.end();
-            unsigned int index = db.getInitialSetcolumnNumber();
+            auto begin = _filters.begin();
+            const auto& end = _filters.end();
+            unsigned int index = _db.getInitialSetcolumnNumber();
             while(begin != end)
             {
 
-                begin->set(q,index);
+                begin->_set(q,index);
                 ++begin;
                 ++index;
             }

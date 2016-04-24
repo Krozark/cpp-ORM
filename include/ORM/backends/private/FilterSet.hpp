@@ -28,16 +28,16 @@ namespace orm
 
 
         private:
-            void* left;
-            std::string ope;
-            FilterSet<RELATED>* right;
+            void* _left;
+            std::string _ope;
+            FilterSet<RELATED>* _right;
 
 
             enum Type {
                 LEAF,
                 UNARY,
                 BINARY,
-            } type;
+            } _type;
 
         protected:
             template<typename T> friend class QuerySet;
@@ -50,14 +50,14 @@ namespace orm
             *
             * \return false if fail
             **/
-            bool set(Query* query,unsigned int& column) const;
+            bool _set(Query* query,unsigned int& column) const;
 
             /**
              * \brief add the sql code to the query
              * \param query sql to append to
              * \param db data base to use
              */
-            void toQuery(std::string& query,DB& db) const;
+            void _toQuery(std::string& query,DB& db) const;
     };
 
     template<typename RELATED>

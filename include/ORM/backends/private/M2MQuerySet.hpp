@@ -135,18 +135,18 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            Query* makeQuery(int max_depth);
+            Query* _makeQuery(int max_depth);
 
 
             M2MQuerySet(const M2MQuerySet&) = delete;
             M2MQuerySet& operator=(const M2MQuerySet&) = delete;
 
-            std::list<FilterSet<ManyToMany<OWNER,RELATED>>> filters; ///< Store all the filters
-            std::vector<std::string> order_by; ///< store the column name for ordering
-            int limit_skip, ///< skip limit (default is 0)
-                limit_count; ///< skip limit (default is all)
-            DB& db;
-            const ManyToMany<OWNER,RELATED>& m2m;
+            std::list<FilterSet<ManyToMany<OWNER,RELATED>>> _filters; ///< Store all the filters
+            std::vector<std::string> _orderBy; ///< store the column name for ordering
+            int _limitSkip; ///< skip limit (default is 0)
+            int _limitCount; ///< skip limit (default is all)
+            DB& _db;
+            const ManyToMany<OWNER,RELATED>& _m2m;
     };
 }
 /***

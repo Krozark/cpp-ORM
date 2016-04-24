@@ -2,86 +2,113 @@ namespace orm
 {
     template<typename RELATED>
     template<typename T>
-    FilterSet<RELATED>::FilterSet(Filter<RELATED,T>&& f): left(new Filter<RELATED,T>(std::forward<Filter<RELATED,T>>(f))), ope(), right(nullptr), type(LEAF)
+    FilterSet<RELATED>::FilterSet(Filter<RELATED,T>&& f):
+        _left(new Filter<RELATED,T>(std::forward<Filter<RELATED,T>>(f))),
+        _ope(),
+        _right(nullptr),
+        _type(LEAF)
     {
     };
 
     template<typename RELATED>
-    FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& a) : left(nullptr), ope(), right(nullptr), type(a.type)
+    FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& a) :
+        _left(nullptr),
+        _ope(),
+        _right(nullptr),
+        _type(a._type)
     {
-        std::swap(left,a.left);
-        std::swap(ope,a.ope);
-        std::swap(right,a.right);
+        std::swap(_left,a._left);
+        std::swap(_ope,a._ope);
+        std::swap(_right,a._right);
     }
 
     template<typename RELATED>
-    FilterSet<RELATED>::FilterSet(const FilterSet<RELATED>& a) :ope(a.ope), type(a.type)
+    FilterSet<RELATED>::FilterSet(const FilterSet<RELATED>& a) :
+        _ope(a._ope),
+        _type(a._type)
     {
-        switch(type)
+        switch(_type)
         {
             case LEAF:
-                left = reinterpret_cast<VFilter*>(a.left)->clone();
-                right = nullptr;
-                break;
+            {
+                _left = reinterpret_cast<VFilter*>(a.left)->_clone();
+                _right = nullptr;
+            }break;
             case UNARY:
-                left = new FilterSet<RELATED>(*reinterpret_cast<FilterSet<RELATED>*>(a.left));
-                right = nullptr;
-                break;
+            {
+                _left = new FilterSet<RELATED>(*reinterpret_cast<FilterSet<RELATED>*>(a._left));
+                _right = nullptr;
+            }break;
             case BINARY:
-                left = new FilterSet<RELATED>(*reinterpret_cast<FilterSet<RELATED>*>(a.left));
-                right = new FilterSet<RELATED>(*a.right);
-                break;
+            {
+                _left = new FilterSet<RELATED>(*reinterpret_cast<FilterSet<RELATED>*>(a._left));
+                _right = new FilterSet<RELATED>(*a._right);
+            }break;
         }
     }
 
     template<typename RELATED>
-    FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& l, const std::string& o) : left(new FilterSet<RELATED>(std::forward<FilterSet<RELATED>>(l))), ope(o), right(nullptr), type(UNARY)
+    FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& l, const std::string& o) :
+        _left(new FilterSet<RELATED>(std::forward<FilterSet<RELATED>>(l))),
+        _ope(o),
+        _right(nullptr),
+        _type(UNARY)
     {
     }
 
     template<typename RELATED>
-    FilterSet<RELATED>::FilterSet(const FilterSet<RELATED>& l, const std::string& o) : left(new FilterSet<RELATED>(l)), ope(o), right(nullptr), type(UNARY)
+    FilterSet<RELATED>::FilterSet(const FilterSet<RELATED>& l, const std::string& o) :
+        _left(new FilterSet<RELATED>(l)),
+        _ope(o),
+        _right(nullptr),
+        _type(UNARY)
     {
     }
 
     template<typename RELATED>
-    FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& l, const std::string o,FilterSet<RELATED>&& r) : left(new FilterSet<RELATED>(std::forward<FilterSet<RELATED>>(l))), ope(o), right(new FilterSet<RELATED>(std::forward<FilterSet<RELATED>>(r))), type(BINARY)
+    FilterSet<RELATED>::FilterSet(FilterSet<RELATED>&& l, const std::string o,FilterSet<RELATED>&& r) :
+        _left(new FilterSet<RELATED>(std::forward<FilterSet<RELATED>>(l))),
+        _ope(o),
+        _right(new FilterSet<RELATED>(std::forward<FilterSet<RELATED>>(r))),
+        _type(BINARY)
     {
     }
 
     template<typename RELATED>
     FilterSet<RELATED>::~FilterSet()
     {
-        if(type == LEAF)
-            delete reinterpret_cast<VFilter*>(left);
+        if(_type == LEAF)
+        {
+            delete reinterpret_cast<VFilter*>(_left);
+        }
         else
         {
-            delete reinterpret_cast<FilterSet<RELATED>*>(left);
-            delete right;
+            delete reinterpret_cast<FilterSet<RELATED>*>(_left);
+            delete _right;
         }
     }
 
     template<typename RELATED>
     void FilterSet<RELATED>::debugPrint(const DB& db)const
     {
-        switch(type)
+        switch(_type)
         {
             case LEAF:
             {
-                reinterpret_cast<VFilter*>(left)->debugPrint(db);
+                reinterpret_cast<VFilter*>(_left)->debugPrint(db);
             }break;
             case UNARY:
             {
-                std::cout<<"("<<ope<<" ";
-                reinterpret_cast<FilterSet<RELATED>*>(left)->debugPrint(db);
+                std::cout<<"("<<_ope<<" ";
+                reinterpret_cast<FilterSet<RELATED>*>(_left)->debugPrint(db);
                 std::cout<<")";
             }break;
             case BINARY:
             {
                 std::cout<<"(";
-                reinterpret_cast<const FilterSet<RELATED>*>(left)->debugPrint(db);
-                std::cout<<" "<<ope<<" ";
-                right->debugPrint(db);
+                reinterpret_cast<const FilterSet<RELATED>*>(_left)->debugPrint(db);
+                std::cout<<" "<<_ope<<" ";
+                _right->debugPrint(db);
                 std::cout<<")";
             }break;
         }
@@ -89,50 +116,58 @@ namespace orm
 
 
     template<typename RELATED>
-    bool FilterSet<RELATED>::set(Query* query,unsigned int& column) const
+    bool FilterSet<RELATED>::_set(Query* query,unsigned int& column) const
     {
         bool res = false;
-        switch (type)
+        switch (_type)
         {
             case LEAF :
-                res = reinterpret_cast<VFilter*>(left)->set(query,column);
-                break;
+            {
+                res = reinterpret_cast<VFilter*>(_left)->_set(query,column);
+            }break;
             case UNARY:
-                res = reinterpret_cast<FilterSet*>(left)->set(query,column);
-                break;
+            {
+                res = reinterpret_cast<FilterSet*>(_left)->_set(query,column);
+            }break;
             case BINARY:
-                res = reinterpret_cast<FilterSet<RELATED>*>(left)->set(query,column);
+            {
+                res = reinterpret_cast<FilterSet<RELATED>*>(_left)->_set(query,column);
                 ++column;
-                res= res and right->set(query,column);
-                break;
+                res= (res and _right->_set(query,column));
+            }break;
             default:
-                break;
+            {
+            }break;
         }
         return res;
     }
 
     template<typename RELATED>
-    void FilterSet<RELATED>::toQuery(std::string& query,DB& db) const
+    void FilterSet<RELATED>::_toQuery(std::string& query,DB& db) const
     {
-        switch (type)
+        switch (_type)
         {
             case LEAF :
-                reinterpret_cast<VFilter*>(left)->toQuery(query,db);
-                break;
+            {
+                reinterpret_cast<VFilter*>(_left)->_toQuery(query,db);
+            }break;
             case UNARY:
-                query+="("+ope+" ";
-                reinterpret_cast<FilterSet<RELATED>*>(left)->toQuery(query,db);
+            {
+                query+="("+_ope+" ";
+                reinterpret_cast<FilterSet<RELATED>*>(_left)->_toQuery(query,db);
                 query+=")";
-                break;
+            }break;
             case BINARY:
+            {
                 query+="(";
-                reinterpret_cast<FilterSet<RELATED>*>(left)->toQuery(query,db);
-                query+=" "+ope+" ";
-                right->toQuery(query,db);
+                reinterpret_cast<FilterSet<RELATED>*>(_left)->_toQuery(query,db);
+                query+=" "+_ope+" ";
+                _right->_toQuery(query,db);
                 query+=")";
-                break;
+            }break;
             default:
-                break;
+            {
+            }break;
         }
     }
 

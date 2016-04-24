@@ -36,15 +36,15 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void debugPrint(const DB& db) const final;
+            virtual void debugPrint(const DB& db) const override final;
 
         protected:
-            const std::string column; ///< Colum to apply filter
-            const std::string ope; ///< operator to use. \see DB::operators
-            const T value; ///< Store the value of the filter to compare with
+            const std::string _column; ///< Colum to apply filter
+            const std::string _ope; ///< operator to use. \see DB::operators
+            const T _value; ///< Store the value of the filter to compare with
 
 
-            virtual VFilter* clone() const final;
+            virtual VFilter* _clone() const override final;
 
            /**
             * \brief set the value in the filter in the query
@@ -54,14 +54,14 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool set(Query* query,unsigned int& column) const final;
+            virtual bool _set(Query* query,unsigned int& column) const override final;
 
             /**
              * \brief add the sql code to the query
              * \param query sql to append to
              * \param db data base to use
              */
-            virtual void toQuery(std::string& query,DB& db) const final;
+            virtual void _toQuery(std::string& query,DB& db) const override final;
     };
 }
 #include <ORM/backends/private/Filter.tpl>

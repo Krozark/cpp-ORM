@@ -20,14 +20,17 @@ namespace orm
     template<typename RELATED,typename T>
     template<typename ... Args>
     Filter<RELATED,T>::Filter(const T& val,const std::string& ope,const std::string& column,Args&& ... args) :
-        column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)),
-        ope(ope),
-        value(filter_value_helper_2(val))
+        _column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)),
+        _ope(ope),
+        _value(filter_value_helper_2(val))
     {
     };
 
     template<typename RELATED,typename T>
-    Filter<RELATED,T>::Filter(Filter<RELATED,T>&& other) : column(std::move(other.column)), ope(std::move(other.ope)), value(other.value)
+    Filter<RELATED,T>::Filter(Filter<RELATED,T>&& other) :
+        _column(std::move(other._column)),
+        _ope(std::move(other._ope)),
+        _value(other._value)
     {
     }
 
@@ -40,20 +43,20 @@ namespace orm
     template<typename RELATED,typename T>
     void Filter<RELATED,T>::debugPrint(const DB& db) const
     {
-        const std::string& op = db.operators.at(ope);
+        const std::string& op = db.operators.at(_ope);
 
         std::string v;
         {
             std::stringstream ss;
-            ss<<value;
+            ss<<_value;
             v=ss.str();
         }
 
-        std::unique_ptr<char> buffer(new char[ope.size() + v.size()]);
+        std::unique_ptr<char> buffer(new char[_ope.size() + v.size()]);
         sprintf(buffer.get(),op.c_str(),v.c_str());
 
-        std::cout<<column<<" "<< buffer.get();
-        //DB::makecolumname(db,OBJ::table,column,args...)
+        std::cout<<_column<<" "<< buffer.get();
+        //DB::makecolumname(db,OBJ::table,_column,args...)
     };
 
     //default do nothing
@@ -68,28 +71,30 @@ namespace orm
     tm filter_clone_helper_2<tm>(const tm& value);
 
     template<typename RELATED,typename T>
-    VFilter* Filter<RELATED,T>::clone() const
+    VFilter* Filter<RELATED,T>::_clone() const
     {
-        return new Filter<RELATED,T>(filter_clone_helper_2(value),ope,column);
+        return new Filter<RELATED,T>(filter_clone_helper_2(_value),_ope,_column);
     };
 
     template<typename RELATED,typename T>
-    bool Filter<RELATED,T>::set(Query* query,unsigned int& column) const
+    bool Filter<RELATED,T>::_set(Query* query,unsigned int& column) const
     {
-        auto v = query->db.formatValue(ope,value);
+        auto v = query->db.formatValue(_ope,_value);
 
         bool res = query->set(v,column);
         #if ORM_DEBUG & ORM_DEBUG_SQL
         if (not res)
+        {
             std::cerr<<ROUGE<<"[ERROR][Sql:makeQuery] Impossible to bind values <"<<v<<"> on colum "<<column<<BLANC;
+        }
         #endif
         return res;
 
     }
 
     template<typename RELATED,typename T>
-    void Filter<RELATED,T>::toQuery(std::string& query,DB& db) const
+    void Filter<RELATED,T>::_toQuery(std::string& query,DB& db) const
     {
-        query += column + db.formatPreparedValue(ope);
+        query += _column + db.formatPreparedValue(_ope);
     }
 }

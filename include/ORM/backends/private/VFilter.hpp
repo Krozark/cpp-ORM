@@ -31,7 +31,7 @@ namespace orm
             /**
              * \brief Make a copy of the object
              */
-            virtual VFilter* clone()const = 0;
+            virtual VFilter* _clone()const = 0;
 
 
            /**
@@ -42,9 +42,9 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool set(Query* query,unsigned int& column) const = 0;
+            virtual bool _set(Query* query,unsigned int& column) const = 0;
 
-            virtual void toQuery(std::string& query,orm::DB& db) const = 0;
+            virtual void _toQuery(std::string& query,orm::DB& db) const = 0;
     };
 };
 

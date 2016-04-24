@@ -4,8 +4,8 @@ set(SRCROOT ${SRCROOT}/private)
 list(APPEND FILES_HEADER
     ${INCROOT}/Filter.hpp
     ${INCROOT}/Filter.tpl
-    ${INCROOT}/M2MFilter.hpp
-    ${INCROOT}/M2MFilter.tpl
+    #${INCROOT}/M2MFilter.hpp
+    #${INCROOT}/M2MFilter.tpl
     ${INCROOT}/FilterSet.hpp
     ${INCROOT}/FilterSet.tpl
     ${INCROOT}/M2MQuerySet.hpp

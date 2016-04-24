@@ -4,7 +4,10 @@
 namespace orm
 {
     template<typename T>
-    QuerySet<T>::QuerySet(DB& db): limit_skip(0), limit_count(-1), db(db)
+    QuerySet<T>::QuerySet(DB& db):
+        _limitSkip(0),
+        _limitCount(-1),
+        _db(db)
     {
 
     }
@@ -19,21 +22,21 @@ namespace orm
     template<typename ... Args>
     QuerySet<T>& QuerySet<T>::filter(Args&& ... args)
     {
-        filters.emplace_back(Q<T>(std::forward<Args>(args)...));
+        _filters.emplace_back(Q<T>(std::forward<Args>(args)...));
         return *this;
     };
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::filter(const FilterSet<T>& f)
     {
-        filters.emplace_back(f);
+        _filters.emplace_back(f);
         return *this;
     }
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::filter(FilterSet<T>&& f)
     {
-        filters.push_back(std::move(f));
+        _filters.push_back(std::move(f));
         return *this;
     }
 
@@ -41,21 +44,21 @@ namespace orm
     template<typename ... Args>
     QuerySet<T>& QuerySet<T>::exclude(Args&& ... args)
     {
-        filters.push_back(not Q<T>(std::forward<Args>(args)...));
+        _filters.push_back(not Q<T>(std::forward<Args>(args)...));
         return *this;
     };
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::exclude(const FilterSet<T>& f)
     {
-        filters.emplace_back(not f);
+        _filters.emplace_back(not f);
         return *this;
     }
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::exclude(FilterSet<T>&& f)
     {
-        filters.push_back(std::move(operator!(std::forward<FilterSet<T>>(f))));
+        _filters.push_back(std::move(operator!(std::forward<FilterSet<T>>(f))));
         return *this;
     }
 
@@ -63,11 +66,17 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(const std::string& column,const char order)
     {
         if(column == "?")
-            order_by.push_back(T::default_connection->operators.at("?"));
+        {
+            _orderBy.push_back(T::default_connection->operators.at("?"));
+        }
         else if( order == '-')
-            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
+        {
+            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
+        }
         else
-            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
+        {
+            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
+        }
         return *this;
     }
 
@@ -75,11 +84,17 @@ namespace orm
     QuerySet<T>& QuerySet<T>::orderBy(std::string&& column,const char order)
     {
         if(column == "?")
-            order_by.push_back(T::default_connection->operators.at("?"));
+        {
+            _orderBy.push_back(T::default_connection->operators.at("?"));
+        }
         else if( order == '-')
-            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
+        {
+            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
+        }
         else
-            order_by.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
+        {
+            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
+        }
         return *this;
     }
 
@@ -87,24 +102,26 @@ namespace orm
     template<typename T>
     QuerySet<T>& QuerySet<T>::limit(const int& count)
     {
-        limit_count = count;
+        _limitCount = count;
     };
 
     template<typename T>
     QuerySet<T>& QuerySet<T>::limit(const int& skip,const int& count)
     {
-        limit_skip = skip;
-        limit_count = count;
+        _limitSkip = skip;
+        _limitCount = count;
     }
 
 
     template<typename T>
     bool QuerySet<T>::get(T& obj,int max_depth)
     {
-        if(limit_count <= 0)
-            limit_count = 1;
+        if(_limitCount <= 0)
+        {
+            _limitCount = 1;
+        }
 
-        Query* q = makeQuery(max_depth);
+        Query* q = _makeQuery(max_depth);
         bool res = q->getObj(obj,max_depth);
         delete q;
         return res;
@@ -113,7 +130,7 @@ namespace orm
     template<typename T>
     int QuerySet<T>::get(typename QuerySet<T>::pointer_array& objs,int max_depth)
     {
-        Query* q = makeQuery(max_depth);
+        Query* q = _makeQuery(max_depth);
         int res = q->getObj(objs,max_depth);
         delete q;
         return res;
@@ -123,19 +140,19 @@ namespace orm
     void QuerySet<T>::debugPrint() const
     {
         std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,db);
+        T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,_db);
 
         q_str+="\nFROM ";
-        T::nameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,db);
+        T::nameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,_db);
 
-        const int filters_size = filters.size();
+        const int filters_size = _filters.size();
 
         if(filters_size > 0)
         {
             q_str+=" \nWHERE (";
 
-            auto begin = filters.begin();
-            const auto& end = filters.end();
+            auto begin = _filters.begin();
+            const auto& end = _filters.end();
 
             std::cout<<q_str;
             q_str.clear();
@@ -150,12 +167,12 @@ namespace orm
             std::cout<<") ";
         }
 
-        int _size = order_by.size();
+        int _size = _orderBy.size();
         if(_size >0)
         {
             std::cout<<" ORDER BY ";
-            auto begin = order_by.begin();
-            const auto& end = order_by.end();
+            auto begin = _orderBy.begin();
+            const auto& end = _orderBy.end();
             std::cout<<(*begin);
 
             while(++begin != end)
@@ -164,47 +181,49 @@ namespace orm
             }
 
         }
-        if(limit_count > 0)
-            std::cout<<db.limit(limit_skip,limit_count);
+        if(_limitCount > 0)
+        {
+            std::cout<<_db.limit(_limitSkip,_limitCount);
+        }
         std::cout<<std::endl;
     };
 
 
     template<typename T>
-    Query* QuerySet<T>::makeQuery(int max_depth)
+    Query* QuerySet<T>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        SqlObject<T>::nameAttrs(q_str,SqlObject<T>::table,max_depth,db);
+        SqlObject<T>::nameAttrs(q_str,SqlObject<T>::table,max_depth,_db);
 
         q_str+="\nFROM ";
-        SqlObject<T>::nameTables(q_str,"",max_depth,db);
+        SqlObject<T>::nameTables(q_str,"",max_depth,_db);
 
-        const int filters_size = filters.size();
+        const int filters_size = _filters.size();
 
         if(filters_size > 0)
         {
             q_str+=" \nWHERE (";
 
-            auto begin = filters.begin();
-            const auto& end = filters.end();
+            auto begin = _filters.begin();
+            const auto& end = _filters.end();
 
-            begin->toQuery(q_str,db);
+            begin->_toQuery(q_str,_db);
 
             while(++begin != end)
             {
                 q_str+=" AND ";
-                begin->toQuery(q_str,db);
+                begin->_toQuery(q_str,_db);
             }
 
             q_str+=") ";
         }
 
-        int _size = order_by.size();
+        int _size = _orderBy.size();
         if(_size >0)
         {
             q_str+=" ORDER BY ";
-            auto begin = order_by.begin();
-            const auto& end = order_by.end();
+            auto begin = _orderBy.begin();
+            const auto& end = _orderBy.end();
             q_str+= (*begin);
 
             while(++begin != end)
@@ -214,19 +233,21 @@ namespace orm
 
         }
 
-        if(limit_count > 0)
-            q_str+= db.limit(limit_skip,limit_count);
+        if(_limitCount > 0)
+        {
+            q_str+= _db.limit(_limitSkip,_limitCount);
+        }
 
-        Query* q = db.prepareQuery(q_str);
+        Query* q = _db.prepareQuery(q_str);
         if(filters_size > 0)
         {
-            auto begin = filters.begin();
-            const auto& end = filters.end();
-            unsigned int index = db.getInitialSetcolumnNumber();
+            auto begin = _filters.begin();
+            const auto& end = _filters.end();
+            unsigned int index = _db.getInitialSetcolumnNumber();
             while(begin != end)
             {
 
-                begin->set(q,index);
+                begin->_set(q,index);
                 ++begin;
                 ++index;
             }

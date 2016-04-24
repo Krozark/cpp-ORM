@@ -136,8 +136,8 @@ TestMergeHeritage::TestMergeHeritage() :
 {
     b.registerAttr(*static_cast<orm::SqlObject<TestMergeHeritage>*>(this));
 };
-
 */
+
 namespace a
 {
     class TestNamespace : public orm::SqlObject<TestNamespace>
@@ -480,13 +480,13 @@ int main(int argc,char* argv[])
 
     test_Factory();
 
-    //test_Datetime();
+    test_Datetime();
 
-    //test_TestTypes();
+    test_TestTypes();
     //test_TestMergeHeritage();
 
-    //test_Perso();
-    //test_Perso_Master();
+    test_Perso();
+    test_Perso_Master();
 
     orm::DB::Default.disconnect();
     return 0;

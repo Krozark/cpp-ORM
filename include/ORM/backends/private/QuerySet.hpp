@@ -158,19 +158,19 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            Query* makeQuery(int max_depth);
+            Query* _makeQuery(int max_depth);
 
 
             QuerySet(const QuerySet&) = delete;
             QuerySet& operator=(const QuerySet&) = delete;
 
 
-            std::list<FilterSet<T>> filters; ///< Store all the filters
-            std::vector<std::string> order_by; ///< store the column name for ordering
-            int limit_skip, ///< skip limit (default is 0)
-                limit_count; ///< skip limit (default is all)
+            std::list<FilterSet<T>> _filters; ///< Store all the filters
+            std::vector<std::string> _orderBy; ///< store the column name for ordering
+            int _limitSkip; ///< skip limit (default is 0)
+            int _limitCount; ///< skip limit (default is all)
 
-            DB& db;
+            DB& _db;
     };
 }
 /***
