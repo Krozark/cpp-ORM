@@ -6,7 +6,7 @@ namespace orm
     {
        return std::string("\"")+column+std::string("\"");
     }
-    
+
     Sqlite3TableCreator::Sqlite3TableCreator()
     {
     }
@@ -22,7 +22,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" BOOL";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -30,7 +32,9 @@ namespace orm
     {
         std::string res = sqlite3_escape(colunm_name)+" VARCHAR("+std::to_string(max_length)+")";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -40,7 +44,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" DATE";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -48,7 +54,9 @@ namespace orm
     {
         std::string res = sqlite3_escape(colunm_name)+" DATETIME";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -56,7 +64,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" DECIMAL";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -64,7 +74,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" FLOAT";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -72,7 +84,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" DOUBLE";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -80,7 +94,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" INTEGER";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -88,7 +104,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" BIGINT";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -96,7 +114,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" INTEGER";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -104,7 +124,9 @@ namespace orm
     {
         std::string res = sqlite3_escape(colunm_name)+" INTEGER";
         if(not nullable)
+        {
             res+= " NOT NULL";
+        }
         res+= " REFERENCES " + sqlite3_escape(table) + "(\"pk\")";
         return res;
     }
@@ -113,7 +135,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" INTEGER UNSIGNED";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -121,7 +145,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+" SMALLINT UNSIGNED";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -129,7 +155,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+std::string(" SMALLINT");
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -137,7 +165,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+std::string(" TEXT");
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -145,7 +175,9 @@ namespace orm
     {
         std::string res=sqlite3_escape(colunm_name)+std::string(" TIME");
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 

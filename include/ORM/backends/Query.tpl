@@ -25,6 +25,7 @@ namespace orm
             _execute();
         }
         int res = 0;
+
         while(_next())
         {
             auto tmp = T::cache.getOrCreate(*this,max_depth);

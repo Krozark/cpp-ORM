@@ -13,8 +13,6 @@ namespace orm
         DB("","",db,"",0),
         _dbConn(0)
     {
-
-
         //operators
         _operators[op::exact]= " = %s";
         _operators[op::iexact]= " LIKE %s ESCAPE '\\'";
@@ -213,12 +211,18 @@ namespace orm
     {
         std::string query;
         if(skip > 0 and count > 0)
+        {
             query+=" LIMIT "+std::to_string(count)+" OFFEST "+std::to_string(skip);
+        }
         else if (count > 0)
+        {
             query+=" LIMIT "+std::to_string(count);
+        }
         #if ORM_VERBOSITY & ORM_WARNING
         else
+        {
             ORM_PRINT_WARNING("Sqlite3DB::Limit(skip,count) count can't be <= 0")
+        }
         #endif
         return query;
     };

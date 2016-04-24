@@ -77,7 +77,7 @@ namespace orm
                 {
                     std::cerr<<ROUGE<<"??? MySqlQuery::~MySqlQuery() : Type "<<param.buffer_type<<" not bind"<<BLANC<<std::endl;
                     assert(false && "This case should never apear");
-                }
+                }break;
 
             }
         }
@@ -93,10 +93,9 @@ namespace orm
         {
             return mysql_stmt_num_rows(_preparedStatement);
         }
-        else
-        {
-            return mysql_num_rows(_dbRes);
-        }
+
+        return mysql_num_rows(_dbRes);
+
     };
 
     template<typename T>

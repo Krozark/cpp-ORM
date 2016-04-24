@@ -2,12 +2,12 @@
 
 namespace orm
 {
-    
+
     const std::string mysql_escape(const std::string& column)
     {
        return std::string("`")+column+std::string("`");
     }
-    
+
     MySqlTableCreator::MySqlTableCreator()
     {
     }
@@ -23,7 +23,9 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" BOOL";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -31,17 +33,21 @@ namespace orm
     {
         std::string res = mysql_escape(colunm_name)+" VARCHAR("+std::to_string(max_length)+")";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
-    
+
     // std::string MySqlTableCreator::commaSeparatedIntegerField(const std::string& colunm_nameunsigned int max_length)const;
 
     std::string MySqlTableCreator::dateField(const std::string& colunm_name,bool nullable)const
     {
         std::string res=mysql_escape(colunm_name)+" DATE";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -49,7 +55,9 @@ namespace orm
     {
         std::string res = mysql_escape(colunm_name)+" DATETIME";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -57,7 +65,9 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" NUMERIC("+std::to_string(max_digits)+","+std::to_string(decimal_places)+")";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -65,7 +75,9 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" DOUBLE PRECISION";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -73,7 +85,9 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" DOUBLE PRECISION";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -81,7 +95,9 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" INTEGER";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -89,15 +105,19 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" BIGINT";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
-    
+
     std::string MySqlTableCreator::oneToOneField(const std::string& colunm_name,bool nullable)const
     {
         std::string res=mysql_escape(colunm_name)+" INTEGER";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -105,7 +125,9 @@ namespace orm
     {
         std::string res = mysql_escape(colunm_name)+" INTEGER";
         if(not nullable)
+        {
             res+= " NOT NULL";
+        }
         res+= " REFERENCES " + mysql_escape(table) + "(`pk`)";
         return res;
     }
@@ -114,7 +136,9 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" INTEGER UNSIGNED";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -122,15 +146,19 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+" SMALLINT UNSIGNED";
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
-    
+
     std::string MySqlTableCreator::smallIntegerField(const std::string& colunm_name,bool nullable)const
     {
         std::string res=mysql_escape(colunm_name)+std::string(" SMALLINT");
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
 
@@ -138,16 +166,20 @@ namespace orm
     {
         std::string res=mysql_escape(colunm_name)+std::string(" LONGTEXT");
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
-    
+
     std::string MySqlTableCreator::timeField(const std::string& colunm_name,bool nullable)const
     {
         std::string res=mysql_escape(colunm_name)+std::string(" TIME");
         if(nullable)
+        {
             res+= " NOT NULL";
+        }
         return res;
     }
-    
+
 }
