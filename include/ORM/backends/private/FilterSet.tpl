@@ -62,26 +62,26 @@ namespace orm
     }
 
     template<typename RELATED>
-    void FilterSet<RELATED>::__print__(const DB& db)const
+    void FilterSet<RELATED>::debugPrint(const DB& db)const
     {
         switch(type)
         {
             case LEAF:
             {
-                reinterpret_cast<VFilter*>(left)->__print__(db);
+                reinterpret_cast<VFilter*>(left)->debugPrint(db);
             }break;
             case UNARY:
             {
                 std::cout<<"("<<ope<<" ";
-                reinterpret_cast<FilterSet<RELATED>*>(left)->__print__(db);
+                reinterpret_cast<FilterSet<RELATED>*>(left)->debugPrint(db);
                 std::cout<<")";
             }break;
             case BINARY:
             {
                 std::cout<<"(";
-                reinterpret_cast<const FilterSet<RELATED>*>(left)->__print__(db);
+                reinterpret_cast<const FilterSet<RELATED>*>(left)->debugPrint(db);
                 std::cout<<" "<<ope<<" ";
-                right->__print__(db);
+                right->debugPrint(db);
                 std::cout<<")";
             }break;
         }
@@ -121,14 +121,14 @@ namespace orm
                 break;
             case UNARY:
                 query+="("+ope+" ";
-                reinterpret_cast<FilterSet<RELATED>*>(left)->toQuery(query,db); 
+                reinterpret_cast<FilterSet<RELATED>*>(left)->toQuery(query,db);
                 query+=")";
                 break;
             case BINARY:
                 query+="(";
                 reinterpret_cast<FilterSet<RELATED>*>(left)->toQuery(query,db);
                 query+=" "+ope+" ";
-                right->toQuery(query,db); 
+                right->toQuery(query,db);
                 query+=")";
                 break;
             default:
@@ -136,7 +136,7 @@ namespace orm
         }
     }
 
-    
+
     template<typename RELATED>
     FilterSet<RELATED> operator!(FilterSet<RELATED>&& f)
     {

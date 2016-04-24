@@ -71,7 +71,7 @@ namespace orm
         limit_skip = static_cast<int>(skip);
         limit_count = static_cast<int>(count);
         return *this;
-    }   
+    }
 
 
     template <typename OWNER, typename RELATED>
@@ -84,7 +84,7 @@ namespace orm
     }
 
     template <typename OWNER, typename RELATED>
-    void M2MQuerySet<OWNER,RELATED>::__print__() const
+    void M2MQuerySet<OWNER,RELATED>::debugPrint() const
     {
         std::string q_str ="SELECT ";
         ManyToMany<OWNER,RELATED>::nameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,db);
@@ -102,16 +102,16 @@ namespace orm
             std::cout<<q_str;
             q_str.clear();
 
-            begin->__print__(*ManyToMany<OWNER,RELATED>::default_connection);
+            begin->debugPrint(*ManyToMany<OWNER,RELATED>::default_connection);
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->__print__(*ManyToMany<OWNER,RELATED>::default_connection);
+                begin->debugPrint(*ManyToMany<OWNER,RELATED>::default_connection);
             }
             std::cout<<") ";
         }
-        
+
         int _size = order_by.size();
         if(_size >0)
         {
@@ -156,7 +156,7 @@ namespace orm
             }
             q_str+=") ";
         }
-        
+
         int _size = order_by.size();
         if(_size >0)
         {
@@ -176,7 +176,7 @@ namespace orm
             q_str+= db.limit(limit_skip,limit_count);
 
         Query* q = db.prepareQuery(q_str);
-        
+
         if(filters_size > 0)
         {
             auto begin = filters.begin();

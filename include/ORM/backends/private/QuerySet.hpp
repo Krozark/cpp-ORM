@@ -25,7 +25,7 @@ namespace orm
     {
         public:
             using pointer_array = std::vector<typename Cache<T>::pointer>;
-            
+
             #ifndef ORM_USE_MSVC
             QuerySet(QuerySet<T>&&) = default;
             QuerySet& operator=(QuerySet<T>&&) = default;
@@ -135,7 +135,7 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            void __print__() const;
+            void debugPrint() const;
 
             /***
             * \brief Store the filter and ordering params for operators values

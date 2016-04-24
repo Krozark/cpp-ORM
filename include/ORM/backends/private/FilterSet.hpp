@@ -24,7 +24,7 @@ namespace orm
 
             ~FilterSet();
 
-            void __print__(const DB& db)const;
+            void debugPrint(const DB& db)const;
 
 
         private:
@@ -38,7 +38,7 @@ namespace orm
                 UNARY,
                 BINARY,
             } type;
-            
+
         protected:
             template<typename T> friend class QuerySet;
             template<typename T,typename U> friend class M2MQuerySet;
@@ -71,7 +71,7 @@ namespace orm
 
     template<typename RELATED>
     FilterSet<RELATED> operator||(FilterSet<RELATED>&& a, FilterSet<RELATED>&& b);
-    
+
     template <typename RELATED,typename T, typename ... Args>
     FilterSet<RELATED> Q(const T& value,Args&& ... args);
 

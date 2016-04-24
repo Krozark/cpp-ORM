@@ -40,8 +40,8 @@ namespace orm
 
             //Cache(const Cache<T>&)=delete;
             //Cache<T>& operator=(const Cache<T>&)=delete;
-            
-            
+
+
             /**
              * \brief make query to get object if not in cache
              *
@@ -77,7 +77,7 @@ namespace orm
             /**
              * \brief Print the cache content
              **/
-            void __print__();
+            void debugPrint();
 
             /**
              * \brief clear the entire cash

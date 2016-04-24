@@ -18,15 +18,15 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__(const DB& db) const final;
+            virtual void debugPrint(const DB& db) const final;
 
         private:
             const std::string column; ///< Colum to apply filter
             const std::string ope; ///< operator to use. \see DB::operators
             const T value; ///< Store the value of the filter to compare with
-            
+
             virtual VFilter* clone() const;
-            
+
            /**
             * \brief set the value in the filter in the query
             *

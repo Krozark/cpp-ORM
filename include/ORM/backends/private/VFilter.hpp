@@ -17,7 +17,7 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__(const DB& db) const = 0;
+            virtual void debugPrint(const DB& db) const = 0;
 
             virtual ~VFilter();
 

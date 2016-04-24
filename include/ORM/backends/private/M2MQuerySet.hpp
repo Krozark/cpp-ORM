@@ -118,7 +118,7 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            void __print__() const;
+            void debugPrint() const;
 
 
         private:

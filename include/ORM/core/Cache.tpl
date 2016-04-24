@@ -86,7 +86,7 @@ namespace orm
 
 
     template<typename T>
-    void Cache<T>::__print__()
+    void Cache<T>::debugPrint()
     {
         #ifdef ORM_USE_CACHE
         for(auto& i : map)

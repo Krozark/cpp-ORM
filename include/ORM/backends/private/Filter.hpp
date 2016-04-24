@@ -36,7 +36,7 @@ namespace orm
             /**
              * \brief Print the content of the filter for debug help
              **/
-            virtual void __print__(const DB& db) const final;
+            virtual void debugPrint(const DB& db) const final;
 
         protected:
             const std::string column; ///< Colum to apply filter

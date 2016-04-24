@@ -6,7 +6,7 @@ namespace orm
     template<typename T>
     QuerySet<T>::QuerySet(DB& db): limit_skip(0), limit_count(-1), db(db)
     {
-        
+
     }
 
     template<typename T>
@@ -120,7 +120,7 @@ namespace orm
     }
 
     template<typename T>
-    void QuerySet<T>::__print__() const
+    void QuerySet<T>::debugPrint() const
     {
         std::string q_str ="SELECT ";
         T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,db);
@@ -139,17 +139,17 @@ namespace orm
 
             std::cout<<q_str;
             q_str.clear();
-            begin->__print__(*T::default_connection);
+            begin->debugPrint(*T::default_connection);
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->__print__(*T::default_connection);
+                begin->debugPrint(*T::default_connection);
             }
 
             std::cout<<") ";
         }
-        
+
         int _size = order_by.size();
         if(_size >0)
         {
@@ -198,7 +198,7 @@ namespace orm
 
             q_str+=") ";
         }
-        
+
         int _size = order_by.size();
         if(_size >0)
         {
@@ -216,7 +216,7 @@ namespace orm
 
         if(limit_count > 0)
             q_str+= db.limit(limit_skip,limit_count);
-        
+
         Query* q = db.prepareQuery(q_str);
         if(filters_size > 0)
         {
@@ -231,7 +231,7 @@ namespace orm
                 ++index;
             }
         }
-        
+
         return q;
     }
 }
