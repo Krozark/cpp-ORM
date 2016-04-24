@@ -4,7 +4,7 @@ namespace orm
 {
     //special date type
     template<>
-    tm __filter_value_helper<tm>(const tm& value)
+    tm filter_value_helper_2<tm>(const tm& value)
     {
         tm tmp;
         ::memcpy(&tmp,&value,sizeof(tm));
@@ -17,7 +17,7 @@ namespace orm
 
     //special date type
     template<>
-    tm __filter_clone_helper<tm>(const tm& value)
+    tm filter_clone_helper_2<tm>(const tm& value)
     {
         tm tmp;
         ::memcpy(&tmp,&value,sizeof(tm));

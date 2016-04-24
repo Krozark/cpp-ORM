@@ -8,21 +8,21 @@ namespace orm
 {
     //default do nothing
     template<typename T>
-    T __filter_value_helper(const T& value)
+    T filter_value_helper_2(const T& value)
     {
         return value;
     };
 
     //special date type
     template<>
-    tm __filter_value_helper<tm>(const tm& value);
+    tm filter_value_helper_2<tm>(const tm& value);
 
     template<typename RELATED,typename T>
     template<typename ... Args>
     Filter<RELATED,T>::Filter(const T& val,const std::string& ope,const std::string& column,Args&& ... args) :
         column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)),
         ope(ope),
-        value(__filter_value_helper(val))
+        value(filter_value_helper_2(val))
     {
     };
 
@@ -58,19 +58,19 @@ namespace orm
 
     //default do nothing
     template<typename T>
-    T __filter_clone_helper(const T& value)
+    T filter_clone_helper_2(const T& value)
     {
         return value;
     }
 
     //special date type
     template<>
-    tm __filter_clone_helper<tm>(const tm& value);
+    tm filter_clone_helper_2<tm>(const tm& value);
 
     template<typename RELATED,typename T>
     VFilter* Filter<RELATED,T>::clone() const
     {
-        return new Filter<RELATED,T>(__filter_clone_helper(value),ope,column);
+        return new Filter<RELATED,T>(filter_clone_helper_2(value),ope,column);
     };
 
     template<typename RELATED,typename T>
