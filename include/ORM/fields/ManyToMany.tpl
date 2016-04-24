@@ -37,11 +37,11 @@ namespace orm
     {
         U::nameAttrs(q_str,ORM_MAKE_NAME(related),max_depth,db);
     }
-    
+
     template<typename T,typename U>
     void ManyToMany<T,U>::nameTables(std::string& q_str,int max_depth,DB& db)
     {
-        q_str+= db.escapeColumn(table)+" AS "+db.escapeColumn(table);
+        q_str+= db._escapeColumn(table)+" AS "+db._escapeColumn(table);
         makeJoin(q_str,max_depth,db);
     }
 
@@ -53,12 +53,12 @@ namespace orm
         q_str+=
             "\nLEFT JOIN "+T::table+" AS "+table_alias_T
             +" ON ("
-            +db.escapeColumn(table)+"."+db.escapeColumn(ORM_MAKE_NAME(owner))
-            +" = "+db.escapeColumn(table_alias_T)+"."+db.escapeColumn(T::ORM_MAKE_NAME(pk))
+            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(owner))
+            +" = "+db._escapeColumn(table_alias_T)+"."+db._escapeColumn(T::ORM_MAKE_NAME(pk))
             +")\nLEFT JOIN "+U::table+" AS "+ORM_MAKE_NAME(related)
             +" ON ("
-            +db.escapeColumn(table)+"."+db.escapeColumn(ORM_MAKE_NAME(linked))
-            +" = "+db.escapeColumn(ORM_MAKE_NAME(related))+"."+db.escapeColumn(U::ORM_MAKE_NAME(pk))
+            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(linked))
+            +" = "+db._escapeColumn(ORM_MAKE_NAME(related))+"."+db._escapeColumn(U::ORM_MAKE_NAME(pk))
             +")";
 
         U::makeJoin(q_str,ORM_MAKE_NAME(related),max_depth,db);
@@ -77,23 +77,23 @@ namespace orm
             ORM_PRINT_ERROR("The object must be save to be add in a M2M")
             return false;
         }
-        std::string q_str = "INSERT INTO "+db.escapeColumn(table)
+        std::string q_str = "INSERT INTO "+db._escapeColumn(table)
             +"("+ORM_MAKE_NAME(owner)+","+ORM_MAKE_NAME(linked)+") VALUES ((?),(?));";
         std::unique_ptr<Query> q(db.prepareQuery(q_str));
-        q->set(owner.pk,db.getInitialSetcolumnNumber());
-        q->set(obj->pk,db.getInitialSetcolumnNumber()+1);
+        q->_set(owner.pk,db._getInitialSetcolumnNumber());
+        q->_set(obj->pk,db._getInitialSetcolumnNumber()+1);
         #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<BLEU<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj->pk<<")"<<BLANC<<std::endl;
         #endif
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         #ifdef ORM_USE_CACHE
             _adds = true;
             _cache.emplace_back(obj);
         #endif
         return true;
     }
-    
+
     /*template<typename T,typename U>
     bool ManyToMany<T,U>::add(const U& obj,DB& db)
     {
@@ -111,23 +111,23 @@ namespace orm
         if(obj.pk<=0 or owner.pk <=0)
             return;
 
-        const std::string table_escaped = db.escapeColumn(table);
-        
+        const std::string table_escaped = db._escapeColumn(table);
+
         std::string q_str = "DELETE FROM "+table_escaped+" WHERE ("
-            +table_escaped+"."+db.escapeColumn(ORM_MAKE_NAME(owner))+" = (?)"
+            +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(owner))+" = (?)"
             +" AND "
-            +table_escaped+"."+db.escapeColumn(ORM_MAKE_NAME(linked))+" = (?))";
+            +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(linked))+" = (?))";
 
         Query& q = *db.prepareQuery(q_str);
-        q.set(owner.pk,db.getInitialSetcolumnNumber());
-        q.set(obj.pk,db.getInitialSetcolumnNumber()+1);
+        q._set(owner.pk,db._getInitialSetcolumnNumber());
+        q._set(obj.pk,db._getInitialSetcolumnNumber()+1);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;
         #endif
-        
-        q.execute();
-        q.next();
+
+        q._execute();
+        q._next();
         delete &q;
 
     };
@@ -138,7 +138,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
         std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
         #endif
-        
+
         static std::vector<const VAttr*> column_attrs = {
             new FK<T,false>(ORM_MAKE_NAME(owner)),
             new FK<U,false>(ORM_MAKE_NAME(linked))

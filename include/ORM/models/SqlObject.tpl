@@ -27,7 +27,7 @@ namespace orm
             delete res;
             res = nullptr;
         }
-	    return SqlObject<T>::pointer(res);	
+	    return SqlObject<T>::pointer(res);
     };
 
     template<typename T>
@@ -49,15 +49,15 @@ namespace orm
         nameTables(q_str,"",max_depth,db);
 
         q_str+=" \nWHERE ("
-        +db.escapeColumn(table)+"."
-        +db.escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))
+        +db._escapeColumn(table)+"."
+        +db._escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))
         +" = "+std::to_string(id)
         +") ";
 
         std::unique_ptr<Query> q(db.query(q_str));
 
         T* res = new T();
-        if(not q->getObj(*res,max_depth))
+        if(not q->_getObj(*res,max_depth))
         {
             #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
             std::cerr<<ROUGE<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<BLANC<<std::endl;
@@ -106,7 +106,7 @@ namespace orm
         {
 
             before_save();
-            res = db.save(table,pk,attrs);
+            res = db._save(table,pk,attrs);
             if(res)
             {
                 pointer ptr = this->as_pointer();
@@ -117,7 +117,7 @@ namespace orm
         else
         {
             before_update();
-            res= db.update(table,pk,attrs);
+            res= db._update(table,pk,attrs);
             if(res)
                 after_update();
         }
@@ -128,7 +128,7 @@ namespace orm
     bool SqlObject<T>::del(bool recursive,DB& db)
     {
         bool res =true;
-        if(db.del(table,pk))
+        if(db._del(table,pk))
         {
             cache.del(pk);
             pk = -1;
@@ -195,7 +195,7 @@ namespace orm
     template<typename T>
     void SqlObject<T>::nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)
     {
-        q_str+= db.escapeColumn(prefix)+"."+db.escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))+" AS "+JOIN_ALIAS(prefix,SqlObjectBase::ORM_MAKE_NAME(pk));
+        q_str+= db._escapeColumn(prefix)+"."+db._escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))+" AS "+JOIN_ALIAS(prefix,SqlObjectBase::ORM_MAKE_NAME(pk));
 
         const int size = column_attrs.size();
 
@@ -209,7 +209,7 @@ namespace orm
     void SqlObject<T>::nameTables(std::string& q_str,const std::string& prefix,int max_depth,DB& db)
     {
         const std::string table_alias = MAKE_PREFIX(prefix,table);
-        const std::string escaped_table_alias = db.escapeColumn(table_alias);
+        const std::string escaped_table_alias = db._escapeColumn(table_alias);
 
         q_str+=escaped_table_alias+" AS "+escaped_table_alias;
 
@@ -233,8 +233,8 @@ namespace orm
 
             q_str+= "\nLEFT JOIN "+object.getTable()+" AS "+table_alias
                 +" ON ("
-                +db.escapeColumn(prefix)+"."+db.escapeColumn(col)
-                +" = "+db.escapeColumn(table_alias)+"."+db.escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))
+                +db._escapeColumn(prefix)+"."+db._escapeColumn(col)
+                +" = "+db._escapeColumn(table_alias)+"."+db._escapeColumn(SqlObjectBase::ORM_MAKE_NAME(pk))
                 +")";
 
             if(max_depth>=0)

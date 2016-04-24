@@ -79,7 +79,7 @@ namespace orm
 
     bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
     {
-        int prefix=query.db.getInitialGetcolumnNumber() -1;
+        int prefix=query._db._getInitialGetcolumnNumber() -1;
         return loadFromDB(query,prefix,max_depth);
     };
 
@@ -92,7 +92,7 @@ namespace orm
         std::cerr<<MAGENTA<<"[ATTR] get attr("<<prefix<<") : id"<<BLANC<<std::endl;
         #endif
 
-        bool res = query.get(pk,prefix); //id
+        bool res = query._get(pk,prefix); //id
 
 
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR

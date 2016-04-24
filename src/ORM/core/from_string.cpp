@@ -137,7 +137,7 @@ namespace orm
     template <>
     bool from_string<tm>(const std::string& str, tm& value)
     {
-        std::string format ("%d/%d/%d %d:%d:%d");
+        std::string format ("%4d-%2d-%2d %2d:%2d:%2d");
 
         int day = 0;
         int month = 0;

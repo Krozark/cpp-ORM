@@ -65,8 +65,8 @@ namespace orm
     typename Cache<T>::pointer Cache<T>::getOrCreate(const Query& query,int max_depth)
     {
         int pk = -1;
-        int index = query.db.getInitialGetcolumnNumber();
-        query.get(pk,index);
+        int index = query._db._getInitialGetcolumnNumber();
+        query._get(pk,index);
 
         #ifdef ORM_USE_CACHE
         const auto& res= map.find(pk);

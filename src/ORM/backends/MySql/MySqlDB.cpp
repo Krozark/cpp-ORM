@@ -13,32 +13,32 @@ int _counter = 0;
 
 namespace orm
 {
-    MySqlTableCreator MySqlDB::my_creator;
+    MySqlTableCreator MySqlDB::_creator;
 
     MySqlDB::MySqlDB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,int port) :
         DB(username,pass,db,serveur,port),
-        dbConn(nullptr)
+        _dbConn(nullptr)
     {
         //Operators
-        operators[op::exact]= " = %s";
-        operators[op::iexact]= " LIKE %s";
-        operators[op::contains]= " LIKE BINARY %s";
-        operators[op::icontains]= " LIKE %s";
-        operators[op::regex]= " REGEXP BINARY %s";
-        operators[op::iregex]= " REGEXP %s";
-        operators[op::gt]= " > %s";
-        operators[op::gte]= " >= %s";
-        operators[op::lt]= " < %s";
-        operators[op::lte]= " <= %s";
-        operators[op::startswith]= " LIKE BINARY %s";
-        operators[op::endswith]= " LIKE BINARY %s";
-        operators[op::istartswith]= " LIKE %s";
-        operators[op::iendswith]= " LIKE %s";
+        _operators[op::exact]= " = %s";
+        _operators[op::iexact]= " LIKE %s";
+        _operators[op::contains]= " LIKE BINARY %s";
+        _operators[op::icontains]= " LIKE %s";
+        _operators[op::regex]= " REGEXP BINARY %s";
+        _operators[op::iregex]= " REGEXP %s";
+        _operators[op::gt]= " > %s";
+        _operators[op::gte]= " >= %s";
+        _operators[op::lt]= " < %s";
+        _operators[op::lte]= " <= %s";
+        _operators[op::startswith]= " LIKE BINARY %s";
+        _operators[op::endswith]= " LIKE BINARY %s";
+        _operators[op::istartswith]= " LIKE %s";
+        _operators[op::iendswith]= " LIKE %s";
 
         //ordering
-        operators["?"] = " RAND() ";
-        operators["+"] = " ASC ";
-        operators["-"] = " DESC ";
+        _operators["?"] = " RAND() ";
+        _operators["+"] = " ASC ";
+        _operators["-"] = " DESC ";
 
         {
             std::lock_guard<std::mutex> guard(_counterMutex);
@@ -70,23 +70,23 @@ namespace orm
 
     DB* MySqlDB::clone()const
     {
-        MySqlDB* copy = new MySqlDB(this->s_username,this->s_password,this->s_db_name,this->s_serveur,this->_port);
+        MySqlDB* copy = new MySqlDB(this->_username,this->_password,this->_dbName,this->_serveur,this->_port);
         return copy;
     }
-    
+
     bool MySqlDB::connect()
     {
-        dbConn = mysql_init(nullptr);
-        if(dbConn == nullptr)
+        _dbConn = mysql_init(nullptr);
+        if(_dbConn == nullptr)
         {
-            std::cerr << "Could not get a database driver. Error message: "<< mysql_error(dbConn) <<std::endl;
+            std::cerr << "Could not get a database driver. Error message: "<< mysql_error(_dbConn) <<std::endl;
             return false;
         }
 
-        if(mysql_real_connect(dbConn, s_serveur.c_str(),s_username.c_str(),s_password.c_str(),
-                              s_db_name.c_str(), _port, nullptr /* socket*/, 0 /*flags*/) == nullptr)
+        if(mysql_real_connect(_dbConn, _serveur.c_str(),_username.c_str(),_password.c_str(),
+                              _dbName.c_str(), _port, nullptr /* socket*/, 0 /*flags*/) == nullptr)
         {
-            std::cerr<< "Could not connect to database. Error message: " <<  mysql_error(dbConn)  << std::endl;
+            std::cerr<< "Could not connect to database. Error message: " <<  mysql_error(_dbConn)  << std::endl;
             disconnect();
             return false;
         }
@@ -97,10 +97,10 @@ namespace orm
     bool MySqlDB::disconnect()
     {
         bool res = false;
-        if(dbConn)
+        if(_dbConn)
         {
-            mysql_close(dbConn);
-            dbConn = nullptr;
+            mysql_close(_dbConn);
+            _dbConn = nullptr;
             res = true;
         }
         return res;
@@ -119,7 +119,7 @@ namespace orm
     Query* MySqlDB::query(const std::string& str)
     {
         auto q = new MySqlQuery(*this,str);
-        q->prepared = false;
+        q->_prepared = false;
         return q;
     };
 
@@ -132,7 +132,7 @@ namespace orm
     Query* MySqlDB::prepareQuery(const std::string& str)
     {
         auto q = new MySqlQuery(*this,str);
-        q->prepared = true;
+        q->_prepared = true;
 
         return q;
     };
@@ -144,7 +144,7 @@ namespace orm
 
     bool MySqlDB::create(const std::string& table,const std::vector<const VAttr*>& attrs)
     {
-        std::string sql = "CREATE TABLE "+escapeColumn(table)+"(\n";
+        std::string sql = "CREATE TABLE "+_escapeColumn(table)+"(\n";
         unsigned int size = attrs.size();
         sql+= creator().autoField("pk");
 
@@ -156,8 +156,8 @@ namespace orm
         sql+="\n)";
 
         Query* q = this->query(sql);
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete q;
 
         return true;
@@ -165,11 +165,11 @@ namespace orm
 
     bool MySqlDB::drop(const std::string& table)
     {
-        std::string sql = "DROP TABLE "+escapeColumn(table);
+        std::string sql = "DROP TABLE "+_escapeColumn(table);
 
         Query* q = this->query(sql);
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete q;
 
         return true;
@@ -178,31 +178,31 @@ namespace orm
     bool MySqlDB::clear(const std::string& table)
     {
 
-        std::string sql = "TRUNCATE "+escapeColumn(table);
+        std::string sql = "TRUNCATE "+_escapeColumn(table);
 
         Query* q = this->query(sql);
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete q;
 
         return true;
     }
 
     /************** PROTECTED **********************/
-    
+
     void MySqlDB::beginTransaction()
     {
         Query* q = this->query("START TRANSACTION");
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete q;
     };
 
     void MySqlDB::endTransaction()
     {
         Query* q = this->query("COMMIT");
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete q;
 
     };
@@ -210,42 +210,42 @@ namespace orm
     void MySqlDB::rollback()
     {
         Query* q = this->query("ROLLBACK");
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete q;
     };
 
-    int MySqlDB::getLastInsertPk()
+    int MySqlDB::_getLastInsertPk()
     {
         Query& q = *query("SELECT LAST_INSERT_ID()");
 
-        q.execute();
-        q.next();
+        q._execute();
+        q._next();
 
         int pk = -1;
-        q.get(pk,getInitialGetcolumnNumber());
+        q._get(pk,_getInitialGetcolumnNumber());
 
         delete &q;
 
         return pk;
     }
 
-    std::string MySqlDB::escapeColumn(const std::string& str) const
+    std::string MySqlDB::_escapeColumn(const std::string& str) const
     {
         return "`"+str+"`";
     }
 
-    int MySqlDB::getInitialGetcolumnNumber() const
+    int MySqlDB::_getInitialGetcolumnNumber() const
     {
         return 0;
     }
 
-    int MySqlDB::getInitialSetcolumnNumber() const
+    int MySqlDB::_getInitialSetcolumnNumber() const
     {
         return 0;
     }
 
-    std::string MySqlDB::limit(const int& skip,const int& count)const
+    std::string MySqlDB::_limit(const int& skip,const int& count)const
     {
         std::string query;
         if(skip > 0 and count > 0)
@@ -256,10 +256,10 @@ namespace orm
             std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
         return query;
     };
-    
+
     const TableCreator& MySqlDB::creator() const
     {
-        return my_creator;
+        return _creator;
     }
-    
+
 };

@@ -71,11 +71,11 @@ namespace orm
         }
         else if( order == '-')
         {
-            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" ASC");
         }
         return *this;
     }
@@ -89,11 +89,11 @@ namespace orm
         }
         else if( order == '-')
         {
-            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::makecolumname(*T::default_connection,T::table,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" ASC");
         }
         return *this;
     }
@@ -122,7 +122,7 @@ namespace orm
         }
 
         Query* q = _makeQuery(max_depth);
-        bool res = q->getObj(obj,max_depth);
+        bool res = q->_getObj(obj,max_depth);
         delete q;
         return res;
     }
@@ -131,7 +131,7 @@ namespace orm
     int QuerySet<T>::get(typename QuerySet<T>::pointer_array& objs,int max_depth)
     {
         Query* q = _makeQuery(max_depth);
-        int res = q->getObj(objs,max_depth);
+        int res = q->_getObj(objs,max_depth);
         delete q;
         return res;
     }
@@ -183,7 +183,7 @@ namespace orm
         }
         if(_limitCount > 0)
         {
-            std::cout<<_db.limit(_limitSkip,_limitCount);
+            std::cout<<_db._limit(_limitSkip,_limitCount);
         }
         std::cout<<std::endl;
     };
@@ -235,7 +235,7 @@ namespace orm
 
         if(_limitCount > 0)
         {
-            q_str+= _db.limit(_limitSkip,_limitCount);
+            q_str+= _db._limit(_limitSkip,_limitCount);
         }
 
         Query* q = _db.prepareQuery(q_str);
@@ -243,7 +243,7 @@ namespace orm
         {
             auto begin = _filters.begin();
             const auto& end = _filters.end();
-            unsigned int index = _db.getInitialSetcolumnNumber();
+            unsigned int index = _db._getInitialSetcolumnNumber();
             while(begin != end)
             {
 

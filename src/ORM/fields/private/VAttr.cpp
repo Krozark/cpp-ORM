@@ -2,7 +2,7 @@
 #include <ORM/models/SqlObjectBase.hpp>
 #include <ORM/backends/DB.hpp>
 
-namespace orm 
+namespace orm
 {
     VAttr::VAttr(const std::string& col) : modify(false), column(col)
     {
@@ -20,7 +20,7 @@ namespace orm
     {
         return column;
     }
-    
+
     void VAttr::registerAttr(SqlObjectBase& object)
     {
         object.attrs.emplace_back(this);
@@ -36,7 +36,7 @@ namespace orm
 
     std::string VAttr::makeName(DB& db, const std::string& prefix,int max_depth) const
     {
-        return ", "+db.escapeColumn(prefix)+"."+db.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
+        return ", "+db._escapeColumn(prefix)+"."+db._escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
     }
 
 };

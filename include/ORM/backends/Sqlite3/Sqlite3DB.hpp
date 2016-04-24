@@ -27,7 +27,7 @@ namespace orm
              * \brief Destructor
              **/
             ~Sqlite3DB();
-            
+
             Sqlite3DB(const Sqlite3DB&) = delete;
             Sqlite3DB& operator=(const Sqlite3DB&) = delete;
 
@@ -49,7 +49,7 @@ namespace orm
             * \return false if fail
             **/
             virtual bool disconnect() override;
-            
+
             /**
              * \brief Must be call in a thread
              */
@@ -118,7 +118,7 @@ namespace orm
              * \param attrs the attrubuts list
              */
             virtual bool create(const std::string& table,const std::vector<const VAttr*>& attrs) override;
-            
+
             /**
              * \brief drop a table
              */
@@ -143,7 +143,7 @@ namespace orm
             *
             * \return The pk
             **/
-            virtual int getLastInsertPk() override;
+            virtual int _getLastInsertPk() override;
 
             /**
             * \brief Escape the String with "`"
@@ -154,32 +154,32 @@ namespace orm
             *
             * \see escapeValue
             **/
-            virtual std::string escapeColumn(const std::string&) const override;
+            virtual std::string _escapeColumn(const std::string&) const override;
 
             /**
              * \return Return the initial column number for extract values (0 or 1)
              */
-            int virtual getInitialGetcolumnNumber() const override;
+            int virtual _getInitialGetcolumnNumber() const override;
 
-            int virtual getInitialSetcolumnNumber() const override;
+            int virtual _getInitialSetcolumnNumber() const override;
 
             /**
              * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
              *
-             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql 
+             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql
              *
              * \param skip Number of object to skip
              * \param count Maximum number of object to return
              *
              * \return *this
              **/
-            virtual std::string limit(const int& skip,const int& count) const override;
+            virtual std::string _limit(const int& skip,const int& count) const override;
 
 
         private:
-            sqlite3 * dbConn; ///< Create a pointer to a database connection object
+            sqlite3 * _dbConn; ///< Create a pointer to a database connection object
 
-            static Sqlite3TableCreator my_creator;
+            static Sqlite3TableCreator _creator;
     };
 };
 #endif

@@ -31,7 +31,7 @@ namespace orm
     bool Attr<T>::get(const Query& query,int& prefix,int max_depth)
     {
         prepared = false;
-        return query.get(_value,prefix);
+        return query._get(_value,prefix);
     };
 
     template<typename T>
@@ -48,10 +48,10 @@ namespace orm
         if(prepared)//_value is for local
         {
             T tmp = prepare_to_db(_value);
-            res = query.set(tmp,column);
+            res = query._set(tmp,column);
         }
         else
-            res = query.set(_value,column);
+            res = query._set(_value,column);
         return res;
     };
 

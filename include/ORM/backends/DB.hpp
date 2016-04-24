@@ -15,7 +15,7 @@ namespace orm
     class TableCreator;
 
     /**
-     * \brief Abstract class to deal with any database 
+     * \brief Abstract class to deal with any database
      **/
     class DB
     {
@@ -45,7 +45,7 @@ namespace orm
              * \brief Make an explicit copy of the connection
              */
             virtual DB* clone()const = 0;
-                
+
             /**
             * \brief Create the connection with the database
             *
@@ -165,7 +165,7 @@ namespace orm
             void setServer(const std::string&);
 
             void setPort(unsigned int);
-            
+
 
 
         protected:
@@ -183,10 +183,10 @@ namespace orm
             template<typename T,typename U> friend class M2MQuerySet;
 
             /* Info for connection */
-            std::string s_username; ///< Username use for the connection
-            std::string s_password; ///< Username password use for the connection
-            std::string s_db_name; ///< Database  name use for the connection
-            std::string s_serveur; ///< Ip of tfe serveur to make the connection
+            std::string _username; ///< Username use for the connection
+            std::string _password; ///< Username password use for the connection
+            std::string _dbName; ///< Database  name use for the connection
+            std::string _serveur; ///< Ip of tfe serveur to make the connection
             int _port; ///< Port to use for the connection
 
             /**
@@ -194,7 +194,7 @@ namespace orm
             *
             * Operators : \see op
             **/
-            std::unordered_map<std::string,std::string> operators;
+            std::unordered_map<std::string,std::string> _operators;
 
 
             /**
@@ -202,7 +202,7 @@ namespace orm
             *
             * \return The pk
             **/
-            virtual int getLastInsertPk() = 0;
+            virtual int _getLastInsertPk() = 0;
 
             /**
             * \brief Save a object in the database
@@ -215,7 +215,7 @@ namespace orm
             *
             * \see update
             **/
-            bool save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs);
+            bool _save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs);
 
             /**
             * \brief Update calum value of a object
@@ -228,7 +228,7 @@ namespace orm
             *
             * \see save
             **/
-            bool update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
+            bool _update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs);
 
             /**
             * \brief Delete the object
@@ -239,7 +239,7 @@ namespace orm
             * \return false if fail
             *
             **/
-            bool del(const std::string& table,const int& pk);
+            bool _del(const std::string& table,const int& pk);
 
             /**
             * \brief Escape the String
@@ -250,7 +250,7 @@ namespace orm
             *
             * \see escapeValue
             **/
-            virtual std::string escapeColumn(const std::string& column) const;
+            virtual std::string _escapeColumn(const std::string& column) const;
 
             /**
             * \brief format the operation for the database
@@ -263,7 +263,7 @@ namespace orm
             * \see operators
             **/
             template<typename T>
-            T formatValue(const std::string& ope,T value) const;
+            T _formatValue(const std::string& ope,T value) const;
 
             /**
             * \brief format the operation for the database
@@ -274,26 +274,26 @@ namespace orm
             *
             * \see operators
             **/
-            std::string formatPreparedValue(const std::string& ope) const;
+            std::string _formatPreparedValue(const std::string& ope) const;
 
             /**
              * \return Return the initial column number for extract values (0 or 1)
              */
-            int virtual getInitialGetcolumnNumber() const = 0;
+            int virtual _getInitialGetcolumnNumber() const = 0;
 
-            int virtual getInitialSetcolumnNumber() const = 0;
+            int virtual _getInitialSetcolumnNumber() const = 0;
 
             /**
              * \brief Because limit syntaxe is not the same in all DBMS we need to define it for each one
              *
-             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql 
+             * Note : limit(<skip>,<count>) is translante to : "LIMIT [<skip>,]<count>" or "LIMIT <count> [offset <skip>]" for Mysql, Sqlite, Postresql
              *
              * \param skip Number of object to skip
              * \param count Maximum number of object to return
              *
              * \return *this
              **/
-            virtual std::string limit(const int& skip,const int& count) const = 0;
+            virtual std::string _limit(const int& skip,const int& count) const = 0;
 
             /**
              * \brief Merge column name to build the alias
@@ -305,7 +305,7 @@ namespace orm
              * \return the complet alias
              **/
             template<typename ... Args>
-            static std::string makecolumname(DB& db,const std::string& prefix,const std::string& column,Args&& ... args);
+            static std::string _makecolumname(DB& db,const std::string& prefix,const std::string& column,Args&& ... args);
 
             /**
              * \brief Do nothing
@@ -314,7 +314,7 @@ namespace orm
              *
              * \return column
              **/
-            static std::string makecolumname(DB& db,const std::string& prefix,const std::string& column);
+            static std::string _makecolumname(DB& db,const std::string& prefix,const std::string& column);
 
 
     };

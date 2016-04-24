@@ -170,17 +170,21 @@ namespace orm
         if(value_ptr.get())
         {
             if(fk<=0)
+            {
                 fk = value_ptr->pk;
+            }
             if(fk>0)
-                return query.set(fk,column);
+            {
+                return query._set(fk,column);
+            }
         }
-        return query.setNull(fk,column);
+        return query._setNull(fk,column);
     };
 
     template<typename T>
     bool FKBase<T>::get(const Query& query,int& prefix,int max_depth)
     {
-        bool res = query.getPk(fk,prefix);
+        bool res = query._getPk(fk,prefix);
 
         if(--max_depth>=0)
         {
@@ -190,6 +194,7 @@ namespace orm
                 if(test())
                 {
                     value_ptr->T::loadFromDB(query,prefix,max_depth);
+
                     if(T::cache.add(value_ptr) != value_ptr)
                     {
                         std::cerr<<ROUGE<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<BLANC<<std::endl;
@@ -239,7 +244,7 @@ namespace orm
     template<typename T>
     std::string FKBase<T>::makeName(DB& db, const std::string& prefix,int max_depth) const
     {
-        std::string q_str(",\n "+db.escapeColumn(prefix)+"."+db.escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column));
+        std::string q_str(",\n "+db._escapeColumn(prefix)+"."+db._escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column));
 
         if(--max_depth <0)
             return q_str;

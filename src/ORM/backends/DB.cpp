@@ -10,10 +10,10 @@
 namespace orm
 {
 
-    DB::DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,int port) : s_username(username),
-        s_password(pass),
-        s_db_name(db),
-        s_serveur(serveur),
+    DB::DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,int port) : _username(username),
+        _password(pass),
+        _dbName(db),
+        _serveur(serveur),
         _port(port)
     {
     };
@@ -25,8 +25,8 @@ namespace orm
     bool DB::operator==(const DB& other) const
     {
         return (
-                (s_db_name == other.s_db_name)
-                and (s_serveur == other.s_serveur)
+                (_dbName == other._dbName)
+                and (_serveur == other._serveur)
                 and (_port == other._port)
                 //and (s_username == other.s_username)
                 //and (s_password === other.s_password)
@@ -34,22 +34,22 @@ namespace orm
     }
     void DB::setUser(const std::string& user)
     {
-        s_username = user;
+        _username = user;
     }
 
     void DB::setPassword(const std::string& pass)
     {
-        s_password = pass;
+        _password = pass;
     }
 
     void DB::setDb(const std::string& db)
     {
-        s_db_name = db;
+        _dbName = db;
     }
 
     void DB::setServer(const std::string& server)
     {
-        s_serveur = server;
+        _serveur = server;
     }
 
     void DB::setPort(unsigned int port)
@@ -57,20 +57,24 @@ namespace orm
         _port = port;
     }
 
-    bool DB::save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
+    bool DB::_save(const std::string& table,int& pk,const std::vector<VAttr*>& attrs)
     {
         const unsigned int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "INSERT INTO "+escapeColumn(table)+"("+attrs[0]->column;
+            std::string str_q = "INSERT INTO "+_escapeColumn(table)+"("+attrs[0]->column;
 
             for(unsigned int i=1;i<size;++i)
+            {
                 str_q+=","+attrs[i]->column;
+            }
             str_q+=") ";
 
             str_q+="VALUES ((?)";
             for(unsigned int i=1;i<size;++i)
+            {
                 str_q+=",(?)";
+            }
             str_q+=");";
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
@@ -87,7 +91,7 @@ namespace orm
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
-                attrs[i]->set(q,i+getInitialSetcolumnNumber());
+                attrs[i]->set(q,i+_getInitialSetcolumnNumber());
                 attrs[i]->modify = false;
                 //post save
                 attrs[i]->after_save();
@@ -96,11 +100,11 @@ namespace orm
             std::cerr<<")"<<std::endl;
             #endif
 
-            q.execute();
-            q.next();
+            q._execute();
+            q._next();
             delete &q;
 
-            pk = getLastInsertPk();
+            pk = _getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<JAUNE<<"new PK: "<<pk<<" in table "<<table<<BLANC<<std::endl;
             #endif
@@ -111,12 +115,12 @@ namespace orm
         return false;
     };
 
-    bool DB::update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs)
+    bool DB::_update(const std::string& table,const int& pk,const std::vector<VAttr*>& attrs)
     {
         const unsigned int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "UPDATE "+escapeColumn(table)+" SET ";
+            std::string str_q = "UPDATE "+_escapeColumn(table)+" SET ";
 
             bool first(true);
             for(unsigned int i=0;i<size;++i)
@@ -127,14 +131,16 @@ namespace orm
                 if(attrs[i]->modify)
                 {
                     if(not first)
+                    {
                         str_q+=", ";
+                    }
                     first = false;
                     str_q+=attrs[i]->column+"=(?)";
 
                 }
             }
 
-            str_q+=" WHERE "+escapeColumn(table)+"."+escapeColumn("pk")+" = "+std::to_string(pk)+";"; ///< \todo column.id
+            str_q+=" WHERE "+_escapeColumn(table)+"."+_escapeColumn("pk")+" = "+std::to_string(pk)+";"; ///< \todo column.id
 
 
             if(first) //NO MAJ NEDEED
@@ -152,7 +158,7 @@ namespace orm
 
             Query& q = *prepareQuery(str_q);
 
-            int index=getInitialSetcolumnNumber();
+            int index=_getInitialSetcolumnNumber();
             for(unsigned int i=0;i<size;++i)
             {
                 if(attrs[i]->modify)
@@ -170,31 +176,31 @@ namespace orm
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")"<<BLANC<<std::endl;
             #endif
-            q.execute();
-            q.next();
+            q._execute();
+            q._next();
             delete &q;
 
         }
         return true;
     };
 
-    bool DB::del(const std::string& table,const int& pk)
+    bool DB::_del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+escapeColumn(table)+" WHERE ("+escapeColumn(table)+"."+escapeColumn("pk")+" = "+std::to_string(pk)+");";
+        std::string str_q = "DELETE FROM "+_escapeColumn(table)+" WHERE ("+_escapeColumn(table)+"."+_escapeColumn("pk")+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<COMMENTAIRE<<"[Sql:delete]"<<str_q<<BLANC<<std::endl;
         #endif
 
         Query* q = prepareQuery(str_q);
-        q->execute();
-        q->next();
+        q->_execute();
+        q->_next();
         delete  q;
 
         return true;
     };
 
-    std::string DB::escapeColumn(const std::string& str) const
+    std::string DB::_escapeColumn(const std::string& str) const
     {
         return "'"+str+"'";
     }
@@ -210,7 +216,7 @@ namespace orm
     }
 
     template<>
-    std::string DB::formatValue(const std::string& filter,std::string value) const
+    std::string DB::_formatValue(const std::string& filter,std::string value) const
     {
         if(filter == "contains")
         {
@@ -240,9 +246,9 @@ namespace orm
         return value;
     }
 
-    std::string DB::formatPreparedValue(const std::string& filter) const
+    std::string DB::_formatPreparedValue(const std::string& filter) const
     {
-        const std::string& op = operators.at(filter);
+        const std::string& op = _operators.at(filter);
         std::unique_ptr<char>buffer (new char[op.size() + 3]);
         sprintf(buffer.get(),op.c_str(),"(?)");
 
@@ -250,9 +256,9 @@ namespace orm
     }
 
 
-    std::string DB::makecolumname(DB& db,const std::string& prefix,const std::string& column)
+    std::string DB::_makecolumname(DB& db,const std::string& prefix,const std::string& column)
     {
-        return db.escapeColumn(prefix)+"."+db.escapeColumn(column);
+        return db._escapeColumn(prefix)+"."+db._escapeColumn(column);
     }
 }
 //orm::DB* orm::DB::Default = 0;

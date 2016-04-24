@@ -20,7 +20,7 @@ namespace orm
     template<typename RELATED,typename T>
     template<typename ... Args>
     Filter<RELATED,T>::Filter(const T& val,const std::string& ope,const std::string& column,Args&& ... args) :
-        _column(DB::makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)),
+        _column(DB::_makecolumname(*RELATED::default_connection,RELATED::table,column,std::forward<Args>(args)...)),
         _ope(ope),
         _value(filter_value_helper_2(val))
     {
@@ -43,7 +43,7 @@ namespace orm
     template<typename RELATED,typename T>
     void Filter<RELATED,T>::debugPrint(const DB& db) const
     {
-        const std::string& op = db.operators.at(_ope);
+        const std::string& op = db._operators.at(_ope);
 
         std::string v;
         {
@@ -79,9 +79,10 @@ namespace orm
     template<typename RELATED,typename T>
     bool Filter<RELATED,T>::_set(Query* query,unsigned int& column) const
     {
-        auto v = query->db.formatValue(_ope,_value);
+        auto v = query->_db._formatValue(_ope,_value);
 
-        bool res = query->set(v,column);
+        bool res = query->_set(v,column);
+
         #if ORM_DEBUG & ORM_DEBUG_SQL
         if (not res)
         {
@@ -95,6 +96,6 @@ namespace orm
     template<typename RELATED,typename T>
     void Filter<RELATED,T>::_toQuery(std::string& query,DB& db) const
     {
-        query += _column + db.formatPreparedValue(_ope);
+        query += _column + db._formatPreparedValue(_ope);
     }
 }

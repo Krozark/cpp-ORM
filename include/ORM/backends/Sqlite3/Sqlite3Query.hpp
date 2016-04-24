@@ -15,14 +15,6 @@ namespace orm
     class Sqlite3Query : public Query
     {
         protected:
-            
-            /**
-             * \brief Create a query
-             *
-             * \param db database where the query will be execute
-             * \param query Query string to execute
-             **/
-            Sqlite3Query(DB& db,const std::string& query);
 
             /**
              * \brief Create a query
@@ -30,11 +22,19 @@ namespace orm
              * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Sqlite3Query(DB& db,std::string&& query);
+            Sqlite3Query(DB& _db,const std::string& _query);
+
+            /**
+             * \brief Create a query
+             *
+             * \param db database where the query will be execute
+             * \param query Query string to execute
+             **/
+            Sqlite3Query(DB& _db,std::string&& _query);
 
             Sqlite3Query(const Sqlite3Query&) = delete;
             Sqlite3Query& operator=(const Sqlite3Query&) = delete;
-            
+
             /**
              * \brief Destructor
              **/
@@ -45,27 +45,27 @@ namespace orm
              *
              * \return  The number of objects
              **/
-            virtual int count()const;
-            
-            /**
-             * \brief Get a value of a column, and store it 
-             *
-             * \param colun The column to extract
-             * \param value Wher the value will be stored
-             *
-             * \return false if fail
-             **/
-            virtual bool get(bool& value,const int& column)const;
+            virtual int _count()const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(int& value,const int& column)const;
+            virtual bool _get(bool& value,const int& column)const override;
+
+            /**
+             * \brief Get a value of a column, and store it
+             *
+             * \param colun The column to extract
+             * \param value Wher the value will be stored
+             *
+             * \return false if fail
+             **/
+            virtual bool _get(int& value,const int& column)const override;
 
             /**
              * \brief Get a value of a PK/FK collumn, and stor it
@@ -75,95 +75,95 @@ namespace orm
              *
              * \return false if fail or column is null
              */
-            virtual bool getPk(int& value, const int& column)const;
+            virtual bool _getPk(int& value, const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(unsigned int& value,const int& column)const;
+            virtual bool _get(unsigned int& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long int& value,const int& column)const;
+            virtual bool _get(long long int& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long long unsigned int& value,const int& column)const;
+            virtual bool _get(long long unsigned int& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(float& value,const int& column)const;
+            virtual bool _get(float& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(double& value,const int& column)const;
+            virtual bool _get(double& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(long double& value,const int& column)const;
+            virtual bool _get(long double& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Wher the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(std::string& value,const int& column)const;
+            virtual bool _get(std::string& value,const int& column)const override;
 
             /**
-             * \brief Get a value of a column, and store it 
+             * \brief Get a value of a column, and store it
              *
              * \param colun The column to extract
              * \param value Where the value will be stored
              *
              * \return false if fail
              **/
-            virtual bool get(tm& value,const int& column)const;
-            
-        
+            virtual bool _get(tm& value,const int& column)const override;
+
+
             /**
              * \brief Whene the query have been execute, for loop in results
              *
-             * \results fals if fail 
+             * \results fals if fail
              **/
-            virtual bool next();
+            virtual bool _next() override;
 
             /* for prepared query */
             /**
@@ -174,7 +174,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const bool& value,const unsigned int& column);
+            virtual bool _set(const bool& value,const unsigned int& column) override;
 
             /**
              * \brief For prepared query only, set the column value
@@ -184,7 +184,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const int& value,const unsigned int& column);
+            virtual bool _set(const int& value,const unsigned int& column) override;
 
             /**
              * \brief For prepared query only, set the column value
@@ -194,7 +194,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const unsigned int& value,const unsigned int& column);
+            virtual bool _set(const unsigned int& value,const unsigned int& column) override;
 
             /**
              * \brief For prepared query only, set the column value
@@ -204,7 +204,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const long long int& value,const unsigned int& column);
+            virtual bool _set(const long long int& value,const unsigned int& column) override;
 
             /**
              * \brief For prepared query only, set the column value
@@ -214,17 +214,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const long long unsigned int& value,const unsigned int& column);
-            
-            /**
-             * \brief For prepared query only, set the column value
-             *
-             * \param value The value to set
-             * \param column The column number to set
-             *
-             * \results false if fail
-             **/
-            virtual bool set(const float& value,const unsigned int& column);
+            virtual bool _set(const long long unsigned int& value,const unsigned int& column) override;
 
             /**
              * \brief For prepared query only, set the column value
@@ -234,20 +224,9 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const double& value,const unsigned int& column);
-            
-            /**
-             * \brief For prepared query only, set the column value
-             *
-             * \param value The value to set
-             * \param column The column number to set
-             *
-             * \results false if fail
-             **/
-            virtual bool set(const long double& value,const unsigned int& column);
+            virtual bool _set(const float& value,const unsigned int& column)override;
 
             /**
-             *
              * \brief For prepared query only, set the column value
              *
              * \param value The value to set
@@ -255,7 +234,17 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const std::string& value,const unsigned int& column);
+            virtual bool _set(const double& value,const unsigned int& column) override;
+
+            /**
+             * \brief For prepared query only, set the column value
+             *
+             * \param value The value to set
+             * \param column The column number to set
+             *
+             * \results false if fail
+             **/
+            virtual bool _set(const long double& value,const unsigned int& column) override;
 
             /**
              *
@@ -266,8 +255,19 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const tm& value, const unsigned int& column);
-            
+            virtual bool _set(const std::string& value,const unsigned int& column) override;
+
+            /**
+             *
+             * \brief For prepared query only, set the column value
+             *
+             * \param value The value to set
+             * \param column The column number to set
+             *
+             * \results false if fail
+             **/
+            virtual bool _set(const tm& value, const unsigned int& column)override;
+
             /**
              * \brief For prepared query only, set the column value to null
              *
@@ -276,20 +276,20 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool setNull(const int& value,const unsigned int& column);
+            virtual bool _setNull(const int& value,const unsigned int& column) override;
 
             /**
             * \brief Execute a query
             *
             * \return false if faild
             * */
-            virtual void executeQuery();
+            virtual void _executeQuery() override;
 
 
         private:
             friend class Sqlite3DB;
 
-            sqlite3_stmt *statement; ///< Hold the  statement
+            sqlite3_stmt *_statement; ///< Hold the  statement
     };
 };
 
@@ -310,7 +310,7 @@ sqlite3_int64 sqlite3_column_int64(sqlite3_stmt*, int iCol);
 const unsigned char *sqlite3_column_text(sqlite3_stmt*, int iCol);
 const void *sqlite3_column_text16(sqlite3_stmt*, int iCol);
 int sqlite3_column_type(sqlite3_stmt*, int iCol); // returned value is one of [SQLITE_INTEGER],
-** [SQLITE_FLOAT], [SQLITE_TEXT], [SQLITE_BLOB], or [SQLITE_NULL].  
+** [SQLITE_FLOAT], [SQLITE_TEXT], [SQLITE_BLOB], or [SQLITE_NULL].
 
 //1 statement
 //2 index : 1-> x

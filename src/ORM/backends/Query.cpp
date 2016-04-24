@@ -5,31 +5,44 @@
 
 namespace orm
 {
-    Query::Query(DB& b,const std::string& q) :prepared(false), query(q), db(b), executed(false)
+    Query::Query(DB& b,const std::string& q) :
+        _prepared(false),
+        _query(q),
+        _db(b),
+        _executed(false)
     {
     };
 
-    Query::Query(DB& b,std::string&& q) : prepared(false), db(b), executed(false)
+    Query::Query(DB& b,std::string&& q) :
+        _prepared(false),
+        _db(b),
+        _executed(false)
     {
-        std::swap(q,query);
+        std::swap(q,_query);
     };
 
     Query::~Query()
     {
     }
 
-    void Query::execute()
+    void Query::_execute()
     {
         #if (ORM_DEBUG & ORM_DEBUG_SQL)
         std::cerr<<VERT<<"[Sql] Query::execute()"<<query<<BLANC<<std::endl;
         #endif
-        
-        executed = true;
+
+        _executed = true;
         /*if(not prepared)
         {
             query+=";";
         }*/
-        executeQuery();
+        _executeQuery();
     };
+
+    std::ostream& operator<<(std::ostream& output,const Query* self)
+    {
+        output<<self->_query;
+        return output;
+    }
 
 };

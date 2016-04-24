@@ -42,7 +42,7 @@ namespace orm
              * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Query(DB& db,const std::string& query);
+            Query(DB& db,const std::string& _query);
 
             /**
              * \brief Create a query
@@ -50,7 +50,7 @@ namespace orm
              * \param db database where the query will be execute
              * \param query Query string to execute
              **/
-            Query(DB& db,std::string&& query);
+            Query(DB& db,std::string&& _query);
 
             Query(const Query&) = delete;
             Query& operator=(const Query&) = delete;
@@ -61,7 +61,7 @@ namespace orm
              *
              * \return  The number of objects
              **/
-            virtual int count()const = 0;
+            virtual int _count()const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -71,7 +71,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(bool& value,const int& column)const = 0;
+            virtual bool _get(bool& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -81,7 +81,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(int& value,const int& column)const = 0;
+            virtual bool _get(int& value,const int& column)const = 0;
 
 
             /**
@@ -92,7 +92,7 @@ namespace orm
              *
              * \return false if fail or column is null
              */
-            virtual bool getPk(int& value, const int& column)const=0;
+            virtual bool _getPk(int& value, const int& column)const=0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -102,7 +102,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(unsigned int& value,const int& column)const = 0;
+            virtual bool _get(unsigned int& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -112,7 +112,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(long long int& value,const int& column)const = 0;
+            virtual bool _get(long long int& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -122,7 +122,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(long long unsigned int& value,const int& column)const = 0;
+            virtual bool _get(long long unsigned int& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -132,7 +132,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(float& value,const int& column)const = 0;
+            virtual bool _get(float& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -142,7 +142,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(double& value,const int& column)const = 0;
+            virtual bool _get(double& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -152,7 +152,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(long double& value,const int& column)const = 0;
+            virtual bool _get(long double& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -162,7 +162,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(std::string& value,const int& column)const = 0;
+            virtual bool _get(std::string& value,const int& column)const = 0;
 
             /**
              * \brief Get a value of a column, and store it
@@ -172,7 +172,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(tm& value,const int& column)const=0;
+            virtual bool _get(tm& value,const int& column)const=0;
 
 
             /**
@@ -184,7 +184,7 @@ namespace orm
              * \return the number of object created
              **/
             template<typename T>
-            int getObj(T& obj,int max_depth);
+            int _getObj(T& obj,int max_depth);
 
             /**
              * \brief Construct objects from the query. T must be a SqlObject
@@ -195,23 +195,19 @@ namespace orm
              * \return the number of object created
              **/
             template<typename T>
-            int getObj(std::vector<std::shared_ptr<T>>& objs,int max_depth);
+            int _getObj(std::vector<std::shared_ptr<T>>& objs,int max_depth);
 
             /**
              * \brief Print the content of the query for debug help
              **/
-            friend std::ostream& operator<<(std::ostream& output,const Query* self)
-            {
-                output<<self->query;
-                return output;
-            };
+            friend std::ostream& operator<<(std::ostream& output,const Query* self);
 
             /**
              * \brief Whene the query have been execute, for loop in results
              *
              * \results fals if fail
              **/
-            virtual bool next() = 0;
+            virtual bool _next() = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -221,7 +217,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const bool& value,const unsigned int& column) = 0;
+            virtual bool _set(const bool& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -231,7 +227,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const int& value,const unsigned int& column) = 0;
+            virtual bool _set(const int& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -241,7 +237,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const unsigned int& value,const unsigned int& column) = 0;
+            virtual bool _set(const unsigned int& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -251,7 +247,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const long long int& value,const unsigned int& column) = 0;
+            virtual bool _set(const long long int& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -261,7 +257,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const long long unsigned int& value,const unsigned int& column) = 0;
+            virtual bool _set(const long long unsigned int& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -271,7 +267,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const float& value,const unsigned int& column) = 0;
+            virtual bool _set(const float& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -281,7 +277,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const double& value,const unsigned int& column) = 0;
+            virtual bool _set(const double& value,const unsigned int& column) = 0;
 
             /**
              * \brief For prepared query only, set the column value
@@ -291,18 +287,7 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const long double& value,const unsigned int& column) = 0;
-
-            /**
-             *
-             * \brief For prepared query only, set the column value
-             *
-             * \param value The value to set
-             * \param column The column number to set
-             *
-             * \results false if fail
-             **/
-            virtual bool set(const std::string& value,const unsigned int& column) = 0;
+            virtual bool _set(const long double& value,const unsigned int& column) = 0;
 
             /**
              *
@@ -313,7 +298,18 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool set(const tm& value, const unsigned int& column)=0;
+            virtual bool _set(const std::string& value,const unsigned int& column) = 0;
+
+            /**
+             *
+             * \brief For prepared query only, set the column value
+             *
+             * \param value The value to set
+             * \param column The column number to set
+             *
+             * \results false if fail
+             **/
+            virtual bool _set(const tm& value, const unsigned int& column)=0;
 
             /**
              * \brief For prepared query only, set the column value to null
@@ -323,16 +319,16 @@ namespace orm
              *
              * \results false if fail
              **/
-            virtual bool setNull(const int& value,const unsigned int& column) = 0;
+            virtual bool _setNull(const int& value,const unsigned int& column) = 0;
 
             /**
              * \brief Allow subclass to custom the execute function by adding code
              **/
-            virtual void executeQuery() = 0;
+            virtual void _executeQuery() = 0;
 
-            bool prepared; ///< is the query is a prepared one?
-            std::string query; ///<query as string
-            DB& db; ///< database where the query will be executed
+            bool _prepared; ///< is the query is a prepared one?
+            std::string _query; ///<query as string
+            DB& _db; ///< database where the query will be executed
 
 
         private:
@@ -341,9 +337,9 @@ namespace orm
              *
              * \return false if fail
              **/
-            void execute();
+            void _execute();
 
-            bool executed; ///< is the query already executed?
+            bool _executed; ///< is the query already executed?
     };
 };
 #include <ORM/backends/Query.tpl>

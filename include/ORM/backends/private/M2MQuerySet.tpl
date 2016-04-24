@@ -49,11 +49,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
         }
         return *this;
     }
@@ -63,11 +63,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
         }
         return *this;
     }
@@ -93,7 +93,7 @@ namespace orm
     int M2MQuerySet<OWNER,RELATED>::get(typename RELATED::pointer_array& objs,int max_depth)
     {
         Query* q = _makeQuery(max_depth);
-        int res = q->getObj(objs,max_depth);
+        int res = q->_getObj(objs,max_depth);
         delete q;
         return res;
     }
@@ -143,7 +143,7 @@ namespace orm
 
         if(_limitCount > 0)
         {
-            std::cout<<_db.limit(_limitSkip,_limitCount);
+            std::cout<<_db._limit(_limitSkip,_limitCount);
         }
     };
 
@@ -191,7 +191,7 @@ namespace orm
 
         if(_limitCount > 0)
         {
-            q_str+= _db.limit(_limitSkip,_limitCount);
+            q_str+= _db._limit(_limitSkip,_limitCount);
         }
 
         Query* q = _db.prepareQuery(q_str);
@@ -200,7 +200,7 @@ namespace orm
         {
             auto begin = _filters.begin();
             const auto& end = _filters.end();
-            unsigned int index = _db.getInitialSetcolumnNumber();
+            unsigned int index = _db._getInitialSetcolumnNumber();
             while(begin != end)
             {
 
