@@ -137,17 +137,27 @@ namespace orm
     template <>
     bool from_string<tm>(const std::string& str, tm& value)
     {
-        std::locale loc;
-        auto& tmget = std::use_facet <std::time_get<char> > (loc);
+        std::string format ("%d/%d/%d %d:%d:%d");
 
-        std::ios::iostate state;
-        std::stringstream iss;
-        iss<<str;
-        std::string format ("%d/%m/%Y %H:%M:%S");
+        int day = 0;
+        int month = 0;
+        int year = 0;
+        int hour = 0;
+        int min = 0;
+        int sec = 0;
 
-        tmget.get(iss, std::time_get<char>::iter_type(), iss, state, &value,
-                 format.data(), format.data()+format.length() );
+        if(sscanf(str.c_str(),format.c_str(),&day,&month,&year,&hour,&min,&sec) != 6)
+        {
+            return false;
+        }
 
-        return (state & std::ios_base::goodbit) || (state & std::ios_base::eofbit);
+        value.tm_mday = day;
+        value.tm_mon = month;
+        value.tm_year = year;
+        value.tm_hour = hour;
+        value.tm_min = min;
+        value.tm_sec = sec;
+
+        return true;
     }
 }

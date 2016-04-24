@@ -76,7 +76,8 @@ if(COMPILER_NAME STREQUAL "msvc")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
 else()
-	add_definitions("-g -std=c++11")
+	add_definitions("-g")
+    set(CMAKE_CXX_FLAGS "-std=c++11")
 endif()
 
 
