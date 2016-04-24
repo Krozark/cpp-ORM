@@ -40,97 +40,95 @@
 #define ORM_MAKE_NAME_HELPER(name)  column_##name
 #define ORM_MAKE_NAME(name)  ORM_MAKE_NAME_HELPER(name)
 
-#define _MAKE_NAME_VALUE(klass,value)  value
+#define ORM_MAKE_NAME_VALUE(klass,value)  value
 
 /**
  * \brief make string initialisation for attrs
  **/
-#define _MAKE_STRING_0(klass)                 ;
-#define _MAKE_STRING_2(klass,name,value)      const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value);
-#define _MAKE_STRING_4(klass,name,value,...)  const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_2(klass,__VA_ARGS__))
-#define _MAKE_STRING_6(klass,name,value,...)  const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_4(klass,__VA_ARGS__))
-#define _MAKE_STRING_8(klass,name,value,...)  const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_6(klass,__VA_ARGS__))
-#define _MAKE_STRING_10(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_8(klass,__VA_ARGS__))
-#define _MAKE_STRING_12(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_10(klass,__VA_ARGS__))
-#define _MAKE_STRING_14(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_12(klass,__VA_ARGS__))
-#define _MAKE_STRING_16(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_14(klass,__VA_ARGS__))
-#define _MAKE_STRING_18(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_16(klass,__VA_ARGS__))
-#define _MAKE_STRING_20(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_18(klass,__VA_ARGS__))
-#define _MAKE_STRING_22(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_20(klass,__VA_ARGS__))
-#define _MAKE_STRING_24(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_22(klass,__VA_ARGS__))
-#define _MAKE_STRING_26(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_24(klass,__VA_ARGS__))
-#define _MAKE_STRING_28(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_26(klass,__VA_ARGS__))
-#define _MAKE_STRING_30(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_28(klass,__VA_ARGS__))
-#define _MAKE_STRING_32(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_30(klass,__VA_ARGS__))
-#define _MAKE_STRING_34(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_32(klass,__VA_ARGS__))
-#define _MAKE_STRING_36(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_34(klass,__VA_ARGS__))
-#define _MAKE_STRING_38(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_36(klass,__VA_ARGS__))
-#define _MAKE_STRING_40(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_38(klass,__VA_ARGS__))
-#define _MAKE_STRING_42(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_40(klass,__VA_ARGS__))
-#define _MAKE_STRING_44(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_42(klass,__VA_ARGS__))
-#define _MAKE_STRING_46(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_44(klass,__VA_ARGS__))
-#define _MAKE_STRING_48(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_46(klass,__VA_ARGS__))
-#define _MAKE_STRING_50(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_48(klass,__VA_ARGS__))
-#define _MAKE_STRING_52(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_50(klass,__VA_ARGS__))
-#define _MAKE_STRING_54(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_52(klass,__VA_ARGS__))
-#define _MAKE_STRING_56(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_54(klass,__VA_ARGS__))
-#define _MAKE_STRING_58(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_56(klass,__VA_ARGS__))
-#define _MAKE_STRING_60(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_58(klass,__VA_ARGS__))
-#define _MAKE_STRING_62(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_60(klass,__VA_ARGS__))
-#define _MAKE_STRING_64(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = _MAKE_NAME_VALUE(klass,value); ORM_EXPAND(_MAKE_STRING_62(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_0(klass)                 ;
+#define ORM_MAKE_STRING_2(klass,name,value)      const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value);
+#define ORM_MAKE_STRING_4(klass,name,value,...)  const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_2(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_6(klass,name,value,...)  const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_4(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_8(klass,name,value,...)  const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_6(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_10(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_8(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_12(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_10(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_14(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_12(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_16(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_14(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_18(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_16(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_20(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_18(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_22(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_20(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_24(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_22(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_26(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_24(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_28(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_26(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_30(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_28(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_32(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_30(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_34(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_32(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_36(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_34(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_38(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_36(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_40(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_38(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_42(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_40(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_44(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_42(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_46(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_44(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_48(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_46(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_50(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_48(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_52(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_50(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_54(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_52(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_56(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_54(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_58(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_56(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_60(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_58(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_62(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_60(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_64(klass,name,value,...) const std::string klass::ORM_MAKE_NAME(name) = ORM_MAKE_NAME_VALUE(klass,value); ORM_EXPAND(ORM_MAKE_STRING_62(klass,__VA_ARGS__))
 /**
  * \brief init call
  **/
-#define _MAKE_STRING_N1(klass,N,...) ORM_EXPAND(_MAKE_STRING_##N(klass,__VA_ARGS__))
-#define _MAKE_STRING_N(klass,N,...) _MAKE_STRING_N1(klass,N,__VA_ARGS__)
+#define ORM_MAKE_STRING_N1(klass,N,...) ORM_EXPAND(ORM_MAKE_STRING_##N(klass,__VA_ARGS__))
+#define ORM_MAKE_STRING_N(klass,N,...) ORM_MAKE_STRING_N1(klass,N,__VA_ARGS__)
 
 /**
  * \brief make static const std::string param_name
  **/
 
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
 
-#define _MAKE_STATIC_COLUMN_0            ;
-#define _MAKE_STATIC_COLUMN_1(name)      static const std::string ORM_MAKE_NAME(name);
-#define _MAKE_STATIC_COLUMN_2(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_1(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_3(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_2(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_4(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_3(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_5(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_4(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_6(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_5(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_7(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_6(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_8(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_7(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_9(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_8(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_10(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_9(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_11(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_10(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_12(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_11(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_13(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_12(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_14(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_13(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_15(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_14(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_16(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_15(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_17(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_16(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_18(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_17(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_19(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_18(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_20(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_19(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_21(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_20(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_22(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_21(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_23(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_22(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_24(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_23(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_25(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_24(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_26(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_25(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_27(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_26(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_28(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_27(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_29(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_28(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_30(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_30(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_31(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_31(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN_32(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(_MAKE_STATIC_COLUMN_32(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_0            ;
+#define ORM_ORM_MAKE_STATIC_COLUMN_1(name)      static const std::string ORM_MAKE_NAME(name);
+#define ORM_ORM_MAKE_STATIC_COLUMN_2(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_1(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_3(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_2(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_4(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_3(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_5(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_4(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_6(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_5(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_7(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_6(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_8(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_7(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_9(name,...)  static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_8(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_10(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_9(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_11(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_10(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_12(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_11(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_13(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_12(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_14(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_13(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_15(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_14(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_16(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_15(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_17(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_16(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_18(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_17(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_19(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_18(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_20(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_19(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_21(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_20(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_22(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_21(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_23(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_22(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_24(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_23(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_25(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_24(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_26(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_25(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_27(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_26(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_28(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_27(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_29(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_28(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_30(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_30(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_31(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_31(__VA_ARGS__))
+#define ORM_ORM_MAKE_STATIC_COLUMN_32(name,...) static const std::string ORM_MAKE_NAME(name); ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_32(__VA_ARGS__))
 /**
  * \brief init call
  **/
-#define _MAKE_STATIC_COLUMN_N1(N,...) ORM_EXPAND(_MAKE_STATIC_COLUMN_##N(__VA_ARGS__))
-#define _MAKE_STATIC_COLUMN(N,...) _MAKE_STATIC_COLUMN_N1(N,__VA_ARGS__)
+#define ORM_ORM_MAKE_STATIC_COLUMN_N1(N,...) ORM_EXPAND(ORM_ORM_MAKE_STATIC_COLUMN_##N(__VA_ARGS__))
+#define _ORM_MAKE_STATIC_COLUMN(N,...) ORM_ORM_MAKE_STATIC_COLUMN_N1(N,__VA_ARGS__)
 
-#define MAKE_STATIC_COLUMN(...) _MAKE_STATIC_COLUMN(ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
+#define ORM_MAKE_STATIC_COLUMN(...) _ORM_MAKE_STATIC_COLUMN(ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
 
 
 /********************************
@@ -140,90 +138,90 @@
 /**
  * \brief call Attr constructor
  **/
-#define _MAKE_ATTR_0()
-#define _MAKE_ATTR_2(name,value)      name(ORM_MAKE_NAME(name))
-#define _MAKE_ATTR_4(name,value,...)  name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_2(__VA_ARGS__))
-#define _MAKE_ATTR_6(name,value,...)  name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_4(__VA_ARGS__))
-#define _MAKE_ATTR_8(name,value,...)  name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_6(__VA_ARGS__))
-#define _MAKE_ATTR_10(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_8(__VA_ARGS__))
-#define _MAKE_ATTR_12(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_10(__VA_ARGS__))
-#define _MAKE_ATTR_14(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_12(__VA_ARGS__))
-#define _MAKE_ATTR_16(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_14(__VA_ARGS__))
-#define _MAKE_ATTR_18(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_16(__VA_ARGS__))
-#define _MAKE_ATTR_20(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_18(__VA_ARGS__))
-#define _MAKE_ATTR_22(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_20(__VA_ARGS__))
-#define _MAKE_ATTR_24(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_22(__VA_ARGS__))
-#define _MAKE_ATTR_26(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_24(__VA_ARGS__))
-#define _MAKE_ATTR_28(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_26(__VA_ARGS__))
-#define _MAKE_ATTR_30(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_28(__VA_ARGS__))
-#define _MAKE_ATTR_32(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_30(__VA_ARGS__))
-#define _MAKE_ATTR_34(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_32(__VA_ARGS__))
-#define _MAKE_ATTR_36(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_34(__VA_ARGS__))
-#define _MAKE_ATTR_38(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_36(__VA_ARGS__))
-#define _MAKE_ATTR_40(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_38(__VA_ARGS__))
-#define _MAKE_ATTR_42(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_40(__VA_ARGS__))
-#define _MAKE_ATTR_44(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_42(__VA_ARGS__))
-#define _MAKE_ATTR_46(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_44(__VA_ARGS__))
-#define _MAKE_ATTR_48(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_46(__VA_ARGS__))
-#define _MAKE_ATTR_50(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_48(__VA_ARGS__))
-#define _MAKE_ATTR_52(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_50(__VA_ARGS__))
-#define _MAKE_ATTR_54(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_52(__VA_ARGS__))
-#define _MAKE_ATTR_56(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_54(__VA_ARGS__))
-#define _MAKE_ATTR_58(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_56(__VA_ARGS__))
-#define _MAKE_ATTR_60(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_58(__VA_ARGS__))
-#define _MAKE_ATTR_62(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_60(__VA_ARGS__))
-#define _MAKE_ATTR_64(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(_MAKE_ATTR_62(__VA_ARGS__))
+#define ORM_MAKE_ATTR_0()
+#define ORM_MAKE_ATTR_2(name,value)      name(ORM_MAKE_NAME(name))
+#define ORM_MAKE_ATTR_4(name,value,...)  name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_2(__VA_ARGS__))
+#define ORM_MAKE_ATTR_6(name,value,...)  name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_4(__VA_ARGS__))
+#define ORM_MAKE_ATTR_8(name,value,...)  name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_6(__VA_ARGS__))
+#define ORM_MAKE_ATTR_10(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_8(__VA_ARGS__))
+#define ORM_MAKE_ATTR_12(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_10(__VA_ARGS__))
+#define ORM_MAKE_ATTR_14(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_12(__VA_ARGS__))
+#define ORM_MAKE_ATTR_16(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_14(__VA_ARGS__))
+#define ORM_MAKE_ATTR_18(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_16(__VA_ARGS__))
+#define ORM_MAKE_ATTR_20(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_18(__VA_ARGS__))
+#define ORM_MAKE_ATTR_22(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_20(__VA_ARGS__))
+#define ORM_MAKE_ATTR_24(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_22(__VA_ARGS__))
+#define ORM_MAKE_ATTR_26(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_24(__VA_ARGS__))
+#define ORM_MAKE_ATTR_28(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_26(__VA_ARGS__))
+#define ORM_MAKE_ATTR_30(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_28(__VA_ARGS__))
+#define ORM_MAKE_ATTR_32(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_30(__VA_ARGS__))
+#define ORM_MAKE_ATTR_34(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_32(__VA_ARGS__))
+#define ORM_MAKE_ATTR_36(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_34(__VA_ARGS__))
+#define ORM_MAKE_ATTR_38(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_36(__VA_ARGS__))
+#define ORM_MAKE_ATTR_40(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_38(__VA_ARGS__))
+#define ORM_MAKE_ATTR_42(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_40(__VA_ARGS__))
+#define ORM_MAKE_ATTR_44(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_42(__VA_ARGS__))
+#define ORM_MAKE_ATTR_46(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_44(__VA_ARGS__))
+#define ORM_MAKE_ATTR_48(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_46(__VA_ARGS__))
+#define ORM_MAKE_ATTR_50(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_48(__VA_ARGS__))
+#define ORM_MAKE_ATTR_52(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_50(__VA_ARGS__))
+#define ORM_MAKE_ATTR_54(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_52(__VA_ARGS__))
+#define ORM_MAKE_ATTR_56(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_54(__VA_ARGS__))
+#define ORM_MAKE_ATTR_58(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_56(__VA_ARGS__))
+#define ORM_MAKE_ATTR_60(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_58(__VA_ARGS__))
+#define ORM_MAKE_ATTR_62(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_60(__VA_ARGS__))
+#define ORM_MAKE_ATTR_64(name,value,...) name(ORM_MAKE_NAME(name)), ORM_EXPAND(ORM_MAKE_ATTR_62(__VA_ARGS__))
 /**
  * \brief init call
  **/
-#define _MAKE_ATTRS_N1(N,...) ORM_EXPAND(_MAKE_ATTR_##N(__VA_ARGS__))
-#define _MAKE_ATTRS_N(N,...) _MAKE_ATTRS_N1(N,__VA_ARGS__)
+#define ORMORM_MAKE_ATTRS_N1(N,...) ORM_EXPAND(ORM_MAKE_ATTR_##N(__VA_ARGS__))
+#define ORM_MAKE_ATTRS_N(N,...) ORMORM_MAKE_ATTRS_N1(N,__VA_ARGS__)
 
 /**
  * \brief regsiter ATTR
  **/
-#define _MAKE_REGISTER_ATTR_0(klass)                 ;
-#define _MAKE_REGISTER_ATTR_2(klass,name,value)      this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this));
-#define _MAKE_REGISTER_ATTR_4(klass,name,value,...)  this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_2(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_6(klass,name,value,...)  this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_4(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_8(klass,name,value,...)  this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_6(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_10(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_8(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_12(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_10(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_14(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_12(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_16(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_14(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_18(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_16(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_20(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_18(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_22(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_20(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_24(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_22(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_26(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_24(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_28(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_26(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_30(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_28(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_32(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_30(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_34(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_32(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_36(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_34(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_38(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_36(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_40(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_38(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_42(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_40(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_44(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_42(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_46(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_44(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_48(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_46(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_50(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_48(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_52(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_50(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_54(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_52(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_56(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_54(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_58(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_56(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_60(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_58(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_62(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_60(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTR_64(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(_MAKE_REGISTER_ATTR_62(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_0(klass)                 ;
+#define ORM_MAKE_REGISTER_ATTR_2(klass,name,value)      this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this));
+#define ORM_MAKE_REGISTER_ATTR_4(klass,name,value,...)  this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_2(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_6(klass,name,value,...)  this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_4(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_8(klass,name,value,...)  this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_6(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_10(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_8(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_12(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_10(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_14(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_12(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_16(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_14(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_18(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_16(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_20(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_18(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_22(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_20(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_24(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_22(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_26(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_24(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_28(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_26(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_30(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_28(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_32(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_30(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_34(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_32(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_36(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_34(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_38(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_36(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_40(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_38(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_42(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_40(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_44(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_42(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_46(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_44(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_48(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_46(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_50(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_48(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_52(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_50(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_54(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_52(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_56(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_54(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_58(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_56(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_60(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_58(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_62(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_60(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTR_64(klass,name,value,...) this->name.registerAttr(*static_cast<orm::SqlObject<klass>*>(this)); ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_62(klass,__VA_ARGS__))
 /**
  * \brief init call for register attr in constructors
  **/
-#define _MAKE_REGISTER_ATTRS_N1(klass,N,...) ORM_EXPAND(_MAKE_REGISTER_ATTR_##N(klass,__VA_ARGS__))
-#define _MAKE_REGISTER_ATTRS(klass,N,...) _MAKE_REGISTER_ATTRS_N1(klass,N,__VA_ARGS__)
+#define ORM_MAKE_REGISTER_ATTRS_N1(klass,N,...) ORM_EXPAND(ORM_MAKE_REGISTER_ATTR_##N(klass,__VA_ARGS__))
+#define ORM_MAKE_REGISTER_ATTRS(klass,N,...) ORM_MAKE_REGISTER_ATTRS_N1(klass,N,__VA_ARGS__)
 
 
 /**
- * \def REGISTER_TABLE(klass,column)
+ * \def ORM_REGISTER_TABLE(klass,column)
  * Register a table in the orm
  */
 
@@ -232,7 +230,7 @@
  * \param klass the class name
  * \param column the column name in the db
  */
-#define REGISTER_TABLE(klass,column) \
+#define ORM_REGISTER_TABLE(klass,column) \
     template<> const std::string orm::SqlObject<klass>::table = column;\
     template<> orm::DB* orm::SqlObject<klass>::default_connection = &orm::DB::Default;\
     template<> std::vector<const orm::VAttr*> orm::SqlObject<klass>::column_attrs = std::vector<const orm::VAttr*>();\
@@ -245,11 +243,11 @@
  * \param klass the class name
  * \param db the db to use by default
  */
-#define REGISTER_DB(klass,db) \
+#define ORM_REGISTER_DB(klass,db) \
     orm::SqlObject<klass>::default_connection = db;
 
 /**
- * \def REGISTER(klass,column,...)
+ * \def ORM_REGISTER(klass,column,...)
  * register all the attrs of the tables
  */
 
@@ -259,12 +257,12 @@
  * \param colum the table name in the db
  * \param ... is like this (attr name,attr column name)
  */
-#define REGISTER(klass,column,...)\
-    REGISTER_TABLE(klass,column)\
-    _MAKE_STRING_N(klass,ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
+#define ORM_REGISTER(klass,column,...)\
+    ORM_REGISTER_TABLE(klass,column)\
+    ORM_MAKE_STRING_N(klass,ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)
 
 /**
- * \def MAKE_CONSTRUCTOR(klass,...)
+ * \def ORM_MAKE_CONSTRUCTOR(klass,...)
  * make the default constructor
  */
 
@@ -273,14 +271,14 @@
  * \param klass the class name
  * \param ... is like this (attr name,attr colum name)
  */
-#define MAKE_CONSTRUCTOR(NAMESPACE,klass,...) \
-        NAMESPACE klass::klass(): _MAKE_ATTRS_N(ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
+#define ORM_MAKE_CONSTRUCTOR(NAMESPACE,klass,...) \
+        NAMESPACE klass::klass(): ORM_MAKE_ATTRS_N(ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         {\
-         _MAKE_REGISTER_ATTRS(klass,ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
+         ORM_MAKE_REGISTER_ATTRS(klass,ORM_NUM_ARGS(__VA_ARGS__),__VA_ARGS__)\
         }
 
 /**
- * \def REGISTER_AND_CONSTRUCT(klass,colum,...)
+ * \def ORM_REGISTER_AND_CONSTRUCT(klass,colum,...)
  * construct and register the class
  */
 
@@ -298,16 +296,16 @@ class Spell : public orm::SqlObject<Spell>
         orm::CharField<255> name;
         orm::IntegerField element;
 
-        MAKE_STATIC_COLUMN(name,element);
+        ORM_MAKE_STATIC_COLUMN(name,element);
 
 };
-REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
+ORM_REGISTER_AND_CONSTRUCT(Spell,"spell",name,"name",element,"element")
 
  * \endcode
  */
-#define REGISTER_AND_CONSTRUCT(klass,column,...) \
-        REGISTER(klass,column,__VA_ARGS__)\
-        MAKE_CONSTRUCTOR(::,klass,__VA_ARGS__)
+#define ORM_REGISTER_AND_CONSTRUCT(klass,column,...) \
+        ORM_REGISTER(klass,column,__VA_ARGS__)\
+        ORM_MAKE_CONSTRUCTOR(::,klass,__VA_ARGS__)
 
 /**
  * \brief construct and register the class
@@ -325,23 +323,23 @@ namespace a
         TestNamespace();
         orm::CharField<255> name;
 
-        MAKE_STATIC_COLUMN(name);
+        ORM_MAKE_STATIC_COLUMN(name);
 
     };
 }
-REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name") // out of namespace
+ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name") // out of namespace
 \endcode
 
  */
-#define REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(NAMESPACE,klass,column,...) \
-        REGISTER(NAMESPACE::klass,column,__VA_ARGS__)\
-        MAKE_CONSTRUCTOR(NAMESPACE::,klass,__VA_ARGS__)
+#define ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(NAMESPACE,klass,column,...) \
+        ORM_REGISTER(NAMESPACE::klass,column,__VA_ARGS__)\
+        ORM_MAKE_CONSTRUCTOR(NAMESPACE::,klass,__VA_ARGS__)
 
 /******************************************
  ********** for ManyToMany ****************
  *****************************************/
 
-#define M2M_REGISTER(klass,m2m,T_linked,table_name,owner_column,linked_column) \
+#define ORM_M2M_REGISTER(klass,m2m,T_linked,table_name,owner_column,linked_column) \
     template<> const std::string orm::ManyToMany<klass,T_linked>::table = table_name;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(owner) = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(linked) = linked_column;\

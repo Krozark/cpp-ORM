@@ -19,10 +19,10 @@ class Spell : public orm::SqlObject<Spell>
         orm::CharField<255> name;
         orm::IntegerField element;
 
-        MAKE_STATIC_COLUMN(name,element);
+        ORM_MAKE_STATIC_COLUMN(name,element);
 
 };
-REGISTER_AND_CONSTRUCT(Spell, "spell", name, "name", element, "element");
+ORM_REGISTER_AND_CONSTRUCT(Spell, "spell", name, "name", element, "element");
 
 
 class Stats : public orm::SqlObject<Stats>
@@ -32,9 +32,9 @@ class Stats : public orm::SqlObject<Stats>
         orm::IntegerField pv;
         orm::IntegerField pi;
 
-        MAKE_STATIC_COLUMN(pv,pi)
+        ORM_MAKE_STATIC_COLUMN(pv,pi)
 };
-REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi")
+ORM_REGISTER_AND_CONSTRUCT(Stats,"stats",pv,"pv",pi,"pi")
 
 
 class Perso : public orm::SqlObject<Perso>
@@ -49,10 +49,10 @@ class Perso : public orm::SqlObject<Perso>
 
         orm::ManyToMany<Perso,Spell> spells;
 
-        MAKE_STATIC_COLUMN(name,lvl,stats,stats2,maitre)
+        ORM_MAKE_STATIC_COLUMN(name,lvl,stats,stats2,maitre)
 };
-M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
-REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
+ORM_M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
+ORM_REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 Perso::Perso() :
     name(Perso::column_name),
     lvl(Perso::column_lvl),
@@ -89,7 +89,7 @@ class TestTypes : public orm::SqlObject<TestTypes>
     orm::UnsignedIntegerField   unsignedIntegerField;
 
 
-    MAKE_STATIC_COLUMN(\
+    ORM_MAKE_STATIC_COLUMN(\
                        fk,\
                        textField,\
                        charField,\
@@ -103,7 +103,7 @@ class TestTypes : public orm::SqlObject<TestTypes>
                        unsignedIntegerField\
                       )
 };
-REGISTER_AND_CONSTRUCT(TestTypes, "test_types", \
+ORM_REGISTER_AND_CONSTRUCT(TestTypes, "test_types", \
     fk, "fk", \
     textField, "textField", \
     charField, "charField", \
@@ -128,9 +128,9 @@ class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
 
         orm::BooleanField   b;
 
-        MAKE_STATIC_COLUMN(b)
+        ORM_MAKE_STATIC_COLUMN(b)
 };
-REGISTER(TestMergeHeritage,"TestMergeHeritage",b,"b");
+ORM_REGISTER(TestMergeHeritage,"TestMergeHeritage",b,"b");
 TestMergeHeritage::TestMergeHeritage() :
     b(TestMergeHeritage::column_b)
 {
@@ -146,11 +146,11 @@ namespace a
         TestNamespace();
         orm::CharField<255> name;
 
-        MAKE_STATIC_COLUMN(name);
+        ORM_MAKE_STATIC_COLUMN(name);
 
     };
 }
-REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name")
+ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"name")
 
 
 
@@ -479,7 +479,7 @@ int main(int argc,char* argv[])
     orm::Tables::create();
 
     test_Factory();
-    
+
     //test_Datetime();
 
     //test_TestTypes();

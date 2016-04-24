@@ -6,7 +6,7 @@
 namespace orm
 {
 
-    const std::string SqlObjectBase::ORM_MAKE_NAME(pk) = _MAKE_NAME_VALUE(SqlObjectBase, "pk");
+    const std::string SqlObjectBase::ORM_MAKE_NAME(pk) = ORM_MAKE_NAME_VALUE(SqlObjectBase, "pk");
 
     SqlObjectBase::SqlObjectBase() : pk(-1)
     {
@@ -76,13 +76,13 @@ namespace orm
 
     void SqlObjectBase::after_load(){};
 
-    
+
     bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
     {
         int prefix=query.db.getInitialGetcolumnNumber() -1;
         return loadFromDB(query,prefix,max_depth);
     };
-    
+
 
     bool SqlObjectBase::loadFromDB(const Query& query,int& prefix,int max_depth)
     {

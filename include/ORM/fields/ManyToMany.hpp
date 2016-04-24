@@ -36,7 +36,7 @@ namespace orm
             * \return all the objects T
             **/
             typename RELATED::pointer_array all(DB& db=*default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
-            
+
             /**
              * \brief add a object in the relation
              *
@@ -104,7 +104,7 @@ namespace orm
 
             const OWNER& owner; ///< owner of the m2m relation
 
-            MAKE_STATIC_COLUMN(owner,linked,related) ///< colum names of the tables
+            ORM_MAKE_STATIC_COLUMN(owner,linked,related) ///< colum names of the tables
 
             /**
             * \brief make the attrs columns alias

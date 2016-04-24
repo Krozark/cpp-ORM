@@ -45,12 +45,12 @@ namespace orm
     * \brief a class to manage customs sql objects
     * Note : T is your model
     *
-    * Usage : 
+    * Usage :
     * \code
     * class A : SqlObject<A>
-    * { 
+    * {
     * ...
-    * MAKE_STATIC_COLUMN(A,"table_name",...)
+    * ORM_MAKE_STATIC_COLUMN(A,"table_name",...)
     * };
     * \endcode
     **/
@@ -64,7 +64,7 @@ namespace orm
 
             SqlObject(const SqlObject&) = delete;
             SqlObject& operator=(const SqlObject&) = delete;
-            
+
             /**
             * \brief make a SqlObject
             **/
@@ -170,7 +170,7 @@ namespace orm
             const static std::string table; ///< the table name
             static Cache<T> cache; ///< the cache containing the objects
 
-            
+
             /**
              * \brief make the attrs columns alias
              *

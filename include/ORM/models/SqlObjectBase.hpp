@@ -104,7 +104,7 @@ namespace orm
             friend std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self);
 
 
-            MAKE_STATIC_COLUMN(pk);
+            ORM_MAKE_STATIC_COLUMN(pk);
 
             /**
             * \return the table name
@@ -166,7 +166,7 @@ namespace orm
              * \param  query The executed query row
              * \param max_depth the maximun depth of constrution
              *
-             * \return false if fail 
+             * \return false if fail
              **/
             virtual bool loadFromDB(const Query& query,int max_depth);
 
@@ -177,7 +177,7 @@ namespace orm
              * \param max_depth the maximun depth of constrution
              * \param prefix column number
              *
-             * \return false if fail 
+             * \return false if fail
              **/
             virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
 
