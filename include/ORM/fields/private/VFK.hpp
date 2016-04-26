@@ -102,6 +102,7 @@ namespace orm
             **/
             virtual const std::string& getTable() const = 0;
 
+            virtual std::string asString()const override;
 
         protected:
             template<typename T> friend class SqlObject;

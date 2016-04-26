@@ -2,6 +2,7 @@
 
 #include <ORM/core/from_string.hpp>
 #include <typeinfo>
+#include <sstream>
 
 namespace orm
 {
@@ -66,6 +67,14 @@ namespace orm
     std::ostream& Attr<T>::print_value(std::ostream& output)const
     {
         return (output<<'"'<<_value<<'"');
+    }
+
+    template<typename T>
+    std::string Attr<T>::asString()const
+    {
+        std::stringstream ss;
+        ss << _value;
+        return ss.str();
     }
 
     template<typename T>

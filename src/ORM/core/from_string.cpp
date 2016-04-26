@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <sstream>
-#include <locale>
+//#include <locale>
 
 namespace orm
 {
@@ -137,17 +137,41 @@ namespace orm
     template <>
     bool from_string<tm>(const std::string& str, tm& value)
     {
+        /*
         std::locale loc;
         auto& tmget = std::use_facet <std::time_get<char> > (loc);
 
         std::ios::iostate state;
         std::stringstream iss;
         iss<<str;
-        std::string format ("%d/%m/%Y %H:%M:%S");
+        std::string format ("%d-%m-%Y %H:%M:%S");
 
         tmget.get(iss, std::time_get<char>::iter_type(), iss, state, &value,
                  format.data(), format.data()+format.length() );
 
         return (state & std::ios_base::goodbit) || (state & std::ios_base::eofbit);
+        */
+        std::string format("%4d-%2d-%2d %2d:%2d:%2d");
+
+        int day = 0;
+        int month = 0;
+        int year = 0;
+        int hour = 0;
+        int min = 0;
+        int sec = 0;
+
+        if (sscanf(str.c_str(), format.c_str(), &day, &month, &year, &hour, &min, &sec) != 6)
+        {
+            return false;
+        }
+
+        value.tm_mday = day;
+        value.tm_mon = month;
+        value.tm_year = year;
+        value.tm_hour = hour;
+        value.tm_min = min;
+        value.tm_sec = sec;
+
+        return true;
     }
 }

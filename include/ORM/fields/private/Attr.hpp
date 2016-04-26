@@ -398,6 +398,8 @@ namespace orm
              **/
             virtual std::ostream& print_value(std::ostream& output)const override;
 
+            virtual std::string asString()const override;
+
             /**
             \return the internal value
             */
