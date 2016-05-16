@@ -37,7 +37,7 @@
 //#endif
 
 //no space for visual support
-#define ORM_MAKE_NAME_HELPER(name)  column_##name
+#define ORM_MAKE_NAME_HELPER(name)  $##name
 #define ORM_MAKE_NAME(name)  ORM_MAKE_NAME_HELPER(name)
 
 #define ORM_MAKE_NAME_VALUE(klass,value)  value

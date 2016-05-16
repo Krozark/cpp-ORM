@@ -54,11 +54,11 @@ class Perso : public orm::SqlObject<Perso>
 ORM_M2M_REGISTER(Perso,spells,Spell,"perso_spell","perso_id","spell_id")
 ORM_REGISTER(Perso,"perso",name,"name",lvl,"lvl",stats,"stats",stats2,"stats_tmp",maitre,"master")
 Perso::Perso() :
-    name(Perso::column_name),
-    lvl(Perso::column_lvl),
-    stats(Perso::column_stats),
-    stats2(Perso::column_stats2),
-    maitre(column_maitre),
+    name(Perso::$name),
+    lvl(Perso::$lvl),
+    stats(Perso::$stats),
+    stats2(Perso::$stats2),
+    maitre(Perso::$maitre),
     spells(*this)
 {
     name.registerAttr(*this);
@@ -132,7 +132,7 @@ class TestMergeHeritage : public orm::SqlExtends<TestMergeHeritage,TestTypes>
 };
 ORM_REGISTER(TestMergeHeritage,"TestMergeHeritage",b,"b");
 TestMergeHeritage::TestMergeHeritage() :
-    b(TestMergeHeritage::column_b)
+    b(TestMergeHeritage::$b)
 {
     b.registerAttr(*static_cast<orm::SqlObject<TestMergeHeritage>*>(this));
 };
@@ -226,7 +226,7 @@ void test_TestTypes()
 
     TestTypes::pointer_array lis;
        TestTypes::query()
-       .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::column_datetimeField))
+       .filter(orm::Q<TestTypes>(orm::DateTimeField::now()-orm::DateTimeField::day(1),orm::op::gt,TestTypes::$datetimeField))
        .get(lis);
 
 
@@ -249,7 +249,7 @@ void test_TestTypes()
 
     lis.clear();
     TestTypes::query()
-        .filter(orm::Q<TestTypes>(orm::DateTimeField::now(),orm::op::lte,TestTypes::column_datetimeField))
+        .filter(orm::Q<TestTypes>(orm::DateTimeField::now(),orm::op::lte,TestTypes::$datetimeField))
         .get(lis);
 
     for(auto u : lis)
@@ -305,7 +305,7 @@ void test_TestMergeHeritage()
 
             auto list = TestMergeHeritage::pointer_array();
             TestMergeHeritage::query().filter(
-                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::column_base_obj_ptr,TestTypes::column_integerField)
+                orm::Q<TestMergeHeritage>(58,orm::op::gt,TestMergeHeritage::$base_obj_ptr,TestTypes::$integerField)
             ).get(list);
             for(auto& i : list)
             {
@@ -387,7 +387,7 @@ void test_Perso()
         std::cout<<"\n*** All his spells with name s2 (result = [s2])"<<std::endl;
         Spell::pointer_array lis;
         p1->spells.query()
-            .filter(std::string("s2"),orm::op::exact,Spell::column_name)
+            .filter(std::string("s2"),orm::op::exact,Spell::$name)
             .get(lis);
         for(auto& u : lis)
         {

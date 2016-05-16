@@ -67,7 +67,7 @@ namespace orm
     {
         if(column == "?")
         {
-            _orderBy.push_back(T::default_connection->operators.at("?"));
+            _orderBy.push_back(T::default_connection->_operators.at("?"));
         }
         else if( order == '-')
         {
