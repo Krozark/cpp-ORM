@@ -1,4 +1,4 @@
-#ifndef ORM_SQLITEQ3UERY_HPP
+#ifndef ORM_SQLITE3QUERY_HPP
 #define ORM_SQLITE3QUERY_HPP
 
 #include <ORM/backends/Query.hpp>
