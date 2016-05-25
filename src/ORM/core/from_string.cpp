@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <sstream>
-#include <locale>
+//#include <locale>
 
 namespace orm
 {
@@ -137,7 +137,7 @@ namespace orm
     template <>
     bool from_string<tm>(const std::string& str, tm& value)
     {
-        std::string format ("%4d-%2d-%2d %2d:%2d:%2d");
+        std::string format("%4d-%2d-%2d %2d:%2d:%2d");
 
         int day = 0;
         int month = 0;
@@ -146,7 +146,7 @@ namespace orm
         int min = 0;
         int sec = 0;
 
-        if(sscanf(str.c_str(),format.c_str(),&day,&month,&year,&hour,&min,&sec) != 6)
+        if (sscanf(str.c_str(), format.c_str(), &day, &month, &year, &hour, &min, &sec) != 6)
         {
             return false;
         }

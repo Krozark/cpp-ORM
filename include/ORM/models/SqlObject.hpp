@@ -131,7 +131,6 @@ namespace orm
 
             pointer as_pointer();
 
-
             /**
              * \brief create the table
              * \todo
@@ -165,9 +164,10 @@ namespace orm
             **/
             virtual const std::string& getTable()const override;
 
+            const static std::string table; ///< the table name
 
         protected:
-            const static std::string table; ///< the table name
+            
             static Cache<T> cache; ///< the cache containing the objects
 
 

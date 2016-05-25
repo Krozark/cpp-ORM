@@ -33,4 +33,9 @@ namespace orm
         return false;
     }
 
+    std::string VFK::asString()const
+    {
+        return std::to_string(fk);
+    }
+
 };

@@ -42,6 +42,8 @@ namespace orm
              **/
             virtual std::ostream& print_value(std::ostream& output)const = 0;
 
+            virtual std::string asString()const = 0;
+
             /**
              * \brief return the column name
              **/
