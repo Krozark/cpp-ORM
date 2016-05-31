@@ -60,7 +60,7 @@ namespace orm
         if(not q->_getObj(*res,max_depth))
         {
             #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
-            std::cerr<<ORM_COLOUR_REDRED<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<ORM_COLOUR_REDNONE<<std::endl;
+            std::cerr<<ORM_COLOUR_RED<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<ORM_COLOUR_NONE<<std::endl;
             #endif
             delete res;
             res = nullptr;
@@ -97,8 +97,10 @@ namespace orm
             for(VFK* fk : fks)
             {
                 VFK& fk_tmp = *fk;
-                if(fk_tmp.nullable == false and (fk_tmp.fk <=0 or fk_tmp.modify == true))
+                if(fk_tmp.nullable == false and (fk_tmp.fk <=0 or fk_tmp._modified == true))
+                {
                     fk_tmp.save(recursive,db);
+                }
             }
         }
 
@@ -110,7 +112,7 @@ namespace orm
             if(res)
             {
                 pointer ptr = this->as_pointer();
-                cache.add(ptr);
+                cache._add(ptr);
                 after_save();
             }
         }
@@ -130,7 +132,7 @@ namespace orm
         bool res =true;
         if(db._del(table,pk))
         {
-            cache.del(pk);
+            cache._del(pk);
             pk = -1;
             if(recursive)
             {
@@ -155,7 +157,7 @@ namespace orm
     bool SqlObject<T>::createTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
-        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[CREATE] create table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[CREATE] create table "<<table<<ORM_COLOUR_NONE<<std::endl;
         #endif
         return db.create(table,column_attrs);
     }
@@ -164,7 +166,7 @@ namespace orm
     bool SqlObject<T>::dropTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
-        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[DROP] drop table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[DROP] drop table "<<table<<ORM_COLOUR_NONE<<std::endl;
         #endif
         cache.clear(true);
         return db.drop(table);
@@ -174,7 +176,7 @@ namespace orm
     bool SqlObject<T>::clearTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
-        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[TRUNCATE] truncate table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[TRUNCATE] truncate table "<<table<<ORM_COLOUR_NONE<<std::endl;
         #endif
         cache.clear(true);
         return db.clear(table);
@@ -201,7 +203,7 @@ namespace orm
 
         for(int i=0;i<size;++i)
         {
-            q_str+= column_attrs[i]->makeName(db,prefix,max_depth);
+            q_str+= column_attrs[i]->_makeName(db,prefix,max_depth);
         }
     }
 
@@ -228,7 +230,7 @@ namespace orm
             const SqlObjectBase& object = column_fks[i]->getObject(db);
             /*if (&object == NULL)
                 continue;*/
-            const std::string& col = column_fks[i]->getcolumn();
+            const std::string& col = column_fks[i]->getColumn();
             const std::string table_alias = MAKE_PREFIX(prefix,col);
 
             q_str+= "\nLEFT JOIN "+object.getTable()+" AS "+table_alias

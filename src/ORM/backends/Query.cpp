@@ -28,7 +28,7 @@ namespace orm
     void Query::_execute()
     {
         #if (ORM_DEBUG & ORM_DEBUG_SQL)
-        std::cerr<<ORM_COLOUR_REDGREEN<<"[Sql] Query::execute()"<<_query<<ORM_COLOUR_REDNONE<<std::endl;
+        std::cerr<<ORM_COLOUR_GREEN<<"[Sql] Query::execute()"<<_query<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
         _executed = true;

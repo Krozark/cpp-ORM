@@ -15,7 +15,7 @@ namespace orm
              * \param column Column in db
              **/
             FloatField(const float& value,const std::string& column);
-            
+
             /**
              * \brief Make a Attr
              * default value is 0.
@@ -53,7 +53,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const DB& db) const override;
+            virtual std::string _create(const DB& db) const override;
     };
 }
 #endif

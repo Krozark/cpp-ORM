@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     BooleanField::BooleanField(const bool& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     BooleanField::BooleanField(const std::string& column) : Attr(false,column)
     {
     }
-    
-    std::string BooleanField::create(const DB& db) const
+
+    std::string BooleanField::_create(const DB& db) const
     {
-        return db.creator().booleanField(column,false);
+        return db.creator().booleanField(_column,false);
     }
 }

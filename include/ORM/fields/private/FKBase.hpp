@@ -35,7 +35,7 @@ namespace orm
 
             /**
              * \brief Delete the object from the db and cache
-             *  
+             *
              *  Note : whe use on object linked in other object with fks can cause trouble because of the remove of the cache
              *  Set the pk to -1
              * \param db the db to fetch
@@ -78,13 +78,13 @@ namespace orm
              **/
             FKBase<T>& operator=(const typename Cache<T>::pointer& other);
 
-            virtual std::ostream& print_value(std::ostream& output)const override;
+            virtual std::ostream& printValue(std::ostream& output)const override;
 
             virtual bool test() const override;
 
             virtual DB& getDefaultDataBase()const override;
 
-            virtual bool set(SqlObjectBase::pointer& ptr) override;
+            virtual bool setValue(SqlObjectBase::pointer& ptr) override;
 
             /**
             * \return the table name
@@ -110,7 +110,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool set(Query& query,const unsigned int& column);
+            virtual bool _setToQuery(Query& query,const unsigned int& column);
 
             /**
              * \brief get the fk from the query
@@ -121,7 +121,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(const Query& query,int& prefix,int max_depth);
+            virtual bool _getFromQuery(const Query& query,int& prefix,int max_depth);
 
             /**
              * \brief Construct a new object from the db
@@ -142,7 +142,7 @@ namespace orm
              *
              * \return the columns alias
              **/
-            virtual std::string makeName(DB& db,const std::string& prefix,int max_depth) const;
+            virtual std::string _makeName(DB& db,const std::string& prefix,int max_depth) const;
 
             /**
              * \brief Use for increment the column number without construction.
@@ -167,7 +167,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const DB& db) const;
+            virtual std::string _create(const DB& db) const override;
 
     };
 }

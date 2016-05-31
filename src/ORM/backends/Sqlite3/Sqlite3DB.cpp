@@ -117,7 +117,7 @@ namespace orm
         const DB& db=*this;
         for(unsigned int i=0;i<size;++i)
         {
-            sql+=",\n"+attrs[i]->create(db);
+            sql+=",\n"+attrs[i]->_create(db);
         }
         sql+="\n);";
 

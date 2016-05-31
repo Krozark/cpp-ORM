@@ -75,7 +75,7 @@ namespace orm
                 }break;
                 default:
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"??? MySqlQuery::~MySqlQuery() : Type "<<param.buffer_type<<" not bind"<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"??? MySqlQuery::~MySqlQuery() : Type "<<param.buffer_type<<" not bind"<<ORM_COLOUR_NONE<<std::endl;
                     assert(false && "This case should never apear");
                 }break;
 
@@ -231,15 +231,15 @@ namespace orm
                 res = mysql_stmt_fetch(_preparedStatement);
                 if(res == 1)
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::next() Error : "<<mysql_stmt_errno(_preparedStatement)<<" : "<<               mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::next() Error : "<<mysql_stmt_errno(_preparedStatement)<<" : "<<               mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                 }
                 else if (res == MYSQL_NO_DATA)
                 {
-                    //std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::next() MYSQL_NO_DATA : "<<mysql_stmt_error(prepared_statement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    //std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::next() MYSQL_NO_DATA : "<<mysql_stmt_error(prepared_statement)<<ORM_COLOUR_NONE<<std::endl;
                 }
                 else if (res == MYSQL_DATA_TRUNCATED)
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::next() MYSQL_DATA_TRUNCATED : "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::next() MYSQL_DATA_TRUNCATED : "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                 }
 
                 res = not res;
@@ -461,7 +461,7 @@ namespace orm
 
             if(mysql_stmt_prepare(_preparedStatement,_query.c_str(),_query.size() + 1))
             {
-                std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() mysql_stmt_prepare() : Could not execute the query. Error message:"<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() mysql_stmt_prepare() : Could not execute the query. Error message:"<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                 return;
             }
 
@@ -477,7 +477,7 @@ namespace orm
 
             if(mysql_stmt_bind_param(_preparedStatement,_preparedParams.data()))
             {
-                std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() mysql_stmt_bind_param() "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() mysql_stmt_bind_param() "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                 return;
             }
 
@@ -486,7 +486,7 @@ namespace orm
             if(_dbRes == nullptr)
             {
                 _numFieldsRes = 0;
-                //std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() mysql_stmt_result_metadata() : db_res == nullptr. Error: "<<mysql_stmt_error(prepared_statement)<<ORM_COLOUR_REDNONE<<std::endl;
+                //std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() mysql_stmt_result_metadata() : db_res == nullptr. Error: "<<mysql_stmt_error(prepared_statement)<<ORM_COLOUR_NONE<<std::endl;
                 //return;
             }
             else
@@ -494,7 +494,7 @@ namespace orm
                 my_bool arg = 1;
                 if(mysql_stmt_attr_set(_preparedStatement,STMT_ATTR_UPDATE_MAX_LENGTH,&arg))
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() mysql_stmt_attr_set Error:"<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() mysql_stmt_attr_set Error:"<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                     return;
                 }
             }
@@ -502,7 +502,7 @@ namespace orm
 
             if(mysql_stmt_execute(_preparedStatement))
             {
-                std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() : mysql_stmt_execute(), failed. Error messuge: "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() : mysql_stmt_execute(), failed. Error messuge: "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                 return;
             }
 
@@ -511,7 +511,7 @@ namespace orm
 
                 if (mysql_stmt_store_result(_preparedStatement))
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() : mysql_stmt_store_result(), failed. Error messuge: "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() : mysql_stmt_store_result(), failed. Error messuge: "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                     return;
                 }
 
@@ -519,13 +519,13 @@ namespace orm
 
                 if(!_initResults())
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() _initResults() : Could not execute prepare the results"<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() _initResults() : Could not execute prepare the results"<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                     return;
                 }
 
                 if(mysql_stmt_bind_result(_preparedStatement,_preparedResults.data()))
                 {
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() mysql_stmt_bind_result() : "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() mysql_stmt_bind_result() : "<<mysql_stmt_error(_preparedStatement)<<ORM_COLOUR_NONE<<std::endl;
                     return;
                 }
             }
@@ -537,7 +537,7 @@ namespace orm
 
             if(mysql_query(con,_query.c_str()))
             {
-                std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() : Could not execute the query. Error message:"<<mysql_error(con)<<ORM_COLOUR_REDNONE<<std::endl;
+                std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() : Could not execute the query. Error message:"<<mysql_error(con)<<ORM_COLOUR_NONE<<std::endl;
                 return;
             }
 
@@ -548,7 +548,7 @@ namespace orm
                 {
                     // query should return data
                     // (it was a SELECT)
-                    std::cerr<<ORM_COLOUR_REDRED<<"MySqlQuery::executeQuery() : Could not get query results. Error message:"<<mysql_error(con)<<ORM_COLOUR_REDNONE<<std::endl;
+                    std::cerr<<ORM_COLOUR_RED<<"MySqlQuery::executeQuery() : Could not get query results. Error message:"<<mysql_error(con)<<ORM_COLOUR_NONE<<std::endl;
                 }
                 return;
             }

@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     FloatField::FloatField(const float& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     FloatField::FloatField(const std::string& column) : Attr(0,column)
     {
     }
-    
-    std::string FloatField::create(const DB& db) const
+
+    std::string FloatField::_create(const DB& db) const
     {
-        return db.creator().floatField(column,false);
+        return db.creator().floatField(_column,false);
     }
 }

@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     AutoField::AutoField(const int& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     AutoField::AutoField(const std::string& column) : Attr(-1,column)
     {
     }
-    
-    std::string AutoField::create(const DB& db) const
+
+    std::string AutoField::_create(const DB& db) const
     {
-        return db.creator().autoField(column);
+        return db.creator().autoField(_column);
     }
 }

@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     TextField::TextField(const std::string& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     TextField::TextField(const std::string& column) : Attr("",column)
     {
     }
-    
-    std::string TextField::create(const DB& db) const
+
+    std::string TextField::_create(const DB& db) const
     {
-        return db.creator().textField(column,false);
+        return db.creator().textField(_column,false);
     }
 }

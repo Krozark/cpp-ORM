@@ -396,28 +396,28 @@ namespace orm
              *
              * \return output
              **/
-            virtual std::ostream& print_value(std::ostream& output)const override;
+            virtual std::ostream& printValue(std::ostream& output)const override;
 
             virtual std::string asString()const override;
 
             /**
             \return the internal value
             */
-            const T& value()const;
+            const T& getValue()const;
 
             /**
             * \brief set the internal value from a string
             * \return true on success
             */
-            virtual bool set(const std::string& value);
+            virtual bool setValue(const std::string& value) override;
 
 
         protected:
-            inline T& getValue();
-            bool prepared;
+            inline T& _getValue();
+            bool _prepared;
 
         private:
-            virtual T prepare_to_db(const T& value);
+            virtual T _prepareToDb(const T& value);
             /**
              * \brief Set the value in the query (use for dispatch
              *
@@ -426,7 +426,7 @@ namespace orm
              *
              * \return false if fail
              */
-            virtual bool set(Query& query,const unsigned int& column) override final;
+            virtual bool _setToQuery(Query& query,const unsigned int& column) override final;
 
 
             /**
@@ -438,11 +438,11 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(const Query& query,int& prefix,int max_depth) override final;
+            virtual bool _getFromQuery(const Query& query,int& prefix,int max_depth) override final;
 
-            virtual T prepare_from_db(const T& value);
+            virtual T _prepareFromDb(const T& value);
 
-            inline void setValue(const T& v);
+            inline void _setValue(const T& v);
     };
 
     // define more common type

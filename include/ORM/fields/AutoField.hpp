@@ -24,12 +24,12 @@ namespace orm
              * \brief Make a Attr
              *  default value is -1.
              * \param column Column in db
-             * 
+             *
              **/
             AutoField(const std::string& column);
 
             AutoField(const AutoField&) = delete;
-            
+
             using Attr<int>::operator=;
 
             using Attr<int>::operator==;
@@ -47,7 +47,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const DB& db) const override;
+            virtual std::string _create(const DB& db) const override;
 
     };
 }

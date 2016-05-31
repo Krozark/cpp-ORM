@@ -460,11 +460,11 @@ void test_Factory()
 
     for (auto attr : ptr->getAttributes())
     {
-        std::cout << attr->getcolumn() << ":" << (*attr) << std::endl;
+        std::cout << attr->getColumn() << ":" << (*attr) << std::endl;
     }
 
-    ptr->getAttribute("name")->set("blah");
-    ptr->getAttribute("element")->set("42");
+    ptr->getAttribute("name")->setValue("blah");
+    ptr->getAttribute("element")->setValue("42");
 
     std::cout << (*ptr) << std::endl;
 
@@ -480,14 +480,14 @@ int main(int argc,char* argv[])
 
     test_Factory();
 
-    //test_Datetime();
+    test_Datetime();
 
-    //test_TestTypes();
+    test_TestTypes();
 
     //test_TestMergeHeritage();
 
-    //test_Perso();
-    //test_Perso_Master();
+    test_Perso();
+    test_Perso_Master();
 
     orm::DB::Default.disconnect();
     return 0;

@@ -35,10 +35,6 @@ namespace orm
              **/
             ~Cache();
 
-            //Cache(const Cache<T>&)=delete;
-            //Cache<T>& operator=(const Cache<T>&)=delete;
-
-
             /**
              * \brief make query to get object if not in cache
              *
@@ -106,7 +102,7 @@ namespace orm
              *
              * \return the shared_ptr of the stored object
              **/
-            pointer& add(pointer& obj);
+            pointer& _add(pointer& obj);
 
 
             /**
@@ -124,12 +120,12 @@ namespace orm
              **/
             //pointer& add(T& obj);
 
-            std::unordered_map<int,pointer> map; ///< store all the objects
+            std::unordered_map<int,pointer> _map; ///< store all the objects
 
             /**
              * \brief delete object of specified pk
              **/
-            void del(const unsigned int& pk);
+            void _del(const unsigned int& pk);
 
     };
 }

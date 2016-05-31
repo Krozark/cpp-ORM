@@ -151,7 +151,7 @@ namespace orm
         const DB& db=*this;
         for(unsigned int i=0;i<size;++i)
         {
-            sql+=",\n"+attrs[i]->create(db);
+            sql+=",\n"+attrs[i]->_create(db);
         }
         sql+="\n)";
 
@@ -258,7 +258,7 @@ namespace orm
         }
         else
         {
-            std::cerr<<ORM_COLOUR_REDRED<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
+            std::cerr<<ORM_COLOUR_RED<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
         }
         return query;
     };

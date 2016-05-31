@@ -4,7 +4,7 @@
 
 namespace orm
 {
-    VAttr::VAttr(const std::string& col) : modify(false), column(col)
+    VAttr::VAttr(const std::string& col) : _modified(false), _column(col)
     {
     };
 
@@ -14,11 +14,11 @@ namespace orm
 
     std::ostream& operator<<(std::ostream& output,const VAttr& self)
     {
-        return self.print_value(output);
+        return self.printValue(output);
     };
-    const std::string& VAttr::getcolumn() const
+    const std::string& VAttr::getColumn() const
     {
-        return column;
+        return _column;
     }
 
     void VAttr::registerAttr(SqlObjectBase& object)
@@ -26,17 +26,17 @@ namespace orm
         object.attrs.emplace_back(this);
     }
 
-    void VAttr::before_save(){}
+    void VAttr::_beforeSave(){}
 
-    void VAttr::after_save(){}
+    void VAttr::_afterSave(){}
 
-    void VAttr::before_update(){}
+    void VAttr::_beforeUpdate(){}
 
-    void VAttr::after_update(){}
+    void VAttr::_afterUpdate(){}
 
-    std::string VAttr::makeName(DB& db, const std::string& prefix,int max_depth) const
+    std::string VAttr::_makeName(DB& db, const std::string& prefix,int max_depth) const
     {
-        return ", "+db._escapeColumn(prefix)+"."+db._escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column);
+        return ", "+db._escapeColumn(prefix)+"."+db._escapeColumn(_column)+" AS "+JOIN_ALIAS(prefix,_column);
     }
 
 };

@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     UnsignedIntegerField::UnsignedIntegerField(const int& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     UnsignedIntegerField::UnsignedIntegerField(const std::string& column) : Attr(0,column)
     {
     }
-    
-    std::string UnsignedIntegerField::create(const DB& db) const
+
+    std::string UnsignedIntegerField::_create(const DB& db) const
     {
-        return db.creator().positiveIntegerField(column,false);
+        return db.creator().positiveIntegerField(_column,false);
     }
 }

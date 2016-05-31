@@ -7,48 +7,48 @@
 namespace orm
 {
     template<typename T>
-    Attr<T>::Attr(const T& val,const std::string& col) : VAttr(col), _value(val), prepared(false)
+    Attr<T>::Attr(const T& val,const std::string& col) : VAttr(col), _value(val), _prepared(false)
     {
     };
 
     template<typename T>
-    Attr<T>::Attr(const std::string& col) : VAttr(col) , _value(), prepared(false)
+    Attr<T>::Attr(const std::string& col) : VAttr(col) , _value(), _prepared(false)
     {
     };
 
     template<typename T>
-    bool Attr<T>::set(const std::string& value)
+    bool Attr<T>::setValue(const std::string& value)
     {
         T tmp;
         if (from_string<T>(value, tmp))
         {
-            setValue(tmp);
+            _setValue(tmp);
             return true;
         }
         return false;
     }
 
     template<typename T>
-    bool Attr<T>::get(const Query& query,int& prefix,int max_depth)
+    bool Attr<T>::_getFromQuery(const Query& query,int& prefix,int max_depth)
     {
-        prepared = false;
+        _prepared = false;
         return query._get(_value,prefix);
     };
 
     template<typename T>
-    T Attr<T>::prepare_to_db(const T& value)
+    T Attr<T>::_prepareToDb(const T& value)
     {
         return value;
     }
 
     template<typename T>
-    bool Attr<T>::set(Query& query,const unsigned int& column)
+    bool Attr<T>::_setToQuery(Query& query,const unsigned int& column)
     {
         bool res;
 
-        if(prepared)//_value is for local
+        if(_prepared)//_value is for local
         {
-            T tmp = prepare_to_db(_value);
+            T tmp = _prepareToDb(_value);
             res = query._set(tmp,column);
         }
         else
@@ -57,14 +57,14 @@ namespace orm
     };
 
     template<typename T>
-    T Attr<T>::prepare_from_db(const T& value)
+    T Attr<T>::_prepareFromDb(const T& value)
     {
         return value;
     }
 
 
     template<typename T>
-    std::ostream& Attr<T>::print_value(std::ostream& output)const
+    std::ostream& Attr<T>::printValue(std::ostream& output)const
     {
         return (output<<'"'<<_value<<'"');
     }
@@ -78,28 +78,28 @@ namespace orm
     }
 
     template<typename T>
-    const T& Attr<T>::value()const
+    const T& Attr<T>::getValue()const
     {
         return _value;
     }
 
 
     template<typename T>
-    T& Attr<T>::getValue()
+    T& Attr<T>::_getValue()
     {
-        if(not prepared)
+        if(not _prepared)
         {
-            _value = prepare_from_db(_value);
-            prepared = true;
+            _value = _prepareFromDb(_value);
+            _prepared = true;
         }
         return _value;
     }
 
     template<typename T>
-    void Attr<T>::setValue(const T& v)
+    void Attr<T>::_setValue(const T& v)
     {
-        prepared = true;
-        modify = true;
+        _prepared = true;
+        _modified = true;
         _value = v;
     }
 
@@ -107,15 +107,15 @@ namespace orm
     template<typename U>
     T& Attr<T>::operator=(const U& v)
     {
-        setValue(v);
+        _setValue(v);
         return _value;
     };
 
     template<typename T>
     Attr<T>& Attr<T>::operator=(const Attr<T>& v)
     {
-        setValue(v._value);
-        prepared = v.prepared;
+        _setValue(v._value);
+        _prepared = v._prepared;
         _value=v._value;
         return*this;
     };
@@ -124,70 +124,70 @@ namespace orm
     template<typename U>
     auto Attr<T>::operator+(const U& v) -> decltype(_value+v)
     {
-        return getValue()+v;
+        return _getValue()+v;
     };
 
     template<typename T>
     template<typename U>
     auto Attr<T>::operator-(const U& v) -> decltype(_value-v)
     {
-        return getValue()-v;
+        return _getValue()-v;
     };
 
     template<typename T>
     template<typename U>
     auto Attr<T>::operator*(const U& v) -> decltype(_value*v)
     {
-        return getValue()*v;
+        return _getValue()*v;
     };
 
     template<typename T>
     template<typename U>
     auto Attr<T>::operator/(const U& v) -> decltype(_value/v)
     {
-        return getValue()/v;
+        return _getValue()/v;
     };
 
     template<typename T>
     template<typename U>
     auto Attr<T>::operator%(const U& v) -> decltype(_value%v)
     {
-       return getValue()%v;
+       return _getValue()%v;
     };
 
     template<typename T>
     Attr<T>& Attr<T>::operator++()
     {
-        getValue();
+        _getValue();
         ++_value;
-        modify=true;
+        _modified=true;
         return *this;
     };
 
     template<typename T>
     Attr<T>& Attr<T>::operator++(int)
     {
-        getValue();
+        _getValue();
         ++_value;
-        modify=true;
+        _modified=true;
         return *this;
     };
 
     template<typename T>
     Attr<T>& Attr<T>::operator--()
     {
-        getValue();
+        _getValue();
         --_value;
-        modify=true;
+        _modified=true;
         return *this;
     };
 
     template<typename T>
     Attr<T>& Attr<T>::operator--(int)
     {
-        getValue();
+        _getValue();
         --_value;
-        modify=true;
+        _modified=true;
         return *this;
     };
 
@@ -195,56 +195,56 @@ namespace orm
     template<typename U>
     bool Attr<T>::operator==(const U& v)
     {
-        return getValue() == v;
+        return _getValue() == v;
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator!=(const U& v)
     {
-        return getValue()!=v;
+        return _getValue()!=v;
     }
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator>(const U& v)
     {
-        return getValue()>v;
+        return _getValue()>v;
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator<(const U& v)
     {
-        return getValue()<v;
+        return _getValue()<v;
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator>=(const U& v)
     {
-        return getValue()>=v;
+        return _getValue()>=v;
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator<=(const U& v)
     {
-        return getValue()<=v;
+        return _getValue()<=v;
     };
 
     template<typename T>
     bool Attr<T>::operator!()
     {
-        return !getValue();
+        return !_getValue();
     };
 
     template<typename T>
     template<typename U>
     Attr<T>& Attr<T>::operator+=(const U& v)
     {
-        getValue()+=v;
-        modify=true;
+        _getValue()+=v;
+        _modified=true;
         return*this;
     };
 
@@ -252,8 +252,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator-=(const U& v)
     {
-        getValue()-=v;
-        modify=true;
+        _getValue()-=v;
+        _modified=true;
         return*this;
     };
 
@@ -261,8 +261,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator*=(const U& v)
     {
-        getValue()*=v;
-        modify=true;
+        _getValue()*=v;
+        _modified=true;
         return*this;
     };
 
@@ -270,8 +270,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator/=(const U& v)
     {
-        getValue()/=v;
-        modify=true;
+        _getValue()/=v;
+        _modified=true;
         return*this;
     };
 
@@ -279,95 +279,95 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator%=(const U& v)
     {
-        getValue()%=v;
-        modify=true;
+        _getValue()%=v;
+        _modified=true;
         return*this;
     };
 
     template<typename T>
     Attr<T>::operator T()
     {
-        return getValue();
+        return _getValue();
     };
 
     template<typename T>
     T Attr<T>::operator+(Attr<T>& v)
     {
-        return getValue()+v.getValue();
+        return _getValue()+v._getValue();
     };
 
     template<typename T>
     T Attr<T>::operator-(Attr<T>& v)
     {
-        return getValue()-v.getValue();
+        return _getValue()-v._getValue();
     };
 
     template<typename T>
     T Attr<T>::operator*(Attr<T>& v)
     {
-        return getValue()*v.getValue();
+        return _getValue()*v._getValue();
     };
 
     template<typename T>
     T Attr<T>::operator/(Attr<T>& v)
     {
-        return getValue()/v.getValue();
+        return _getValue()/v._getValue();
     };
 
     template<typename T>
     T Attr<T>::operator%(Attr<T>& v)
     {
-        return getValue()%v.getValue();
+        return _getValue()%v._getValue();
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator==(Attr<U>& v)
     {
-        return getValue()==v.getValue();
+        return _getValue()==v._getValue();
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator!=(Attr<U>& v)
     {
-        return getValue()!=v.getValue();
+        return _getValue()!=v._getValue();
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator>(Attr<U>& v)
     {
-        return getValue()>v.getValue();
+        return _getValue()>v._getValue();
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator<(Attr<U>& v)
     {
-        return getValue()<v.getValue();
+        return _getValue()<v._getValue();
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator>=(Attr<U>& v)
     {
-        return getValue()>=v.getValue();
+        return _getValue()>=v._getValue();
     };
 
     template<typename T>
     template<typename U>
     bool Attr<T>::operator<=(Attr<U>& v)
     {
-        return getValue()<=v.getValue();
+        return _getValue()<=v._getValue();
     };
 
     template<typename T>
     template<typename U>
     Attr<T>& Attr<T>::operator+=(Attr<U>& v)
     {
-        getValue()+=v.getValue();
-        modify=true;
+        _getValue()+=v._getValue();
+        _modified=true;
         return*this;
     };
 
@@ -375,8 +375,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator-=(Attr<U>& v)
     {
-        getValue()-=v.getValue();
-        modify=true;
+        _getValue()-=v._getValue();
+        _modified=true;
         return*this;
     };
 
@@ -384,8 +384,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator*=(Attr<U>& v)
     {
-        getValue()*=v.getValue();
-        modify=true;
+        _getValue()*=v._getValue();
+        _modified=true;
         return*this;
     };
 
@@ -393,8 +393,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator/=(Attr<U>& v)
     {
-        getValue()/=v.getValue();
-        modify=true;
+        _getValue()/=v._getValue();
+        _modified=true;
         return*this;
     };
 
@@ -402,8 +402,8 @@ namespace orm
     template<typename U>
     Attr<T>& Attr<T>::operator%=(Attr<U>& v)
     {
-        getValue()%=v.getValue();
-        modify=true;
+        _getValue()%=v._getValue();
+        _modified=true;
         return*this;
     };
 };

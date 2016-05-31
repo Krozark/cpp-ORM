@@ -27,8 +27,8 @@
                    | ORM_DEBUG_TRUNCATE_TABLE \
                    )*/
 //#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
-#define ORM_DEBUG (ORM_DEBUG_REGISTER)
-//#define ORM_DEBUG (ORM_DEBUG_FULL) ///<current debug mod
+#define ORM_DEBUG (ORM_DEBUG_REGISTER) ///<current debug mod
+//#define ORM_DEBUG (ORM_DEBUG_FULL)
 
 #if ORM_DEBUG > 0
 #include <iostream>
@@ -47,19 +47,19 @@
 /*** print macros ****/
 
 #if ORM_VERBOSITY & ORM_ERROR
-#define ORM_PRINT_ERROR(txt) {std::cerr<<ORM_COLOUR_REDRED<<"[ERROR]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_REDNONE<<std::endl;}
+#define ORM_PRINT_ERROR(txt) {std::cerr<<ORM_COLOUR_RED<<"[ERROR]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_NONE<<std::endl;}
 #else
 #define ORM_PRINT_ERROR(txt) {}
 #endif
 
 #if ORM_VERBOSITY & ORM_WARNING
-#define ORM_PRINT_WARNING(txt) {std::cerr<<ORM_COLOUR_REDYELLOW<<"[WARNING]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_REDNONE<<std::endl;}
+#define ORM_PRINT_WARNING(txt) {std::cerr<<ORM_COLOUR_YELLOW<<"[WARNING]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_NONE<<std::endl;}
 #else
 #define ORM_PRINT_WARNING(txt) {}
 #endif
 
 #if ORM_VERBOSITY & ORM_VERBOSE
-#define ORM_PRINT_VERBOSE(txt) {std::cerr<<ORM_COLOUR_REDCOMMENTS<<"[VERBOSE]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_REDNONE<<std::endl;}
+#define ORM_PRINT_VERBOSE(txt) {std::cerr<<ORM_COLOUR_COMMENTS<<"[VERBOSE]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_NONE<<std::endl;}
 #else
 #define ORM_PRINT_VERBOSE(txt) {}
 #endif
@@ -71,27 +71,27 @@
 
 #ifdef ORM_USE_MSVC
 
-#define ORM_COLOUR_REDRED  	""
-#define ORM_COLOUR_REDGREEN   	""
-#define ORM_COLOUR_REDYELLOW  	""
-#define ORM_COLOUR_REDBLUE   	""
-#define ORM_COLOUR_REDMAGENTA ""
-#define ORM_COLOUR_REDMAGENTA2 ""
-#define ORM_COLOUR_REDBLUE2 ""
-#define ORM_COLOUR_REDCOMMENTS ""
-#define ORM_COLOUR_REDNONE 	""
+#define ORM_COLOUR_RED  	""
+#define ORM_COLOUR_GREEN   	""
+#define ORM_COLOUR_YELLOW  	""
+#define ORM_COLOUR_BLUE   	""
+#define ORM_COLOUR_MAGENTA  ""
+#define ORM_COLOUR_MAGENTA2 ""
+#define ORM_COLOUR_BLUE2    ""
+#define ORM_COLOUR_COMMENTS ""
+#define ORM_COLOUR_NONE 	""
 
 #else
 
-#define ORM_COLOUR_REDRED  	"\033[31m"
-#define ORM_COLOUR_REDGREEN   	"\033[32m"
-#define ORM_COLOUR_REDYELLOW  	"\033[33m"
-#define ORM_COLOUR_REDBLUE   	"\033[34m"
-#define ORM_COLOUR_REDMAGENTA "\033[35m"
-#define ORM_COLOUR_REDMAGENTA2 "\033[01;35m"
-#define ORM_COLOUR_REDBLUE2 "\033[36m"
-#define ORM_COLOUR_REDCOMMENTS "\033[31m"
-#define ORM_COLOUR_REDNONE 	"\033[00m"
+#define ORM_COLOUR_RED  	"\033[31m"
+#define ORM_COLOUR_GREEN   	"\033[32m"
+#define ORM_COLOUR_YELLOW  	"\033[33m"
+#define ORM_COLOUR_BLUE   	"\033[34m"
+#define ORM_COLOUR_MAGENTA  "\033[35m"
+#define ORM_COLOUR_MAGENTA2 "\033[01;35m"
+#define ORM_COLOUR_BLUE2    "\033[36m"
+#define ORM_COLOUR_COMMENTS "\033[31m"
+#define ORM_COLOUR_NONE 	"\033[00m"
 
 #endif
 

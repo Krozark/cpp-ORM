@@ -42,7 +42,7 @@ namespace orm
         const unsigned int size = attrs.size();
         for (unsigned int i = 0; i < size; ++i)
         {
-            if (attrs[i]->getcolumn() == name)
+            if (attrs[i]->getColumn() == name)
             {
                 res = attrs[i];
                 break;
@@ -55,7 +55,7 @@ namespace orm
     {
         output << "{ \"" << SqlObjectBase::ORM_MAKE_NAME(pk) << "\":" << self.pk;
         for (VAttr* attr : self.attrs)
-            output << ", \"" << attr->getcolumn() << "\":" << *attr;
+            output << ", \"" << attr->getColumn() << "\":" << *attr;
         output << "}";
         return output;
     };
@@ -89,7 +89,7 @@ namespace orm
         ++prefix;
 
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[ATTR] get attr("<<prefix<<") : id"<<ORM_COLOUR_REDNONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[ATTR] get attr("<<prefix<<") : id"<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
         bool res = query._get(pk,prefix); //id
@@ -97,21 +97,21 @@ namespace orm
 
         #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
         if(not res)
-            std::cerr<<ORM_COLOUR_REDRED<<"[ATTR] get attr("<<prefix<<") : id"<<" fail"<<ORM_COLOUR_REDNONE<<std::endl;
+            std::cerr<<ORM_COLOUR_RED<<"[ATTR] get attr("<<prefix<<") : id"<<" fail"<<ORM_COLOUR_NONE<<std::endl;
         #endif
         before_load();
         for(VAttr* attr: attrs)
         {
             ++prefix;
             #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
-            std::cerr<<ORM_COLOUR_REDMAGENTA<<"[ATTR] get attr("<<prefix<<") : "<<attr->getcolumn()<<ORM_COLOUR_REDNONE<<std::endl;
+            std::cerr<<ORM_COLOUR_MAGENTA<<"[ATTR] get attr("<<prefix<<") : "<<attr->getColumn()<<ORM_COLOUR_NONE<<std::endl;
             #endif
 
-            bool tmp = attr->get(query,prefix,max_depth); //incrementation of column number for the next
+            bool tmp = attr->_getFromQuery(query,prefix,max_depth); //incrementation of column number for the next
 
             #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
             if(not tmp)
-                std::cerr<<ORM_COLOUR_REDRED<<"[ATTR] get attr("<<prefix<<") : "<<attr->getcolumn()<<" fail"<<ORM_COLOUR_REDNONE<<std::endl;
+                std::cerr<<ORM_COLOUR_RED<<"[ATTR] get attr("<<prefix<<") : "<<attr->getColumn()<<" fail"<<ORM_COLOUR_NONE<<std::endl;
             #endif
             res = (res and  tmp);
         }
@@ -120,7 +120,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
         if(not res)
         {
-            std::cerr<<ORM_COLOUR_REDRED<<"[GET OBJ] SqlObjectBase::loadFromDB(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<ORM_COLOUR_REDNONE<<std::endl;
+            std::cerr<<ORM_COLOUR_RED<<"[GET OBJ] SqlObjectBase::loadFromDB(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<ORM_COLOUR_NONE<<std::endl;
         }
         #endif
         return res;

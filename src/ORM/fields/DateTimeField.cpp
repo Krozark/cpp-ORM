@@ -18,51 +18,51 @@ namespace orm
 
     int& DateTimeField::year()
     {
-        return getValue().tm_year;
+        return _getValue().tm_year;
     }
 
     int& DateTimeField::month()
     {
-        return getValue().tm_mon;
+        return _getValue().tm_mon;
     }
 
     int& DateTimeField::day()
     {
-        return getValue().tm_mday;
+        return _getValue().tm_mday;
     }
 
     int& DateTimeField::hour()
     {
-        return getValue().tm_hour;
+        return _getValue().tm_hour;
     }
 
     int& DateTimeField::minute()
     {
-        return getValue().tm_min;
+        return _getValue().tm_min;
     }
 
     int& DateTimeField::second()
     {
-        return getValue().tm_sec;
+        return _getValue().tm_sec;
     }
 
     int& DateTimeField::yday()
     {
-        return getValue().tm_yday;
+        return _getValue().tm_yday;
     }
 
     std::time_t DateTimeField::mktime()
     {
-        return ::mktime(&getValue());
+        return ::mktime(&_getValue());
     }
 
-    std::ostream& DateTimeField::print_value(std::ostream& stream) const
+    std::ostream& DateTimeField::printValue(std::ostream& stream) const
     {
         char prev = stream.fill ('x');
         return(stream<<'"'
         <<std::setfill('0')
-        <<std::setw(4)<<(_value.tm_year+(prepared?1900:0))
-        <<"-"<<std::setw(2)<<(_value.tm_mon+(prepared?1:0))
+        <<std::setw(4)<<(_value.tm_year+(_prepared?1900:0))
+        <<"-"<<std::setw(2)<<(_value.tm_mon+(_prepared?1:0))
         <<"-"<<std::setw(2)<<_value.tm_mday<<" "
         <<std::setw(2)<<_value.tm_hour<<":"<<std::setw(2)<<_value.tm_min<<":"<<std::setw(2)<<_value.tm_sec
         <<std::setw(0)<<std::setfill(prev)
@@ -72,8 +72,8 @@ namespace orm
 
     tm& DateTimeField::operator=(const tm& other)
     {
-        modify = true;
-        prepared = true;
+        _modified = true;
+        _prepared = true;
         ::memcpy(&_value,&other,sizeof(tm));
         return _value;
     }
@@ -151,7 +151,7 @@ namespace orm
         return time;
     }
 
-    tm DateTimeField::prepare_to_db(const tm& value)
+    tm DateTimeField::_prepareToDb(const tm& value)
     {
         tm tmp;
         ::memcpy(&tmp,&value,sizeof(tm));
@@ -162,7 +162,7 @@ namespace orm
         return tmp;
     }
 
-    tm DateTimeField::prepare_from_db(const tm& value)
+    tm DateTimeField::_prepareFromDb(const tm& value)
     {
         tm tmp;
         ::memcpy(&tmp,&value,sizeof(tm));
@@ -173,9 +173,9 @@ namespace orm
         return tmp;
     }
 
-    std::string DateTimeField::create(const DB& db) const
+    std::string DateTimeField::_create(const DB& db) const
     {
-        return db.creator().dateTimeField(column,false);
+        return db.creator().dateTimeField(_column,false);
     }
 
     //////////////////////////AutoDateTimeField/////////////////////

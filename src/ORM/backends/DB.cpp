@@ -62,11 +62,11 @@ namespace orm
         const unsigned int size = attrs.size();
         if(size > 0)
         {
-            std::string str_q = "INSERT INTO "+_escapeColumn(table)+"("+attrs[0]->column;
+            std::string str_q = "INSERT INTO "+_escapeColumn(table)+"("+attrs[0]->_column;
 
             for(unsigned int i=1;i<size;++i)
             {
-                str_q+=","+attrs[i]->column;
+                str_q+=","+attrs[i]->_column;
             }
             str_q+=") ";
 
@@ -78,7 +78,7 @@ namespace orm
             str_q+=");";
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<ORM_COLOUR_REDBLUE<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
+            std::cerr<<ORM_COLOUR_BLUE<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -86,15 +86,15 @@ namespace orm
             for(unsigned int i=0;i<size;++i)
             {
                 //prepare the field
-                attrs[i]->before_save();
+                attrs[i]->_beforeSave();
 
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
-                attrs[i]->set(q,i+_getInitialSetcolumnNumber());
-                attrs[i]->modify = false;
+                attrs[i]->_setToQuery(q,i+_getInitialSetcolumnNumber());
+                attrs[i]->_modified = false;
                 //post save
-                attrs[i]->after_save();
+                attrs[i]->_afterSave();
             }
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")"<<std::endl;
@@ -106,7 +106,7 @@ namespace orm
 
             pk = _getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<ORM_COLOUR_REDYELLOW<<"new PK: "<<pk<<" in table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
+            std::cerr<<ORM_COLOUR_YELLOW<<"new PK: "<<pk<<" in table "<<table<<ORM_COLOUR_NONE<<std::endl;
             #endif
 
             return true;
@@ -126,16 +126,16 @@ namespace orm
             for(unsigned int i=0;i<size;++i)
             {
                 //prepare the field (can change modify)
-                attrs[i]->before_update();
+                attrs[i]->_beforeUpdate();
 
-                if(attrs[i]->modify)
+                if(attrs[i]->_modified)
                 {
                     if(not first)
                     {
                         str_q+=", ";
                     }
                     first = false;
-                    str_q+=attrs[i]->column+"=(?)";
+                    str_q+=attrs[i]->_column+"=(?)";
 
                 }
             }
@@ -146,14 +146,14 @@ namespace orm
             if(first) //NO MAJ NEDEED
             {
                 #if ORM_DEBUG & ORM_DEBUG_SQL
-                std::cerr<<ORM_COLOUR_REDBLUE2<<"[Sql:update] "<<str_q<<"\nNo Update needed, exit"<<ORM_COLOUR_REDNONE<<std::endl;
+                std::cerr<<ORM_COLOUR_BLUE2<<"[Sql:update] "<<str_q<<"\nNo Update needed, exit"<<ORM_COLOUR_NONE<<std::endl;
                 #endif
 
                 return false;
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<ORM_COLOUR_REDBLUE2<<"[Sql:update] "<<str_q<<"\nVALUES = (";
+            std::cerr<<ORM_COLOUR_BLUE2<<"[Sql:update] "<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -161,20 +161,20 @@ namespace orm
             int index=_getInitialSetcolumnNumber();
             for(unsigned int i=0;i<size;++i)
             {
-                if(attrs[i]->modify)
+                if(attrs[i]->_modified)
                 {
                     #if ORM_DEBUG & ORM_DEBUG_SQL
-                    attrs[i]->print_value(std::cerr)<<",";
+                    attrs[i]->printValue(std::cerr)<<",";
                     #endif
-                    attrs[i]->set(q,index++);
-                    attrs[i]->modify = false;
+                    attrs[i]->_setToQuery(q,index++);
+                    attrs[i]->_modified = false;
                     //after update (can change modify)
-                    attrs[i]->after_update();
+                    attrs[i]->_afterUpdate();
                 }
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<")"<<ORM_COLOUR_REDNONE<<std::endl;
+            std::cerr<<")"<<ORM_COLOUR_NONE<<std::endl;
             #endif
             q._execute();
             q._next();
@@ -189,7 +189,7 @@ namespace orm
         std::string str_q = "DELETE FROM "+_escapeColumn(table)+" WHERE ("+_escapeColumn(table)+"."+_escapeColumn("pk")+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<ORM_COLOUR_REDCOMMENTS<<"[Sql:delete]"<<str_q<<ORM_COLOUR_REDNONE<<std::endl;
+        std::cerr<<ORM_COLOUR_COMMENTS<<"[Sql:delete]"<<str_q<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
         Query* q = prepareQuery(str_q);

@@ -83,14 +83,14 @@ namespace orm
             * \brief set the internal value from a string
             * \return true on success
             */
-            virtual bool set(const std::string&);
+            virtual bool setValue(const std::string&);
 
 
             /**
             * \brief set the internal value from a string
             * \return true on success
             */
-            virtual bool set(SqlObjectBase::pointer& ptr) = 0;
+            virtual bool setValue(SqlObjectBase::pointer& ptr) = 0;
 
             /**
             \brief return the default database registred for the object

@@ -40,14 +40,14 @@ namespace orm
              * \brief use by subclass for change the "<<" display
              * \brief print the value
              **/
-            virtual std::ostream& print_value(std::ostream& output)const = 0;
+            virtual std::ostream& printValue(std::ostream& output)const = 0;
 
             virtual std::string asString()const = 0;
 
             /**
              * \brief return the column name
              **/
-            const std::string& getcolumn() const;
+            const std::string& getColumn() const;
 
             /**
             * \brief set the internal value from a string
@@ -56,7 +56,7 @@ namespace orm
             * bool : true, false, or integer
             * date : "%d/%m/%Y %H:%M:%S" (day/mounth/year hour:minutes:secondes)
             */
-            virtual bool set(const std::string&) = 0;
+            virtual bool setValue(const std::string&) = 0;
 
             /**
              * \brief add the attr to the object
@@ -74,32 +74,32 @@ namespace orm
             template<typename T> friend class Register;
             template<typename T> friend class SqlObject;
 
-            bool modify; ///< if the attr as been modify
-            const std::string& column; ///< the column name
+            bool _modified; ///< if the attr as been modify
+            const std::string& _column; ///< the column name
 
             /**
              * \brief prepare the field before save it in DB (new object only)
              * Note : do nothing by default.
              */
-            virtual void before_save();
+            virtual void _beforeSave();
 
             /**
              * \brief prepare the field after save it in DB (new object only)
              * Note : do nothing by default.
              */
-            virtual void after_save();
+            virtual void _afterSave();
 
             /**
              * \brief prepare the field before update it in DB (not new object only)
              * Note : do nothing by default.
              */
-            virtual void before_update();
+            virtual void _beforeUpdate();
 
             /**
              * \brief prepare the field after update it in DB (not new object only)
              * Note : do nothing by default.
              */
-            virtual void after_update();
+            virtual void _afterUpdate();
         private:
 
             /**
@@ -108,7 +108,7 @@ namespace orm
              * \param query the prepared query
              * \param column the column number
              **/
-            virtual bool set(Query& query,const unsigned int& column) = 0;
+            virtual bool _setToQuery(Query& query,const unsigned int& column) = 0;
 
             /**
              * \brief Get the value form the query row
@@ -119,13 +119,13 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool get(const Query& query,int& prefix,int max_depth) = 0;
+            virtual bool _getFromQuery(const Query& query,int& prefix,int max_depth) = 0;
 
 
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const DB& db) const = 0;
+            virtual std::string _create(const DB& db) const = 0;
 
             /**
              * \brief make the colum alias
@@ -136,7 +136,7 @@ namespace orm
              *
              * \return the culumn alias
              **/
-            virtual std::string makeName(DB& db,const std::string& prefix,int max_depth) const;
+            virtual std::string _makeName(DB& db,const std::string& prefix,int max_depth) const;
     };
 };
 

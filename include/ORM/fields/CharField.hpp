@@ -26,7 +26,7 @@ namespace orm
             CharField(const std::string& column);
 
             CharField(const CharField&) = delete;
-            
+
             using Attr<std::string>::operator std::string;
 
             using Attr<std::string>::operator=;
@@ -46,7 +46,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const DB& db) const override;
+            virtual std::string _create(const DB& db) const override;
     };
 }
 

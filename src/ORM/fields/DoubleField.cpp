@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     DoubleField::DoubleField(const double& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     DoubleField::DoubleField(const std::string& column) : Attr(0,column)
     {
     }
-    
-    std::string DoubleField::create(const DB& db) const
+
+    std::string DoubleField::_create(const DB& db) const
     {
-        return db.creator().doubleField(column,false);
+        return db.creator().doubleField(_column,false);
     }
 }

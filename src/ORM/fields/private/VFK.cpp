@@ -8,7 +8,7 @@ namespace orm
     }
 
     int VFK::getFk()const
-    { 
+    {
         return fk;
     }
 
@@ -28,7 +28,7 @@ namespace orm
         return this->del(recursive, getDefaultDataBase());
     }
 
-    bool VFK::set(const std::string&)
+    bool VFK::setValue(const std::string&)
     {
         return false;
     }

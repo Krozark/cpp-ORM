@@ -31,15 +31,15 @@ namespace orm
         }
 
 
-        if(modify)
+        if(_modified)
         {
-            modify = false; //avoid loop cause by user callbacks
+            _modified = false; //avoid loop cause by user callbacks
             res = value_ptr->save(recursive,db);
             if(fk<=0)
             {
-                value_ptr = T::cache.add(value_ptr);
+                value_ptr = T::cache._add(value_ptr);
             }
-            modify = value_ptr->pk != fk;
+            _modified = value_ptr->pk != fk;
             fk = value_ptr->pk;
         }
         return res;
@@ -61,7 +61,7 @@ namespace orm
     template<typename T>
     typename T::pointer FKBase<T>::operator->()
     {
-        modify = true;
+        _modified = true;
         setObjectT_ptr(*T::default_connection);
         return value_ptr;
     };
@@ -88,7 +88,7 @@ namespace orm
     template<typename T>
     FKBase<T>& FKBase<T>::operator=(const FKBase<T>& other)
     {
-        modify = true;
+        _modified = true;
         fk = other.fk;
         value_ptr = other.value_ptr;
         //loaded = other.loaded;
@@ -98,7 +98,7 @@ namespace orm
     template<typename T>
     FKBase<T>& FKBase<T>::operator=(const typename Cache<T>::pointer& other)
     {
-        modify = true;
+        _modified = true;
         fk = other->pk;
         value_ptr = other;
         //loaded = true;
@@ -107,7 +107,7 @@ namespace orm
 
 
     template<typename T>
-    std::ostream& FKBase<T>::print_value(std::ostream& output)const
+    std::ostream& FKBase<T>::printValue(std::ostream& output)const
     {
         //if(loaded)
         if(value_ptr.get())
@@ -130,7 +130,7 @@ namespace orm
     }
 
     template<typename T>
-    bool FKBase<T>::set(SqlObjectBase::pointer& ptr)
+    bool FKBase<T>::setValue(SqlObjectBase::pointer& ptr)
     {
         typename Cache<T>::pointer other = std::dynamic_pointer_cast<T>(ptr);
         if (other)
@@ -156,17 +156,8 @@ namespace orm
 
 
     template<typename T>
-    bool FKBase<T>::set(Query& query,const unsigned int& column)
+    bool FKBase<T>::_setToQuery(Query& query,const unsigned int& column)
     {
-        /*if (not nullable)
-        {
-            if(not loaded)
-                setObjectT_ptr();
-            return query.set(fk,column);
-        }
-        return query.setNull(fk,column);
-        */
-        //if(loaded)
         if(value_ptr.get())
         {
             if(fk<=0)
@@ -182,7 +173,7 @@ namespace orm
     };
 
     template<typename T>
-    bool FKBase<T>::get(const Query& query,int& prefix,int max_depth)
+    bool FKBase<T>::_getFromQuery(const Query& query,int& prefix,int max_depth)
     {
         bool res = query._getPk(fk,prefix);
 
@@ -195,9 +186,9 @@ namespace orm
                 {
                     value_ptr->T::loadFromDB(query,prefix,max_depth);
 
-                    if(T::cache.add(value_ptr) != value_ptr)
+                    if(T::cache._add(value_ptr) != value_ptr)
                     {
-                        std::cerr<<ORM_COLOUR_REDRED<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<ORM_COLOUR_REDNONE<<std::endl;
+                        std::cerr<<ORM_COLOUR_RED<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<ORM_COLOUR_NONE<<std::endl;
                     }
                 }
                 else
@@ -229,12 +220,12 @@ namespace orm
             {
                 const unsigned int id = fk;
                 value_ptr = T::cache.getOrCreate(id,db,max_depth);
-                /*loaded =*/ modify = true;
+                /*loaded =*/ _modified = true;
             }
             else
             {
                 value_ptr = T::create();
-                /*loaded =*/ modify = true;
+                /*loaded =*/ _modified = true;
             }
         }
     };
@@ -242,14 +233,16 @@ namespace orm
 
 
     template<typename T>
-    std::string FKBase<T>::makeName(DB& db, const std::string& prefix,int max_depth) const
+    std::string FKBase<T>::_makeName(DB& db, const std::string& prefix,int max_depth) const
     {
-        std::string q_str(",\n "+db._escapeColumn(prefix)+"."+db._escapeColumn(column)+" AS "+JOIN_ALIAS(prefix,column));
+        std::string q_str(",\n "+db._escapeColumn(prefix)+"."+db._escapeColumn(_column)+" AS "+JOIN_ALIAS(prefix,_column));
 
         if(--max_depth <0)
+        {
             return q_str;
+        }
 
-        const std::string table_alias = MAKE_PREFIX(prefix,column);
+        const std::string table_alias = MAKE_PREFIX(prefix,_column);
 
         q_str+=",";
         T::nameAttrs(q_str,table_alias,max_depth,db);
@@ -274,8 +267,8 @@ namespace orm
     };
 
     template<typename T>
-    std::string FKBase<T>::create(const DB& db) const
+    std::string FKBase<T>::_create(const DB& db) const
     {
-        return db.creator().fk(column,T::table,nullable);
+        return db.creator().fk(_column,T::table,nullable);
     }
 }

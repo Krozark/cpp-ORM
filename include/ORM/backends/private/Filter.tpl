@@ -84,7 +84,7 @@ namespace orm
         #if ORM_DEBUG & ORM_DEBUG_SQL
         if (not res)
         {
-            std::cerr<<ORM_COLOUR_REDRED<<"[ERROR][Sql:makeQuery] Impossible to bind values <"<<v<<"> on colum "<<column<<ORM_COLOUR_REDNONE;
+            std::cerr<<ORM_COLOUR_RED<<"[ERROR][Sql:makeQuery] Impossible to bind values <"<<v<<"> on colum "<<column<<ORM_COLOUR_NONE;
         }
         #endif
         return res;

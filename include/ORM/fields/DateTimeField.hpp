@@ -19,14 +19,14 @@ namespace orm
              *
              * \param value value to store
              * \param column Column in db
-             **/            
+             **/
             DateTimeField(const tm& value,const std::string& column);
 
             /**
              * \brief Make a Attr
              *  default value is false.
              * \param column Column in db
-             * 
+             *
              **/
             DateTimeField(const std::string& column);
 
@@ -48,7 +48,7 @@ namespace orm
             /**
              * \brief print the value
              */
-            virtual std::ostream& print_value(std::ostream& output)const;
+            virtual std::ostream& printValue(std::ostream& output)const override;
 
             using Attr<tm>::operator tm;///\brief cast operator
 
@@ -92,12 +92,12 @@ namespace orm
             static tm normalize(tm&& time);
 
         private:
-            
-            virtual tm prepare_to_db(const tm& value) override;///< convert t to real time (add +1900 y and +1 month)
 
-            virtual tm prepare_from_db(const tm& value) override; ///< convert DB to tm
+            virtual tm _prepareToDb(const tm& value) override;///< convert t to real time (add +1900 y and +1 month)
 
-            virtual std::string create(const DB& db) const override; ///< get creator
+            virtual tm _prepareFromDb(const tm& value) override; ///< convert DB to tm
+
+            virtual std::string _create(const DB& db) const override; ///< get creator
 
     };
 

@@ -20,7 +20,7 @@ namespace orm
              * \brief Make a Attr
              *  default value is false.
              * \param column Column in db
-             * 
+             *
              **/
             BooleanField(const std::string& column);
 
@@ -50,7 +50,7 @@ namespace orm
             /**
              * \brief create the attr column
              */
-            virtual std::string create(const DB& db) const override;
+            virtual std::string _create(const DB& db) const override;
     };
 }
 #endif

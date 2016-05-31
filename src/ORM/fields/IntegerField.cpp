@@ -5,7 +5,7 @@
 
 namespace orm
 {
-    
+
     IntegerField::IntegerField(const int& value,const std::string& column) : Attr(value,column)
     {
     }
@@ -13,9 +13,9 @@ namespace orm
     IntegerField::IntegerField(const std::string& column) : Attr(0,column)
     {
     }
-    
-    std::string IntegerField::create(const DB& db) const
+
+    std::string IntegerField::_create(const DB& db) const
     {
-        return db.creator().integerField(column,false);
+        return db.creator().integerField(_column,false);
     }
 }
