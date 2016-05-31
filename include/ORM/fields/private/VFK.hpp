@@ -107,9 +107,9 @@ namespace orm
         protected:
             template<typename T> friend class SqlObject;
 
-            int fk; ///< the fk value (if fk <=0 => null)
+            int _fk; ///< the fk value (if fk <=0 => null)
             //bool loaded; ///< as a loaded object
-            const bool nullable; ///< is nullable
+            const bool _nullable; ///< is nullable
 
             /**
              * \brief Use for increment the column number without construction.
@@ -118,7 +118,7 @@ namespace orm
              * \param depth column nuber to increment
              * \param max_depth maximun depth of construction
              **/
-            virtual void incDepth(int& depth,int max_depth)const = 0;
+            virtual void _incDepth(int& depth,int max_depth)const = 0;
 
             /**
              * \brief get the stored object
@@ -128,7 +128,7 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SqlObjectBase& getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
+            virtual const SqlObjectBase& _getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH)= 0;
 
 
 

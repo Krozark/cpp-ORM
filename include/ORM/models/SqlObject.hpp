@@ -260,7 +260,7 @@ namespace orm
             /**
             * \brief use by the cache to increment depth
             **/
-            static void incDepth(int& depth,int max_depth);
+            static void _incDepth(int& depth,int max_depth);
 
     };
 };

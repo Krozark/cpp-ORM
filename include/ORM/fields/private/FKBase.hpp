@@ -44,7 +44,6 @@ namespace orm
              **/
             virtual bool del(bool recursive=false,DB& db=*T::default_connection) override;
 
-            typedef T type; ///< Type of stored object
 
             /**
              * \brief assessor operator to the stored object
@@ -100,7 +99,7 @@ namespace orm
              **/
             FKBase(const std::string& column,const bool nullable=true);
 
-            typename T::pointer value_ptr; ///< the stored object
+            typename T::pointer _valuePtr; ///< the stored object
 
             /**
              * \brief Set the fk value to the query
@@ -131,7 +130,7 @@ namespace orm
              *
              * \return The new object
              **/
-            void setObjectT_ptr(DB& db,int max_depth = ORM_DEFAULT_MAX_DEPTH);
+            void _setObjectT_ptr(DB& db,int max_depth = ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief make the attrs colum name
@@ -151,7 +150,7 @@ namespace orm
              * \param depth column nuber to increment
              * \param max_depth maximun depth of construction
              **/
-            virtual void incDepth(int& depth,int max_depth) const;
+            virtual void _incDepth(int& depth,int max_depth) const;
 
             /**
              * \brief get the stored object
@@ -161,7 +160,7 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SqlObjectBase& getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            virtual const SqlObjectBase& _getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
 
             /**

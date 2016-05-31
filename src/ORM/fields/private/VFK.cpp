@@ -3,13 +3,13 @@
 
 namespace orm
 {
-    VFK::VFK(const std::string& column,bool nullable) : VAttr(column) , fk(-1), nullable(nullable)
+    VFK::VFK(const std::string& column,bool nullable) : VAttr(column) , _fk(-1), _nullable(nullable)
     {
     }
 
     int VFK::getFk()const
     {
-        return fk;
+        return _fk;
     }
 
     void VFK::registerAttr(SqlObjectBase& object)
@@ -35,7 +35,7 @@ namespace orm
 
     std::string VFK::asString()const
     {
-        return std::to_string(fk);
+        return std::to_string(_fk);
     }
 
 };

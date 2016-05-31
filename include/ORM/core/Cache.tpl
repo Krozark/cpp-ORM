@@ -43,7 +43,7 @@ namespace orm
         const auto& res= _map.find(pk);
         if(res != _map.end())
         {
-            T::incDepth(prefix,max_depth);
+            T::_incDepth(prefix,max_depth);
             return res->second;
         }
         pointer& r= _map[pk];

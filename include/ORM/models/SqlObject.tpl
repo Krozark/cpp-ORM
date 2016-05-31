@@ -97,7 +97,7 @@ namespace orm
             for(VFK* fk : fks)
             {
                 VFK& fk_tmp = *fk;
-                if(fk_tmp.nullable == false and (fk_tmp.fk <=0 or fk_tmp._modified == true))
+                if(fk_tmp._nullable == false and (fk_tmp._fk <=0 or fk_tmp._modified == true))
                 {
                     fk_tmp.save(recursive,db);
                 }
@@ -227,7 +227,7 @@ namespace orm
         for(int i=0;i<size;++i)
         {
 
-            const SqlObjectBase& object = column_fks[i]->getObject(db);
+            const SqlObjectBase& object = column_fks[i]->_getObject(db);
             /*if (&object == NULL)
                 continue;*/
             const std::string& col = column_fks[i]->getColumn();
@@ -263,13 +263,13 @@ namespace orm
     }
 
     template<typename T>
-    void SqlObject<T>::incDepth(int& depth,int max_depth)
+    void SqlObject<T>::_incDepth(int& depth,int max_depth)
     {
         depth+= (1 + column_attrs.size()); //id + attrs
 
         const int _size = column_fks.size();
         for(int i=0;i<_size;++i)
-            column_fks[i]->incDepth(depth,max_depth);
+            column_fks[i]->_incDepth(depth,max_depth);
     }
 
 };

@@ -38,8 +38,6 @@ namespace orm
 
             Attr(const Attr&) = delete;
 
-            typedef T type; ///< type of stored object
-
             /**
              * \brief assignement operator
              *

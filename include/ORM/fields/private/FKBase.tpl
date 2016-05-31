@@ -25,22 +25,22 @@ namespace orm
     {
         bool res = false;
 
-        if(not nullable)
+        if(not _nullable)
         {
-            setObjectT_ptr(db);
+            _setObjectT_ptr(db);
         }
 
 
         if(_modified)
         {
             _modified = false; //avoid loop cause by user callbacks
-            res = value_ptr->save(recursive,db);
-            if(fk<=0)
+            res = _valuePtr->save(recursive,db);
+            if(_fk<=0)
             {
-                value_ptr = T::cache._add(value_ptr);
+                _valuePtr = T::cache._add(_valuePtr);
             }
-            _modified = value_ptr->pk != fk;
-            fk = value_ptr->pk;
+            _modified = (_valuePtr->pk != _fk);
+            _fk = _valuePtr->pk;
         }
         return res;
     }
@@ -50,10 +50,10 @@ namespace orm
     {
         bool res = false;
         //if(loaded)
-        if(value_ptr.get() and value_ptr->pk != -1)
+        if(_valuePtr.get() and _valuePtr->pk != -1)
         {
-            res = value_ptr->del(recursive,db);
-            fk = value_ptr->pk;
+            res = _valuePtr->del(recursive,db);
+            _fk = _valuePtr->pk;
         }
         return res;
     }
@@ -62,35 +62,35 @@ namespace orm
     typename T::pointer FKBase<T>::operator->()
     {
         _modified = true;
-        setObjectT_ptr(*T::default_connection);
-        return value_ptr;
+        _setObjectT_ptr(*T::default_connection);
+        return _valuePtr;
     };
 
     template<typename T>
     T& FKBase<T>::operator*()
     {
-        setObjectT_ptr(*T::default_connection);
-        return *value_ptr;
+        _setObjectT_ptr(*T::default_connection);
+        return *_valuePtr;
     };
 
     template<typename T>
     FKBase<T>::operator typename T::pointer() const
     {
-        return value_ptr;
+        return _valuePtr;
     }
 
     template<typename T>
     FKBase<T>::operator bool()const
     {
-        return value_ptr.get();
+        return _valuePtr.get();
     }
 
     template<typename T>
     FKBase<T>& FKBase<T>::operator=(const FKBase<T>& other)
     {
         _modified = true;
-        fk = other.fk;
-        value_ptr = other.value_ptr;
+        _fk = other._fk;
+        _valuePtr = other._valuePtr;
         //loaded = other.loaded;
         return *this;
     }
@@ -99,8 +99,8 @@ namespace orm
     FKBase<T>& FKBase<T>::operator=(const typename Cache<T>::pointer& other)
     {
         _modified = true;
-        fk = other->pk;
-        value_ptr = other;
+        _fk = other->pk;
+        _valuePtr = other;
         //loaded = true;
         return *this;
     }
@@ -110,17 +110,21 @@ namespace orm
     std::ostream& FKBase<T>::printValue(std::ostream& output)const
     {
         //if(loaded)
-        if(value_ptr.get())
-            output<<(*value_ptr);
+        if(_valuePtr)
+        {
+            output<<(*_valuePtr);
+        }
         else
-            output<<"{\""<<T::ORM_MAKE_NAME(pk)<<"\":\""<<fk<<"\",\"_data_\" = null}";
+        {
+            output<<"{\""<<T::ORM_MAKE_NAME(pk)<<"\":\""<<_fk<<"\",\"_data_\" = null}";
+        }
         return output;
     }
 
     template<typename T>
     bool FKBase<T>::test()const
     {
-        return value_ptr.get();
+        return (_valuePtr != nullptr);
     }
 
     template<typename T>
@@ -158,73 +162,77 @@ namespace orm
     template<typename T>
     bool FKBase<T>::_setToQuery(Query& query,const unsigned int& column)
     {
-        if(value_ptr.get())
+        if(_valuePtr)
         {
-            if(fk<=0)
+            if(_fk<=0)
             {
-                fk = value_ptr->pk;
+                _fk = _valuePtr->pk;
             }
-            if(fk>0)
+            if(_fk>0)
             {
-                return query._set(fk,column);
+                return query._set(_fk,column);
             }
         }
-        return query._setNull(fk,column);
+        return query._setNull(_fk,column);
     };
 
     template<typename T>
     bool FKBase<T>::_getFromQuery(const Query& query,int& prefix,int max_depth)
     {
-        bool res = query._getPk(fk,prefix);
+        bool res = query._getPk(_fk,prefix);
 
         if(--max_depth>=0)
         {
             if(res)
             {
-                const unsigned int id = fk;
+                const unsigned int id = _fk;
                 if(test())
                 {
-                    value_ptr->T::loadFromDB(query,prefix,max_depth);
+                    _valuePtr->T::loadFromDB(query,prefix,max_depth);
 
-                    if(T::cache._add(value_ptr) != value_ptr)
+                    if(T::cache._add(_valuePtr) != _valuePtr)
                     {
                         std::cerr<<ORM_COLOUR_RED<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<ORM_COLOUR_NONE<<std::endl;
                     }
                 }
                 else
                 {
-                    value_ptr = T::cache.getOrCreate(id,query,prefix,max_depth);
+                    _valuePtr = T::cache.getOrCreate(id,query,prefix,max_depth);
                 }
                 //loaded = true;
             }
             else
             {
-                T::incDepth(prefix,max_depth);
-                if(nullable)
+                T::_incDepth(prefix,max_depth);
+                if(_nullable)
+                {
                     res = true;
+                }
             }
         }
-        else if(nullable)
+        else if(_nullable)
+        {
             res = true;
+        }
 
         return res;
     }
 
     template<typename T>
-    void FKBase<T>::setObjectT_ptr(DB& db,int max_depth)
+    void FKBase<T>::_setObjectT_ptr(DB& db,int max_depth)
     {
         //if (not loaded)
-        if (not value_ptr.get())
+        if (_valuePtr == nullptr)
         {
-            if(fk>0)
+            if(_fk>0)
             {
-                const unsigned int id = fk;
-                value_ptr = T::cache.getOrCreate(id,db,max_depth);
+                const unsigned int id = _fk;
+                _valuePtr = T::cache.getOrCreate(id,db,max_depth);
                 /*loaded =*/ _modified = true;
             }
             else
             {
-                value_ptr = T::create();
+                _valuePtr = T::create();
                 /*loaded =*/ _modified = true;
             }
         }
@@ -250,25 +258,25 @@ namespace orm
     }
 
     template<typename T>
-    void FKBase<T>::incDepth(int& depth,int max_depth) const
+    void FKBase<T>::_incDepth(int& depth,int max_depth) const
     {
         if(--max_depth>=0)
         {
-            T::incDepth(depth,max_depth);
+            T::_incDepth(depth,max_depth);
         }
     }
 
 
     template<typename T>
-    const SqlObjectBase& FKBase<T>::getObject(DB& db,int max_depth)
+    const SqlObjectBase& FKBase<T>::_getObject(DB& db,int max_depth)
     {
-        setObjectT_ptr(db,max_depth);
-        return *value_ptr;
+        _setObjectT_ptr(db,max_depth);
+        return *_valuePtr;
     };
 
     template<typename T>
     std::string FKBase<T>::_create(const DB& db) const
     {
-        return db.creator().fk(_column,T::table,nullable);
+        return db.creator().fk(_column,T::table,_nullable);
     }
 }
