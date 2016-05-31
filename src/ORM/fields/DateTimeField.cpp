@@ -190,7 +190,7 @@ namespace orm
     {
     }
 
-    void AutoDateTimeField::before_save()
+    void AutoDateTimeField::_beforeSave()
     {
         *this=DateTimeField::now();
     }
@@ -207,12 +207,12 @@ namespace orm
     }
 
 
-    void AutoNowDateTimeField::before_save()
+    void AutoNowDateTimeField::_beforeSave()
     {
         *this=DateTimeField::now();
     }
 
-    void AutoNowDateTimeField::before_update()
+    void AutoNowDateTimeField::_beforeUpdate()
     {
         *this=DateTimeField::now();
     }

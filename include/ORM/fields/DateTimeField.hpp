@@ -127,7 +127,7 @@ namespace orm
             using DateTimeField::operator=;
 
         protected:
-            virtual void before_save();
+            virtual void _beforeSave() override;
     };
 
     /**
@@ -157,8 +157,8 @@ namespace orm
             using DateTimeField::operator=;
 
         protected:
-            virtual void before_save();
-            virtual void before_update();
+            virtual void _beforeSave() override;
+            virtual void _beforeUpdate() override;
     };
 }
 

@@ -2,7 +2,7 @@ namespace orm
 {
     template<typename T,typename U>
     ManyToMany<T,U>::ManyToMany(T& o) :
-    owner(o),
+    _owner(o),
     _adds(true)
     {
     }
@@ -26,41 +26,41 @@ namespace orm
     };
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::nameAttrs(std::string& q_str,int max_depth,DB& db)
+    void ManyToMany<T,U>::_nameAttrs(std::string& q_str,int max_depth,DB& db)
     {
-        U::nameAttrs(q_str,ORM_MAKE_NAME(related),max_depth,db);
+        U::nameAttrs(q_str,ORM_MAKE_NAME(_related),max_depth,db);
     }
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::nameTables(std::string& q_str,int max_depth,DB& db)
+    void ManyToMany<T,U>::_nameTables(std::string& q_str,int max_depth,DB& db)
     {
         q_str+= db._escapeColumn(table)+" AS "+db._escapeColumn(table);
-        makeJoin(q_str,max_depth,db);
+        _makeJoin(q_str,max_depth,db);
     }
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::makeJoin(std::string& q_str,int max_depth,DB& db)
+    void ManyToMany<T,U>::_makeJoin(std::string& q_str,int max_depth,DB& db)
     {
-        const std::string table_alias_T = JOIN_ALIAS(table,ORM_MAKE_NAME(owner));
+        const std::string table_alias_T = JOIN_ALIAS(table,ORM_MAKE_NAME(_owner));
 
         q_str+=
             "\nLEFT JOIN "+T::table+" AS "+table_alias_T
             +" ON ("
-            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(owner))
+            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))
             +" = "+db._escapeColumn(table_alias_T)+"."+db._escapeColumn(T::ORM_MAKE_NAME(pk))
-            +")\nLEFT JOIN "+U::table+" AS "+ORM_MAKE_NAME(related)
+            +")\nLEFT JOIN "+U::table+" AS "+ORM_MAKE_NAME(_related)
             +" ON ("
-            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(linked))
-            +" = "+db._escapeColumn(ORM_MAKE_NAME(related))+"."+db._escapeColumn(U::ORM_MAKE_NAME(pk))
+            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))
+            +" = "+db._escapeColumn(ORM_MAKE_NAME(_related))+"."+db._escapeColumn(U::ORM_MAKE_NAME(pk))
             +")";
 
-        U::makeJoin(q_str,ORM_MAKE_NAME(related),max_depth,db);
+        U::makeJoin(q_str,ORM_MAKE_NAME(_related),max_depth,db);
     }
 
     template<typename T,typename U>
     bool ManyToMany<T,U>::add(const typename U::pointer& obj,DB& db)
     {
-        if(owner.pk <=0)
+        if(_owner.pk <=0)
         {
             ORM_PRINT_ERROR("The M2M owner as not be saved")
             return false;
@@ -71,12 +71,12 @@ namespace orm
             return false;
         }
         std::string q_str = "INSERT INTO "+db._escapeColumn(table)
-            +"("+ORM_MAKE_NAME(owner)+","+ORM_MAKE_NAME(linked)+") VALUES ((?),(?));";
+            +"("+ORM_MAKE_NAME(_owner)+","+ORM_MAKE_NAME(_linked)+") VALUES ((?),(?));";
         std::unique_ptr<Query> q(db.prepareQuery(q_str));
-        q->_set(owner.pk,db._getInitialSetcolumnNumber());
+        q->_set(_owner.pk,db._getInitialSetcolumnNumber());
         q->_set(obj->pk,db._getInitialSetcolumnNumber()+1);
         #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<ORM_COLOUR_BLUE<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj->pk<<")"<<ORM_COLOUR_NONE<<std::endl;
+            std::cerr<<ORM_COLOUR_BLUE<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<_owner.pk<<", "<<obj->pk<<")"<<ORM_COLOUR_NONE<<std::endl;
         #endif
         q->_execute();
         q->_next();
@@ -99,22 +99,22 @@ namespace orm
     template<typename T,typename U>
     void ManyToMany<T,U>::remove(const U& obj,DB& db)
     {
-        if(obj.pk<=0 or owner.pk <=0)
+        if(obj.pk<=0 or _owner.pk <=0)
             return;
 
         const std::string table_escaped = db._escapeColumn(table);
 
         std::string q_str = "DELETE FROM "+table_escaped+" WHERE ("
-            +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(owner))+" = (?)"
+            +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))+" = (?)"
             +" AND "
-            +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(linked))+" = (?))";
+            +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))+" = (?))";
 
         Query& q = *db.prepareQuery(q_str);
-        q._set(owner.pk,db._getInitialSetcolumnNumber());
+        q._set(_owner.pk,db._getInitialSetcolumnNumber());
         q._set(obj.pk,db._getInitialSetcolumnNumber()+1);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<ORM_COLOUR_COMMENTS<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<ORM_COLOUR_NONE<<std::endl;
+        std::cerr<<ORM_COLOUR_COMMENTS<<q_str<<"\nVALUES = ("<<_owner.pk<<", "<<obj.pk<<")"<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
         q._execute();
@@ -131,8 +131,8 @@ namespace orm
         #endif
 
         static std::vector<const VAttr*> column_attrs = {
-            new FK<T,false>(ORM_MAKE_NAME(owner)),
-            new FK<U,false>(ORM_MAKE_NAME(linked))
+            new FK<T,false>(ORM_MAKE_NAME(_owner)),
+            new FK<U,false>(ORM_MAKE_NAME(_linked))
         }; ///< attr of the class
         bool res = db.create(table,column_attrs);
         delete reinterpret_cast<const FK<T,false>*>(column_attrs[0]);

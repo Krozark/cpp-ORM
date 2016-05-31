@@ -11,9 +11,9 @@ namespace orm
         _m2m(m2m)
     {
         _filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(
-            _m2m.owner.pk,
+            _m2m._owner.pk,
             op::exact,
-            _m2m.ORM_MAKE_NAME(owner)));
+            _m2m.ORM_MAKE_NAME(_owner)));
     }
 
     template <typename OWNER, typename RELATED>
@@ -26,7 +26,7 @@ namespace orm
     template <typename T,typename ... Args>
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(T&& v,const std::string& operand,Args&& ... args)
     {
-        _filters.emplace_back(Q<ManyToMany<OWNER, RELATED>>(std::forward<T>(v), operand, _m2m.ORM_MAKE_NAME(linked), std::forward<Args>(args)...));
+        _filters.emplace_back(Q<ManyToMany<OWNER, RELATED>>(std::forward<T>(v), operand, _m2m.ORM_MAKE_NAME(_linked), std::forward<Args>(args)...));
         return *this;
     };
 
@@ -151,10 +151,10 @@ namespace orm
     Query* M2MQuerySet<OWNER,RELATED>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        ManyToMany<OWNER,RELATED>::nameAttrs(q_str,max_depth,_db);
+        ManyToMany<OWNER,RELATED>::_nameAttrs(q_str,max_depth,_db);
 
         q_str+="\nFROM ";
-        ManyToMany<OWNER,RELATED>::nameTables(q_str,max_depth,_db);
+        ManyToMany<OWNER,RELATED>::_nameTables(q_str,max_depth,_db);
 
         const int filters_size = _filters.size();
 

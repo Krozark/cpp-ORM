@@ -102,9 +102,9 @@ namespace orm
         protected:
             friend class M2MQuerySet<OWNER,RELATED>;
 
-            const OWNER& owner; ///< owner of the m2m relation
+            const OWNER& _owner; ///< owner of the m2m relation
 
-            ORM_MAKE_STATIC_COLUMN(owner,linked,related) ///< colum names of the tables
+            ORM_MAKE_STATIC_COLUMN(_owner,_linked,_related) ///< colum names of the tables
 
             /**
             * \brief make the attrs columns alias
@@ -113,7 +113,7 @@ namespace orm
              * \param db the db to fetch
             * \param max_depth maximun depth of constrution
             **/
-            static void nameAttrs(std::string& q_str,int max_depth,DB& db);
+            static void _nameAttrs(std::string& q_str,int max_depth,DB& db);
 
              /**
              * \brief make the table alias
@@ -122,7 +122,7 @@ namespace orm
              * \param db the db to fetch
              * \param max_depth maximun depth of constrution
              **/
-            static void nameTables(std::string& q_str,int max_depth,DB& db);
+            static void _nameTables(std::string& q_str,int max_depth,DB& db);
 
             /**
              * \brief make the table alias of fk with join
@@ -131,7 +131,7 @@ namespace orm
              * \param db the db to fetch
              * \param max_depth maximun depth of constrution
              **/
-            static void makeJoin(std::string& q_str,int max_depth,DB& db);
+            static void _makeJoin(std::string& q_str,int max_depth,DB& db);
 
         private:
             static M2MRegister<OWNER,RELATED> _register;

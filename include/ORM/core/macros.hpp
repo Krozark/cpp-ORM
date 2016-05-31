@@ -341,9 +341,9 @@ ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"
 
 #define ORM_M2M_REGISTER(klass,m2m,T_linked,table_name,owner_column,linked_column) \
     template<> const std::string orm::ManyToMany<klass,T_linked>::table = table_name;\
-    template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(owner) = owner_column;\
-    template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(linked) = linked_column;\
-    template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(related) = JOIN_ALIAS(table_name,linked_column);\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_owner) = owner_column;\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_linked) = linked_column;\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_related) = JOIN_ALIAS(table_name,linked_column);\
     template<> orm::DB* orm::ManyToMany<klass,T_linked>::default_connection = &orm::DB::Default;\
     template<> orm::M2MRegister<klass,T_linked> orm::ManyToMany<klass,T_linked>::_register = orm::M2MRegister<klass,T_linked>();
 
