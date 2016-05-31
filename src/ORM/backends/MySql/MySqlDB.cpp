@@ -258,7 +258,7 @@ namespace orm
         }
         else
         {
-            std::cerr<<ROUGE<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
+            std::cerr<<ORM_COLOUR_REDRED<<"[ERROR] Limit : count can't be <= 0"<<std::endl;
         }
         return query;
     };

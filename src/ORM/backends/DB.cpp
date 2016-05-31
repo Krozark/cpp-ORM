@@ -78,7 +78,7 @@ namespace orm
             str_q+=");";
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<BLEU<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
+            std::cerr<<ORM_COLOUR_REDBLUE<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -106,7 +106,7 @@ namespace orm
 
             pk = _getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<JAUNE<<"new PK: "<<pk<<" in table "<<table<<BLANC<<std::endl;
+            std::cerr<<ORM_COLOUR_REDYELLOW<<"new PK: "<<pk<<" in table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
             #endif
 
             return true;
@@ -146,14 +146,14 @@ namespace orm
             if(first) //NO MAJ NEDEED
             {
                 #if ORM_DEBUG & ORM_DEBUG_SQL
-                std::cerr<<BLEU2<<"[Sql:update] "<<str_q<<"\nNo Update needed, exit"<<BLANC<<std::endl;
+                std::cerr<<ORM_COLOUR_REDBLUE2<<"[Sql:update] "<<str_q<<"\nNo Update needed, exit"<<ORM_COLOUR_REDNONE<<std::endl;
                 #endif
 
                 return false;
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<BLEU2<<"[Sql:update] "<<str_q<<"\nVALUES = (";
+            std::cerr<<ORM_COLOUR_REDBLUE2<<"[Sql:update] "<<str_q<<"\nVALUES = (";
             #endif
 
             Query& q = *prepareQuery(str_q);
@@ -174,7 +174,7 @@ namespace orm
             }
 
             #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<")"<<BLANC<<std::endl;
+            std::cerr<<")"<<ORM_COLOUR_REDNONE<<std::endl;
             #endif
             q._execute();
             q._next();
@@ -189,7 +189,7 @@ namespace orm
         std::string str_q = "DELETE FROM "+_escapeColumn(table)+" WHERE ("+_escapeColumn(table)+"."+_escapeColumn("pk")+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<COMMENTAIRE<<"[Sql:delete]"<<str_q<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDCOMMENTS<<"[Sql:delete]"<<str_q<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
 
         Query* q = prepareQuery(str_q);

@@ -60,7 +60,7 @@ namespace orm
         if(not q->_getObj(*res,max_depth))
         {
             #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
-            std::cerr<<ROUGE<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<BLANC<<std::endl;
+            std::cerr<<ORM_COLOUR_REDRED<<"[GET OBJ] SqlObject<T>::_get_ptr(const unsigned int id,int max_depth) failed"<<ORM_COLOUR_REDNONE<<std::endl;
             #endif
             delete res;
             res = nullptr;
@@ -155,7 +155,7 @@ namespace orm
     bool SqlObject<T>::createTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
-        std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[CREATE] create table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
         return db.create(table,column_attrs);
     }
@@ -164,7 +164,7 @@ namespace orm
     bool SqlObject<T>::dropTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
-        std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[DROP] drop table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
         cache.clear(true);
         return db.drop(table);
@@ -174,7 +174,7 @@ namespace orm
     bool SqlObject<T>::clearTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
-        std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[TRUNCATE] truncate table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
         cache.clear(true);
         return db.clear(table);

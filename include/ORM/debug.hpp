@@ -47,19 +47,19 @@
 /*** print macros ****/
 
 #if ORM_VERBOSITY & ORM_ERROR
-#define ORM_PRINT_ERROR(txt) {std::cerr<<ROUGE<<"[ERROR]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<BLANC<<std::endl;}
+#define ORM_PRINT_ERROR(txt) {std::cerr<<ORM_COLOUR_REDRED<<"[ERROR]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_REDNONE<<std::endl;}
 #else
 #define ORM_PRINT_ERROR(txt) {}
 #endif
 
 #if ORM_VERBOSITY & ORM_WARNING
-#define ORM_PRINT_WARNING(txt) {std::cerr<<JAUNE<<"[WARNING]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<BLANC<<std::endl;}
+#define ORM_PRINT_WARNING(txt) {std::cerr<<ORM_COLOUR_REDYELLOW<<"[WARNING]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_REDNONE<<std::endl;}
 #else
 #define ORM_PRINT_WARNING(txt) {}
 #endif
 
 #if ORM_VERBOSITY & ORM_VERBOSE
-#define ORM_PRINT_VERBOSE(txt) {std::cerr<<COMMENTAIRE<<"[VERBOSE]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<BLANC<<std::endl;}
+#define ORM_PRINT_VERBOSE(txt) {std::cerr<<ORM_COLOUR_REDCOMMENTS<<"[VERBOSE]("<<__FILE__<<":"<<__LINE__<<") "<<txt<<ORM_COLOUR_REDNONE<<std::endl;}
 #else
 #define ORM_PRINT_VERBOSE(txt) {}
 #endif
@@ -71,27 +71,27 @@
 
 #ifdef ORM_USE_MSVC
 
-#define ROUGE  	""
-#define VERT   	""
-#define JAUNE  	""
-#define BLEU   	""
-#define MAGENTA ""
-#define LMAGENTA ""
-#define BLEU2 ""
-#define COMMENTAIRE ""
-#define BLANC 	""
+#define ORM_COLOUR_REDRED  	""
+#define ORM_COLOUR_REDGREEN   	""
+#define ORM_COLOUR_REDYELLOW  	""
+#define ORM_COLOUR_REDBLUE   	""
+#define ORM_COLOUR_REDMAGENTA ""
+#define ORM_COLOUR_REDMAGENTA2 ""
+#define ORM_COLOUR_REDBLUE2 ""
+#define ORM_COLOUR_REDCOMMENTS ""
+#define ORM_COLOUR_REDNONE 	""
 
 #else
 
-#define ROUGE  	"\033[31m"
-#define VERT   	"\033[32m"
-#define JAUNE  	"\033[33m"
-#define BLEU   	"\033[34m"
-#define MAGENTA "\033[35m"
-#define LMAGENTA "\033[01;35m"
-#define BLEU2 "\033[36m"
-#define COMMENTAIRE "\033[31m"
-#define BLANC 	"\033[00m"
+#define ORM_COLOUR_REDRED  	"\033[31m"
+#define ORM_COLOUR_REDGREEN   	"\033[32m"
+#define ORM_COLOUR_REDYELLOW  	"\033[33m"
+#define ORM_COLOUR_REDBLUE   	"\033[34m"
+#define ORM_COLOUR_REDMAGENTA "\033[35m"
+#define ORM_COLOUR_REDMAGENTA2 "\033[01;35m"
+#define ORM_COLOUR_REDBLUE2 "\033[36m"
+#define ORM_COLOUR_REDCOMMENTS "\033[31m"
+#define ORM_COLOUR_REDNONE 	"\033[00m"
 
 #endif
 

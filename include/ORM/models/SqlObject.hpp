@@ -167,7 +167,7 @@ namespace orm
             const static std::string table; ///< the table name
 
         protected:
-            
+
             static Cache<T> cache; ///< the cache containing the objects
 
 

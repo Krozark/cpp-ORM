@@ -4,7 +4,7 @@ namespace orm
     Cache<T>::Cache()
     {
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
-        std::cerr<<MAGENTA<<"[Register] Cache of "<<SqlObject<T>::table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[Register] Cache of "<<SqlObject<T>::table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
     };
 
@@ -12,7 +12,7 @@ namespace orm
     Cache<T>::~Cache()
     {
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
-        std::cerr<<MAGENTA<<"[Delete] Cache of "<<SqlObject<T>::table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[Delete] Cache of "<<SqlObject<T>::table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
     }
 

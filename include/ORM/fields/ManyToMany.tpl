@@ -76,7 +76,7 @@ namespace orm
         q->_set(owner.pk,db._getInitialSetcolumnNumber());
         q->_set(obj->pk,db._getInitialSetcolumnNumber()+1);
         #if ORM_DEBUG & ORM_DEBUG_SQL
-            std::cerr<<BLEU<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj->pk<<")"<<BLANC<<std::endl;
+            std::cerr<<ORM_COLOUR_REDBLUE<<"[Sql:insert]"<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj->pk<<")"<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
         q->_execute();
         q->_next();
@@ -114,7 +114,7 @@ namespace orm
         q._set(obj.pk,db._getInitialSetcolumnNumber()+1);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
-        std::cerr<<COMMENTAIRE<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDCOMMENTS<<q_str<<"\nVALUES = ("<<owner.pk<<", "<<obj.pk<<")"<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
 
         q._execute();
@@ -127,7 +127,7 @@ namespace orm
     bool ManyToMany<T,U>::create(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
-        std::cerr<<MAGENTA<<"[CREATE] create table "<<table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[CREATE] create table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
 
         static std::vector<const VAttr*> column_attrs = {
@@ -145,7 +145,7 @@ namespace orm
     bool ManyToMany<T,U>::drop(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
-        std::cerr<<MAGENTA<<"[DROP] drop table "<<table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[DROP] drop table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
         return db.drop(table);
     }
@@ -154,7 +154,7 @@ namespace orm
     bool ManyToMany<T,U>::clear(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
-        std::cerr<<MAGENTA<<"[TRUNCATE] truncate table "<<table<<BLANC<<std::endl;
+        std::cerr<<ORM_COLOUR_REDMAGENTA<<"[TRUNCATE] truncate table "<<table<<ORM_COLOUR_REDNONE<<std::endl;
         #endif
         return db.clear(table);
     }

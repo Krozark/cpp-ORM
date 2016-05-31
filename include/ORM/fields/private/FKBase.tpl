@@ -197,7 +197,7 @@ namespace orm
 
                     if(T::cache.add(value_ptr) != value_ptr)
                     {
-                        std::cerr<<ROUGE<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<BLANC<<std::endl;
+                        std::cerr<<ORM_COLOUR_REDRED<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<ORM_COLOUR_REDNONE<<std::endl;
                     }
                 }
                 else
