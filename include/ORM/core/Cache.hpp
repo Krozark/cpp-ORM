@@ -7,10 +7,7 @@
 
 //#include <mutex>
 
-#ifdef ORM_USE_CACHE
-    #include <unordered_map>
-#endif
-
+#include <unordered_map>
 
 namespace orm
 {
@@ -127,9 +124,7 @@ namespace orm
              **/
             //pointer& add(T& obj);
 
-#ifdef ORM_USE_CACHE
             std::unordered_map<int,pointer> map; ///< store all the objects
-#endif
 
             /**
              * \brief delete object of specified pk

@@ -265,6 +265,7 @@ namespace orm
             template<typename T>
             T _formatValue(const std::string& ope,T value) const;
 
+
             /**
             * \brief format the operation for the database
             *

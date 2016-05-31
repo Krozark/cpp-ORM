@@ -1,10 +1,9 @@
 namespace orm
 {
     template<typename T,typename U>
-    ManyToMany<T,U>::ManyToMany(T& o) : owner(o)
-#ifdef ORM_USE_CACHE
-                                        , _adds(true)
-#endif
+    ManyToMany<T,U>::ManyToMany(T& o) :
+    owner(o),
+    _adds(true)
     {
     }
 
@@ -17,7 +16,6 @@ namespace orm
     template<typename T,typename U>
     typename U::pointer_array ManyToMany<T,U>::all(DB& db,int max_depth)
     {
-#ifdef ORM_USE_CACHE
         if(_adds)
         {
             _cache.clear();
@@ -25,11 +23,6 @@ namespace orm
             _adds = false;
         }
         return _cache;
-#else
-        typename U::pointer_array results;
-        query(db).get(results,max_depth);
-        return results;
-#endif
     };
 
     template<typename T,typename U>
@@ -87,10 +80,8 @@ namespace orm
         #endif
         q->_execute();
         q->_next();
-        #ifdef ORM_USE_CACHE
-            _adds = true;
-            _cache.emplace_back(obj);
-        #endif
+        _adds = true;
+        _cache.emplace_back(obj);
         return true;
     }
 

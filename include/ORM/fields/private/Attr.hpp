@@ -39,7 +39,7 @@ namespace orm
             Attr(const Attr&) = delete;
 
             typedef T type; ///< type of stored object
-            
+
             /**
              * \brief assignement operator
              *
@@ -57,7 +57,7 @@ namespace orm
              * \return *this
              **/
             Attr<T>& operator=(const Attr<T>& v);
-            
+
             /**
              * \brief addition operator
              *
@@ -130,7 +130,7 @@ namespace orm
              * \return *this
              **/
             Attr<T>& operator--(int);
-            
+
             /**
              * \brief Comparaison operator
              *
@@ -175,7 +175,7 @@ namespace orm
              * \return value >= v
              **/
             template<typename U> bool operator>=(const U& v);
-            
+
             /**
              * \brief Comparaison operator
              *
@@ -228,7 +228,7 @@ namespace orm
              * \return *this
              **/
             template<typename U> Attr<T>& operator/=(const U& v);
-            
+
             /**
              * \brief mod operator
              *
@@ -451,19 +451,18 @@ namespace orm
     using BigDoubleField = Attr<long double>;
 
     /*
-      'CommaSeparatedIntegerField':   
-      'DateField':                    
-      'DateTimeField':                
-      'DecimalField':                 
-      'FileField':                    
-      'FilePathField':                
-      'IPAddressField':               
-      'GenericIPAddressField':        
-      'NullBooleanField':             
-      'OneToOneField':                
-      'PositiveSmallIntegerField':    
-      'SlugField':                    
-      'SmallIntegerField':            
+      'CommaSeparatedIntegerField':
+      'DateField':
+      'DecimalField':
+      'FileField':
+      'FilePathField':
+      'IPAddressField':
+      'GenericIPAddressField':
+      'NullBooleanField':
+      'OneToOneField':
+      'PositiveSmallIntegerField':
+      'SlugField':
+      'SmallIntegerField':
       'TimeField'
         CompressedTextField : blob
       */

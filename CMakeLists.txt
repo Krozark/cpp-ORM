@@ -21,8 +21,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_option(ORM_BUILD_SUPPORT_SQLITE3 TRUE BOOL "TRUE to build support for sqlite3 backends, FALSE to ignore them")
 set_option(ORM_BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to build support for Mysql backends, FALSE to ignore them")
 
-set_option(ORM_USE_CACHE TRUE BOOL "TRUE to buid a cache for database query, FALSE to ignore it")
-
 set_option(ORM_BUILD_EXAMPLES TRUE BOOL "TRUE to build the examples, FALSE to ignore them")
 set_option(ORM_BUILD_DOC TRUE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
@@ -41,10 +39,6 @@ if(ORM_BUILD_SUPPORT_MYSQL)
     set(LIBS ${LIBS} ${MYSQL_LIBRARIES})
 endif()
 
-
-if(ORM_USE_CACHE)
-    add_definitions(-DORM_USE_CACHE)
-endif()
 
 set(WARNING "")
 set(FLAGS "")
@@ -66,9 +60,9 @@ endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 if(COMPILER_NAME STREQUAL "msvc")
 	#add_definitions("/Za")
 	add_definitions("/EHsc")
-	
+
 	add_definitions("/DORM_USE_MSVC")
-	
+
 	# Workaround for "error LNK2026: module unsafe for SAFESEH"
 	# when compiling with certain externally compiled libraries with VS2012.
 	# This disables safe exception handling by default.

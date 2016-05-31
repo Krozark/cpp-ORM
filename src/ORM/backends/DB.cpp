@@ -230,13 +230,13 @@ namespace orm
         {
             value = value+"%";
         }
-        else if(filter == "endswith" )
-        {
-            value = "%"+value;
-        }
         else if(filter == "istartswith")
         {
             value = value+"%";
+        }
+        else if(filter == "endswith" )
+        {
+            value = "%"+value;
         }
         else if(filter == "iendswith")
         {

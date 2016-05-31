@@ -81,13 +81,6 @@ namespace orm
 
     tm DateTimeField::now()
     {
-        /*tm tmp;
-        time_t t = ::time(nullptr);
-        ::localtime_r(&t,&tmp);*/
-
-        /*tmp.tm_year +=1900;
-        tmp.tm_mon +=1;*/
-
         tm * timeinfo;
         time_t rawtime;
 
@@ -102,7 +95,7 @@ namespace orm
     {
         tm tmp{0};
         tmp.tm_year = 0;
-        tmp.tm_mon = 0 /*- 1*/;
+        tmp.tm_mon = 0;
         tmp.tm_mday = 0;
 
         tmp.tm_hour = hour;

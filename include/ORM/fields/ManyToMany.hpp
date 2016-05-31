@@ -136,10 +136,8 @@ namespace orm
         private:
             static M2MRegister<OWNER,RELATED> _register;
 
-#ifdef ORM_USE_CACHE
             typename RELATED::pointer_array _cache;
             bool _adds;
-#endif
 
     };
 
