@@ -39,7 +39,7 @@ namespace orm
             {
                 _valuePtr = T::cache._add(_valuePtr);
             }
-            _modified = (_valuePtr->pk != _fk);
+            _modified = true;
             _fk = _valuePtr->pk;
         }
         return res;
