@@ -14,8 +14,8 @@ namespace orm
 
     void VFK::registerAttr(SqlObjectBase& object)
     {
-        object.attrs.emplace_back(this);
-        object.fks.emplace_back(this);
+        object._attributsVector.emplace_back(this);
+        object._fkAttributsVector.emplace_back(this);
     }
 
     bool VFK::save(bool recursive)

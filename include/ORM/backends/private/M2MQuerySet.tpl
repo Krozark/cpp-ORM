@@ -49,11 +49,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
         }
         return *this;
     }
@@ -63,11 +63,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::default_connection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
         }
         return *this;
     }
@@ -102,10 +102,10 @@ namespace orm
     void M2MQuerySet<OWNER,RELATED>::debugPrint() const
     {
         std::string q_str ="SELECT ";
-        ManyToMany<OWNER,RELATED>::nameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
+        ManyToMany<OWNER,RELATED>::_staticNameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         q_str+="\nFROM ";
-        ManyToMany<OWNER,RELATED>::nameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
+        ManyToMany<OWNER,RELATED>::_staticNameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         const int filters_size = _filters.size();
 
@@ -117,12 +117,12 @@ namespace orm
             std::cout<<q_str;
             q_str.clear();
 
-            begin->debugPrint(*ManyToMany<OWNER,RELATED>::default_connection);
+            begin->debugPrint(*ManyToMany<OWNER,RELATED>::defaultDBConnection);
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->debugPrint(*ManyToMany<OWNER,RELATED>::default_connection);
+                begin->debugPrint(*ManyToMany<OWNER,RELATED>::defaultDBConnection);
             }
             std::cout<<") ";
         }

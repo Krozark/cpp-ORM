@@ -33,18 +33,18 @@ namespace orm
 
     std::vector<VAttr*>& SqlObjectBase::getAttributes()
     {
-        return attrs;
+        return _attributsVector;
     }
 
     VAttr* SqlObjectBase::getAttribute(const std::string& name)
     {
         VAttr* res = nullptr;
-        const unsigned int size = attrs.size();
+        const unsigned int size = _attributsVector.size();
         for (unsigned int i = 0; i < size; ++i)
         {
-            if (attrs[i]->getColumn() == name)
+            if (_attributsVector[i]->getColumn() == name)
             {
-                res = attrs[i];
+                res = _attributsVector[i];
                 break;
             }
         }
@@ -54,7 +54,7 @@ namespace orm
     std::ostream& operator<<(std::ostream& output, const SqlObjectBase& self)
     {
         output << "{ \"" << SqlObjectBase::ORM_MAKE_NAME(pk) << "\":" << self.pk;
-        for (VAttr* attr : self.attrs)
+        for (VAttr* attr : self._attributsVector)
             output << ", \"" << attr->getColumn() << "\":" << *attr;
         output << "}";
         return output;
@@ -64,27 +64,27 @@ namespace orm
     ////////////////////////////// Private / protected /////////////////////
 
 
-    void SqlObjectBase::before_save(){}
+    void SqlObjectBase::_beforeSave(){}
 
-    void SqlObjectBase::after_save(){}
+    void SqlObjectBase::_afterSave(){}
 
-    void SqlObjectBase::before_update(){}
+    void SqlObjectBase::_beforeUpdate(){}
 
-    void SqlObjectBase::after_update(){}
+    void SqlObjectBase::_afterUpdate(){}
 
-    void SqlObjectBase::before_load(){};
+    void SqlObjectBase::_beforeLoad(){};
 
-    void SqlObjectBase::after_load(){};
+    void SqlObjectBase::_afterLoad(){};
 
 
-    bool SqlObjectBase::loadFromDB(const Query& query,int max_depth)
+    bool SqlObjectBase::_loadFromDB(const Query& query,int max_depth)
     {
         int prefix=query._db._getInitialGetcolumnNumber() -1;
-        return loadFromDB(query,prefix,max_depth);
+        return _loadFromDB(query,prefix,max_depth);
     };
 
 
-    bool SqlObjectBase::loadFromDB(const Query& query,int& prefix,int max_depth)
+    bool SqlObjectBase::_loadFromDB(const Query& query,int& prefix,int max_depth)
     {
         ++prefix;
 
@@ -99,8 +99,8 @@ namespace orm
         if(not res)
             std::cerr<<ORM_COLOUR_RED<<"[ATTR] get attr("<<prefix<<") : id"<<" fail"<<ORM_COLOUR_NONE<<std::endl;
         #endif
-        before_load();
-        for(VAttr* attr: attrs)
+        _beforeLoad();
+        for(VAttr* attr: _attributsVector)
         {
             ++prefix;
             #if ORM_DEBUG & ORM_DEBUG_GET_ATTR
@@ -115,12 +115,12 @@ namespace orm
             #endif
             res = (res and  tmp);
         }
-        after_load();
+        _afterLoad();
 
         #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
         if(not res)
         {
-            std::cerr<<ORM_COLOUR_RED<<"[GET OBJ] SqlObjectBase::loadFromDB(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<ORM_COLOUR_NONE<<std::endl;
+            std::cerr<<ORM_COLOUR_RED<<"[GET OBJ] SqlObjectBase::_loadFromDB(const Query& query,int & prefix,int max_depth) failed : One or more attr not get"<<ORM_COLOUR_NONE<<std::endl;
         }
         #endif
         return res;

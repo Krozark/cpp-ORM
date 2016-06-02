@@ -4,7 +4,7 @@ namespace orm
     Cache<T>::Cache()
     {
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
-        std::cerr<<ORM_COLOUR_MAGENTA<<"[Register] Cache of "<<SqlObject<T>::table<<ORM_COLOUR_NONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[Register] Cache of "<<SqlObject<T>::_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
     };
 
@@ -12,7 +12,7 @@ namespace orm
     Cache<T>::~Cache()
     {
         #if ORM_DEBUG & ORM_DEBUG_REGISTER
-        std::cerr<<ORM_COLOUR_MAGENTA<<"[Delete] Cache of "<<SqlObject<T>::table<<ORM_COLOUR_NONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[Delete] Cache of "<<SqlObject<T>::_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
     }
 
@@ -27,7 +27,7 @@ namespace orm
             return res->second;
         }
 
-        pointer ptr = T::_get_ptr(pk,db,max_depth);
+        pointer ptr = T::_getPointer(pk,db,max_depth);
         if(ptr.get() == nullptr)
         {
             ptr = T::create();

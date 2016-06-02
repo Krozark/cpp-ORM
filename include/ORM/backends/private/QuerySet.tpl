@@ -67,15 +67,15 @@ namespace orm
     {
         if(column == "?")
         {
-            _orderBy.push_back(T::default_connection->_operators.at("?"));
+            _orderBy.push_back(T::defaultDBConnection->_operators.at("?"));
         }
         else if( order == '-')
         {
-            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" ASC");
         }
         return *this;
     }
@@ -85,15 +85,15 @@ namespace orm
     {
         if(column == "?")
         {
-            _orderBy.push_back(T::default_connection->operators.at("?"));
+            _orderBy.push_back(T::defaultDBConnection->operators.at("?"));
         }
         else if( order == '-')
         {
-            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*T::default_connection,T::table,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" ASC");
         }
         return *this;
     }
@@ -140,10 +140,10 @@ namespace orm
     void QuerySet<T>::debugPrint() const
     {
         std::string q_str ="SELECT ";
-        T::nameAttrs(q_str,T::table,ORM_DEFAULT_MAX_DEPTH,_db);
+        T::_staticNameAttrs(q_str,T::_table,ORM_DEFAULT_MAX_DEPTH,_db);
 
         q_str+="\nFROM ";
-        T::nameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,_db);
+        T::_staticNameTables(q_str,"",ORM_DEFAULT_MAX_DEPTH,_db);
 
         const int filters_size = _filters.size();
 
@@ -156,12 +156,12 @@ namespace orm
 
             std::cout<<q_str;
             q_str.clear();
-            begin->debugPrint(*T::default_connection);
+            begin->debugPrint(*T::defaultDBConnection);
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->debugPrint(*T::default_connection);
+                begin->debugPrint(*T::defaultDBConnection);
             }
 
             std::cout<<") ";
@@ -193,10 +193,10 @@ namespace orm
     Query* QuerySet<T>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        SqlObject<T>::nameAttrs(q_str,SqlObject<T>::table,max_depth,_db);
+        SqlObject<T>::_staticNameAttrs(q_str,SqlObject<T>::_table,max_depth,_db);
 
         q_str+="\nFROM ";
-        SqlObject<T>::nameTables(q_str,"",max_depth,_db);
+        SqlObject<T>::_staticNameTables(q_str,"",max_depth,_db);
 
         const int filters_size = _filters.size();
 

@@ -91,7 +91,7 @@ namespace orm
             *
             * Note : if the return obj as a pk of -1 : fail
             **/
-            static pointer get(const unsigned int& id,DB& db= *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer get(const unsigned int& id,DB& db= *defaultDBConnection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -99,7 +99,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            static pointer_array all(DB& db = *default_connection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer_array all(DB& db = *defaultDBConnection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief create a queryset for the objet. Use it to make your query
@@ -107,7 +107,7 @@ namespace orm
             *
             * \return The tempory queryset. use chaine function, or copy it
             **/
-            static QuerySet<T> query(DB& db = *default_connection);
+            static QuerySet<T> query(DB& db = *defaultDBConnection);
 
             /**
             * \brief save/update the object in data base
@@ -117,7 +117,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(bool recursive=false,DB& db = *default_connection) override /*final*/;
+            virtual bool save(bool recursive=false,DB& db = *defaultDBConnection) override /*final*/;
 
             /**
             * \brief delete the object from de data base
@@ -126,52 +126,95 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(bool recursive=false,DB& db = *default_connection) override;
+            virtual bool del(bool recursive=false,DB& db = *defaultDBConnection) override;
 
 
-            pointer as_pointer();
+            pointer asPointer();
 
             /**
              * \brief create the table
              * \todo
              * \return true if success
              */
-            static bool createTable(DB& db = *default_connection);
+            static bool createTable(DB& db = *defaultDBConnection);
 
             /**
              * \brief drop the table
              * \todo
              * \return true if success
              */
-            static bool dropTable(DB& db = *default_connection);
+            static bool dropTable(DB& db = *defaultDBConnection);
 
             /**
              * \brief truncate the table
              * \todo
              * \return true if success
              */
-            static bool clearTable(DB& db = *default_connection);
+            static bool clearTable(DB& db = *defaultDBConnection);
 
             /**
             \brief return the default database registred for the object
             */
             virtual DB& getDefaultDataBase()const override;
 
-            static  DB* default_connection; ///< db use to stor the object
+            static  DB* defaultDBConnection; ///< db use to stor the object
 
             /**
             * \return the table name
             **/
             virtual const std::string& getTable()const override;
 
-            const static std::string table; ///< the table name
-
         protected:
 
-            static Cache<T> cache; ///< the cache containing the objects
+            static Cache<T> _cache; ///< the cache containing the objects
+            const static std::string _table; ///< the table name
 
+        private:
+
+            template<typename U> friend class Cache;
+            template<typename U> friend class Register;
+            template<typename U,typename V> friend class ManyToMany;
+            template<typename RELATED,typename U> friend class Filter;
+            friend class FKBase<T>;
+            friend class Query;
+            friend class QuerySet<T>;
+
+            static Register<T> _register; ///< use to auto register the class
+            static std::vector<const VAttr*> _staticAttributsVector; ///< attr of the class
+            static std::vector<VFK*> _staticFksAttributsVector; ///< fk of the class
 
             /**
+            * \brief make the attrs columns alias
+            *
+             * \param db the db to fetch
+            * \param q_str string query to add the alias
+            * \param prefix prefix column name
+            * \param max_depth maximun depth of constrution
+            **/
+            static void _staticNameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db);
+
+            /**
+             * \brief make the table alias
+             *
+             * \param db the db to fetch
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
+            static void _staticNameTables(std::string& q_str,const std::string& prefix,int max_depth,DB& db);
+
+            /**
+             * \brief make the table alias of fk with join
+             *
+             * \param db the db to fetch
+             * \param q_str string query to add the alias
+             * \param prefix prefix column name
+             * \param max_depth maximun depth of constrution
+             **/
+            static void _staticMakeJoin(std::string& q_str,const std::string& prefix,int max_depth,DB& db);
+
+
+             /**
              * \brief make the attrs columns alias
              *
              * \param db the db to fetch
@@ -201,50 +244,6 @@ namespace orm
              **/
             virtual void _makeJoin(std::string& q_str,const std::string& prefix,int max_depth,DB& db)const override;
 
-        private:
-
-            template<typename U> friend class Cache;
-            template<typename U> friend class Register;
-            template<typename U,typename V> friend class ManyToMany;
-            template<typename RELATED,typename U> friend class Filter;
-            friend class FKBase<T>;
-            friend class Query;
-            friend class QuerySet<T>;
-
-            static Register<T> _register; ///< use to auto register the class
-            static std::vector<const VAttr*> column_attrs; ///< attr of the class
-            static std::vector<VFK*> column_fks; ///< fk of the class
-
-            /**
-            * \brief make the attrs columns alias
-            *
-             * \param db the db to fetch
-            * \param q_str string query to add the alias
-            * \param prefix prefix column name
-            * \param max_depth maximun depth of constrution
-            **/
-            static void nameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db);
-
-            /**
-             * \brief make the table alias
-             *
-             * \param db the db to fetch
-             * \param q_str string query to add the alias
-             * \param prefix prefix column name
-             * \param max_depth maximun depth of constrution
-             **/
-            static void nameTables(std::string& q_str,const std::string& prefix,int max_depth,DB& db);
-
-            /**
-             * \brief make the table alias of fk with join
-             *
-             * \param db the db to fetch
-             * \param q_str string query to add the alias
-             * \param prefix prefix column name
-             * \param max_depth maximun depth of constrution
-             **/
-            static void makeJoin(std::string& q_str,const std::string& prefix,int max_depth,DB& db);
-
 
             /**
             * \brief Create a abject of pk id
@@ -255,7 +254,7 @@ namespace orm
             *
             * \return the objet (delete it by hand)
             **/
-            static pointer _get_ptr(const unsigned int id,DB& db,int max_depth);
+            static pointer _getPointer(const unsigned int id,DB& db,int max_depth);
 
             /**
             * \brief use by the cache to increment depth

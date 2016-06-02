@@ -14,9 +14,9 @@ namespace orm
     template<typename T>
     FKBase<T>::~FKBase()
     {
-        /// \todo if cache[T::table] ==1
+        /// \todo if _cache[T::_table] ==1
         //delete value_ptr
-        //cache.remove(T::table)
+        //_cache.remove(T::_table)
         //value_ptr = 0;
     }
 
@@ -37,7 +37,7 @@ namespace orm
             res = _valuePtr->save(recursive,db);
             if(_fk<=0)
             {
-                _valuePtr = T::cache._add(_valuePtr);
+                _valuePtr = T::_cache._add(_valuePtr);
             }
             _modified = true;
             _fk = _valuePtr->pk;
@@ -62,14 +62,14 @@ namespace orm
     typename T::pointer FKBase<T>::operator->()
     {
         _modified = true;
-        _setObjectT_ptr(*T::default_connection);
+        _setObjectT_ptr(*T::defaultDBConnection);
         return _valuePtr;
     };
 
     template<typename T>
     T& FKBase<T>::operator*()
     {
-        _setObjectT_ptr(*T::default_connection);
+        _setObjectT_ptr(*T::defaultDBConnection);
         return *_valuePtr;
     };
 
@@ -130,7 +130,7 @@ namespace orm
     template<typename T>
     DB& FKBase<T>::getDefaultDataBase()const
     {
-        return *T::default_connection;
+        return *T::defaultDBConnection;
     }
 
     template<typename T>
@@ -148,7 +148,7 @@ namespace orm
     template<typename T>
     const std::string& FKBase<T>::getTable() const
     {
-        return T::table;
+        return T::_table;
     }
 
     /////////////////////// PROTECTED /////////////////////////
@@ -188,16 +188,16 @@ namespace orm
                 const unsigned int id = _fk;
                 if(test())
                 {
-                    _valuePtr->T::loadFromDB(query,prefix,max_depth);
+                    _valuePtr->T::_loadFromDB(query,prefix,max_depth);
 
-                    if(T::cache._add(_valuePtr) != _valuePtr)
+                    if(T::_cache._add(_valuePtr) != _valuePtr)
                     {
                         std::cerr<<ORM_COLOUR_RED<<"[FKBase<T>::get] imposible to insert new value to cahe. Undefine behaviours when querying table "<<typeid(T).name()<<ORM_COLOUR_NONE<<std::endl;
                     }
                 }
                 else
                 {
-                    _valuePtr = T::cache.getOrCreate(id,query,prefix,max_depth);
+                    _valuePtr = T::_cache.getOrCreate(id,query,prefix,max_depth);
                 }
                 //loaded = true;
             }
@@ -227,7 +227,7 @@ namespace orm
             if(_fk>0)
             {
                 const unsigned int id = _fk;
-                _valuePtr = T::cache.getOrCreate(id,db,max_depth);
+                _valuePtr = T::_cache.getOrCreate(id,db,max_depth);
                 /*loaded =*/ _modified = true;
             }
             else
@@ -253,7 +253,7 @@ namespace orm
         const std::string table_alias = MAKE_PREFIX(prefix,_column);
 
         q_str+=",";
-        T::nameAttrs(q_str,table_alias,max_depth,db);
+        T::_staticNameAttrs(q_str,table_alias,max_depth,db);
         return q_str;
     }
 
@@ -277,6 +277,6 @@ namespace orm
     template<typename T>
     std::string FKBase<T>::_create(const DB& db) const
     {
-        return db.creator().fk(_column,T::table,_nullable);
+        return db.creator().fk(_column,T::_table,_nullable);
     }
 }

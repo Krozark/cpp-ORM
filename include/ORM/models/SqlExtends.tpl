@@ -1,25 +1,25 @@
 namespace orm
 {
     template <typename T, typename BASE>
-    DB*& SqlExtends<T,BASE>::default_connection = SqlObject<T>::default_connection;
+    DB*& SqlExtends<T,BASE>::defaultDBConnection = SqlObject<T>::defaultDBConnection;
 
     template <typename T, typename BASE>
     const std::string SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr) = "_base_obj_ptr";
 
     template <typename T, typename BASE>
-    const std::string& SqlExtends<T,BASE>::table = SqlObject<T>::table; ///< the table name
+    const std::string& SqlExtends<T,BASE>::_table = SqlObject<T>::_table; ///< the table name
 
     template <typename T, typename BASE>
-    Cache<T>& SqlExtends<T,BASE>::cache = SqlObject<T>::cache;
+    Cache<T>& SqlExtends<T,BASE>::_cache = SqlObject<T>::_cache;
 
     template <typename T, typename BASE>
-    SqlExtends<T,BASE>::SqlExtends() : _base_fk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr))
+    SqlExtends<T,BASE>::SqlExtends() : _baseFk(SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr))
     {
-        _base_fk.registerAttr(*static_cast<SqlObject<T>*>(this));
+        _baseFk.registerAttr(*static_cast<SqlObject<T>*>(this));
 
-        _base_fk = typename BASE::pointer(static_cast<BASE*>(this), [](void* obj){}); //avoid to delete this twice
+        _baseFk = typename BASE::pointer(static_cast<BASE*>(this), [](void* obj){}); //avoid to delete this twice
 
-        _save_nb = 0;
+        _saveNb = 0;
     }
 
     template <typename T, typename BASE>
@@ -31,13 +31,13 @@ namespace orm
     bool SqlExtends<T,BASE>::save(bool recursive,DB& db)
     {
         bool res = false;
-        if(_save_nb == 0) // hack to avoid recursion due to extends
+        if(_saveNb == 0) // hack to avoid recursion due to extends
         {
-            ++_save_nb;
+            ++_saveNb;
             res = SqlObject<BASE>::save(recursive,db);
             res |= SqlObject<T>::save(recursive,db);
         }
-        --_save_nb;
+        --_saveNb;
         return res;
     }
 
@@ -51,9 +51,9 @@ namespace orm
     }
 
     template <typename T, typename BASE>
-    bool SqlExtends<T,BASE>::loadFromDB(const Query& query,int& prefix,int max_depth)
+    bool SqlExtends<T,BASE>::_loadFromDB(const Query& query,int& prefix,int max_depth)
     {
-        return SqlObject<T>::loadFromDB(query,prefix,max_depth);
+        return SqlObject<T>::_loadFromDB(query,prefix,max_depth);
     }
 
     /*
@@ -76,7 +76,7 @@ namespace orm
     template <typename T, typename BASE>
     const std::string& SqlExtends<T,BASE>::getTable() const
     {
-        return table;
+        return _table;
     }
     */
 }

@@ -23,7 +23,7 @@ namespace orm
 
     void VAttr::registerAttr(SqlObjectBase& object)
     {
-        object.attrs.emplace_back(this);
+        object._attributsVector.emplace_back(this);
     }
 
     void VAttr::_beforeSave(){}

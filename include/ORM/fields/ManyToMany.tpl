@@ -28,33 +28,33 @@ namespace orm
     template<typename T,typename U>
     void ManyToMany<T,U>::_nameAttrs(std::string& q_str,int max_depth,DB& db)
     {
-        U::nameAttrs(q_str,ORM_MAKE_NAME(_related),max_depth,db);
+        U::_staticNameAttrs(q_str,ORM_MAKE_NAME(_related),max_depth,db);
     }
 
     template<typename T,typename U>
     void ManyToMany<T,U>::_nameTables(std::string& q_str,int max_depth,DB& db)
     {
-        q_str+= db._escapeColumn(table)+" AS "+db._escapeColumn(table);
+        q_str+= db._escapeColumn(_table)+" AS "+db._escapeColumn(_table);
         _makeJoin(q_str,max_depth,db);
     }
 
     template<typename T,typename U>
     void ManyToMany<T,U>::_makeJoin(std::string& q_str,int max_depth,DB& db)
     {
-        const std::string table_alias_T = JOIN_ALIAS(table,ORM_MAKE_NAME(_owner));
+        const std::string table_alias_T = JOIN_ALIAS(_table,ORM_MAKE_NAME(_owner));
 
         q_str+=
-            "\nLEFT JOIN "+T::table+" AS "+table_alias_T
+            "\nLEFT JOIN "+T::_table+" AS "+table_alias_T
             +" ON ("
-            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))
+            +db._escapeColumn(_table)+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))
             +" = "+db._escapeColumn(table_alias_T)+"."+db._escapeColumn(T::ORM_MAKE_NAME(pk))
-            +")\nLEFT JOIN "+U::table+" AS "+ORM_MAKE_NAME(_related)
+            +")\nLEFT JOIN "+U::_table+" AS "+ORM_MAKE_NAME(_related)
             +" ON ("
-            +db._escapeColumn(table)+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))
+            +db._escapeColumn(_table)+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))
             +" = "+db._escapeColumn(ORM_MAKE_NAME(_related))+"."+db._escapeColumn(U::ORM_MAKE_NAME(pk))
             +")";
 
-        U::makeJoin(q_str,ORM_MAKE_NAME(_related),max_depth,db);
+        U::_staticMakeJoin(q_str,ORM_MAKE_NAME(_related),max_depth,db);
     }
 
     template<typename T,typename U>
@@ -70,7 +70,7 @@ namespace orm
             ORM_PRINT_ERROR("The object must be save to be add in a M2M")
             return false;
         }
-        std::string q_str = "INSERT INTO "+db._escapeColumn(table)
+        std::string q_str = "INSERT INTO "+db._escapeColumn(_table)
             +"("+ORM_MAKE_NAME(_owner)+","+ORM_MAKE_NAME(_linked)+") VALUES ((?),(?));";
         std::unique_ptr<Query> q(db.prepareQuery(q_str));
         q->_set(_owner.pk,db._getInitialSetcolumnNumber());
@@ -102,7 +102,7 @@ namespace orm
         if(obj.pk<=0 or _owner.pk <=0)
             return;
 
-        const std::string table_escaped = db._escapeColumn(table);
+        const std::string table_escaped = db._escapeColumn(_table);
 
         std::string q_str = "DELETE FROM "+table_escaped+" WHERE ("
             +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))+" = (?)"
@@ -127,16 +127,16 @@ namespace orm
     bool ManyToMany<T,U>::create(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
-        std::cerr<<ORM_COLOUR_MAGENTA<<"[CREATE] create table "<<table<<ORM_COLOUR_NONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[CREATE] create table "<<_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
-        static std::vector<const VAttr*> column_attrs = {
+        static std::vector<const VAttr*> _staticAttributsVector = {
             new FK<T,false>(ORM_MAKE_NAME(_owner)),
             new FK<U,false>(ORM_MAKE_NAME(_linked))
         }; ///< attr of the class
-        bool res = db.create(table,column_attrs);
-        delete reinterpret_cast<const FK<T,false>*>(column_attrs[0]);
-        delete reinterpret_cast<const FK<U,false>*>(column_attrs[1]);
+        bool res = db.create(_table,_staticAttributsVector);
+        delete reinterpret_cast<const FK<T,false>*>(_staticAttributsVector[0]);
+        delete reinterpret_cast<const FK<U,false>*>(_staticAttributsVector[1]);
 
         return res;
     }
@@ -145,18 +145,18 @@ namespace orm
     bool ManyToMany<T,U>::drop(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
-        std::cerr<<ORM_COLOUR_MAGENTA<<"[DROP] drop table "<<table<<ORM_COLOUR_NONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[DROP] drop table "<<_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
-        return db.drop(table);
+        return db.drop(_table);
     }
 
     template<typename T,typename U>
     bool ManyToMany<T,U>::clear(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
-        std::cerr<<ORM_COLOUR_MAGENTA<<"[TRUNCATE] truncate table "<<table<<ORM_COLOUR_NONE<<std::endl;
+        std::cerr<<ORM_COLOUR_MAGENTA<<"[TRUNCATE] truncate table "<<_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
-        return db.clear(table);
+        return db.clear(_table);
     }
 
     /*

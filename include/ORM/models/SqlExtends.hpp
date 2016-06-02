@@ -16,23 +16,21 @@ namespace orm
             SqlExtends();
             virtual ~SqlExtends();
 
-            virtual bool save(bool recursive=false,DB& db = *SqlObject<T>::default_connection) override;
+            virtual bool save(bool recursive=false,DB& db = *SqlObject<T>::defaultDBConnection) override;
 
-            virtual bool del(bool recursive=false, DB& db = *SqlObject<T>::default_connection) override final;
+            virtual bool del(bool recursive=false, DB& db = *SqlObject<T>::defaultDBConnection) override final;
 
             using SqlObject<T>::create;
             using SqlObject<T>::all;
             using SqlObject<T>::query;
-            //using SqlObject<T>::default_connection;
+            //using SqlObject<T>::defaultDBConnection;
 
-
-
-            friend std::ostream& operator<<(std::ostream& output,const SqlExtends& self)
+            friend std::ostream& operator<<(std::ostream& output,const SqlExtends<T,BASE>& self)
             {
                 return output<<static_cast<const SqlObject<T>&>(self);
             }
 
-            static  DB*& default_connection;
+            static  DB*& defaultDBConnection;
 
             static const std::string ORM_MAKE_NAME(base_obj_ptr);
 
@@ -42,16 +40,16 @@ namespace orm
             template<typename U,typename V> friend class ManyToMany;
             template<typename RELATED,typename U> friend class Filter;
 
-            const static std::string& table; ///< the table name
-            static Cache<T>& cache;
+            const static std::string& _table; ///< the table name
+            static Cache<T>& _cache;
 
-            //virtual bool loadFromDB(const Query& query,int max_depth);
-            virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
+            //virtual bool _loadFromDB(const Query& query,int max_depth);
+            virtual bool _loadFromDB(const Query& query,int& prefix,int max_depth) override;
 
         private:
-            FK<BASE,false> _base_fk;
+            FK<BASE,false> _baseFk;
 
-            int _save_nb; //save() hack
+            int _saveNb; //save() hack
 
             /*
             template<typename U> friend class Register;

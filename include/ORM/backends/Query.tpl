@@ -10,7 +10,7 @@ namespace orm
 
         if (_next())
         {
-            return obj.loadFromDB(*this,max_depth);
+            return obj._loadFromDB(*this,max_depth);
         }
 
         ORM_PRINT_WARNING("Query::getObj(T& obj,int max_depth) failed : No raw return")
@@ -28,7 +28,7 @@ namespace orm
 
         while(_next())
         {
-            auto tmp = T::cache.getOrCreate(*this,max_depth);
+            auto tmp = T::_cache.getOrCreate(*this,max_depth);
             //TODO
             //if(tmp)
             {

@@ -31,7 +31,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive=false,DB& db=*T::default_connection) override;
+            virtual bool save(bool recursive=false,DB& db=*T::defaultDBConnection) override;
 
             /**
              * \brief Delete the object from the db and cache
@@ -42,7 +42,7 @@ namespace orm
              *
              * \return fale if fail
              **/
-            virtual bool del(bool recursive=false,DB& db=*T::default_connection) override;
+            virtual bool del(bool recursive=false,DB& db=*T::defaultDBConnection) override;
 
 
             /**

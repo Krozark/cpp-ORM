@@ -231,12 +231,12 @@
  * \param column the column name in the db
  */
 #define ORM_REGISTER_TABLE(klass,column) \
-    template<> const std::string orm::SqlObject<klass>::table = column;\
-    template<> orm::DB* orm::SqlObject<klass>::default_connection = &orm::DB::Default;\
-    template<> std::vector<const orm::VAttr*> orm::SqlObject<klass>::column_attrs = std::vector<const orm::VAttr*>();\
-    template<> std::vector<orm::VFK*> orm::SqlObject<klass>::column_fks = std::vector<orm::VFK*>();\
+    template<> const std::string orm::SqlObject<klass>::_table = column;\
+    template<> orm::DB* orm::SqlObject<klass>::defaultDBConnection = &orm::DB::Default;\
+    template<> std::vector<const orm::VAttr*> orm::SqlObject<klass>::_staticAttributsVector = std::vector<const orm::VAttr*>();\
+    template<> std::vector<orm::VFK*> orm::SqlObject<klass>::_staticFksAttributsVector = std::vector<orm::VFK*>();\
     template<> orm::Register<klass> orm::SqlObject<klass>::_register = orm::Register<klass>();\
-    template<> orm::Cache<klass> orm::SqlObject<klass>::cache = orm::Cache<klass>();
+    template<> orm::Cache<klass> orm::SqlObject<klass>::_cache = orm::Cache<klass>();
 
 /**
  * \brief set the default db to use for this class
@@ -244,7 +244,7 @@
  * \param db the db to use by default
  */
 #define ORM_REGISTER_DB(klass,db) \
-    orm::SqlObject<klass>::default_connection = db;
+    orm::SqlObject<klass>::defaultDBConnection = db;
 
 /**
  * \def ORM_REGISTER(klass,column,...)
@@ -340,11 +340,11 @@ ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"
  *****************************************/
 
 #define ORM_M2M_REGISTER(klass,m2m,T_linked,table_name,owner_column,linked_column) \
-    template<> const std::string orm::ManyToMany<klass,T_linked>::table = table_name;\
+    template<> const std::string orm::ManyToMany<klass,T_linked>::_table = table_name;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_owner) = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_linked) = linked_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_related) = JOIN_ALIAS(table_name,linked_column);\
-    template<> orm::DB* orm::ManyToMany<klass,T_linked>::default_connection = &orm::DB::Default;\
+    template<> orm::DB* orm::ManyToMany<klass,T_linked>::defaultDBConnection = &orm::DB::Default;\
     template<> orm::M2MRegister<klass,T_linked> orm::ManyToMany<klass,T_linked>::_register = orm::M2MRegister<klass,T_linked>();
 
 

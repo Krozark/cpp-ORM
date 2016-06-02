@@ -128,37 +128,37 @@ namespace orm
              * \brief prepare the object before save it in DB (new object only)
              * Note : do nothing by default.
              */
-            virtual void before_save();
+            virtual void _beforeSave();
 
             /**
              * \brief prepare the object after save it in DB (new object only)
              * Note : do nothing by default.
              */
-            virtual void after_save();
+            virtual void _afterSave();
 
             /**
              * \brief prepare the object before update it in DB (not new object only)
              * Note : do nothing by default.
              */
-            virtual void before_update();
+            virtual void _beforeUpdate();
 
             /**
              * \brief prepare the object after update it in DB (not new object only)
              * Note : do nothing by default.
              */
-            virtual void after_update();
+            virtual void _afterUpdate();
 
             /**
              * \brief prepare the object before loading it from the DB
              * Note : do nothing by default.
              */
-            virtual void before_load();
+            virtual void _beforeLoad();
 
             /**
              * \brief prepare the object after loading it in from the DB
              * Note : do nothing by default.
              */
-            virtual void after_load();
+            virtual void _afterLoad();
 
             /**
              * \brief create the object using the query
@@ -168,7 +168,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool loadFromDB(const Query& query,int max_depth);
+            virtual bool _loadFromDB(const Query& query,int max_depth);
 
             /**
              * \brief create the object using the query
@@ -179,13 +179,13 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool loadFromDB(const Query& query,int& prefix,int max_depth);
+            virtual bool _loadFromDB(const Query& query,int& prefix,int max_depth);
 
 
         private:
             int pk; ///< the object pf
-            std::vector<VAttr*> attrs; ///< the object attrs
-            std::vector<VFK*> fks; ///< the object FK
+            std::vector<VAttr*> _attributsVector; ///< the object attrs
+            std::vector<VFK*> _fkAttributsVector; ///< the object FK
 
             /**
             * \brief make the attrs columns alias
