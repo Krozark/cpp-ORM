@@ -403,7 +403,7 @@ namespace orm
         _preparedParams[column].buffer_type = MYSQL_TYPE_STRING;
         _preparedParams[column].buffer = buffer;
         _preparedParams[column].buffer_length = size;
-        _preparedParams[column].is_null_value = (size == 0);
+        //_preparedParams[column].is_null_value = (size == 0);
 
         return true;
     };
