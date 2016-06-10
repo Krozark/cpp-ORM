@@ -62,14 +62,14 @@ namespace orm
     typename T::pointer FKBase<T>::operator->()
     {
         _modified = true;
-        _setObjectT_ptr(*T::defaultDBConnection);
+        _setObjectT_ptr(staticGetDefaultDataBase());
         return _valuePtr;
     };
 
     template<typename T>
     T& FKBase<T>::operator*()
     {
-        _setObjectT_ptr(*T::defaultDBConnection);
+        _setObjectT_ptr(staticGetDefaultDataBase());
         return *_valuePtr;
     };
 
@@ -130,7 +130,13 @@ namespace orm
     template<typename T>
     DB& FKBase<T>::getDefaultDataBase()const
     {
-        return *T::defaultDBConnection;
+        return staticGetDefaultDataBase();
+    }
+
+    template<typename T>
+    DB& FKBase<T>::staticGetDefaultDataBase()
+    {
+        return T::staticGetDefaultDataBase();
     }
 
     template<typename T>

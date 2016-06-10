@@ -31,7 +31,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool save(bool recursive=false,DB& db=*T::defaultDBConnection) override;
+            virtual bool save(bool recursive=false,DB& db=staticGetDefaultDataBase()) override;
 
             /**
              * \brief Delete the object from the db and cache
@@ -42,7 +42,7 @@ namespace orm
              *
              * \return fale if fail
              **/
-            virtual bool del(bool recursive=false,DB& db=*T::defaultDBConnection) override;
+            virtual bool del(bool recursive=false,DB& db=staticGetDefaultDataBase()) override;
 
 
             /**
@@ -82,6 +82,8 @@ namespace orm
             virtual bool test() const override;
 
             virtual DB& getDefaultDataBase()const override;
+
+            static DB& staticGetDefaultDataBase();
 
             virtual bool setValue(SqlObjectBase::pointer& ptr) override;
 

@@ -159,6 +159,16 @@ namespace orm
         return db.clear(_table);
     }
 
+    template<typename T,typename U>
+    DB& ManyToMany<T,U>::staticGetDefaultDataBase()
+    {
+        if(defaultDBConnection)
+        {
+            return *defaultDBConnection;
+        }
+        return *DB::Default;
+    }
+
     /*
     template <typename OWNER,typename RELATED,typename T, typename ... Args>
     FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args)

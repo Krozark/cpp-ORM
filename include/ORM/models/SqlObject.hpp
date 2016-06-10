@@ -91,7 +91,7 @@ namespace orm
             *
             * Note : if the return obj as a pk of -1 : fail
             **/
-            static pointer get(const unsigned int& id,DB& db= *defaultDBConnection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer get(const unsigned int& id,DB& db= staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -99,7 +99,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            static pointer_array all(DB& db = *defaultDBConnection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer_array all(DB& db = staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief create a queryset for the objet. Use it to make your query
@@ -107,7 +107,7 @@ namespace orm
             *
             * \return The tempory queryset. use chaine function, or copy it
             **/
-            static QuerySet<T> query(DB& db = *defaultDBConnection);
+            static QuerySet<T> query(DB& db = staticGetDefaultDataBase());
 
             /**
             * \brief save/update the object in data base
@@ -117,7 +117,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(bool recursive=false,DB& db = *defaultDBConnection) override /*final*/;
+            virtual bool save(bool recursive=false,DB& db = staticGetDefaultDataBase()) override /*final*/;
 
             /**
             * \brief delete the object from de data base
@@ -126,7 +126,7 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(bool recursive=false,DB& db = *defaultDBConnection) override;
+            virtual bool del(bool recursive=false,DB& db = staticGetDefaultDataBase()) override;
 
 
             pointer asPointer();
@@ -136,26 +136,28 @@ namespace orm
              * \todo
              * \return true if success
              */
-            static bool createTable(DB& db = *defaultDBConnection);
+            static bool createTable(DB& db = staticGetDefaultDataBase());
 
             /**
              * \brief drop the table
              * \todo
              * \return true if success
              */
-            static bool dropTable(DB& db = *defaultDBConnection);
+            static bool dropTable(DB& db = staticGetDefaultDataBase());
 
             /**
              * \brief truncate the table
              * \todo
              * \return true if success
              */
-            static bool clearTable(DB& db = *defaultDBConnection);
+            static bool clearTable(DB& db = staticGetDefaultDataBase());
 
             /**
             \brief return the default database registred for the object
             */
             virtual DB& getDefaultDataBase()const override;
+
+            static DB& staticGetDefaultDataBase();
 
             static  std::shared_ptr<orm::DB> defaultDBConnection; ///< db use to stor the object
 

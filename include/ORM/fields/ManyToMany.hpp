@@ -27,7 +27,7 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<OWNER,RELATED> query(DB& db=*defaultDBConnection)const;
+            M2MQuerySet<OWNER,RELATED> query(DB& db=staticGetDefaultDataBase())const;
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -35,7 +35,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            typename RELATED::pointer_array all(DB& db=*defaultDBConnection,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            typename RELATED::pointer_array all(DB& db=staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief add a object in the relation
@@ -44,7 +44,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            //bool add(const RELATED& obj,DB& db=*defaultDBConnection);
+            //bool add(const RELATED& obj,DB& db=staticGetDefaultDataBase());
 
             /**
              * \brief add a object in the relation
@@ -53,7 +53,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            bool add(const typename RELATED::pointer& obj,DB& db=*defaultDBConnection);
+            bool add(const typename RELATED::pointer& obj,DB& db=staticGetDefaultDataBase());
 
             /**
              * \brief remove a object in the relation
@@ -62,7 +62,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const RELATED& obj,DB& db=*defaultDBConnection);
+            void remove(const RELATED& obj,DB& db=staticGetDefaultDataBase());
 
             /**
              * \brief remove a object in the relation
@@ -71,30 +71,32 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const typename RELATED::pointer& obj,DB& db=*defaultDBConnection);
+            void remove(const typename RELATED::pointer& obj,DB& db=staticGetDefaultDataBase());
 
             /**
              * \brief create the table
              * \todo
              * \return true if success
              */
-            static bool create(DB& db = *defaultDBConnection);
+            static bool create(DB& db = staticGetDefaultDataBase());
 
             /**
              * \brief drop the table
              * \todo
              * \return true if success
              */
-            static bool drop(DB& db = *defaultDBConnection);
+            static bool drop(DB& db = staticGetDefaultDataBase());
 
             /**
              * \brief truncate the table
              * \todo
              * \return true if success
              */
-            static bool clear(DB& db = *defaultDBConnection);
+            static bool clear(DB& db = staticGetDefaultDataBase());
 
             static  std::shared_ptr<orm::DB> defaultDBConnection;///< database use to store the object
+
+            static DB& staticGetDefaultDataBase();
 
             const static std::string _table; ///< table of the object
 

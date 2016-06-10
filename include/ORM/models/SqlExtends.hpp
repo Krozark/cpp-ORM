@@ -16,9 +16,9 @@ namespace orm
             SqlExtends();
             virtual ~SqlExtends();
 
-            virtual bool save(bool recursive=false,DB& db = *SqlObject<T>::defaultDBConnection) override;
+            virtual bool save(bool recursive=false,DB& db = staticGetDefaultDataBase()) override;
 
-            virtual bool del(bool recursive=false, DB& db = *SqlObject<T>::defaultDBConnection) override final;
+            virtual bool del(bool recursive=false, DB& db = staticGetDefaultDataBase()) override final;
 
             using SqlObject<T>::create;
             using SqlObject<T>::all;
@@ -30,7 +30,7 @@ namespace orm
                 return output<<static_cast<const SqlObject<T>&>(self);
             }
 
-            static  DB*& defaultDBConnection;
+            static DB& staticGetDefaultDataBase();
 
             static const std::string ORM_MAKE_NAME(base_obj_ptr);
 

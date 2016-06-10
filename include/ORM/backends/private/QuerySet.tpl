@@ -67,15 +67,15 @@ namespace orm
     {
         if(column == "?")
         {
-            _orderBy.push_back(T::defaultDBConnection->_operators.at("?"));
+            _orderBy.push_back(T::staticGetDefaultDataBase()._operators.at("?"));
         }
         else if( order == '-')
         {
-            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(T::staticGetDefaultDataBase(),T::_table,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(T::staticGetDefaultDataBase(),T::_table,column)+" ASC");
         }
         return *this;
     }
@@ -85,15 +85,15 @@ namespace orm
     {
         if(column == "?")
         {
-            _orderBy.push_back(T::defaultDBConnection->operators.at("?"));
+            _orderBy.push_back(T::staticGetDefaultDataBase().operators.at("?"));
         }
         else if( order == '-')
         {
-            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(T::staticGetDefaultDataBase(),T::_table,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*T::defaultDBConnection,T::_table,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(T::staticGetDefaultDataBase(),T::_table,column)+" ASC");
         }
         return *this;
     }
@@ -156,12 +156,12 @@ namespace orm
 
             std::cout<<q_str;
             q_str.clear();
-            begin->debugPrint(*T::defaultDBConnection);
+            begin->debugPrint(T::staticGetDefaultDataBase());
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->debugPrint(*T::defaultDBConnection);
+                begin->debugPrint(T::staticGetDefaultDataBase());
             }
 
             std::cout<<") ";

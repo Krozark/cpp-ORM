@@ -1,9 +1,6 @@
 namespace orm
 {
     template <typename T, typename BASE>
-    DB*& SqlExtends<T,BASE>::defaultDBConnection = SqlObject<T>::defaultDBConnection;
-
-    template <typename T, typename BASE>
     const std::string SqlExtends<T,BASE>::ORM_MAKE_NAME(base_obj_ptr) = "_base_obj_ptr";
 
     template <typename T, typename BASE>
@@ -48,6 +45,12 @@ namespace orm
         res = SqlObject<BASE>::del(recursive,db);
         res |= SqlObject<T>::del(recursive,db);
         return res;
+    }
+
+    template <typename T, typename BASE>
+    DB& SqlExtends<T,BASE>::staticGetDefaultDataBase()
+    {
+        return SqlObject<T>::staticGetDefaultDataBase();
     }
 
     template <typename T, typename BASE>

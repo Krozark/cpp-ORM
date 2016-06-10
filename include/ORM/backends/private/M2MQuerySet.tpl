@@ -49,11 +49,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
         }
         return *this;
     }
@@ -63,11 +63,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(*ManyToMany<OWNER,RELATED>::defaultDBConnection,ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
         }
         return *this;
     }
@@ -117,12 +117,12 @@ namespace orm
             std::cout<<q_str;
             q_str.clear();
 
-            begin->debugPrint(*ManyToMany<OWNER,RELATED>::defaultDBConnection);
+            begin->debugPrint(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase());
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->debugPrint(*ManyToMany<OWNER,RELATED>::defaultDBConnection);
+                begin->debugPrint(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase());
             }
             std::cout<<") ";
         }

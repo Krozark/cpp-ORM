@@ -185,7 +185,17 @@ namespace orm
     template<typename T>
     DB& SqlObject<T>::getDefaultDataBase()const
     {
-        return *defaultDBConnection;
+        return staticGetDefaultDataBase();
+    }
+
+    template<typename T>
+    DB& SqlObject<T>::staticGetDefaultDataBase()
+    {
+        if(defaultDBConnection)
+        {
+            return *defaultDBConnection;
+        }
+        return *DB::Default;
     }
 
     template<typename T>
