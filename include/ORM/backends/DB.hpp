@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <memory>
 
 namespace orm
 {
@@ -44,7 +45,7 @@ namespace orm
             /**
              * \brief Make an explicit copy of the connection
              */
-            virtual DB* clone()const = 0;
+            virtual std::shared_ptr<orm::DB> clone()const = 0;
 
             /**
             * \brief Create the connection with the database
@@ -148,7 +149,7 @@ namespace orm
             /**
             * \brief The user defined default db to use
             **/
-            static DB& Default;
+            static std::shared_ptr<orm::DB> Default;
 
             /**
              * \brief Compare 2 DB

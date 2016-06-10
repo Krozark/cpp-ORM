@@ -35,7 +35,7 @@ namespace orm
             /**
              * \brief Mkae an explitit copy of the connection
              */
-            virtual DB* clone()const override;
+            virtual std::shared_ptr<orm::DB> clone()const override;
 
             /**
             * \brief Create the connection with the database

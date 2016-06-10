@@ -3,9 +3,7 @@
 //orm::MySqlDB def("root","root","test");
 
 #include <ORM/backends/Sqlite3.hpp>
-orm::Sqlite3DB def("./test.db");
 
-orm::DB& orm::DB::Default = def;
 
 #include <ORM/all.hpp>
 
@@ -323,7 +321,7 @@ void test_Perso()
 {
     std::cout<<"======= test_Perso ======="<<std::endl;
 
-    DB* con2 = orm::DB::Default.clone();
+    std::shared_ptr<orm::DB> con2 = orm::DB::Default->clone();
     con2->connect();
 
     auto p1 = Perso::get(1,*con2);
@@ -472,8 +470,8 @@ void test_Factory()
 
 int main(int argc,char* argv[])
 {
-
-    orm::DB::Default.connect();
+    orm::DB::Default.reset(new orm::Sqlite3DB("./test.db"));
+    orm::DB::Default->connect();
 
     orm::Tables::drop();
     orm::Tables::create();
@@ -489,6 +487,6 @@ int main(int argc,char* argv[])
     test_Perso();
     test_Perso_Master();
 
-    orm::DB::Default.disconnect();
+    orm::DB::Default->disconnect();
     return 0;
 };

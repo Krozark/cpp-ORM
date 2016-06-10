@@ -94,9 +94,8 @@ namespace orm
              */
             static bool clear(DB& db = *defaultDBConnection);
 
+            static  std::shared_ptr<orm::DB> defaultDBConnection;///< database use to store the object
 
-
-            static  DB* defaultDBConnection;///< database use to store the object
             const static std::string _table; ///< table of the object
 
         protected:

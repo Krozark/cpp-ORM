@@ -68,10 +68,9 @@ namespace orm
 
     };
 
-    DB* MySqlDB::clone()const
+    std::shared_ptr<orm::DB> MySqlDB::clone()const
     {
-        MySqlDB* copy = new MySqlDB(this->_username,this->_password,this->_dbName,this->_serveur,this->_port);
-        return copy;
+        return std::shared_ptr<orm::DB>(new MySqlDB(this->_username,this->_password,this->_dbName,this->_serveur,this->_port));
     }
 
     bool MySqlDB::connect()

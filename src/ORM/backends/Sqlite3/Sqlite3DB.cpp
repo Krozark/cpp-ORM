@@ -44,10 +44,9 @@ namespace orm
         }
     };
 
-    DB* Sqlite3DB::clone()const
+    std::shared_ptr<orm::DB> Sqlite3DB::clone()const
     {
-        Sqlite3DB* copy = new Sqlite3DB(this->_dbName);
-        return copy;
+        return std::shared_ptr<orm::DB>(new Sqlite3DB(this->_dbName));
     }
 
     bool Sqlite3DB::connect()

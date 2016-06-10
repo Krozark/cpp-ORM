@@ -10,6 +10,8 @@
 namespace orm
 {
 
+    std::shared_ptr<orm::DB> DB::Default(nullptr);
+
     DB::DB(const std::string& username,const std::string& pass,const std::string& db,const std::string& serveur,int port) : _username(username),
         _password(pass),
         _dbName(db),

@@ -157,7 +157,7 @@ namespace orm
             */
             virtual DB& getDefaultDataBase()const override;
 
-            static  DB* defaultDBConnection; ///< db use to stor the object
+            static  std::shared_ptr<orm::DB> defaultDBConnection; ///< db use to stor the object
 
             /**
             * \return the table name
