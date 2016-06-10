@@ -12,23 +12,9 @@ namespace orm
     {
     }
 
-    SqlObjectBase::~SqlObjectBase()
-    {
-    }
-
     int SqlObjectBase::getPk()const
     {
         return pk;
-    }
-
-    bool SqlObjectBase::save(bool recursive)
-    {
-        return this->save(recursive, getDefaultDataBase());
-    }
-
-    bool SqlObjectBase::del(bool recursive)
-    {
-        return this->del(recursive, getDefaultDataBase());
     }
 
     std::vector<VAttr*>& SqlObjectBase::getAttributes()

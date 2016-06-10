@@ -18,16 +18,6 @@ namespace orm
         object._fkAttributsVector.emplace_back(this);
     }
 
-    bool VFK::save(bool recursive)
-    {
-        return this->save(recursive, getDefaultDataBase());
-    }
-
-    bool VFK::del(bool recursive)
-    {
-        return this->del(recursive, getDefaultDataBase());
-    }
-
     bool VFK::setValue(const std::string&)
     {
         return false;

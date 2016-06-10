@@ -183,26 +183,17 @@ namespace orm
     }
 
     template<typename T>
-    DB& SqlObject<T>::getDefaultDataBase()const
-    {
-        return staticGetDefaultDataBase();
-    }
-
-    template<typename T>
-    DB& SqlObject<T>::staticGetDefaultDataBase()
-    {
-        if(defaultDBConnection)
-        {
-            return *defaultDBConnection;
-        }
-        return *DB::Default;
-    }
-
-    template<typename T>
     const std::string& SqlObject<T>::getTable()const
     {
         return _table;
     }
+
+    template<typename T>
+    DB& SqlObject<T>::getDefaultDataBase()const
+    {
+        return DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase();
+    }
+
 
     template<typename T>
     void SqlObject<T>::_staticNameAttrs(std::string& q_str,const std::string& prefix,int max_depth,DB& db)

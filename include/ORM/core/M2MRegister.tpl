@@ -10,19 +10,19 @@ namespace orm
 
         Tables::_create.push_back(
                                  []()->bool{
-                                    return ManyToMany<OWNER,RELATED>::create();
+                                    return ManyToMany<OWNER,RELATED>::createTable();
                                  }
                                 );
 
         Tables::_drop.push_back(
                                []()->bool{
-                                return ManyToMany<OWNER,RELATED>::drop();
+                                return ManyToMany<OWNER,RELATED>::dropTable();
                                 }
                             );
 
         Tables::_clear.push_back(
                                    []()->bool{
-                                    return ManyToMany<OWNER,RELATED>::clear();
+                                    return ManyToMany<OWNER,RELATED>::clearTable();
                                     }
                                 );
 

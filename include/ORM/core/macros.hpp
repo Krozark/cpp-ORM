@@ -232,7 +232,7 @@
  */
 #define ORM_REGISTER_TABLE(klass,column) \
     template<> const std::string orm::SqlObject<klass>::_table = column;\
-    template<> std::shared_ptr<orm::DB> orm::SqlObject<klass>::defaultDBConnection(nullptr);\
+    template<> std::shared_ptr<orm::DB> orm::DataBaseMixin<orm::SqlObject<klass>>::defaultDBConnection(nullptr);\
     template<> std::vector<const orm::VAttr*> orm::SqlObject<klass>::_staticAttributsVector = std::vector<const orm::VAttr*>();\
     template<> std::vector<orm::VFK*> orm::SqlObject<klass>::_staticFksAttributsVector = std::vector<orm::VFK*>();\
     template<> orm::Register<klass> orm::SqlObject<klass>::_register = orm::Register<klass>();\
@@ -344,7 +344,7 @@ ORM_REGISTER_AND_CONSTRUCT_WITH_NAMESPACE(a,TestNamespace,"TestNamespace",name,"
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_owner) = owner_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_linked) = linked_column;\
     template<> const std::string orm::ManyToMany<klass,T_linked>::ORM_MAKE_NAME(_related) = JOIN_ALIAS(table_name,linked_column);\
-    template<> std::shared_ptr<orm::DB> orm::ManyToMany<klass,T_linked>::defaultDBConnection(nullptr);\
+    template<> std::shared_ptr<orm::DB> orm::DataBaseMixin<orm::ManyToMany<klass,T_linked>>::defaultDBConnection(nullptr);\
     template<> orm::M2MRegister<klass,T_linked> orm::ManyToMany<klass,T_linked>::_register = orm::M2MRegister<klass,T_linked>();
 
 

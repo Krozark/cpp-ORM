@@ -6,6 +6,7 @@
 
 #include <ORM/externals.hpp>
 #include <ORM/core/macros.hpp>
+#include <ORM/core/VObjectMixin.hpp>
 #include <memory>
 
 
@@ -19,7 +20,7 @@ namespace orm
     /**
      * \brief Base classe to manage SqlObjects. Usfull to store them in containers
      **/
-    class SqlObjectBase
+    class SqlObjectBase : public VObjectMixin
     {
         public:
             typedef std::shared_ptr<SqlObjectBase> pointer;
@@ -29,52 +30,8 @@ namespace orm
              **/
             SqlObjectBase();
 
-            virtual ~SqlObjectBase();
-
             SqlObjectBase(const SqlObjectBase&)=delete;
             SqlObjectBase& operator=(const SqlObjectBase&)=delete;
-
-
-
-            /**
-             * \brief save/update the object in data base
-             *
-             * \param db the db to fetch
-             * \param recursive recursive?
-             *
-             * \return false if fail
-             **/
-            virtual bool save(bool recursive, DB& db) = 0;
-
-            /**
-            * \brief save/update the object in data base
-            * overload of save, but use default dadabase
-            *
-            * \param recursive recursive?
-            *
-            * \return false if fail
-            **/
-            bool save(bool recursive = false);
-
-
-            /**
-             * \brief delete the object from de data base
-             *
-             * \param db the db to fetch
-             * \param recursive recursive?
-             * \return false if fail
-             **/
-            virtual bool del(bool recursive, DB& db) = 0;
-
-            /**
-            * \brief delete the object from de data base
-            * overload of del, but use default dadabase
-            *
-            * \param recursive recursive?
-            *
-            * \return false if fail
-            **/
-            bool del(bool recursive = false);
 
 
             /**
@@ -94,22 +51,12 @@ namespace orm
             VAttr* getAttribute(const std::string& name);
 
             /**
-            \brief return the default database registred for the object
-            */
-            virtual DB& getDefaultDataBase()const = 0;
-
-            /**
              * \brief Display the object in json
              **/
             friend std::ostream& operator<<(std::ostream& output,const SqlObjectBase& self);
 
 
             ORM_MAKE_STATIC_COLUMN(pk);
-
-            /**
-            * \return the table name
-            **/
-            virtual const std::string& getTable() const = 0;
 
 
         protected:

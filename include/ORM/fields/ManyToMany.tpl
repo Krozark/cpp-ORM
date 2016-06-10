@@ -124,7 +124,7 @@ namespace orm
     };
 
     template<typename T,typename U>
-    bool ManyToMany<T,U>::create(DB& db)
+    bool ManyToMany<T,U>::createTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_CREATE_TABLE
         std::cerr<<ORM_COLOUR_MAGENTA<<"[CREATE] create table "<<_table<<ORM_COLOUR_NONE<<std::endl;
@@ -142,7 +142,7 @@ namespace orm
     }
 
     template<typename T,typename U>
-    bool ManyToMany<T,U>::drop(DB& db)
+    bool ManyToMany<T,U>::dropTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_DROP_TABLE
         std::cerr<<ORM_COLOUR_MAGENTA<<"[DROP] drop table "<<_table<<ORM_COLOUR_NONE<<std::endl;
@@ -151,22 +151,12 @@ namespace orm
     }
 
     template<typename T,typename U>
-    bool ManyToMany<T,U>::clear(DB& db)
+    bool ManyToMany<T,U>::clearTable(DB& db)
     {
         #if ORM_DEBUG & ORM_DEBUG_TRUNCATE_TABLE
         std::cerr<<ORM_COLOUR_MAGENTA<<"[TRUNCATE] truncate table "<<_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
         return db.clear(_table);
-    }
-
-    template<typename T,typename U>
-    DB& ManyToMany<T,U>::staticGetDefaultDataBase()
-    {
-        if(defaultDBConnection)
-        {
-            return *defaultDBConnection;
-        }
-        return *DB::Default;
     }
 
     /*

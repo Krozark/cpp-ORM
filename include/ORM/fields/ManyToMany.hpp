@@ -1,6 +1,7 @@
 #ifndef ORM_MANYTOMANY_HPP
 #define ORM_MANYTOMANY_HPP
 
+#include <ORM/core/DataBaseMixin.hpp>
 #include <ORM/models/SqlObject.hpp>
 #include <ORM/backends/Query.hpp>
 #include <ORM/backends/private/M2MQuerySet.hpp>
@@ -15,7 +16,7 @@ namespace orm
      * \todo faire la classe
      **/
     template<typename OWNER,typename RELATED>
-    class ManyToMany
+    class ManyToMany: public DataBaseMixin<ManyToMany<OWNER,RELATED>>
     {
         public:
             ManyToMany(OWNER& owner);
@@ -27,7 +28,7 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<OWNER,RELATED> query(DB& db=staticGetDefaultDataBase())const;
+            M2MQuerySet<OWNER,RELATED> query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase())const;
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -35,7 +36,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            typename RELATED::pointer_array all(DB& db=staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            typename RELATED::pointer_array all(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief add a object in the relation
@@ -53,7 +54,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            bool add(const typename RELATED::pointer& obj,DB& db=staticGetDefaultDataBase());
+            bool add(const typename RELATED::pointer& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
 
             /**
              * \brief remove a object in the relation
@@ -62,7 +63,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const RELATED& obj,DB& db=staticGetDefaultDataBase());
+            void remove(const RELATED& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
 
             /**
              * \brief remove a object in the relation
@@ -71,32 +72,29 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const typename RELATED::pointer& obj,DB& db=staticGetDefaultDataBase());
+            void remove(const typename RELATED::pointer& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
 
             /**
              * \brief create the table
              * \todo
              * \return true if success
              */
-            static bool create(DB& db = staticGetDefaultDataBase());
+            static bool createTable(DB& db = DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
 
             /**
              * \brief drop the table
              * \todo
              * \return true if success
              */
-            static bool drop(DB& db = staticGetDefaultDataBase());
+            static bool dropTable(DB& db = DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
 
             /**
              * \brief truncate the table
              * \todo
              * \return true if success
              */
-            static bool clear(DB& db = staticGetDefaultDataBase());
+            static bool clearTable(DB& db = DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
 
-            static  std::shared_ptr<orm::DB> defaultDBConnection;///< database use to store the object
-
-            static DB& staticGetDefaultDataBase();
 
             const static std::string _table; ///< table of the object
 

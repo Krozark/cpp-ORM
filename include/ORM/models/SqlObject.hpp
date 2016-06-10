@@ -3,6 +3,8 @@
 
 //orm::
 #include <ORM/models/SqlObjectBase.hpp>
+#include <ORM/core/DataBaseMixin.hpp>
+
 #include <ORM/fields/private/VFK.hpp>
 #include <ORM/core/Cache.hpp>
 #include <ORM/core/macros.hpp>
@@ -55,7 +57,7 @@ namespace orm
     * \endcode
     **/
     template<typename T>
-    class SqlObject : public SqlObjectBase, public virtual_enable_shared_from_this<T>
+    class SqlObject : public SqlObjectBase, public virtual_enable_shared_from_this<T>, public DataBaseMixin<SqlObject<T>>
     {
         public:
             using pointer_array = typename QuerySet<T>::pointer_array;
@@ -91,7 +93,7 @@ namespace orm
             *
             * Note : if the return obj as a pk of -1 : fail
             **/
-            static pointer get(const unsigned int& id,DB& db= staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer get(const unsigned int& id,DB& db= DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief shortcut for T::query().get(list)
@@ -99,7 +101,7 @@ namespace orm
             *
             * \return all the objects T
             **/
-            static pointer_array all(DB& db = staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            static pointer_array all(DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
             * \brief create a queryset for the objet. Use it to make your query
@@ -107,7 +109,7 @@ namespace orm
             *
             * \return The tempory queryset. use chaine function, or copy it
             **/
-            static QuerySet<T> query(DB& db = staticGetDefaultDataBase());
+            static QuerySet<T> query(DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase());
 
             /**
             * \brief save/update the object in data base
@@ -117,7 +119,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool save(bool recursive=false,DB& db = staticGetDefaultDataBase()) override /*final*/;
+            virtual bool save(bool recursive=false,DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase()) override /*final*/;
 
             /**
             * \brief delete the object from de data base
@@ -126,7 +128,7 @@ namespace orm
             * \param recursive recursive?
             * \return false if fail
             **/
-            virtual bool del(bool recursive=false,DB& db = staticGetDefaultDataBase()) override;
+            virtual bool del(bool recursive=false,DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase()) override;
 
 
             pointer asPointer();
@@ -136,35 +138,28 @@ namespace orm
              * \todo
              * \return true if success
              */
-            static bool createTable(DB& db = staticGetDefaultDataBase());
+            static bool createTable(DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase());
 
             /**
              * \brief drop the table
              * \todo
              * \return true if success
              */
-            static bool dropTable(DB& db = staticGetDefaultDataBase());
+            static bool dropTable(DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase());
 
             /**
              * \brief truncate the table
              * \todo
              * \return true if success
              */
-            static bool clearTable(DB& db = staticGetDefaultDataBase());
-
-            /**
-            \brief return the default database registred for the object
-            */
-            virtual DB& getDefaultDataBase()const override;
-
-            static DB& staticGetDefaultDataBase();
-
-            static  std::shared_ptr<orm::DB> defaultDBConnection; ///< db use to stor the object
+            static bool clearTable(DB& db = DataBaseMixin<SqlObject<T>>::staticGetDefaultDataBase());
 
             /**
             * \return the table name
             **/
             virtual const std::string& getTable()const override;
+
+            virtual DB& getDefaultDataBase()const;
 
         protected:
 

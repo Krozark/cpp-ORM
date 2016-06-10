@@ -23,7 +23,6 @@ namespace orm
             using SqlObject<T>::create;
             using SqlObject<T>::all;
             using SqlObject<T>::query;
-            //using SqlObject<T>::defaultDBConnection;
 
             friend std::ostream& operator<<(std::ostream& output,const SqlExtends<T,BASE>& self)
             {

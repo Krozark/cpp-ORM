@@ -4,6 +4,8 @@ set(SRCROOT ${SRCROOT}/core)
 list(APPEND FILES_HEADER
     ${INCROOT}/Cache.hpp
     ${INCROOT}/Cache.tpl
+    ${INCROOT}/DataBaseMixin.hpp
+    ${INCROOT}/DataBaseMixin.tpl
 	${INCROOT}/Factory.hpp
 	${INCROOT}/Factory.tpl
 	${INCROOT}/from_string.hpp
@@ -14,11 +16,13 @@ list(APPEND FILES_HEADER
     ${INCROOT}/M2MRegister.hpp
     ${INCROOT}/M2MRegister.tpl
     ${INCROOT}/Tables.hpp
+    ${INCROOT}/VObjectMixin.hpp
 )
 
 list(APPEND FILES_SRC
     ${SRCROOT}/Tables.cpp
 	${SRCROOT}/from_string.cpp
+	${SRCROOT}/VObjectMixin.cpp
 )
 
 # set in parent scope
