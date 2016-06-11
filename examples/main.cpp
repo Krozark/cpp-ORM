@@ -1,7 +1,4 @@
 //#include <ORM/backends/MySql.hpp>
-//orm::MySqlDB def("root","toor","test");
-//orm::MySqlDB def("root","root","test");
-
 #include <ORM/backends/Sqlite3.hpp>
 
 
