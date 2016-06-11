@@ -81,7 +81,7 @@ namespace orm
              * \brief prepare the field before save it in DB (new object only)
              * Note : do nothing by default.
              */
-            virtual void _beforeSave();
+            virtual void _beforeSave() ;
 
             /**
              * \brief prepare the field after save it in DB (new object only)

@@ -159,7 +159,7 @@ namespace orm
             **/
             virtual const std::string& getTable()const override;
 
-            virtual DB& getDefaultDataBase()const;
+            virtual DB& getDefaultDataBase()const override;
 
         protected:
 

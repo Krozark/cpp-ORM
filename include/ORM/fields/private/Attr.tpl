@@ -52,7 +52,9 @@ namespace orm
             res = query._set(tmp,column);
         }
         else
+        {
             res = query._set(_value,column);
+        }
         return res;
     };
 

@@ -84,6 +84,7 @@ namespace orm
             #endif
 
             Query& q = *prepareQuery(str_q);
+            const auto deltaIndex = _getInitialSetcolumnNumber();
 
             for(unsigned int i=0;i<size;++i)
             {
@@ -93,7 +94,7 @@ namespace orm
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
-                attrs[i]->_setToQuery(q,i+_getInitialSetcolumnNumber());
+                attrs[i]->_setToQuery(q,i+deltaIndex);
                 attrs[i]->_modified = false;
                 //post save
                 attrs[i]->_afterSave();

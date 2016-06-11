@@ -111,7 +111,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool _setToQuery(Query& query,const unsigned int& column);
+            virtual bool _setToQuery(Query& query,const unsigned int& column) override;
 
             /**
              * \brief get the fk from the query
@@ -122,7 +122,7 @@ namespace orm
              *
              * \return false if fail
              **/
-            virtual bool _getFromQuery(const Query& query,int& prefix,int max_depth);
+            virtual bool _getFromQuery(const Query& query,int& prefix,int max_depth) override;
 
             /**
              * \brief Construct a new object from the db
@@ -143,7 +143,7 @@ namespace orm
              *
              * \return the columns alias
              **/
-            virtual std::string _makeName(DB& db,const std::string& prefix,int max_depth) const;
+            virtual std::string _makeName(DB& db,const std::string& prefix,int max_depth) const override;
 
             /**
              * \brief Use for increment the column number without construction.
@@ -152,7 +152,7 @@ namespace orm
              * \param depth column nuber to increment
              * \param max_depth maximun depth of construction
              **/
-            virtual void _incDepth(int& depth,int max_depth) const;
+            virtual void _incDepth(int& depth,int max_depth) const override;
 
             /**
              * \brief get the stored object
@@ -162,7 +162,7 @@ namespace orm
              *
              * \return the stored object
              **/
-            virtual const SqlObjectBase& _getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            virtual const SqlObjectBase& _getObject(DB& db,int max_depth=ORM_DEFAULT_MAX_DEPTH) override;
 
 
             /**
