@@ -2,7 +2,7 @@ cpp-ORM
 =========
 
 Current build status : 
-[![Build Status](https://travis-ci.org/Krozark/cpp-ORMg.png?branch=master)](https://travis-ci.org/Krozark/cpp-ORM)
+[![Build Status](https://travis-ci.org/Krozark/cpp-ORM.svg?branch=master)](https://travis-ci.org/Krozark/cpp-ORM)
 
 An ORM project.
 
