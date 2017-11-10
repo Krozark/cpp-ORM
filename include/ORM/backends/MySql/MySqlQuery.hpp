@@ -155,9 +155,9 @@ namespace orm
             /**
              * \brief Whene the query have been execute, for loop in results
              *
-             * \results fals if fail
+             * \results fails if fail
              **/
-            virtual bool _next();
+            virtual bool _next() override;
 
             /* for prepared query */
             /**

@@ -43,7 +43,7 @@ namespace orm
             * \brief set the internal value from a string
             * \return true on success
             */
-            virtual bool setValue(const std::string&);
+            virtual bool setValue(const std::string&) override;
 
 
             /**
