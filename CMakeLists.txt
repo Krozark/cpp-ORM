@@ -7,7 +7,7 @@ project(${PROJECT_NAME})
 # setup version numbers
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 4)
-set(VERSION_PATCH 2)
+set(VERSION_PATCH 3)
 
 include(cmake/macro.cmake)
 include(cmake/compiler.cmake)
