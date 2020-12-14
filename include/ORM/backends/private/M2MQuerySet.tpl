@@ -4,10 +4,16 @@
 namespace orm
 {
     template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db):
+    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(DB& db):
         _limitSkip(0),
         _limitCount(-1),
         _db(db)
+    {
+    }
+
+    template <typename OWNER, typename RELATED>
+    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db):
+        M2MQuerySet(db)
     {
         _filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(
             m2m._owner.pk,

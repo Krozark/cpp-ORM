@@ -123,6 +123,12 @@ namespace orm
 
         private:
             friend class ManyToMany<OWNER,RELATED>;
+
+            /**
+             * \brief Construct a empty M2MQuerySet
+             **/
+            explicit M2MQuerySet(DB& db);
+
             /**
              * \brief Construct a empty M2MQuerySet
              **/
