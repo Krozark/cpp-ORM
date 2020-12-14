@@ -10,7 +10,15 @@ namespace orm
     template<typename T,typename U>
     typename ManyToMany<T,U>::query_type ManyToMany<T,U>::query(DB& db)const
     {
-        return query_type(*this,db);
+        ManyToMany<T,U>::query_type q = query_type(db);
+        q.filter(
+            Q<ManyToMany<T,U>>(
+                this->_owner.pk,
+                op::exact,
+                ManyToMany<T,U>::ORM_MAKE_NAME(_owner)
+            )
+        );
+        return q;
     }
 
     template<typename T,typename U>

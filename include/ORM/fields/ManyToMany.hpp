@@ -20,7 +20,7 @@ namespace orm
     {
         public:
             using query_type = M2MQuerySet<OWNER,RELATED>;
-            
+                
             ManyToMany(OWNER& owner);
             //void registerAttr(SqlObjectBase&);
 

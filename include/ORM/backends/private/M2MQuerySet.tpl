@@ -12,16 +12,6 @@ namespace orm
     }
 
     template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db):
-        M2MQuerySet(db)
-    {
-        _filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(
-            m2m._owner.pk,
-            op::exact,
-            ManyToMany<OWNER,RELATED>::ORM_MAKE_NAME(_owner)));
-    }
-
-    template <typename OWNER, typename RELATED>
     M2MQuerySet<OWNER,RELATED>::~M2MQuerySet()
     {
     }
@@ -32,22 +22,22 @@ namespace orm
     M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(T&& v,const std::string& operand,Args&& ... args)
     {
         _filters.emplace_back(
-            Q<ManyToMany<OWNER, RELATED>>(std::forward<T>(v),
+            Q<many_to_many_type>(std::forward<T>(v),
             operand,
-            ManyToMany<OWNER,RELATED>::ORM_MAKE_NAME(_linked), std::forward<Args>(args)...)
+            many_to_many_type::ORM_MAKE_NAME(_linked), std::forward<Args>(args)...)
         );
         return *this;
     };
 
     template<typename OWNER,typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(const FilterSet<ManyToMany<OWNER,RELATED>>& f)
+    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(const FilterSet<many_to_many_type>& f)
     {
         _filters.emplace_back(f);
         return *this;
     }
 
     template<typename OWNER,typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(FilterSet<ManyToMany<OWNER,RELATED>>&& f)
+    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(FilterSet<many_to_many_type>&& f)
     {
         _filters.push_back(std::move(f));
         return *this;
@@ -58,11 +48,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(many_to_many_type::staticGetDefaultDataBase(),many_to_many_type::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(many_to_many_type::staticGetDefaultDataBase(),many_to_many_type::_related,column)+" ASC");
         }
         return *this;
     }
@@ -72,11 +62,11 @@ namespace orm
     {
         if( order == op::desc)
         {
-            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" DESC");
+            _orderBy.push_back(DB::_makecolumname(many_to_many_type::staticGetDefaultDataBase(),many_to_many_type::_related,column)+" DESC");
         }
         else
         {
-            _orderBy.push_back(DB::_makecolumname(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase(),ManyToMany<OWNER,RELATED>::_related,column)+" ASC");
+            _orderBy.push_back(DB::_makecolumname(many_to_many_type::staticGetDefaultDataBase(),many_to_many_type::_related,column)+" ASC");
         }
         return *this;
     }
@@ -111,10 +101,10 @@ namespace orm
     void M2MQuerySet<OWNER,RELATED>::debugPrint() const
     {
         std::string q_str ="SELECT ";
-        ManyToMany<OWNER,RELATED>::_staticNameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
+        many_to_many_type::_staticNameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         q_str+="\nFROM ";
-        ManyToMany<OWNER,RELATED>::_staticNameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
+        many_to_many_type::_staticNameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         const int filters_size = _filters.size();
 
@@ -126,12 +116,12 @@ namespace orm
             std::cout<<q_str;
             q_str.clear();
 
-            begin->debugPrint(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase());
+            begin->debugPrint(many_to_many_type::staticGetDefaultDataBase());
 
             while(++begin != end)
             {
                 std::cout<<" AND ";
-                begin->debugPrint(ManyToMany<OWNER,RELATED>::staticGetDefaultDataBase());
+                begin->debugPrint(many_to_many_type::staticGetDefaultDataBase());
             }
             std::cout<<") ";
         }
@@ -160,10 +150,10 @@ namespace orm
     Query* M2MQuerySet<OWNER,RELATED>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
-        ManyToMany<OWNER,RELATED>::_nameAttrs(q_str,max_depth,_db);
+        many_to_many_type::_nameAttrs(q_str,max_depth,_db);
 
         q_str+="\nFROM ";
-        ManyToMany<OWNER,RELATED>::_nameTables(q_str,max_depth,_db);
+        many_to_many_type::_nameTables(q_str,max_depth,_db);
 
         const int filters_size = _filters.size();
 

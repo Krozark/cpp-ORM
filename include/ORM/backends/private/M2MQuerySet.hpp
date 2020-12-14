@@ -22,6 +22,8 @@ namespace orm
     {
         public:
 
+            using many_to_many_type = ManyToMany<OWNER,RELATED>;
+
             #ifndef ORM_USE_MSVC
             M2MQuerySet(M2MQuerySet&&) = default;
             M2MQuerySet& operator=(M2MQuerySet&&) = default;
@@ -45,8 +47,8 @@ namespace orm
             template<typename T,typename ... Args>
             M2MQuerySet<OWNER,RELATED>& filter(T&&,const std::string& operand,Args&& ... args);
 
-            M2MQuerySet<OWNER,RELATED>& filter(const FilterSet<ManyToMany<OWNER,RELATED>>& f);
-            M2MQuerySet<OWNER,RELATED>& filter(FilterSet<ManyToMany<OWNER,RELATED>>&&);
+            M2MQuerySet<OWNER,RELATED>& filter(const FilterSet<many_to_many_type>& f);
+            M2MQuerySet<OWNER,RELATED>& filter(FilterSet<many_to_many_type>&&);
 
             /**
              * \brief Add a order by constrait to the query
@@ -130,11 +132,6 @@ namespace orm
             explicit M2MQuerySet(DB& db);
 
             /**
-             * \brief Construct a empty M2MQuerySet
-             **/
-            explicit M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db);
-
-            /**
              * \brief Construct the query with all constraints
              *
              * \param max_depth Maximun depth of recursion in join (if object have FK only)
@@ -147,7 +144,7 @@ namespace orm
             M2MQuerySet(const M2MQuerySet&) = delete;
             M2MQuerySet& operator=(const M2MQuerySet&) = delete;
 
-            std::list<FilterSet<ManyToMany<OWNER,RELATED>>> _filters; ///< Store all the filters
+            std::list<FilterSet<many_to_many_type>> _filters; ///< Store all the filters
             std::vector<std::string> _orderBy; ///< store the column name for ordering
             int _limitSkip; ///< skip limit (default is 0)
             int _limitCount; ///< skip limit (default is all)
