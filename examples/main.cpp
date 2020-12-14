@@ -402,7 +402,7 @@ void test_Perso()
         }
     }
 
-    {
+    /*{
         std::cout<<"\n*** All Perso with Spell s1 (result = 1)"<<std::endl;
         Perso::pointer_array lis;
         orm::ManyToMany<Perso,Spell>::query_type()
@@ -412,7 +412,7 @@ void test_Perso()
         {
             cout<<*u<<std::endl;
         }
-    }
+    }*/
 
     std::cout<<"======= END test_Perso =======\n"<<std::endl;
 
