@@ -390,8 +390,6 @@ void test_Perso()
         }
     }
 
-
-
     {
         std::cout<<"\n*** All his spells (result = [s1, s2])"<<std::endl;
         Spell::pointer_array lis;
@@ -401,6 +399,18 @@ void test_Perso()
             cout<<*u<<endl;
         }
     }
+
+    /*{
+        std::cout<<"\n*** All Perso with Spell s1 (result = 1)"<<std::endl;
+        Perso::pointer_array lis;
+        Perso::spell::query()
+            .filter(1, orm::op:exact, Perso::$id)
+            .get(lis);
+        for(auto& u : lis)
+        {
+            cout<<*u<<std::endl;
+        }
+    }*/
 
     std::cout<<"======= END test_Perso =======\n"<<std::endl;
 

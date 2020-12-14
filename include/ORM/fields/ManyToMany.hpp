@@ -31,6 +31,14 @@ namespace orm
             M2MQuerySet<OWNER,RELATED> query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase())const;
 
             /**
+             * \brief create a queryset for the objet. Use it to make your query
+             * \param db the db to fetch
+             *
+             * \return The tempory queryset. use chaine function, or copy it
+             **/
+            //static M2MQuerySet<OWNER,RELATED> query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+
+            /**
             * \brief shortcut for T::query().get(list)
              * \param db the db to fetch
             *

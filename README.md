@@ -55,7 +55,7 @@ Data bases supported
 Requirement
 ===========
 
-* mysql-connector-c (if Mysql support is needed). Can be find here : https://dev.mysql.com/downloads/connector/c/
+* mysql-connector-c (if Mysql support is needed). Can be find here : https://dev.mysql.com/downloads/connector/c/ or libmysql++-dev (ubuntu)
 * ~~lib Sqlite3~~ [included since v 0.4]
 * pthread (for linux only) [v 0.4+]
 * doxygen (for user doc only)
