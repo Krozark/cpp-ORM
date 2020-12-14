@@ -18,6 +18,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules;${CMAKE_SOURCE_DIR}")
 # add the  header path
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# set_option(ORM_COLUMN_PRIMARY_KEY "pk" str "The column name for the table primary keys")
+
 set_option(ORM_BUILD_SUPPORT_SQLITE3 TRUE BOOL "TRUE to build support for sqlite3 backends, FALSE to ignore them")
 set_option(ORM_BUILD_SUPPORT_MYSQL FALSE BOOL "TRUE to build support for Mysql backends, FALSE to ignore them")
 
@@ -58,20 +60,24 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
 if(COMPILER_NAME STREQUAL "msvc")
-	#add_definitions("/Za")
-	add_definitions("/EHsc")
+		#add_definitions("/Za")
+		add_definitions("/EHsc")
 
-	add_definitions("/DORM_USE_MSVC")
+		add_definitions("/DORM_USE_MSVC")
 
-	# Workaround for "error LNK2026: module unsafe for SAFESEH"
-	# when compiling with certain externally compiled libraries with VS2012.
-	# This disables safe exception handling by default.
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
-	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
-	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
+		# Workaround for "error LNK2026: module unsafe for SAFESEH"
+		# when compiling with certain externally compiled libraries with VS2012.
+		# This disables safe exception handling by default.
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+		set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
+		set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
 else()
-	add_definitions("-g")
-    set(CMAKE_CXX_FLAGS "-std=c++11")
+		add_definitions("-g")
+  	set(CMAKE_CXX_FLAGS "-std=c++11")
+endif()
+
+if(ORM_COLUMN_PRIMARY_KEY)
+	add_definitions(-DORM_COLUMN_PRIMARY_KEY="${ORM_COLUMN_PRIMARY_KEY}")
 endif()
 
 

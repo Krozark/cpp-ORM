@@ -3,6 +3,7 @@
 
 #include <ORM/fields/private/VAttr.hpp>
 #include <ORM/backends/op.hpp>
+#include <ORM/core/macros.hpp>
 
 //#include <my_global.h>
 
@@ -145,7 +146,7 @@ namespace orm
     {
         std::string sql = "CREATE TABLE "+_escapeColumn(table)+"(\n";
         unsigned int size = attrs.size();
-        sql+= creator().autoField("pk");
+        sql+= creator().autoField(ORM_COLUMN_PRIMARY_KEY);
 
         const DB& db=*this;
         for(unsigned int i=0;i<size;++i)

@@ -143,7 +143,7 @@ namespace orm
                 }
             }
 
-            str_q+=" WHERE "+_escapeColumn(table)+"."+_escapeColumn("pk")+" = "+std::to_string(pk)+";"; ///< \todo column.id
+            str_q+=" WHERE "+_escapeColumn(table)+"."+_escapeColumn(ORM_COLUMN_PRIMARY_KEY)+" = "+std::to_string(pk)+";"; ///< \todo column.id
 
 
             if(first) //NO MAJ NEDEED
@@ -189,7 +189,7 @@ namespace orm
 
     bool DB::_del(const std::string& table,const int& pk)
     {
-        std::string str_q = "DELETE FROM "+_escapeColumn(table)+" WHERE ("+_escapeColumn(table)+"."+_escapeColumn("pk")+" = "+std::to_string(pk)+");";
+        std::string str_q = "DELETE FROM "+_escapeColumn(table)+" WHERE ("+_escapeColumn(table)+"."+_escapeColumn(ORM_COLUMN_PRIMARY_KEY)+" = "+std::to_string(pk)+");";
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<ORM_COLOUR_COMMENTS<<"[Sql:delete]"<<str_q<<ORM_COLOUR_NONE<<std::endl;

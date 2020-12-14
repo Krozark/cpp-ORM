@@ -2,11 +2,12 @@
 #include <ORM/fields/private/VAttr.hpp>
 #include <ORM/fields/private/VFK.hpp>
 #include <ORM/backends/Query.hpp>
+#include <ORM/core/macros.hpp>
 
 namespace orm
 {
 
-    const std::string SqlObjectBase::ORM_MAKE_NAME(pk) = ORM_MAKE_NAME_VALUE(SqlObjectBase, "pk");
+    const std::string SqlObjectBase::ORM_MAKE_NAME(pk) = ORM_MAKE_NAME_VALUE(SqlObjectBase, ORM_COLUMN_PRIMARY_KEY);
 
     SqlObjectBase::SqlObjectBase() : pk(-1)
     {

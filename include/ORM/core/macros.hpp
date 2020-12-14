@@ -32,6 +32,9 @@
 /**
  * \brief make string name for attrs
  **/
+ #ifndef ORM_COLUMN_PRIMARY_KEY
+ #define ORM_COLUMN_PRIMARY_KEY "pk"
+ #endif
 //#ifndef ORM_COLUMN_CHAR
 //#define ORM_COLUMN_CHAR $
 //#endif
