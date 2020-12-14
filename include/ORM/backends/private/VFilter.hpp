@@ -42,7 +42,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool _set(Query* query,unsigned int& column) const = 0;
+            virtual bool _set(Query& query,unsigned int& column) const = 0;
 
             virtual void _toQuery(std::string& query,orm::DB& db) const = 0;
     };

@@ -82,7 +82,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*Sqlite3*/Query* query(const std::string&) override;
+            virtual /*Sqlite3*/std::shared_ptr<Query> query(const std::string&) override;
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -91,7 +91,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual /*Sqlite3*/Query* query(std::string&&) override;
+            virtual /*Sqlite3*/std::shared_ptr<Query> query(std::string&&) override;
 
             /* manualy create  a query */
             /**
@@ -101,7 +101,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* prepareQuery(const std::string&) override;
+            virtual std::shared_ptr<Query> prepareQuery(const std::string&) override;
 
             /**
             * \brief Create a prepared query to execute
@@ -110,7 +110,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* prepareQuery(std::string&&) override;
+            virtual std::shared_ptr<Query> prepareQuery(std::string&&) override;
 
             /**
              * \brief create a table

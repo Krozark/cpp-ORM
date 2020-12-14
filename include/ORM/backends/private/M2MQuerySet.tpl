@@ -91,9 +91,8 @@ namespace orm
     template <typename OWNER, typename RELATED>
     int M2MQuerySet<OWNER,RELATED>::get(typename RELATED::pointer_array& objs,int max_depth)
     {
-        Query* q = _makeQuery(max_depth);
+        std::shared_ptr<Query> q = _makeQuery(max_depth);
         int res = q->_getObj(objs,max_depth);
-        delete q;
         return res;
     }
 
@@ -147,7 +146,7 @@ namespace orm
     };
 
     template <typename OWNER, typename RELATED>
-    Query* M2MQuerySet<OWNER,RELATED>::_makeQuery(int max_depth)
+    std::shared_ptr<Query> M2MQuerySet<OWNER,RELATED>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
         many_to_many_type::_nameAttrs(q_str,max_depth,_db);
@@ -193,7 +192,7 @@ namespace orm
             q_str+= _db._limit(_limitSkip,_limitCount);
         }
 
-        Query* q = _db.prepareQuery(q_str);
+        std::shared_ptr<Query> q = _db.prepareQuery(q_str);
 
         if(filters_size > 0)
         {
@@ -203,7 +202,7 @@ namespace orm
             while(begin != end)
             {
 
-                begin->_set(q,index);
+                begin->_set(*q,index);
                 ++begin;
                 ++index;
             }

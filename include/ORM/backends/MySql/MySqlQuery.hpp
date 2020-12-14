@@ -16,6 +16,13 @@ namespace orm
      **/
     class MySqlQuery : public Query
     {
+        public:
+
+            /**
+             * \brief Destructor
+             **/
+            ~MySqlQuery();
+            
         protected:
             /**
              * \brief Create a query
@@ -28,11 +35,6 @@ namespace orm
 
             MySqlQuery(const MySqlQuery&) = delete;
             MySqlQuery& operator=(const MySqlQuery&) = delete;
-
-            /**
-             * \brief Destructor
-             **/
-            ~MySqlQuery();
 
             /**
              * \brief Count the number of object returned by the batabase

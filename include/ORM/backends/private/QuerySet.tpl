@@ -121,18 +121,16 @@ namespace orm
             _limitCount = 1;
         }
 
-        Query* q = _makeQuery(max_depth);
+        std::shared_ptr<Query> q = _makeQuery(max_depth);
         bool res = q->_getObj(obj,max_depth);
-        delete q;
         return res;
     }
 
     template<typename T>
     int QuerySet<T>::get(typename QuerySet<T>::pointer_array& objs,int max_depth)
     {
-        Query* q = _makeQuery(max_depth);
+        std::shared_ptr<Query> q = _makeQuery(max_depth);
         int res = q->_getObj(objs,max_depth);
-        delete q;
         return res;
     }
 
@@ -190,7 +188,7 @@ namespace orm
 
 
     template<typename T>
-    Query* QuerySet<T>::_makeQuery(int max_depth)
+    std::shared_ptr<Query> QuerySet<T>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
         SqlObject<T>::_staticNameAttrs(q_str,SqlObject<T>::_table,max_depth,_db);
@@ -238,7 +236,7 @@ namespace orm
             q_str+= _db._limit(_limitSkip,_limitCount);
         }
 
-        Query* q = _db.prepareQuery(q_str);
+        std::shared_ptr<Query> q = _db.prepareQuery(q_str);
         if(filters_size > 0)
         {
             auto begin = _filters.begin();
@@ -247,7 +245,7 @@ namespace orm
             while(begin != end)
             {
 
-                begin->_set(q,index);
+                begin->_set(*q,index);
                 ++begin;
                 ++index;
             }

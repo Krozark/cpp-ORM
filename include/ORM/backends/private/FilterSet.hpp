@@ -50,7 +50,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            bool _set(Query* query,unsigned int& column) const;
+            bool _set(Query& query,unsigned int& column) const;
 
             /**
              * \brief add the sql code to the query

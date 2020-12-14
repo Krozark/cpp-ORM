@@ -158,7 +158,7 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            Query* _makeQuery(int max_depth);
+            std::shared_ptr<Query> _makeQuery(int max_depth);
 
 
             QuerySet(const QuerySet&) = delete;

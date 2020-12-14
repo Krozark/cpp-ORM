@@ -80,7 +80,7 @@ namespace orm
         }
         std::string q_str = "INSERT INTO "+db._escapeColumn(_table)
             +"("+ORM_MAKE_NAME(_owner)+","+ORM_MAKE_NAME(_linked)+") VALUES ((?),(?));";
-        std::unique_ptr<Query> q(db.prepareQuery(q_str));
+        std::shared_ptr<Query> q(db.prepareQuery(q_str));
         q->_set(_owner.pk,db._getInitialSetcolumnNumber());
         q->_set(obj->pk,db._getInitialSetcolumnNumber()+1);
         #if ORM_DEBUG & ORM_DEBUG_SQL
@@ -117,17 +117,16 @@ namespace orm
             +" AND "
             +table_escaped+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))+" = (?))";
 
-        Query& q = *db.prepareQuery(q_str);
-        q._set(_owner.pk,db._getInitialSetcolumnNumber());
-        q._set(obj.pk,db._getInitialSetcolumnNumber()+1);
+        std::shared_ptr<Query> q = db.prepareQuery(q_str);
+        q->_set(_owner.pk,db._getInitialSetcolumnNumber());
+        q->_set(obj.pk,db._getInitialSetcolumnNumber()+1);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         std::cerr<<ORM_COLOUR_COMMENTS<<q_str<<"\nVALUES = ("<<_owner.pk<<", "<<obj.pk<<")"<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
-        q._execute();
-        q._next();
-        delete &q;
+        q->_execute();
+        q->_next();
 
     };
 

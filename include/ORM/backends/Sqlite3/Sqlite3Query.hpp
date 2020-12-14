@@ -14,6 +14,14 @@ namespace orm
      **/
     class Sqlite3Query : public Query
     {
+
+        public:
+
+            /**
+            * \brief Destructor
+            **/
+            ~Sqlite3Query();
+        
         protected:
 
             /**
@@ -34,11 +42,6 @@ namespace orm
 
             Sqlite3Query(const Sqlite3Query&) = delete;
             Sqlite3Query& operator=(const Sqlite3Query&) = delete;
-
-            /**
-             * \brief Destructor
-             **/
-            ~Sqlite3Query();
 
             /**
              * \brief Count the number of object returned by the batabase

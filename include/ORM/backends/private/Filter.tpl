@@ -75,11 +75,11 @@ namespace orm
     };
 
     template<typename RELATED,typename T>
-    bool Filter<RELATED,T>::_set(Query* query,unsigned int& column) const
+    bool Filter<RELATED,T>::_set(Query& query,unsigned int& column) const
     {
-        auto v = query->_db._formatValue(_ope,_value);
+        auto v = query._db._formatValue(_ope,_value);
 
-        bool res = query->_set(v,column);
+        bool res = query._set(v,column);
 
         #if ORM_DEBUG & ORM_DEBUG_SQL
         if (not res)

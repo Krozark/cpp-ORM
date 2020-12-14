@@ -54,7 +54,7 @@ namespace orm
             *
             * \return false if fail
             **/
-            virtual bool _set(Query* query,unsigned int& column) const override final;
+            virtual bool _set(Query& query,unsigned int& column) const override final;
 
             /**
              * \brief add the sql code to the query

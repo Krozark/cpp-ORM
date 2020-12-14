@@ -83,29 +83,29 @@ namespace orm
     {
     };
 
-    Query* Sqlite3DB::query(const std::string& str)
+    std::shared_ptr<Query> Sqlite3DB::query(const std::string& str)
     {
-        return new Sqlite3Query(*this,str);
+        std::shared_ptr<Query> q = std::shared_ptr<Query>(new Sqlite3Query(*this,str));
+        q->_prepared = false;
+        return q;
     };
 
-    Query* Sqlite3DB::query(std::string&& str)
+    std::shared_ptr<Query> Sqlite3DB::query(std::string&& str)
     {
-        return new Sqlite3Query(*this,str);
+        return query(str);
     };
 
 
-    Query* Sqlite3DB::prepareQuery(const std::string& str)
+    std::shared_ptr<Query> Sqlite3DB::prepareQuery(const std::string& str)
     {
-        Sqlite3Query* q = new Sqlite3Query(*this,str);
+        std::shared_ptr<Query> q = std::shared_ptr<Query>(new Sqlite3Query(*this,str));
         q->_prepared = true;
         return q;
     };
 
-    Query* Sqlite3DB::prepareQuery(std::string&& str)
+    std::shared_ptr<Query> Sqlite3DB::prepareQuery(std::string&& str)
     {
-        Sqlite3Query* q = new Sqlite3Query(*this,str);
-        q->_prepared = true;
-        return q;
+        return prepareQuery(str);
     }
 
     bool Sqlite3DB::create(const std::string& table,const std::vector<const VAttr*>& attrs)
@@ -121,10 +121,9 @@ namespace orm
         }
         sql+="\n);";
 
-        Query* q = this->query(sql);
+        std::shared_ptr<Query> q = this->query(sql);
         q->_execute();
         q->_next();
-        delete q;
 
         return true;
     };
@@ -133,10 +132,9 @@ namespace orm
     {
         std::string sql = "DROP TABLE \""+table+"\";";
 
-        Query* q = this->query(sql);
+        std::shared_ptr<Query> q = this->query(sql);
         q->_execute();
         q->_next();
-        delete q;
 
         return true;
     }
@@ -146,10 +144,9 @@ namespace orm
 
         std::string sql = "DELETE FROM \""+table+"\";";
 
-        Query* q = this->query(sql);
+        std::shared_ptr<Query> q = this->query(sql);
         q->_execute();
         q->_next();
-        delete q;
 
         return true;
     }
@@ -163,26 +160,23 @@ namespace orm
 
     void Sqlite3DB::beginTransaction()
     {
-        Query* q = this->query("BEGIN TRANSACTION;");
+        std::shared_ptr<Query> q = this->query("BEGIN TRANSACTION;");
         q->_execute();
         q->_next();
-        delete q;
     };
 
     void Sqlite3DB::endTransaction()
     {
-        Query* q = this->query("END TRANSACTION;");
+        std::shared_ptr<Query> q = this->query("END TRANSACTION;");
         q->_execute();
         q->_next();
-        delete q;
     };
 
     void Sqlite3DB::rollback()
     {
-        Query* q = this->query("ROLLBACK;");
+        std::shared_ptr<Query> q = this->query("ROLLBACK;");
         q->_execute();
         q->_next();
-        delete q;
     };
 
 

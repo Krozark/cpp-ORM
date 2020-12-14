@@ -83,7 +83,7 @@ namespace orm
             std::cerr<<ORM_COLOUR_BLUE<<"[Sql:insert] "<<str_q<<"\nVALUES = (";
             #endif
 
-            Query& q = *prepareQuery(str_q);
+            std::shared_ptr<Query> q = prepareQuery(str_q);
             const auto deltaIndex = _getInitialSetcolumnNumber();
 
             for(unsigned int i=0;i<size;++i)
@@ -94,7 +94,7 @@ namespace orm
                 #if ORM_DEBUG & ORM_DEBUG_SQL
                 std::cerr<<","<<*attrs[i];
                 #endif
-                attrs[i]->_setToQuery(q,i+deltaIndex);
+                attrs[i]->_setToQuery(*q,i+deltaIndex);
                 attrs[i]->_modified = false;
                 //post save
                 attrs[i]->_afterSave();
@@ -103,9 +103,8 @@ namespace orm
             std::cerr<<")"<<std::endl;
             #endif
 
-            q._execute();
-            q._next();
-            delete &q;
+            q->_execute();
+            q->_next();
 
             pk = _getLastInsertPk();
             #if ORM_DEBUG & ORM_DEBUG_SQL
@@ -159,7 +158,7 @@ namespace orm
             std::cerr<<ORM_COLOUR_BLUE2<<"[Sql:update] "<<str_q<<"\nVALUES = (";
             #endif
 
-            Query& q = *prepareQuery(str_q);
+            std::shared_ptr<Query> q = prepareQuery(str_q);
 
             int index=_getInitialSetcolumnNumber();
             for(unsigned int i=0;i<size;++i)
@@ -169,7 +168,7 @@ namespace orm
                     #if ORM_DEBUG & ORM_DEBUG_SQL
                     attrs[i]->printValue(std::cerr)<<",";
                     #endif
-                    attrs[i]->_setToQuery(q,index++);
+                    attrs[i]->_setToQuery(*q,index++);
                     attrs[i]->_modified = false;
                     //after update (can change modify)
                     attrs[i]->_afterUpdate();
@@ -179,10 +178,8 @@ namespace orm
             #if ORM_DEBUG & ORM_DEBUG_SQL
             std::cerr<<")"<<ORM_COLOUR_NONE<<std::endl;
             #endif
-            q._execute();
-            q._next();
-            delete &q;
-
+            q->_execute();
+            q->_next();
         }
         return true;
     };
@@ -195,10 +192,9 @@ namespace orm
         std::cerr<<ORM_COLOUR_COMMENTS<<"[Sql:delete]"<<str_q<<ORM_COLOUR_NONE<<std::endl;
         #endif
 
-        Query* q = prepareQuery(str_q);
+        std::shared_ptr<Query> q = prepareQuery(str_q);
         q->_execute();
         q->_next();
-        delete  q;
 
         return true;
     };

@@ -116,7 +116,7 @@ namespace orm
 
 
     template<typename RELATED>
-    bool FilterSet<RELATED>::_set(Query* query,unsigned int& column) const
+    bool FilterSet<RELATED>::_set(Query& query,unsigned int& column) const
     {
         bool res = false;
         switch (_type)

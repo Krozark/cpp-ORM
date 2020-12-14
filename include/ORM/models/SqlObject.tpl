@@ -21,13 +21,12 @@ namespace orm
     template<typename T>
     typename SqlObject<T>::pointer SqlObject<T>::createFromDB(const Query& query,int& prefix, int max_depth)
     {
-        T* res = new T();
+        SqlObject<T>::pointer res(new T());
         if(not res->_loadFromDB(query,prefix,max_depth))
         {
-            delete res;
-            res = nullptr;
+            res = SqlObject<T>::pointer(nullptr);
         }
-	    return SqlObject<T>::pointer(res);
+	    return res;
     };
 
     template<typename T>
@@ -54,18 +53,17 @@ namespace orm
         +" = "+std::to_string(id)
         +") ";
 
-        std::unique_ptr<Query> q(db.query(q_str));
+        std::shared_ptr<Query> q(db.query(q_str));
 
-        T* res = new T();
+        SqlObject<T>::pointer res(new T());
         if(not q->_getObj(*res,max_depth))
         {
             #if ORM_DEBUG & ORM_DEBUG_GET_OBJ
             std::cerr<<ORM_COLOUR_RED<<"[GET OBJ] SqlObject<T>::_getPointer(const unsigned int id,int max_depth) failed"<<ORM_COLOUR_NONE<<std::endl;
             #endif
-            delete res;
-            res = nullptr;
+            res = SqlObject<T>::pointer(nullptr);
         }
-        return SqlObject<T>::pointer(res);
+        return res;
     };
 
     template<typename T>

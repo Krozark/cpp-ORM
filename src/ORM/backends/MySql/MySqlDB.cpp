@@ -116,28 +116,27 @@ namespace orm
         mysql_thread_end();
     }
 
-    Query* MySqlDB::query(const std::string& str)
+    std::shared_ptr<Query> MySqlDB::query(const std::string& str)
     {
-        auto q = new MySqlQuery(*this,str);
+        auto q = std::shared_ptr<Query>(new MySqlQuery(*this,str));
         q->_prepared = false;
         return q;
     };
 
-    Query* MySqlDB::query(std::string&& str)
+    std::shared_ptr<Query> MySqlDB::query(std::string&& str)
     {
         return query(str);
     };
 
 
-    Query* MySqlDB::prepareQuery(const std::string& str)
+    std::shared_ptr<Query> MySqlDB::prepareQuery(const std::string& str)
     {
-        auto q = new MySqlQuery(*this,str);
+        auto q = std::shared_ptr<Query>(new MySqlQuery(*this,str));
         q->_prepared = true;
-
         return q;
     };
 
-    Query* MySqlDB::prepareQuery(std::string&& str)
+    std::shared_ptr<Query> MySqlDB::prepareQuery(std::string&& str)
     {
         return prepareQuery(str);
     }
@@ -155,10 +154,9 @@ namespace orm
         }
         sql+="\n)";
 
-        Query* q = this->query(sql);
+        std::shared_ptr<Query> q = this->query(sql);
         q->_execute();
         q->_next();
-        delete q;
 
         return true;
     }
@@ -167,10 +165,9 @@ namespace orm
     {
         std::string sql = "DROP TABLE "+_escapeColumn(table);
 
-        Query* q = this->query(sql);
+        std::shared_ptr<Query> q = this->query(sql);
         q->_execute();
         q->_next();
-        delete q;
 
         return true;
     }
@@ -180,10 +177,9 @@ namespace orm
 
         std::string sql = "TRUNCATE "+_escapeColumn(table);
 
-        Query* q = this->query(sql);
+        std::shared_ptr<Query> q = this->query(sql);
         q->_execute();
         q->_next();
-        delete q;
 
         return true;
     }
@@ -192,40 +188,34 @@ namespace orm
 
     void MySqlDB::beginTransaction()
     {
-        Query* q = this->query("START TRANSACTION");
+        std::shared_ptr<Query> q = this->query("START TRANSACTION");
         q->_execute();
         q->_next();
-        delete q;
     };
 
     void MySqlDB::endTransaction()
     {
-        Query* q = this->query("COMMIT");
+        std::shared_ptr<Query> q = this->query("COMMIT");
         q->_execute();
         q->_next();
-        delete q;
-
     };
 
     void MySqlDB::rollback()
     {
-        Query* q = this->query("ROLLBACK");
+        std::shared_ptr<Query> q = this->query("ROLLBACK");
         q->_execute();
         q->_next();
-        delete q;
     };
 
     int MySqlDB::_getLastInsertPk()
     {
-        Query& q = *query("SELECT LAST_INSERT_ID()");
+        std::shared_ptr<Query> q = query("SELECT LAST_INSERT_ID()");
 
-        q._execute();
-        q._next();
+        q->_execute();
+        q->_next();
 
         int pk = -1;
-        q._get(pk,_getInitialGetcolumnNumber());
-
-        delete &q;
+        q->_get(pk,_getInitialGetcolumnNumber());
 
         return pk;
     }

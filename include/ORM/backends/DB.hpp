@@ -94,7 +94,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* query(const std::string& query) = 0;
+            virtual std::shared_ptr<Query> query(const std::string& query) = 0;
 
             /**
             * \brief Create the appropriate Query to make query on the database. Don't forget to delete it after use.
@@ -103,7 +103,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* query(std::string&&) = 0;
+            virtual std::shared_ptr<Query> query(std::string&&) = 0;
 
             /**
             * \brief Create a prepared query to execute
@@ -112,7 +112,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* prepareQuery(const std::string&) = 0;
+            virtual std::shared_ptr<Query> prepareQuery(const std::string&) = 0;
 
             /**
             * \brief Create a prepared query to execute
@@ -121,7 +121,7 @@ namespace orm
             *
             * \return NULL if faild.
             **/
-            virtual Query* prepareQuery(std::string&&) = 0;
+            virtual std::shared_ptr<Query> prepareQuery(std::string&&) = 0;
 
             /**
              * \brief create a table
