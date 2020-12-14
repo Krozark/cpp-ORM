@@ -39,38 +39,6 @@ namespace orm
     };
 
     template<typename T,typename U>
-    void ManyToMany<T,U>::_nameAttrs(std::string& q_str,int max_depth,DB& db)
-    {
-        U::_staticNameAttrs(q_str,ORM_MAKE_NAME(_related),max_depth,db);
-    }
-
-    template<typename T,typename U>
-    void ManyToMany<T,U>::_nameTables(std::string& q_str,int max_depth,DB& db)
-    {
-        q_str+= db._escapeColumn(_table)+" AS "+db._escapeColumn(_table);
-        _makeJoin(q_str,max_depth,db);
-    }
-
-    template<typename T,typename U>
-    void ManyToMany<T,U>::_makeJoin(std::string& q_str,int max_depth,DB& db)
-    {
-        const std::string table_alias_T = JOIN_ALIAS(_table,ORM_MAKE_NAME(_owner));
-
-        q_str+=
-            "\nLEFT JOIN "+T::_table+" AS "+table_alias_T
-            +" ON ("
-            +db._escapeColumn(_table)+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))
-            +" = "+db._escapeColumn(table_alias_T)+"."+db._escapeColumn(T::ORM_MAKE_NAME(pk))
-            +")\nLEFT JOIN "+U::_table+" AS "+ORM_MAKE_NAME(_related)
-            +" ON ("
-            +db._escapeColumn(_table)+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))
-            +" = "+db._escapeColumn(ORM_MAKE_NAME(_related))+"."+db._escapeColumn(U::ORM_MAKE_NAME(pk))
-            +")";
-
-        U::_staticMakeJoin(q_str,ORM_MAKE_NAME(_related),max_depth,db);
-    }
-
-    template<typename T,typename U>
     bool ManyToMany<T,U>::add(const typename U::pointer& obj,DB& db)
     {
         if(_owner.pk <=0)
@@ -176,6 +144,65 @@ namespace orm
         std::cerr<<ORM_COLOUR_MAGENTA<<"[TRUNCATE] truncate table "<<_table<<ORM_COLOUR_NONE<<std::endl;
         #endif
         return db.clear(_table);
+    }
+
+    template<typename OWNER,typename LINKED>
+    void ManyToMany<OWNER, LINKED>::_makeSelectOwner(std::string& q_str,int max_depth,DB& db)
+    {   
+        std::string related = JOIN_ALIAS(_table, ORM_MAKE_NAME(_owner));
+        q_str +="SELECT ";
+        OWNER::_staticNameAttrs(
+            q_str,
+            related,
+            max_depth,
+            db
+        );
+
+        q_str+="\nFROM ";
+        _nameTables(q_str, max_depth, db);
+        _makeJoin(q_str, max_depth, db);
+        OWNER::_staticMakeJoin(q_str, related, max_depth, db);
+    }
+
+    template<typename OWNER,typename LINKED>
+    void ManyToMany<OWNER, LINKED>::_makeSelectLinked(std::string& q_str,int max_depth,DB& db)
+    {
+        q_str +="SELECT ";
+        LINKED::_staticNameAttrs(
+            q_str,
+            ORM_MAKE_NAME(_related),
+            max_depth,
+            db
+        );
+
+        q_str+="\nFROM ";
+        _nameTables(q_str, max_depth, db);
+        _makeJoin(q_str, max_depth, db);
+        LINKED::_staticMakeJoin(q_str,ORM_MAKE_NAME(_related), max_depth, db);
+
+    }
+
+    template<typename T,typename U>
+    void ManyToMany<T,U>::_nameTables(std::string& q_str,int max_depth,DB& db)
+    {
+        q_str+= db._escapeColumn(_table)+" AS "+db._escapeColumn(_table);
+    }
+
+    template<typename T,typename U>
+    void ManyToMany<T,U>::_makeJoin(std::string& q_str,int max_depth,DB& db)
+    {
+        const std::string table_alias_T = JOIN_ALIAS(_table,ORM_MAKE_NAME(_owner));
+
+        q_str+=
+            "\nLEFT JOIN "+T::_table+" AS "+table_alias_T
+            +" ON ("
+            +db._escapeColumn(_table)+"."+db._escapeColumn(ORM_MAKE_NAME(_owner))
+            +" = "+db._escapeColumn(table_alias_T)+"."+db._escapeColumn(T::ORM_MAKE_NAME(pk))
+            +")\nLEFT JOIN "+U::_table+" AS "+ORM_MAKE_NAME(_related)
+            +" ON ("
+            +db._escapeColumn(_table)+"."+db._escapeColumn(ORM_MAKE_NAME(_linked))
+            +" = "+db._escapeColumn(ORM_MAKE_NAME(_related))+"."+db._escapeColumn(U::ORM_MAKE_NAME(pk))
+            +")";
     }
 
     /*

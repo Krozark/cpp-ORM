@@ -400,18 +400,6 @@ void test_Perso()
         }
     }
 
-    /*{
-        std::cout<<"\n*** All Perso with Spell s1 (result = 1)"<<std::endl;
-        Perso::pointer_array lis;
-        orm::ManyToMany<Perso,Spell>::query_type()
-            .filterLinked(1, orm::op::exact, Perso::$pk)
-            .get(lis);
-        for(auto& u : lis)
-        {
-            cout<<*u<<std::endl;
-        }
-    }*/
-
     std::cout<<"======= END test_Perso =======\n"<<std::endl;
 
 }
@@ -453,6 +441,58 @@ void test_Perso_Master()
     std::cout<<"======= END test_Perso_Master =======\n"<<std::endl;
 }
 
+void test_revese_m2m()
+{
+    std::cout<<"======= test_revese_m2m ======="<<std::endl;
+
+    std::cout<<"\n*** Create spell s3"<<std::endl;
+    Spell::pointer s3 = Spell::create();
+    s3->name = "s3";
+    s3->element = 3;
+    s3->save();
+    cout<<*s3<<std::endl;
+
+    std::cout<<"\n*** Create 4 perso"<<std::endl;
+    for(int i=0; i<4; ++i)
+    {
+        auto perso = Perso::create();
+        perso->name = "Perso " + std::to_string(i);
+        perso->save();
+        if(i % 2)
+        {
+            perso->spells.add(s3);
+            std::cout << *perso << " and add Spell: " << *s3 << std::endl;
+        }
+        else
+        {
+            std::cout << *perso << std::endl;
+        }
+    }
+
+    {
+        std::cout<<"\n*** All spells (result = [s3])"<<std::endl;
+        Spell::pointer_array lis = Spell::all();
+        for(auto& u : lis)
+        {
+            cout<<*u<<endl;
+        }
+    }
+
+    {
+        std::cout<<"\n*** All Perso with Spell s3 (result = 2)"<<std::endl;
+        Perso::pointer_array lis;
+        orm::ManyToMany<Perso,Spell>::query()
+            .filter(std::string("s3"), orm::op::exact, Spell::$name)
+            .get(lis);
+        for(auto& u : lis)
+        {
+            cout<<*u<<std::endl;
+        }
+    }
+
+    std::cout<<"======= END test_revese_m2m ======="<<std::endl;
+}
+
 void test_Factory()
 {
     for (auto p : orm::Tables::getFactory())
@@ -483,16 +523,17 @@ int main(int argc,char* argv[])
     orm::Tables::drop();
     orm::Tables::create();
 
-    //test_Factory();
+    test_Factory();
 
-    //test_Datetime();
+    test_Datetime();
 
-    //test_TestTypes();
+    test_TestTypes();
 
-    //test_TestMergeHeritage();
+    // test_TestMergeHeritage();
 
     test_Perso();
-    //test_Perso_Master();
+    test_Perso_Master();
+    test_revese_m2m();
 
     orm::DB::Default->disconnect();
     return 0;

@@ -127,7 +127,16 @@ namespace orm
              * \param db the db to fetch
             * \param max_depth maximun depth of constrution
             **/
-            static void _nameAttrs(std::string& q_str,int max_depth,DB& db);
+            static void _makeSelectOwner(std::string& q_str,int max_depth,DB& db);
+
+            /**
+            * \brief make the attrs columns alias
+            *
+            * \param q_str string query to add the alias
+             * \param db the db to fetch
+            * \param max_depth maximun depth of constrution
+            **/
+            static void _makeSelectLinked(std::string& q_str,int max_depth,DB& db);
 
              /**
              * \brief make the table alias
@@ -146,6 +155,7 @@ namespace orm
              * \param max_depth maximun depth of constrution
              **/
             static void _makeJoin(std::string& q_str,int max_depth,DB& db);
+            
 
         private:
             static M2MRegister<OWNER,LINKED> _register;

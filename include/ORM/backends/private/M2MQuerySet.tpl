@@ -16,15 +16,32 @@ namespace orm
     {
     }
 
+    template <typename OWNER, typename LINKED>
+    template <typename T,typename ... Args>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::filterOwner(T&& v,const std::string& operand,Args&& ... args)
+    {
+        _filters.emplace_back(
+            Q<many_to_many_type>(
+                std::forward<T>(v),
+                operand,
+                many_to_many_type::ORM_MAKE_NAME(_owner),
+                std::forward<Args>(args)...
+            )
+        );
+        return *this;
+    };
 
     template <typename OWNER, typename LINKED>
     template <typename T,typename ... Args>
     M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::filter(T&& v,const std::string& operand,Args&& ... args)
     {
         _filters.emplace_back(
-            Q<many_to_many_type>(std::forward<T>(v),
-            operand,
-            many_to_many_type::ORM_MAKE_NAME(_linked), std::forward<Args>(args)...)
+            Q<many_to_many_type>(
+                std::forward<T>(v),
+                operand,
+                many_to_many_type::ORM_MAKE_NAME(_linked),
+                std::forward<Args>(args)...
+            )
         );
         return *this;
     };
@@ -91,7 +108,22 @@ namespace orm
     template <typename OWNER, typename LINKED>
     int M2MQuerySet<OWNER,LINKED>::get(typename LINKED::pointer_array& objs,int max_depth)
     {
-        std::shared_ptr<Query> q = _makeQuery(max_depth);
+        std::string q_str;
+        many_to_many_type::_makeSelectLinked(q_str,max_depth,_db);
+
+        std::shared_ptr<Query> q = this->_makeQuery(q_str, max_depth);
+        int res = q->_getObj(objs,max_depth);
+        return res;
+    }
+
+    template <typename OWNER, typename LINKED>
+    int M2MQuerySet<OWNER,LINKED>::get(typename OWNER::pointer_array& objs,int max_depth)
+    {
+        std::string q_str;
+        many_to_many_type::_makeSelectOwner(q_str,max_depth,_db);
+
+        std::shared_ptr<Query> q = this->_makeQuery(q_str, max_depth);
+
         int res = q->_getObj(objs,max_depth);
         return res;
     }
@@ -100,10 +132,10 @@ namespace orm
     void M2MQuerySet<OWNER,LINKED>::debugPrint() const
     {
         std::string q_str ="SELECT ";
-        many_to_many_type::_staticNameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
+        many_to_many_type::_nameAttrsOwner(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         q_str+="\nFROM ";
-        many_to_many_type::_staticNameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
+        many_to_many_type::_nameTables(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
 
         const int filters_size = _filters.size();
 
@@ -146,14 +178,8 @@ namespace orm
     };
 
     template <typename OWNER, typename LINKED>
-    std::shared_ptr<Query> M2MQuerySet<OWNER,LINKED>::_makeQuery(int max_depth)
+    std::shared_ptr<Query> M2MQuerySet<OWNER,LINKED>::_makeQuery(std::string& q_str, int max_depth)
     {
-        std::string q_str ="SELECT ";
-        many_to_many_type::_nameAttrs(q_str,max_depth,_db);
-
-        q_str+="\nFROM ";
-        many_to_many_type::_nameTables(q_str,max_depth,_db);
-
         const int filters_size = _filters.size();
 
         if(filters_size > 0)

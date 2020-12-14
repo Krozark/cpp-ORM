@@ -56,8 +56,8 @@
                    | ORM_DEBUG_DROP_TABLE \
                    | ORM_DEBUG_TRUNCATE_TABLE \
                    )*/
-#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
-//#define ORM_DEBUG (ORM_DEBUG_REGISTER) ///<current debug mod
+// #define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
+#define ORM_DEBUG (ORM_DEBUG_REGISTER) ///<current debug mod
 // #define ORM_DEBUG (ORM_DEBUG_FULL)
 
 #if ORM_DEBUG > 0

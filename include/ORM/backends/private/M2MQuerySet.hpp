@@ -29,18 +29,29 @@ namespace orm
             M2MQuerySet& operator=(M2MQuerySet&&) = default;
             #endif
 
-
             /**
              * \brief Destructor
              **/
             ~M2MQuerySet();
 
             /**
-             * \brief Construct a filter to apply in the query
+             * \brief Construct a filter to apply in the query for the OWNER object only
              *
              * \param value The value to compare with
              * \param The operator to use see DB::Operators for detail
-             * \param column The column to apply the comparasion
+             * \param column The OWNER column to apply the comparasion
+             * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
+             * \return *this
+             **/
+            template<typename T,typename ... Args>
+            M2MQuerySet<OWNER,LINKED>& filterOwner(T&&,const std::string& operand,Args&& ... args);
+            
+            /**
+             * \brief Construct a filter to apply in the query for the LINKED object only
+             *
+             * \param value The value to compare with
+             * \param The operator to use see DB::Operators for detail
+             * \param column The LINKED column to apply the comparasion
              * \param args If more than one collum is send, all column will be concatenate (with the correct format) to create the correct column name. Args must be std::string
              * \return *this
              **/
@@ -108,7 +119,7 @@ namespace orm
             //M2MQuerySet& aggregate();
 
             /**
-             * \brief Execute tho query and return the list list of objects
+             * \brief Execute tho query and return the list of objects
              *
              * \param obj Where the results will be stored. The objects are added to the list.
              * \param max_depth the maximun recursion depth for the object construction (for fk)
@@ -116,6 +127,16 @@ namespace orm
              * \return Number of objects
              **/
             int get(typename LINKED::pointer_array& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+
+            /**
+             * \brief Execute tho query and return the list of objects
+             *
+             * \param obj Where the results will be stored. The objects are added to the list.
+             * \param max_depth the maximun recursion depth for the object construction (for fk)
+             *
+             * \return Number of objects
+             **/
+            int get(typename OWNER::pointer_array& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief Print the content of the filter for debug help
@@ -138,7 +159,7 @@ namespace orm
              *
              * \return NULL if fail or the query to use in othe case
              **/
-            std::shared_ptr<Query> _makeQuery(int max_depth);
+            std::shared_ptr<Query> _makeQuery(std::string& q_str, int max_depth);
 
 
             M2MQuerySet(const M2MQuerySet&) = delete;
