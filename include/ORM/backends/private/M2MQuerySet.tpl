@@ -3,23 +3,23 @@
 
 namespace orm
 {
-    template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>::M2MQuerySet(DB& db):
+    template <typename OWNER, typename LINKED>
+    M2MQuerySet<OWNER,LINKED>::M2MQuerySet(DB& db):
         _limitSkip(0),
         _limitCount(-1),
         _db(db)
     {
     }
 
-    template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>::~M2MQuerySet()
+    template <typename OWNER, typename LINKED>
+    M2MQuerySet<OWNER,LINKED>::~M2MQuerySet()
     {
     }
 
 
-    template <typename OWNER, typename RELATED>
+    template <typename OWNER, typename LINKED>
     template <typename T,typename ... Args>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(T&& v,const std::string& operand,Args&& ... args)
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::filter(T&& v,const std::string& operand,Args&& ... args)
     {
         _filters.emplace_back(
             Q<many_to_many_type>(std::forward<T>(v),
@@ -29,22 +29,22 @@ namespace orm
         return *this;
     };
 
-    template<typename OWNER,typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(const FilterSet<many_to_many_type>& f)
+    template<typename OWNER,typename LINKED>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::filter(const FilterSet<many_to_many_type>& f)
     {
         _filters.emplace_back(f);
         return *this;
     }
 
-    template<typename OWNER,typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::filter(FilterSet<many_to_many_type>&& f)
+    template<typename OWNER,typename LINKED>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::filter(FilterSet<many_to_many_type>&& f)
     {
         _filters.push_back(std::move(f));
         return *this;
     }
 
-    template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::orderBy(const std::string& column,const char order)
+    template <typename OWNER, typename LINKED>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::orderBy(const std::string& column,const char order)
     {
         if( order == op::desc)
         {
@@ -57,8 +57,8 @@ namespace orm
         return *this;
     }
 
-    template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::orderBy(std::string&& column,const char order)
+    template <typename OWNER, typename LINKED>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::orderBy(std::string&& column,const char order)
     {
         if( order == op::desc)
         {
@@ -72,15 +72,15 @@ namespace orm
     }
 
 
-    template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::limit(const unsigned int& count)
+    template <typename OWNER, typename LINKED>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::limit(const unsigned int& count)
     {
         _limitCount = static_cast<int>(count);
         return *this;
     };
 
-    template <typename OWNER, typename RELATED>
-    M2MQuerySet<OWNER,RELATED>& M2MQuerySet<OWNER,RELATED>::limit(const unsigned int& skip,const unsigned int& count)
+    template <typename OWNER, typename LINKED>
+    M2MQuerySet<OWNER,LINKED>& M2MQuerySet<OWNER,LINKED>::limit(const unsigned int& skip,const unsigned int& count)
     {
         _limitSkip = static_cast<int>(skip);
         _limitCount = static_cast<int>(count);
@@ -88,16 +88,16 @@ namespace orm
     }
 
 
-    template <typename OWNER, typename RELATED>
-    int M2MQuerySet<OWNER,RELATED>::get(typename RELATED::pointer_array& objs,int max_depth)
+    template <typename OWNER, typename LINKED>
+    int M2MQuerySet<OWNER,LINKED>::get(typename LINKED::pointer_array& objs,int max_depth)
     {
         std::shared_ptr<Query> q = _makeQuery(max_depth);
         int res = q->_getObj(objs,max_depth);
         return res;
     }
 
-    template <typename OWNER, typename RELATED>
-    void M2MQuerySet<OWNER,RELATED>::debugPrint() const
+    template <typename OWNER, typename LINKED>
+    void M2MQuerySet<OWNER,LINKED>::debugPrint() const
     {
         std::string q_str ="SELECT ";
         many_to_many_type::_staticNameAttrs(q_str,ORM_DEFAULT_MAX_DEPTH,_db);
@@ -145,8 +145,8 @@ namespace orm
         }
     };
 
-    template <typename OWNER, typename RELATED>
-    std::shared_ptr<Query> M2MQuerySet<OWNER,RELATED>::_makeQuery(int max_depth)
+    template <typename OWNER, typename LINKED>
+    std::shared_ptr<Query> M2MQuerySet<OWNER,LINKED>::_makeQuery(int max_depth)
     {
         std::string q_str ="SELECT ";
         many_to_many_type::_nameAttrs(q_str,max_depth,_db);

@@ -8,9 +8,15 @@ namespace orm
     }
 
     template<typename T,typename U>
-    typename ManyToMany<T,U>::query_type ManyToMany<T,U>::query(DB& db)const
+    typename ManyToMany<T,U>::query_type ManyToMany<T,U>::query(DB& db)
     {
-        ManyToMany<T,U>::query_type q = query_type(db);
+        return query_type(db);
+    }
+
+    template<typename T,typename U>
+    typename ManyToMany<T,U>::query_type ManyToMany<T,U>::queryOwner(DB& db)const
+    {
+        query_type q = this->query(db);
         q.filter(
             Q<ManyToMany<T,U>>(
                 this->_owner.pk,
@@ -24,13 +30,12 @@ namespace orm
     template<typename T,typename U>
     typename U::pointer_array ManyToMany<T,U>::all(DB& db,int max_depth)
     {
-        if(_adds)
+        if(this->_adds)
         {
-            _cache.clear();
-            query(db).get(_cache,max_depth);
-            _adds = false;
+            this->clearCache();
+            this->queryOwner(db).get(this->_cache, max_depth);
         }
-        return _cache;
+        return this->_cache;
     };
 
     template<typename T,typename U>
@@ -127,8 +132,15 @@ namespace orm
 
         q->_execute();
         q->_next();
-
+        this->_adds = true;
     };
+
+    template<typename T,typename U>
+    void ManyToMany<T,U>::clearCache()
+    {
+        this->_cache.clear();
+        this->_adds = false;
+    }
 
     template<typename T,typename U>
     bool ManyToMany<T,U>::createTable(DB& db)
@@ -167,10 +179,10 @@ namespace orm
     }
 
     /*
-    template <typename OWNER,typename RELATED,typename T, typename ... Args>
-    FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args)
+    template <typename OWNER,typename LINKED,typename T, typename ... Args>
+    FilterSet<ManyToMany<OWNER,LINKED>> M2MQ(T&& value,Args&& ... args)
     {
-        return FilterSet<ManyToMany<OWNER,RELATED>>(Filter<ManyToMany<OWNER,RELATED>,T>(std::forward<T>(value),std::forward<Args>(args)...));
+        return FilterSet<ManyToMany<OWNER,LINKED>>(Filter<ManyToMany<OWNER,LINKED>,T>(std::forward<T>(value),std::forward<Args>(args)...));
     }
     */
 }

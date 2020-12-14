@@ -15,12 +15,12 @@ namespace orm
     /**
      * \todo faire la classe
      **/
-    template<typename OWNER,typename RELATED>
-    class ManyToMany: public DataBaseMixin<ManyToMany<OWNER,RELATED>>
+    template<typename OWNER,typename LINKED>
+    class ManyToMany: public DataBaseMixin<ManyToMany<OWNER,LINKED>>
     {
         public:
-            using query_type = M2MQuerySet<OWNER,RELATED>;
-                
+            using query_type = M2MQuerySet<OWNER,LINKED>;
+
             ManyToMany(OWNER& owner);
             //void registerAttr(SqlObjectBase&);
 
@@ -30,15 +30,23 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            query_type query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase())const;
+            static query_type query(DB& db= DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
 
             /**
-            * \brief shortcut for T::query().get(list)
+             * \brief create a queryset for the objet. Use it to make your query
+             * \param db the db to fetch
+             *
+             * \return The tempory queryset. use chaine function, or copy it
+             **/
+            query_type queryOwner(DB& db= DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase())const;
+
+            /**
+            * \brief shortcut for T::query().get(list) but also stor the results in a internal cache
              * \param db the db to fetch
             *
             * \return all the objects T
             **/
-            typename RELATED::pointer_array all(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            typename LINKED::pointer_array all(DB& db= DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase(),int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief add a object in the relation
@@ -47,7 +55,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            //bool add(const RELATED& obj,DB& db=staticGetDefaultDataBase());
+            //bool add(const LINKED& obj,DB& db=staticGetDefaultDataBase());
 
             /**
              * \brief add a object in the relation
@@ -56,7 +64,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            bool add(const typename RELATED::pointer& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            bool add(const typename LINKED::pointer& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
 
             /**
              * \brief remove a object in the relation
@@ -65,7 +73,7 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const RELATED& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            void remove(const LINKED& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
 
             /**
              * \brief remove a object in the relation
@@ -74,34 +82,39 @@ namespace orm
              * \param db the db to fetch
              * Note : the object must have be save in database.
              **/
-            void remove(const typename RELATED::pointer& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            void remove(const typename LINKED::pointer& obj,DB& db= DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
+
+            /**
+             * Emppty the internal cache used with all() function
+             */
+            void clearCache();
 
             /**
              * \brief create the table
              * \todo
              * \return true if success
              */
-            static bool createTable(DB& db = DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            static bool createTable(DB& db = DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
 
             /**
              * \brief drop the table
              * \todo
              * \return true if success
              */
-            static bool dropTable(DB& db = DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            static bool dropTable(DB& db = DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
 
             /**
              * \brief truncate the table
              * \todo
              * \return true if success
              */
-            static bool clearTable(DB& db = DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            static bool clearTable(DB& db = DataBaseMixin<ManyToMany<OWNER,LINKED>>::staticGetDefaultDataBase());
 
 
             const static std::string _table; ///< table of the object
 
         protected:
-            friend class M2MQuerySet<OWNER,RELATED>;
+            friend class M2MQuerySet<OWNER,LINKED>;
 
             const OWNER& _owner; ///< owner of the m2m relation
 
@@ -135,16 +148,16 @@ namespace orm
             static void _makeJoin(std::string& q_str,int max_depth,DB& db);
 
         private:
-            static M2MRegister<OWNER,RELATED> _register;
+            static M2MRegister<OWNER,LINKED> _register;
 
-            typename RELATED::pointer_array _cache;
+            typename LINKED::pointer_array _cache;
             bool _adds;
 
     };
 
     /*
-    template <typename OWNER,typename RELATED,typename T, typename ... Args>
-    FilterSet<ManyToMany<OWNER,RELATED>> M2MQ(T&& value,Args&& ... args);
+    template <typename OWNER,typename LINKED,typename T, typename ... Args>
+    FilterSet<ManyToMany<OWNER,LINKED>> M2MQ(T&& value,Args&& ... args);
     */
 
 }

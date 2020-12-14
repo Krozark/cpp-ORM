@@ -17,12 +17,12 @@ namespace orm
      *
      * \see SqlObject
      **/
-    template <typename OWNER, typename RELATED>
+    template <typename OWNER, typename LINKED>
     class M2MQuerySet
     {
         public:
 
-            using many_to_many_type = ManyToMany<OWNER,RELATED>;
+            using many_to_many_type = ManyToMany<OWNER,LINKED>;
 
             #ifndef ORM_USE_MSVC
             M2MQuerySet(M2MQuerySet&&) = default;
@@ -45,20 +45,10 @@ namespace orm
              * \return *this
              **/
             template<typename T,typename ... Args>
-            M2MQuerySet<OWNER,RELATED>& filter(T&&,const std::string& operand,Args&& ... args);
+            M2MQuerySet<OWNER,LINKED>& filter(T&&,const std::string& operand,Args&& ... args);
 
-            M2MQuerySet<OWNER,RELATED>& filter(const FilterSet<many_to_many_type>& f);
-            M2MQuerySet<OWNER,RELATED>& filter(FilterSet<many_to_many_type>&&);
-
-            /**
-             * \brief Add a order by constrait to the query
-             *
-             * \param column The column to use for ordering
-             * \param oder The column ordering ( +=ASC or -=DESC)
-             *
-             * \return *this;
-             **/
-            M2MQuerySet<OWNER,RELATED>& orderBy(const std::string& column,const char order=op::asc);
+            M2MQuerySet<OWNER,LINKED>& filter(const FilterSet<many_to_many_type>& f);
+            M2MQuerySet<OWNER,LINKED>& filter(FilterSet<many_to_many_type>&&);
 
             /**
              * \brief Add a order by constrait to the query
@@ -68,7 +58,17 @@ namespace orm
              *
              * \return *this;
              **/
-            M2MQuerySet<OWNER,RELATED>& orderBy(std::string&& column,const char order=op::asc);
+            M2MQuerySet<OWNER,LINKED>& orderBy(const std::string& column,const char order=op::asc);
+
+            /**
+             * \brief Add a order by constrait to the query
+             *
+             * \param column The column to use for ordering
+             * \param oder The column ordering ( +=ASC or -=DESC)
+             *
+             * \return *this;
+             **/
+            M2MQuerySet<OWNER,LINKED>& orderBy(std::string&& column,const char order=op::asc);
             //M2MQuerySet& orderBy(int,const std::string& column);
 
             /**
@@ -82,7 +82,7 @@ namespace orm
              * \return *this
              **/
             template<typename U,typename ... Args>
-            M2MQuerySet<OWNER,RELATED>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
+            M2MQuerySet<OWNER,LINKED>& exclude(const U& value,const std::string& operande,const std::string& column,const Args& ... args);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase
@@ -91,7 +91,7 @@ namespace orm
              *
              * \return *this
              **/
-            M2MQuerySet<OWNER,RELATED>& limit(const unsigned int& count);
+            M2MQuerySet<OWNER,LINKED>& limit(const unsigned int& count);
 
             /**
              * \brief Add a limit of the number of object return by the dbtabase.
@@ -103,7 +103,7 @@ namespace orm
              *
              * \return *this
              **/
-            M2MQuerySet<OWNER,RELATED>& limit(const unsigned int& skip,const unsigned int& count);
+            M2MQuerySet<OWNER,LINKED>& limit(const unsigned int& skip,const unsigned int& count);
 
             //M2MQuerySet& aggregate();
 
@@ -115,7 +115,7 @@ namespace orm
              *
              * \return Number of objects
              **/
-            int get(typename RELATED::pointer_array& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
+            int get(typename LINKED::pointer_array& obj,int max_depth=ORM_DEFAULT_MAX_DEPTH);
 
             /**
              * \brief Print the content of the filter for debug help
@@ -124,7 +124,7 @@ namespace orm
 
 
         private:
-            friend class ManyToMany<OWNER,RELATED>;
+            friend class ManyToMany<OWNER,LINKED>;
 
             /**
              * \brief Construct a empty M2MQuerySet

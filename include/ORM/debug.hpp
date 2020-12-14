@@ -4,6 +4,36 @@
 #define ORM_DEFAULT_MAX_DEPTH 1 ///< maximum depth
 #define ORM_ALLOW_EXCEPTION 1 ///< let them ?
 
+/**************************
+******** COLORS ***********
+**************************/
+
+#ifdef ORM_USE_MSVC
+
+#define ORM_COLOUR_RED  	""
+#define ORM_COLOUR_GREEN   	""
+#define ORM_COLOUR_YELLOW  	""
+#define ORM_COLOUR_BLUE   	""
+#define ORM_COLOUR_MAGENTA  ""
+#define ORM_COLOUR_MAGENTA2 ""
+#define ORM_COLOUR_BLUE2    ""
+#define ORM_COLOUR_COMMENTS ""
+#define ORM_COLOUR_NONE 	""
+
+#else
+
+#define ORM_COLOUR_RED  	"\033[31m"
+#define ORM_COLOUR_GREEN   	"\033[32m"
+#define ORM_COLOUR_YELLOW  	"\033[33m"
+#define ORM_COLOUR_BLUE   	"\033[34m"
+#define ORM_COLOUR_MAGENTA  "\033[35m"
+#define ORM_COLOUR_MAGENTA2 "\033[01;35m"
+#define ORM_COLOUR_BLUE2    "\033[36m"
+#define ORM_COLOUR_COMMENTS "\033[31m"
+#define ORM_COLOUR_NONE 	"\033[00m"
+
+#endif
+
 /**********************************
  ******* DEBUG MOD ****************
  *********************************/
@@ -26,9 +56,9 @@
                    | ORM_DEBUG_DROP_TABLE \
                    | ORM_DEBUG_TRUNCATE_TABLE \
                    )*/
-//#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
+#define ORM_DEBUG (ORM_DEBUG_SQL | ORM_DEBUG_REGISTER)
 //#define ORM_DEBUG (ORM_DEBUG_REGISTER) ///<current debug mod
-#define ORM_DEBUG (ORM_DEBUG_FULL)
+// #define ORM_DEBUG (ORM_DEBUG_FULL)
 
 #if ORM_DEBUG > 0
 #include <iostream>
@@ -64,35 +94,5 @@
 #define ORM_PRINT_VERBOSE(txt) {}
 #endif
 
-
-/**************************
-******** COLORS ***********
-**************************/
-
-#ifdef ORM_USE_MSVC
-
-#define ORM_COLOUR_RED  	""
-#define ORM_COLOUR_GREEN   	""
-#define ORM_COLOUR_YELLOW  	""
-#define ORM_COLOUR_BLUE   	""
-#define ORM_COLOUR_MAGENTA  ""
-#define ORM_COLOUR_MAGENTA2 ""
-#define ORM_COLOUR_BLUE2    ""
-#define ORM_COLOUR_COMMENTS ""
-#define ORM_COLOUR_NONE 	""
-
-#else
-
-#define ORM_COLOUR_RED  	"\033[31m"
-#define ORM_COLOUR_GREEN   	"\033[32m"
-#define ORM_COLOUR_YELLOW  	"\033[33m"
-#define ORM_COLOUR_BLUE   	"\033[34m"
-#define ORM_COLOUR_MAGENTA  "\033[35m"
-#define ORM_COLOUR_MAGENTA2 "\033[01;35m"
-#define ORM_COLOUR_BLUE2    "\033[36m"
-#define ORM_COLOUR_COMMENTS "\033[31m"
-#define ORM_COLOUR_NONE 	"\033[00m"
-
-#endif
 
 #endif

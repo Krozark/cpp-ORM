@@ -381,7 +381,7 @@ void test_Perso()
     {
         std::cout<<"\n*** All his spells with name s2 (result = [s2])"<<std::endl;
         Spell::pointer_array lis;
-        p1->spells.query()
+        p1->spells.queryOwner()
             .filter(std::string("s2"),orm::op::exact,Spell::$name)
             .get(lis);
         for(auto& u : lis)
