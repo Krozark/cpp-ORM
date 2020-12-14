@@ -146,7 +146,6 @@ namespace orm
             int _limitSkip; ///< skip limit (default is 0)
             int _limitCount; ///< skip limit (default is all)
             DB& _db;
-            const ManyToMany<OWNER,RELATED>& _m2m;
     };
 }
 /***

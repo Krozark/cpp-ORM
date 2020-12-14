@@ -7,13 +7,12 @@ namespace orm
     M2MQuerySet<OWNER,RELATED>::M2MQuerySet(const ManyToMany<OWNER,RELATED>& m2m,DB& db):
         _limitSkip(0),
         _limitCount(-1),
-        _db(db),
-        _m2m(m2m)
+        _db(db)
     {
         _filters.emplace_back(Q<ManyToMany<OWNER,RELATED>>(
-            _m2m._owner.pk,
+            m2m._owner.pk,
             op::exact,
-            _m2m.ORM_MAKE_NAME(_owner)));
+            ManyToMany<OWNER,RELATED>::ORM_MAKE_NAME(_owner)));
     }
 
     template <typename OWNER, typename RELATED>

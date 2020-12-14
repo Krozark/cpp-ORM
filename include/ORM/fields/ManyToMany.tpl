@@ -13,6 +13,12 @@ namespace orm
         return M2MQuerySet<T,U>(*this,db);
     }
 
+    /*template<typename T,typename U>
+    M2MQuerySet<T, U> ManyToMany<T,U>::query(DB& db)
+    {
+        return M2MQuerySet<T,U>(*this,db);
+    }*/
+
     template<typename T,typename U>
     typename U::pointer_array ManyToMany<T,U>::all(DB& db,int max_depth)
     {
