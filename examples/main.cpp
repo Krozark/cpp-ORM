@@ -350,6 +350,8 @@ void test_Perso()
         }
     }
 
+    return;
+
     std::cout<<"\n*** Create spell s1"<<std::endl;
     Spell::pointer s1 = Spell::create();
     s1->name = "s1";
@@ -400,17 +402,17 @@ void test_Perso()
         }
     }
 
-    /*{
+    {
         std::cout<<"\n*** All Perso with Spell s1 (result = 1)"<<std::endl;
         Perso::pointer_array lis;
-        Perso::spell::query()
-            .filter(1, orm::op:exact, Perso::$id)
+        orm::ManyToMany<Perso,Spell>::query_type()
+            .filterLinked(1, orm::op::exact, Perso::$pk)
             .get(lis);
         for(auto& u : lis)
         {
             cout<<*u<<std::endl;
         }
-    }*/
+    }
 
     std::cout<<"======= END test_Perso =======\n"<<std::endl;
 
@@ -483,16 +485,16 @@ int main(int argc,char* argv[])
     orm::Tables::drop();
     orm::Tables::create();
 
-    test_Factory();
+    //test_Factory();
 
-    test_Datetime();
+    //test_Datetime();
 
-    test_TestTypes();
+    //test_TestTypes();
 
     //test_TestMergeHeritage();
 
     test_Perso();
-    test_Perso_Master();
+    //test_Perso_Master();
 
     orm::DB::Default->disconnect();
     return 0;
