@@ -19,6 +19,8 @@ namespace orm
     class ManyToMany: public DataBaseMixin<ManyToMany<OWNER,RELATED>>
     {
         public:
+            using query_type = M2MQuerySet<OWNER,RELATED>;
+            
             ManyToMany(OWNER& owner);
             //void registerAttr(SqlObjectBase&);
 
@@ -28,15 +30,7 @@ namespace orm
              *
              * \return The tempory queryset. use chaine function, or copy it
              **/
-            M2MQuerySet<OWNER,RELATED> query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase())const;
-
-            /**
-             * \brief create a queryset for the objet. Use it to make your query
-             * \param db the db to fetch
-             *
-             * \return The tempory queryset. use chaine function, or copy it
-             **/
-            //static M2MQuerySet<OWNER,RELATED> query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase());
+            query_type query(DB& db= DataBaseMixin<ManyToMany<OWNER,RELATED>>::staticGetDefaultDataBase())const;
 
             /**
             * \brief shortcut for T::query().get(list)

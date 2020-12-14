@@ -350,8 +350,6 @@ void test_Perso()
         }
     }
 
-    return;
-
     std::cout<<"\n*** Create spell s1"<<std::endl;
     Spell::pointer s1 = Spell::create();
     s1->name = "s1";
